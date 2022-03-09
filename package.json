@@ -1,6 +1,6 @@
 {
-  "name": "ClientNurse2",
-  "version": "0.0.1",
+  "name": "ClientNurse",
+  "version": "0.1.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
@@ -19,8 +19,9 @@
     "@angular/platform-browser": "~13.2.2",
     "@angular/platform-browser-dynamic": "~13.2.2",
     "@angular/router": "~13.2.2",
+    "@capacitor/android": "3.4.3",
     "@capacitor/app": "1.1.1",
-    "@capacitor/core": "3.4.3",
+    "@capacitor/core": "^3.4.3",
     "@capacitor/haptics": "1.1.4",
     "@capacitor/keyboard": "1.2.2",
     "@capacitor/status-bar": "1.0.8",
@@ -39,7 +40,7 @@
     "@angular/compiler": "~13.2.2",
     "@angular/compiler-cli": "~13.2.2",
     "@angular/language-service": "~13.2.2",
-    "@capacitor/cli": "3.4.3",
+    "@capacitor/cli": "^3.4.3",
     "@ionic/angular-toolkit": "^6.0.0",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
