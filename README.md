@@ -1,5 +1,5 @@
 # ClientNurse
-MobileApp for Hospital communications
+MobileApp for a Nurse Call System 
 
 # First steps for running the app
 

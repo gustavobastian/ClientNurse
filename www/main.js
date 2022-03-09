@@ -27,6 +27,14 @@ const routes = [
         redirectTo: 'home',
         pathMatch: 'full'
     },
+    {
+        path: 'mqtt-config',
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_mqtt-config_mqtt-config_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./mqtt-config/mqtt-config.module */ 4670)).then(m => m.MqttConfigPageModule)
+    },
+    {
+        path: 'login',
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_login_login_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./login/login.module */ 107)).then(m => m.LoginPageModule)
+    },
 ];
 let AppRoutingModule = class AppRoutingModule {
 };
