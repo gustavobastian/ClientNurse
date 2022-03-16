@@ -1,18 +1,39 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>mqttConfig</ion-title>
+    <ion-title>Configuración del servidor</ion-title>
     
       <!-- Back button with a default href -->
       <ion-buttons slot="start">
         <ion-back-button    defaultHref="home" [text]=""></ion-back-button>
       </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content >
+    <div  ion-background-color:blue>    
+      <br>
+      <div class = "list">
+        <label class = "item item-input">
+           <ion-label color="primary" class = "input-label">MQTT SERVER IP:</ion-label>
+           <input type = "text" [(ngModel)]=this.MQTTSERVER placeholder = {{MQTTSERVER}} />
+        </label>
+      <br>
+      
+      <label class = "item item-input ">
+           <ion-label color ="primary" class = "input-label">MQTT SERVER PORT:</ion-label>
+           <input type = "text" [(ngModel)]= this.MQTTPORT placeholder = {{MQTTPORT}} />
+      </label>
+      <br>
+      
+      <ion-button color="primary" (click)="pruebaClick()">Probar</ion-button>
+      <br>
+      <ion-button color="primary" (click)="buttonClick()">Guardar</ion-button>
+
+     </div>
+    </div>
+  
+
+
     
-
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-    
-  <p>here you can set the Mqtt server settings</p>
+  
 </ion-content>

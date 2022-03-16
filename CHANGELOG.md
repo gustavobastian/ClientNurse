@@ -8,4 +8,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## 0.1.0
 * Project modifications:
     * Modify home page, inserting a logo and a button redirecting to login page.
-  
+## 0.1.1
+* Project modifications:
+    * Adding a service of storage for saving mqtt specs.  

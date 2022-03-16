@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,23 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  listData=[];
 
+  constructor(private storageService: StorageService) {
+    this.loadData();
+  }
+
+  async loadData(){
+    this.listData= await this.storageService.getData();
+    console.log(this.listData);
+  }
+  
+  async addData(){
+    await this.storageService.addData('Hola ${Math.floor(Math.random()*100)}');
+    this.loadData();    
+  }
+  async removeItem(index){
+    await this.storageService.removeData(index);
+    this.listData.splice(index,1); 
+  }
 }
