@@ -99,8 +99,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let MqttConfigPage = class MqttConfigPage {
-    constructor() { }
+    constructor() {
+        this.MQTTSERVER = "127.0.0.1";
+        this.MQTTPORT = "4080";
+    }
     ngOnInit() {
+    }
+    saveClick() {
+        console.log("clicked:", this.MQTTSERVER, ":", this.MQTTPORT);
+    }
+    pruebaClick() {
+        console.log("clicked:", this.MQTTSERVER, ":", this.MQTTPORT);
     }
 };
 MqttConfigPage.ctorParameters = () => [];
@@ -132,7 +141,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \**************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>mqttConfig</ion-title>\n    \n      <!-- Back button with a default href -->\n      <ion-buttons slot=\"start\">\n        <ion-back-button    defaultHref=\"home\" [text]=\"\"></ion-back-button>\n      </ion-buttons>\n    \n\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n\n    \n  <p>here you can set the Mqtt server settings</p>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Configuración </ion-title>\n    \n      <!-- Back button with a default href -->\n      <ion-buttons slot=\"start\">\n        <ion-back-button    defaultHref=\"home\" [text]=\"\"></ion-back-button>\n      </ion-buttons>\n    </ion-toolbar>\n  </ion-header>\n\n<ion-content >\n    <div  ion-background-color:blue>    \n      <br>\n      <div class = \"list\">\n        <label class = \"item item-input\">\n           <ion-label color=\"primary\" class = \"input-label\">MQTT SERVER IP:</ion-label>\n           <input type = \"text\" [(ngModel)]=this.MQTTSERVER placeholder = {{MQTTSERVER}} />\n        </label>\n      <br>\n      \n      <label class = \"item item-input \">\n           <ion-label color =\"primary\" class = \"input-label\">MQTT SERVER PORT:</ion-label>\n           <input type = \"text\" [(ngModel)]= this.MQTTPORT placeholder = {{MQTTPORT}} />\n      </label>\n      <br>\n      \n      <ion-button color=\"primary\" (click)=\"pruebaClick()\">Probar</ion-button>\n      <br>\n      <ion-button color=\"primary\" (click)=\"saveClick()\">Guardar</ion-button>\n\n     </div>\n    </div>\n  \n\n\n    \n  \n</ion-content>\n";
 
 /***/ })
 

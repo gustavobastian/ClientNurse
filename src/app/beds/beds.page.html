@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Camas</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-button>Agregar </ion-button>    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngFor="let element of beds ; let i=index" >
+    <ion-card >
+      <ion-row>
+          <ion-col>
+            Cuarto:{{beds[i].roomId}}
+          </ion-col>
+          <ion-col>
+            Cama:{{beds[i].bedId}}
+          </ion-col>
+      </ion-row>    
+      <ion-row>
+          <ion-col>
+            Llamador:{{beds[i].callerId}}
+          </ion-col>
+          <ion-col>
+            Piso:{{beds[i].floorId}}
+          </ion-col>      
+       </ion-row>
+    </ion-card>
+  </div>  
+
+</ion-content>

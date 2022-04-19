@@ -15,7 +15,10 @@ export class HomePage {
   }
 
   async loadData(){
-    this.listData= await this.storageService.getData();
+    //this.listData= await this.storageService.getData();
+    this.storageService.getData().subscribe(res=>{
+      this.listData=res;
+    })
     console.log(this.listData);
   }
   

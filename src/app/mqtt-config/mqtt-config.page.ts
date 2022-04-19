@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgModule } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import { StorageService } from '../services/storage.service';
+
 
 @Component({
   selector: 'app-mqtt-config',
@@ -16,7 +16,12 @@ export class MqttConfigPage implements OnInit {
   ngOnInit() {
   }
 
-  public buttonClick(){
+  public saveClick(){
+    console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
+    
+  }
+  public pruebaClick(){
     console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
   }
+
 }

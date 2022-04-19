@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
+import { Drivers } from '@ionic/storage';
+//import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject, from, of } from 'rxjs';
+import { switchMap,filter} from 'rxjs/operators';
+
+import * as CordobaSQLiteDriver from 'localforage-cordovasqlitedriver';
+
 
 const STORAGE_KEY= 'mylist';
 
@@ -7,18 +14,24 @@ const STORAGE_KEY= 'mylist';
   providedIn: 'root'
 })
 export class StorageService {
+
+  private storageReady = new BehaviorSubject(false);
+
   private _storage: Storage | null = null;
 
   constructor(private storage: Storage) { 
-    this.init();
+    //this.init();
 
   }
   async init() {
     // If using, define drivers here: await this.storage.defineDriver(/*...*/);
     console.log("DB INIT");
-    const storage = await this.storage.create();
+    await this.storage.defineDriver(CordobaSQLiteDriver);
+    await this.storage.create();
+
     console.log("DB INIT DONE");
-    this._storage = storage;
+    this.storageReady.next(true);
+    
   }
   // Create and expose methods that users of this service can
   // call, for example:
@@ -27,7 +40,15 @@ export class StorageService {
   }
   getData(){
     console.log("GET DATA");
-    return this.storage.get(STORAGE_KEY) || [];
+
+    return this.storageReady.pipe(
+      filter(ready=>ready), 
+      switchMap(_=>{
+        return from(this.storage.get(STORAGE_KEY)) || of([]);
+      })
+      )
+
+    
   }
 
   async addData(item){
