@@ -11,7 +11,6 @@ export class BedsPage {
   public beds:Array<Bed> = new Array<Bed>();
 
   constructor( private bedServ: BedsInfoService) { 
-
     this.callBedsInfo();
   }
 
@@ -21,5 +20,15 @@ export class BedsPage {
     this.beds=local;
     console.log(local);
     }
-
+   
+   public onSend(){
+     let newBed = new Bed(2,3,4,5);
+     this.sendNewBed(newBed);
+   }
+  
+   async sendNewBed(newBed:Bed){
+      console.log("send bed");
+      let local=await this.bedServ.sendNewBed(newBed);      
+      }
+    
 }
