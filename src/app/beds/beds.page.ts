@@ -7,10 +7,14 @@ import { BedsInfoService } from '../services/beds-info.service';
   templateUrl: './beds.page.html',
   styleUrls: ['./beds.page.scss'],
 })
-export class BedsPage {
+export class BedsPage implements OnInit {
   public beds:Array<Bed> = new Array<Bed>();
 
   constructor( private bedServ: BedsInfoService) { 
+    
+  }
+
+  ngOnInit(): void {
     this.callBedsInfo();
   }
 
