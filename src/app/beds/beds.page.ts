@@ -10,6 +10,9 @@ import { BedsInfoService } from '../services/beds-info.service';
 export class BedsPage implements OnInit {
   public beds:Array<Bed> = new Array<Bed>();
 
+  public showList:boolean = false;
+  public showForm:boolean = false;
+
   constructor( private bedServ: BedsInfoService) { 
     
   }
@@ -24,6 +27,16 @@ export class BedsPage implements OnInit {
     this.beds=local;
     console.log(local);
     }
+
+    public onShow(){
+      
+      this.showList = true;
+      console.log("mostrar");
+    } 
+    public offShow(){
+      
+      this.showList = false;
+    } 
    
    public onSend(){
      let newBed = new Bed(2,3,4,5);

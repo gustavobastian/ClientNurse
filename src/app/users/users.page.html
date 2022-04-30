@@ -1,9 +1,46 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>users</ion-title>
+    <ion-title>Usuarios</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button    defaultHref="home" [text]=""></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-button (click)="onSend()">Agregar </ion-button>    
+    <ion-button (click)="onShow()">Ver Lista </ion-button>    
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+<div *ngIf=" showForm == true">
+  <ion-title>Editando / creando usuario</ion-title>
+</div>  
 
+
+<div *ngIf=" showList == true">  
+  <ion-button (click)="offShow()">Cerrar Lista </ion-button>    
+  <div *ngFor="let element of users ; let i=index" >
+    <ion-card >
+      <ion-row>
+          <ion-col>
+            Nombre: {{users[i].firstname}}
+          </ion-col>
+          <ion-col>
+            Apellido: {{users[i].lastname}}
+          </ion-col>
+          <ion-button (click)="onEdit(i)"> Editar </ion-button>    
+      </ion-row>    
+      <ion-row>
+          <ion-col>
+            Ocupación: {{users[i].occupation}}
+          </ion-col>
+          <ion-col>
+            Nombre de usuario: {{users[i].username}}
+          </ion-col>      
+          <ion-button (click)="onDelete(i)"> Eliminar </ion-button>    
+       </ion-row>
+
+    </ion-card>
+  </div>  
+</div>  
 </ion-content>

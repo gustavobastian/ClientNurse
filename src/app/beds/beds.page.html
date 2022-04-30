@@ -7,11 +7,13 @@
   </ion-toolbar>
   <ion-toolbar>
     <ion-button (click)="onSend()">Agregar </ion-button>    
+    <ion-button (click)="onShow()">Ver Lista </ion-button>    
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+<div *ngIf=" showList == true">
+  <ion-button (click)="offShow()">Cerrar Lista </ion-button>    
   <div *ngFor="let element of beds ; let i=index" >
     <ion-card >
       <ion-row>
@@ -32,5 +34,6 @@
        </ion-row>
     </ion-card>
   </div>  
+</div> 
 
 </ion-content>
