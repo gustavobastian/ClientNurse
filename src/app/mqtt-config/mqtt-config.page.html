@@ -23,11 +23,17 @@
            <ion-label color ="primary" class = "input-label">MQTT SERVER PORT:</ion-label>
            <input type = "text" [(ngModel)]= this.MQTTPORT placeholder = {{MQTTPORT}} />
       </label>
-      <br>
-      
-      <ion-button color="primary" (click)="pruebaClick()">Probar</ion-button>
+            
       <br>
       <ion-button color="primary" (click)="saveClick()">Guardar</ion-button>
+      <ion-button color="primary" (click)="Reset()">Reset</ion-button>
+      <br>
+      <div *ngIf="connected==1">
+        <ion-button color="primary" disabled="false" (click)="pruebaClick()">Probar</ion-button>
+        </div>
+        <div *ngIf="connected==0">
+          <ion-button color="primary" disabled="true" (click)="pruebaClick()">Probar</ion-button>
+        </div>
 
      </div>
     </div>

@@ -14,29 +14,56 @@ import {Utils} from 'tslint'
 })
 export class MqttConfigPage implements OnInit {
   MQTTSERVER:string="127.0.0.1";
-  MQTTPORT:string="1883";
+  MQTTPORT:number=9001;
   MQTTClientLocal: Client;
+  number:number;
+  connected: number;
 
   constructor(public localSto: LocalStorageService) { 
-    
+    this.number=0;
+    this.connected=0;
   }
 
   ngOnInit() {
-    connect({host: '127.0.0.1', port:9001, ssl: false,path:'/test/'})
+    connect({host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false,path:'/test/'})
     .then(client => { this.MQTTClientLocal = client; });
+    
   }
 
   public saveClick(){
     //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
     this.saveValues();
   }
-  public pruebaClick(){
-    
+
+  public Reset(){
+    //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
+
     this.getServer();
     this.getPort();  
+    this.connected=0;
+    
+    if(this.MQTTClientLocal!==null){
+    this.MQTTClientLocal.disconnect();
+    console.log("here");
+    this.MQTTClientLocal= null;
+    }
+    //this.MQTTClientLocal= NULL;
+    
+    connect({host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false,path:'/test/'})
+    .then(client => { 
+      console.log(client);
+      if(client.isConnected())
+        {this.connected=1;
+          this.MQTTClientLocal = client; 
+          console.log("status: connected");
+        }    
+    });
+  }
 
-    console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
-    this.MQTTClientLocal.publish('/mensajes', 'hello Monina!')
+  public pruebaClick(){
+    
+    this.number++;
+    this.MQTTClientLocal.publish('/mensajes', 'hello Monina! N:'+this.number)
 
   }
   /**
@@ -44,7 +71,7 @@ export class MqttConfigPage implements OnInit {
    */
   public saveValues = async () => {  
     this.localSto.saveValuesString('MQTTSERVER',this.MQTTSERVER);
-    this.localSto.saveValuesString('MQTTPORT',this.MQTTPORT);
+    this.localSto.saveValuesNumber('MQTTPORT',this.MQTTPORT);
   };
 
   /**
@@ -53,7 +80,8 @@ export class MqttConfigPage implements OnInit {
   public getServer = async () => {
     let { value } = await Storage.get({ key: 'MQTTSERVER' });    
     let server=value;    
-    
+    this.MQTTSERVER=server;
+    console.log('MQTTSERVER:'+this.MQTTSERVER);
   };
 
   /**
@@ -61,8 +89,10 @@ export class MqttConfigPage implements OnInit {
    */
   public getPort = async () => {
     
-    let { value}  = await Storage.get({ key: 'MQTTPORT' });    
-    let port=value;    
+    let {value}  = await Storage.get({ key: 'MQTTPORT' });    
+    let port=parseInt(value);  
+    this.MQTTPORT=port;
+    console.log('MQTTPORT:'+this.MQTTPORT);  
   };
 
 }
