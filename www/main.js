@@ -34,7 +34,15 @@ const routes = [
     {
         path: 'login',
         loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_login_login_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./login/login.module */ 107)).then(m => m.LoginPageModule)
+    }, /*
+    {
+      path: 'beds',
+      loadChildren: () => import('./beds/beds.module').then( m => m.BedsPageModule)
     },
+    {
+      path: 'users',
+      loadChildren: () => import('./users/users.module').then( m => m.UsersPageModule)
+    },*/
 ];
 let AppRoutingModule = class AppRoutingModule {
 };
@@ -107,14 +115,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/platform-browser */ 318);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common/http */ 8784);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/angular */ 3819);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app.component */ 5041);
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app-routing.module */ 158);
-/* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ionic/storage-angular */ 7566);
+/* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ionic/storage-angular */ 7566);
 /* harmony import */ var _ionic_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ionic/storage */ 190);
 /* harmony import */ var localforage_cordovasqlitedriver__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! localforage-cordovasqlitedriver */ 7878);
 /* harmony import */ var localforage_cordovasqlitedriver__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(localforage_cordovasqlitedriver__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -135,12 +145,13 @@ AppModule = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_6__.BrowserModule,
             _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonicModule.forRoot(),
             _app_routing_module__WEBPACK_IMPORTED_MODULE_1__.AppRoutingModule,
-            _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_8__.IonicStorageModule.forRoot({
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_8__.HttpClientModule,
+            _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_9__.IonicStorageModule.forRoot({
                 name: "myDbm",
                 driverOrder: [localforage_cordovasqlitedriver__WEBPACK_IMPORTED_MODULE_3__._driver, _ionic_storage__WEBPACK_IMPORTED_MODULE_2__.Drivers.IndexedDB, _ionic_storage__WEBPACK_IMPORTED_MODULE_2__.Drivers.LocalStorage]
             })
         ],
-        providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_9__.RouteReuseStrategy, useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonicRouteStrategy }],
+        providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_10__.RouteReuseStrategy, useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonicRouteStrategy }],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_0__.AppComponent],
     })
 ], AppModule);

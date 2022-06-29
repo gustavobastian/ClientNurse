@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { StorageService } from '../services/storage.service';
 import { Storage } from '@capacitor/storage';
 import { LocalStorageService } from '../services/local-storage.service';
+import {Client, connect} from 'rsup-mqtt'
+import {Utils} from 'tslint'
+
+
 
 @Component({
   selector: 'app-mqtt-config',
@@ -11,10 +15,15 @@ import { LocalStorageService } from '../services/local-storage.service';
 export class MqttConfigPage implements OnInit {
   MQTTSERVER:string="127.0.0.1";
   MQTTPORT:string="1883";
+  MQTTClientLocal: Client;
 
-  constructor(public localSto: LocalStorageService) { }
+  constructor(public localSto: LocalStorageService) { 
+    
+  }
 
   ngOnInit() {
+    connect({host: '127.0.0.1', port:9001, ssl: false,path:'/test/'})
+    .then(client => { this.MQTTClientLocal = client; });
   }
 
   public saveClick(){
@@ -27,6 +36,8 @@ export class MqttConfigPage implements OnInit {
     this.getPort();  
 
     console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
+    this.MQTTClientLocal.publish('/mensajes', 'hello Monina!')
+
   }
   /**
    * Saving port values to localStorage
