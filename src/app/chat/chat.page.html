@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>chat</ion-title>
+    <ion-title>cama: {{bedId}}</ion-title>
 
   
           <ion-buttons slot="start">
@@ -10,9 +10,29 @@
   </ion-toolbar>
 </ion-header>
 
-  
-
-
 <ion-content>
-
+  
+  <div class="msgbubble" *ngFor="let msg of messages">
+    <div style="font-size:10px; text-align:center;">{{ msg.time }}</div>
+    <div class="innermsg">
+      {{ msg.username }}: {{ msg.content }}
+    </div>
+  </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-item>
+    <ion-input placeholder="Escribir aqui" [(ngModel)]="question" type="text"></ion-input>
+    <button ion-button clear icon-only id="sendicon" (click)="ask(question)">
+      <ion-icon name="send"></ion-icon>
+    </button>
+    </ion-item>
+    <ion-buttons right>      
+      <button  ion-button clear icon-only id="record" (click)="record()">
+        <ion-icon name="mic"></ion-icon>
+      </button>
+      <ion-button  style="font-size:20px;"  id="finish" (click)="finish()"> Terminar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

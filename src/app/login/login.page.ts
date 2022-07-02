@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { userInfo } from 'os';
 import { MqttService } from '../services/mqtt.service';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '../services/local-storage.service';
 
 
 @Component({
@@ -20,11 +21,13 @@ export class LoginPage implements OnInit {
   username: string;
   password: string;
 
-  constructor(public MQTTServ:MqttService,public formBuilder: FormBuilder , private router:Router) {   
+  constructor(public MQTTServ:MqttService,public formBuilder: FormBuilder ,public localSto: LocalStorageService, private router:Router) {   
 
   }
 
   ngOnInit() {
+    //removing user name
+    //this.MQTTServ.Reset();
   }
 
   async onClickLogin() {
@@ -34,18 +37,15 @@ export class LoginPage implements OnInit {
     this.password=local.password;
     console.log(this.username);    
     console.log(this.password);
+    
     number= this.MQTTServ.Connect(this.username, this.password)
     console.log(number)
     if(number==0)
       {
         this.router.navigate(['/chat']);
+        this.localSto.saveValuesString('username',this.username);
        };
-    
-    
-    
-
     }
   
-
 
 }

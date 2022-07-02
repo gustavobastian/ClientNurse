@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Client, connect} from 'rsup-mqtt'
 import { catchError } from 'rxjs/operators';
 import { LocalStorageService } from '../services/local-storage.service';
+import { Storage } from '@capacitor/storage';
 
 
 @Injectable({
@@ -28,17 +29,17 @@ export class MqttService {
   /**
    * Get the server ip from the local storage
    */
- /* public getServer = async () => {
+  public getServer = async () => {
     let { value } = await Storage.get({ key: 'MQTTSERVER' });    
     let server=value;    
     this.MQTTSERVER=server;
     console.log('MQTTSERVER:'+this.MQTTSERVER);
-  };*/
+  };
 
   /**
    * Get the broker port from the local storage
    */
- /* public getPort = async () => {
+  public getPort = async () => {
     
     let {value}  = await Storage.get({ key: 'MQTTPORT' });    
     let port=parseInt(value);  
@@ -70,11 +71,12 @@ export class MqttService {
         }    
     });
     
-  }*/
+  }
   public sendMesagge(topic: string, message: string){
       
     this.MQTTClientLocal.publish(topic, message);
   }
+
   public Connect(usernameP:string, passwordP:string): number{
     let connected=0;
     
@@ -101,4 +103,15 @@ export class MqttService {
   return connected;
     
   }
+
+  public listenToTopic(topic: string){
+      console.log("here");
+     //this.MQTTClientLocal.onMessage(topic, message=>console.log(message.string));
+     this.MQTTClientLocal.subscribe(topic).on(Message=>console.log(Message.string));
+  }
+
+  public closingAll(topic: string){
+    this.MQTTClientLocal.removeMessageListener(topic, message=>console.log(message.string));
+  }
+
 }
