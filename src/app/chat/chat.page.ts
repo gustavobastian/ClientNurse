@@ -18,6 +18,9 @@ export class ChatPage implements OnInit {
   question: string;
   messages: Array<MessageModel> = new Array;
 
+  counts :number = 0;
+  countsRX :number = 0;
+
   constructor(private activatedRoute: ActivatedRoute,public MQTTServ:MqttService,public localSto: LocalStorageService) { 
     
     this.bedId=0;
@@ -54,9 +57,11 @@ export class ChatPage implements OnInit {
    */
   ask(question:string){
     this.bedIdSubscription();
+    this.counts++;
+    console.log("counts tx:"+this.counts);
     var time= new Date();
     //let value2= (time.getHours()).toString+":"+ (time.getMinutes()).toString();
-    let value= time.getFullYear()+"/"+time.getMonth()+"/"+time.getDay() +"-"+(time.getHours())+":"+ (time.getMinutes());
+    let value= time.getFullYear()+"/"+time.getMonth()+"/"+time.getDay() +"-"+(time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
     //console.log(value);
     //let value="12:24";
     let a=new MessageModel(this.usernameLocal,question,  this.bedId, value);
@@ -73,7 +78,7 @@ export class ChatPage implements OnInit {
   record(){
     this.question="grabando audio";    
     var time= new Date();
-    let value= (time.getHours())+":"+ (time.getMinutes());
+    let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
     let a=new MessageModel(this.usernameLocal,this.question,  this.bedId, value);    
     let mqttmessage=JSON.stringify(a);
     let topic="/bed/"+this.bedId+"/chat/";
@@ -88,7 +93,7 @@ export class ChatPage implements OnInit {
   finish(){
     this.question="terminando";
     var time= new Date();
-    let value= (time.getHours())+":"+ (time.getMinutes());
+    let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();
     let a=new MessageModel(this.usernameLocal,this.question,  this.bedId, value);    
     let mqttmessage=(a).toString();
     let topic="/bed/"+this.bedId+"/chat/";
@@ -103,16 +108,15 @@ export class ChatPage implements OnInit {
    */
   bedIdSubscription(){
     let topic="/bed/"+this.bedId+"/chat/";
-    //console.log(topic);
-    //this.MQTTServ.listenToTopic(topic);
-    this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
-      console.log(JSON.stringify(Message.string))
-      let localMessage = JSON.parse(Message.string);      
-      console.log(localMessage);
-      let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time);
-      
-    this.messages.push(receivedMessage);
     
+    this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
+    let localMessage = JSON.parse(Message.string);      
+      
+    let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time);
+    this.countsRX++;
+
+    this.messages.push(receivedMessage);
+    console.log("countsRx:"+this.countsRX);
     });
   }
   
