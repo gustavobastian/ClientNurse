@@ -18,7 +18,11 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
-  },/*
+  },  {
+    path: 'chat',
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
+  },
+/*
   {
     path: 'beds',
     loadChildren: () => import('./beds/beds.module').then( m => m.BedsPageModule)

@@ -1,11 +1,104 @@
 import { Injectable } from '@angular/core';
-
+import {Client, connect} from 'rsup-mqtt'
+import { catchError } from 'rxjs/operators';
+import { LocalStorageService } from '../services/local-storage.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MqttService {
+  MQTTSERVER:string="127.0.0.1";
+  MQTTPORT:number=9001;
+  MQTTClientLocal: Client;
+  number:number;
+  connected: number;
+  
 
-  constructor() { }
+  constructor(public localSto: LocalStorageService) { }
+
+  /**
+   * Saving port values to localStorage
+   */
+   public saveValues = async () => {  
+    this.localSto.saveValuesString('MQTTSERVER',this.MQTTSERVER);
+    this.localSto.saveValuesNumber('MQTTPORT',this.MQTTPORT);
+  };
+
+  /**
+   * Get the server ip from the local storage
+   */
+ /* public getServer = async () => {
+    let { value } = await Storage.get({ key: 'MQTTSERVER' });    
+    let server=value;    
+    this.MQTTSERVER=server;
+    console.log('MQTTSERVER:'+this.MQTTSERVER);
+  };*/
+
+  /**
+   * Get the broker port from the local storage
+   */
+ /* public getPort = async () => {
+    
+    let {value}  = await Storage.get({ key: 'MQTTPORT' });    
+    let port=parseInt(value);  
+    this.MQTTPORT=port;
+    console.log('MQTTPORT:'+this.MQTTPORT);  
+  };
+
+  public Reset(){
+    //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
+
+    this.getServer();
+    this.getPort();  
+    this.connected=0;
+    
+    if(this.MQTTClientLocal!==null){
+    this.MQTTClientLocal.disconnect();
+    console.log("here");
+    this.MQTTClientLocal= null;
+    }
+    //this.MQTTClientLocal= NULL;
+    
+    connect({host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false,path:'/test/'})
+    .then(client => { 
+      console.log(client);
+      if(client.isConnected())
+        {this.connected=1;
+          this.MQTTClientLocal = client; 
+          console.log("status: connected");
+        }    
+    });
+    
+  }*/
+  public sendMesagge(topic: string, message: string){
+      
+    this.MQTTClientLocal.publish(topic, message);
+  }
+  public Connect(usernameP:string, passwordP:string): number{
+    let connected=0;
+    
+    //this.client=Mqtt.Client("myclient");
+    
+    connect({host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
+    .then(client => { 
+      console.log(client);
+      if(client.isConnected())
+        {connected=1;
+          this.MQTTClientLocal = client; 
+          console.log("status: connected");
+          return 1;
+        }
+        throw new TypeError("No connection")    
+    })
+    .catch (function(json) { 
+      console.log(json); connected=0; 
+      if(json.errorCode == 7)
+        {alert("error: mala configuracion broker");}
+      return 0;})
+    .finally(function(){return connected;}); 
+    
+  return connected;
+    
+  }
 }

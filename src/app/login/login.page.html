@@ -12,4 +12,27 @@
 
 <ion-content>
   
-</ion-content>
+  <div id="container" collapse="condense">
+  <p><strong>Acceso al sistema</strong></p>
+  <Form [formGroup]="ionicForm" (ngSubmit)="onClickLogin()" novalidate>  
+  <ion-item lines="full">
+    <ion-label position="fixed" >Usuario</ion-label>
+    <ion-input color="primary" placeholder="{{userName}}" value="{{userName}}" formControlName="userName" type="text" required></ion-input>        
+  </ion-item>         
+  <ion-item lines="full">
+    <ion-label position="fixed">Contraseña</ion-label>
+    <ion-input  color="primary" formControlName="password" type="password" required></ion-input>        
+  </ion-item>  
+  <br>
+  <br>
+  <br>
+
+    <ion-item>
+      
+    <ion-button style = "position:absolute; left:12.5%;width:70%" type="submit"  expand="block">Acceder</ion-button>
+  
+    </ion-item>
+    </Form>
+  </div>
+
+  </ion-content>
