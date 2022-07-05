@@ -18,11 +18,12 @@ export class LoginPage implements OnInit {
     password: new FormControl()    
   });
   
+  mode : string;
   username: string;
   password: string;
 
   constructor(public MQTTServ:MqttService,public formBuilder: FormBuilder ,public localSto: LocalStorageService, private router:Router) {   
-
+    this.mode ="unknown";
   }
 
   ngOnInit() {
@@ -42,8 +43,11 @@ export class LoginPage implements OnInit {
     console.log(number)
     if(number==0)
       {
-        this.router.navigate(['/chat']);
+        this.mode="nurse";
+        this.router.navigate(['/waiting-event/']);        
         this.localSto.saveValuesString('username',this.username);
+        this.localSto.saveValuesString('mode',this.username);
+        this.localSto.saveValuesString('mode',this.mode);
        };
     }
   

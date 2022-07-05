@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'chat',
     loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
   },
+  {
+    path: 'waiting-event',
+    loadChildren: () => import('./waiting-event/waiting-event.module').then( m => m.WaitingEventPageModule)
+  },
 /*
   {
     path: 'beds',

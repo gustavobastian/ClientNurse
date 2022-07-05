@@ -19,7 +19,7 @@ export class ChatPage implements OnInit {
   messages: Array<MessageModel> = new Array;
 
   counts :number = 0;
-  countsRX :number = 0;
+  
 
   constructor(private activatedRoute: ActivatedRoute,public MQTTServ:MqttService,public localSto: LocalStorageService) { 
     
@@ -37,8 +37,11 @@ export class ChatPage implements OnInit {
     {console.log("cama 0");    
     this.bedId=0;
     }    
+    setTimeout(()=>{
+      this.bedIdSubscription();
+    },600);
     
-    //this.bedIdSubscription();
+    //
   }
 
 
@@ -56,7 +59,7 @@ export class ChatPage implements OnInit {
    * Sending the question to the system
    */
   ask(question:string){
-    this.bedIdSubscription();
+    //this.bedIdSubscription();
     this.counts++;
     console.log("counts tx:"+this.counts);
     var time= new Date();
@@ -113,10 +116,12 @@ export class ChatPage implements OnInit {
     let localMessage = JSON.parse(Message.string);      
       
     let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time);
-    this.countsRX++;
-
-    this.messages.push(receivedMessage);
-    console.log("countsRx:"+this.countsRX);
+    
+    if((this.messages[this.messages.length - 1])!==receivedMessage){   
+    this.messages.push(receivedMessage);    
+    }
+    //this.messages[0]=receivedMessage;
+    
     });
   }
   

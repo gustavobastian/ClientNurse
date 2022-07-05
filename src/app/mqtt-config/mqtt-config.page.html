@@ -14,8 +14,10 @@
       <br>
       <div class = "list">
         <label class = "item item-input">
+          
            <ion-label color="primary" class = "input-label">MQTT SERVER IP:</ion-label>
            <input type = "text" [(ngModel)]=this.MQTTSERVER placeholder = {{MQTTSERVER}} />
+          <!-- <input type="ipaddress"  class="form-control"  [(ngModel)]=this.MQTTSERVER  placeholder = {{MQTTSERVER}}  formControlName="ipaddress"  required pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$">-->
         </label>
       <br>
       

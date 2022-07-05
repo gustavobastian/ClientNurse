@@ -3,7 +3,7 @@ import { StorageService } from '../services/storage.service';
 import { Storage } from '@capacitor/storage';
 import { LocalStorageService } from '../services/local-storage.service';
 import {Client, connect} from 'rsup-mqtt'
-import {Utils} from 'tslint'
+
 
 
 
@@ -13,7 +13,7 @@ import {Utils} from 'tslint'
   styleUrls: ['./mqtt-config.page.scss'],
 })
 export class MqttConfigPage implements OnInit {
-  MQTTSERVER:string="127.0.0.1";
+  MQTTSERVER:string="127.0.0.2";
   MQTTPORT:number=9001;
   MQTTClientLocal: Client;
   number:number;
@@ -63,7 +63,7 @@ export class MqttConfigPage implements OnInit {
   public pruebaClick(){
     
     this.number++;
-    this.MQTTClientLocal.publish('/mensajes', 'hello Monina! N:'+this.number)
+    this.MQTTClientLocal.publish('/mensajes', 'hello')
 
   }
   /**

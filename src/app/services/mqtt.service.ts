@@ -9,7 +9,7 @@ import { Storage } from '@capacitor/storage';
   providedIn: 'root'
 })
 export class MqttService {
-  MQTTSERVER:string="127.0.0.1";
+  MQTTSERVER:string="127.0.0.2";
   MQTTPORT:number=9001;
   MQTTClientLocal: Client;
   number:number;
@@ -81,6 +81,8 @@ export class MqttService {
     let connected=0;
     
     //this.client=Mqtt.Client("myclient");
+    this.getServer();
+    this.getPort();
     
     connect({host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
     .then(client => { 
@@ -107,7 +109,7 @@ export class MqttService {
   public listenToTopic(topic: string){
       console.log("here");
      //this.MQTTClientLocal.onMessage(topic, message=>console.log(message.string));
-     this.MQTTClientLocal.subscribe(topic).on(Message=>console.log(Message.string));
+  //   this.MQTTClientLocal.subscribe(topic).on(Message=>console.log(Message.string));
   }
 
   public closingAll(topic: string){
