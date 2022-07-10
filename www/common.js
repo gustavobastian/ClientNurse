@@ -1,6 +1,176 @@
 "use strict";
 (self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["common"],{
 
+/***/ 6397:
+/*!*****************************************!*\
+  !*** ./src/app/models/message-model.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "MessageModel": () => (/* binding */ MessageModel)
+/* harmony export */ });
+class MessageModel {
+    constructor(userName, content, bedId, time) {
+        this._username = userName;
+        this._content = content;
+        this._bedId = bedId;
+        this._time = time;
+    }
+    get username() {
+        return this._username;
+    }
+    get content() {
+        return this._content;
+    }
+    get bedId() {
+        return this._bedId;
+    }
+    get time() {
+        return this._time;
+    }
+    set username(username) {
+        this._username = username;
+    }
+    set content(content) {
+        this._content = content;
+    }
+    set bedId(bedId) {
+        this._bedId = bedId;
+    }
+    set time(time) {
+        this._time = time;
+    }
+}
+
+
+/***/ }),
+
+/***/ 3112:
+/*!******************************************!*\
+  !*** ./src/app/services/mqtt.service.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "MqttService": () => (/* binding */ MqttService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rsup-mqtt */ 9829);
+/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
+/* harmony import */ var _capacitor_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @capacitor/storage */ 460);
+
+
+
+
+
+let MqttService = class MqttService {
+    constructor(localSto) {
+        this.localSto = localSto;
+        this.MQTTSERVER = "127.0.0.2";
+        this.MQTTPORT = 9001;
+        /**
+         * Saving port values to localStorage
+         */
+        this.saveValues = () => (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
+            this.localSto.saveValuesString('MQTTSERVER', this.MQTTSERVER);
+            this.localSto.saveValuesNumber('MQTTPORT', this.MQTTPORT);
+        });
+        /**
+         * Get the server ip from the local storage
+         */
+        this.getServer = () => (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
+            let { value } = yield _capacitor_storage__WEBPACK_IMPORTED_MODULE_2__.Storage.get({ key: 'MQTTSERVER' });
+            let server = value;
+            this.MQTTSERVER = server;
+            console.log('MQTTSERVER:' + this.MQTTSERVER);
+        });
+        /**
+         * Get the broker port from the local storage
+         */
+        this.getPort = () => (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
+            let { value } = yield _capacitor_storage__WEBPACK_IMPORTED_MODULE_2__.Storage.get({ key: 'MQTTPORT' });
+            let port = parseInt(value);
+            this.MQTTPORT = port;
+            console.log('MQTTPORT:' + this.MQTTPORT);
+        });
+    }
+    Reset() {
+        //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
+        this.getServer();
+        this.getPort();
+        this.connected = 0;
+        if (this.MQTTClientLocal !== null) {
+            this.MQTTClientLocal.disconnect();
+            console.log("here");
+            this.MQTTClientLocal = null;
+        }
+        //this.MQTTClientLocal= NULL;
+        (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false, path: '/test/' })
+            .then(client => {
+            console.log(client);
+            if (client.isConnected()) {
+                this.connected = 1;
+                this.MQTTClientLocal = client;
+                console.log("status: connected");
+            }
+        });
+    }
+    sendMesagge(topic, message) {
+        this.MQTTClientLocal.publish(topic, message);
+    }
+    Connect(usernameP, passwordP) {
+        let connected = 0;
+        //this.client=Mqtt.Client("myclient");
+        this.getServer();
+        this.getPort();
+        (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false, path: '/test/' })
+            .then(client => {
+            console.log(client);
+            if (client.isConnected()) {
+                connected = 1;
+                this.MQTTClientLocal = client;
+                console.log("status: connected");
+                return 1;
+            }
+            throw new TypeError("No connection");
+        })
+            .catch(function (json) {
+            console.log(json);
+            connected = 0;
+            if (json.errorCode == 7) {
+                alert("error: mala configuracion broker");
+            }
+            return 0;
+        })
+            .finally(function () { return connected; });
+        return connected;
+    }
+    listenToTopic(topic) {
+        console.log("here");
+        //this.MQTTClientLocal.onMessage(topic, message=>console.log(message.string));
+        //   this.MQTTClientLocal.subscribe(topic).on(Message=>console.log(Message.string));
+    }
+    closingAll(topic) {
+        this.MQTTClientLocal.removeMessageListener(topic, message => console.log(message.string));
+    }
+};
+MqttService.ctorParameters = () => [
+    { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_1__.LocalStorageService }
+];
+MqttService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Injectable)({
+        providedIn: 'root'
+    })
+], MqttService);
+
+
+
+/***/ }),
+
 /***/ 5800:
 /*!*********************************************************************!*\
   !*** ./node_modules/@ionic/core/dist/esm/button-active-eaaa6ece.js ***!

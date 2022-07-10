@@ -30,9 +30,14 @@
     <ion-item>
       
     <ion-button style = "position:absolute; left:12.5%;width:70%" type="submit"  expand="block">Acceder</ion-button>
+    
   
     </ion-item>
     </Form>
+    <div *ngIf="showIn == true">
+    <ion-button style = "position:absolute; left:30%;width:40%"   expand="block" (click)="Log_in()">Go Main Page</ion-button>
+    
+    </div>
   </div>
 
   </ion-content>

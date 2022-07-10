@@ -77,7 +77,7 @@ export class MqttService {
     this.MQTTClientLocal.publish(topic, message);
   }
 
-  public Connect(usernameP:string, passwordP:string): number{
+   public Connect(usernameP:string, passwordP:string): number{
     let connected=0;
     
     //this.client=Mqtt.Client("myclient");
@@ -90,7 +90,7 @@ export class MqttService {
       if(client.isConnected())
         {connected=1;
           this.MQTTClientLocal = client; 
-          console.log("status: connected");
+          console.log("status: connected");          
           return 1;
         }
         throw new TypeError("No connection")    
@@ -99,9 +99,9 @@ export class MqttService {
       console.log(json); connected=0; 
       if(json.errorCode == 7)
         {alert("error: mala configuracion broker");}
-      return 0;})
+      return connected;})
     .finally(function(){return connected;}); 
-    
+  
   return connected;
     
   }

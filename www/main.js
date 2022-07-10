@@ -29,20 +29,28 @@ const routes = [
     },
     {
         path: 'mqtt-config',
-        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_mqtt-config_mqtt-config_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./mqtt-config/mqtt-config.module */ 4670)).then(m => m.MqttConfigPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_mqtt-config_mqtt-config_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./mqtt-config/mqtt-config.module */ 4670)).then(m => m.MqttConfigPageModule)
     },
     {
         path: 'login',
-        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_login_login_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./login/login.module */ 107)).then(m => m.LoginPageModule)
-    }, /*
-    {
-      path: 'beds',
-      loadChildren: () => import('./beds/beds.module').then( m => m.BedsPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_login_login_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./login/login.module */ 107)).then(m => m.LoginPageModule)
+    }, {
+        path: 'chat',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_chat_chat_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./chat/chat.module */ 818)).then(m => m.ChatPageModule)
     },
     {
-      path: 'users',
-      loadChildren: () => import('./users/users.module').then( m => m.UsersPageModule)
-    },*/
+        path: 'waiting-event',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_waiting-event_waiting-event_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./waiting-event/waiting-event.module */ 6554)).then(m => m.WaitingEventPageModule)
+    },
+    /*
+      {
+        path: 'beds',
+        loadChildren: () => import('./beds/beds.module').then( m => m.BedsPageModule)
+      },
+      {
+        path: 'users',
+        loadChildren: () => import('./users/users.module').then( m => m.UsersPageModule)
+      },*/
 ];
 let AppRoutingModule = class AppRoutingModule {
 };

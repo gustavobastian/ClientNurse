@@ -26,6 +26,14 @@ const routes: Routes = [
     path: 'waiting-event',
     loadChildren: () => import('./waiting-event/waiting-event.module').then( m => m.WaitingEventPageModule)
   },
+  {
+    path: 'doctor-main',
+    loadChildren: () => import('./doctor-main/doctor-main.module').then( m => m.DoctorMainPageModule)
+  },
+  {
+    path: 'nurse-main',
+    loadChildren: () => import('./nurse-main/nurse-main.module').then( m => m.NurseMainPageModule)
+  },
 /*
   {
     path: 'beds',
