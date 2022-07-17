@@ -119,6 +119,7 @@ let LoginPage = class LoginPage {
             userName: new _angular_forms__WEBPACK_IMPORTED_MODULE_5__.FormControl(),
             password: new _angular_forms__WEBPACK_IMPORTED_MODULE_5__.FormControl()
         });
+        this.statusLogged = false;
         this.mode = "unknown";
         this.showIn = false;
     }
@@ -147,7 +148,7 @@ let LoginPage = class LoginPage {
             let question = "log in";
             var time = new Date();
             let value = (time.getHours()) + ":" + (time.getMinutes()) + ":" + time.getSeconds();
-            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.username, question, 0, value);
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.username, question, 0, value, 1);
             console.log(a);
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
@@ -160,32 +161,36 @@ let LoginPage = class LoginPage {
     GetUserLogKind() {
         console.log("wainting for response");
         let question = "";
-        let topic = "/User/System";
+        let topic = "/User/System/response";
         let localMessage;
         this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
             console.log("respuestaSystem:  " + Message.toString());
-            localMessage = JSON.parse(Message.string);
-            this.number = parseInt(localMessage.idNumber);
-            this.mode = (localMessage.mode);
-            if (this.mode == "nurse") {
-                console.log("here2");
-                //this.mode="nurse";
-                this.router.navigate(['/waiting-event/']);
-                this.localSto.saveValuesString('username', this.username);
-                this.localSto.saveValuesString('mode', this.username);
-                this.localSto.saveValuesString('mode', this.mode);
-            }
-            else if (this.mode == "doctor") {
-                //received in /User/System/{"idNumber":1,"mode":"doctor"}
-                console.log("Doctor");
-                //this.mode="nurse";
-                this.router.navigate(['/doctor-main/']);
-                this.localSto.saveValuesString('username', this.username);
-                this.localSto.saveValuesString('mode', this.username);
-                this.localSto.saveValuesString('mode', this.mode);
-            }
-            else {
-                this.router.navigate(['/home/']);
+            if (this.statusLogged == false) {
+                localMessage = JSON.parse(Message.string);
+                this.number = parseInt(localMessage.idNumber);
+                this.mode = (localMessage.mode);
+                if (this.mode == "enfermero") {
+                    console.log("here2");
+                    //this.mode="nurse";
+                    this.router.navigate(['/waiting-event/']);
+                    this.localSto.saveValuesString('username', this.username);
+                    this.localSto.saveValuesString('mode', this.mode);
+                }
+                else if (this.mode == "Médico") {
+                    //received in /User/System 
+                    //{"idNumber":1,"mode":"doctor"}
+                    console.log("Doctor");
+                    //this.mode="nurse";
+                    this.router.navigate(['/doctor-main/' + this.number]);
+                    this.localSto.saveValuesString('username', this.username);
+                    this.localSto.saveValuesString('mode', this.mode);
+                }
+                else {
+                    this.router.navigate(['/home/']);
+                    this.localSto.saveValuesString('username', "");
+                    this.localSto.saveValuesString('mode', "");
+                }
+                this.statusLogged = true;
             }
         });
     }

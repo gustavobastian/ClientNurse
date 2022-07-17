@@ -11,7 +11,9 @@ import { Storage } from '@capacitor/storage';
 export class DoctorMainPage implements OnInit {
   doctorId: number;
   doctorName: string;
-  constructor(private router:Router,private activatedRoute: ActivatedRoute,public localSto: LocalStorageService) { 
+  constructor(private router:Router,
+    private activatedRoute: ActivatedRoute,
+    public localSto: LocalStorageService) { 
     this.doctorId = parseInt( this.activatedRoute.snapshot.paramMap.get("id"));
     this.doctorName="";
     

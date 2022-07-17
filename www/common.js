@@ -12,11 +12,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "MessageModel": () => (/* binding */ MessageModel)
 /* harmony export */ });
 class MessageModel {
-    constructor(userName, content, bedId, time) {
+    constructor(userName, content, bedId, time, type) {
         this._username = userName;
         this._content = content;
         this._bedId = bedId;
         this._time = time;
+        this._type = type;
     }
     get username() {
         return this._username;
@@ -30,6 +31,9 @@ class MessageModel {
     get time() {
         return this._time;
     }
+    get type() {
+        return this._type;
+    }
     set username(username) {
         this._username = username;
     }
@@ -41,6 +45,9 @@ class MessageModel {
     }
     set time(time) {
         this._time = time;
+    }
+    set type(type) {
+        this._type = type;
     }
 }
 
@@ -98,6 +105,10 @@ let MqttService = class MqttService {
             console.log('MQTTPORT:' + this.MQTTPORT);
         });
     }
+    ngOnInit() {
+        (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false, path: '/test/' })
+            .then(client => { this.MQTTClientLocal = client; });
+    }
     Reset() {
         //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
         this.getServer();
@@ -128,8 +139,8 @@ let MqttService = class MqttService {
         this.getServer();
         this.getPort();
         console.log("here:" + this.MQTTSERVER);
-        //connect({host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
-        (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__.connect)({ host: "192.168.1.100", port: 9001, username: usernameP, password: passwordP, ssl: false, path: '/test/' })
+        (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false, path: '/test/' })
+            //connect({host: "192.168.1.100", port: 9001, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
             .then(client => {
             console.log(client);
             if (client.isConnected()) {

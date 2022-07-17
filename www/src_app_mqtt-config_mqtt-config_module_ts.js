@@ -109,7 +109,7 @@ __webpack_require__.r(__webpack_exports__);
 let MqttConfigPage = class MqttConfigPage {
     constructor(localSto) {
         this.localSto = localSto;
-        this.MQTTSERVER = "192.168.1.100";
+        this.MQTTSERVER = "192.168.1.101";
         this.MQTTPORT = 9001;
         /**
          * Saving port values to localStorage
@@ -144,7 +144,7 @@ let MqttConfigPage = class MqttConfigPage {
         this.writeSecretFile = () => (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
             yield _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Filesystem.writeFile({
                 path: 'mqtt.txt',
-                data: 'MQTTSERVER:' + this.MQTTSERVER + '\n MQTTPort: ' + this.MQTTPORT,
+                data: 'MQTTSERVER:' + this.MQTTSERVER + '\nMQTTPort: ' + this.MQTTPORT,
                 directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Directory.Documents,
                 encoding: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Encoding.UTF8,
             });
@@ -186,8 +186,8 @@ let MqttConfigPage = class MqttConfigPage {
     }
     Reset() {
         //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
-        //this.getServer();
-        //this.getPort();  
+        this.getServer();
+        this.getPort();
         this.connected = 0;
         if (this.MQTTClientLocal !== null) {
             this.MQTTClientLocal.disconnect();

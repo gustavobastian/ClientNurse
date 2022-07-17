@@ -26,7 +26,10 @@ export class LoginPage implements OnInit {
   showIn: boolean;
   statusLogged=false;
 
-  constructor(public MQTTServ:MqttService,public formBuilder: FormBuilder ,public localSto: LocalStorageService, private router:Router) {   
+  constructor(public MQTTServ:MqttService,
+    public formBuilder: FormBuilder ,
+    public localSto: LocalStorageService, 
+    private router:Router) {   
     this.mode ="unknown";
     this.showIn= false;
   }
@@ -70,7 +73,7 @@ export class LoginPage implements OnInit {
   GetUserLogKind()  {
     console.log("wainting for response");
     let question="";
-    let topic="/User/System";    
+    let topic="/User/System/response";    
     let localMessage;
     this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
       console.log("respuestaSystem:  "+Message.toString());

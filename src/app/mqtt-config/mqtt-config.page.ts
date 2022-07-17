@@ -15,7 +15,7 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
   styleUrls: ['./mqtt-config.page.scss'],
 })
 export class MqttConfigPage implements OnInit {
-  MQTTSERVER:string="192.168.1.100";
+  MQTTSERVER:string="192.168.1.101";
   MQTTPORT:number=9001;
   MQTTClientLocal: Client;
   number:number;
@@ -42,8 +42,8 @@ export class MqttConfigPage implements OnInit {
   public Reset(){
     //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
 
-    //this.getServer();
-    //this.getPort();  
+    this.getServer();
+    this.getPort();  
     this.connected=0;
     
     if(this.MQTTClientLocal!==null){    
@@ -115,7 +115,7 @@ export class MqttConfigPage implements OnInit {
   public writeSecretFile = async () => {
     await Filesystem.writeFile({
       path: 'mqtt.txt',
-      data: 'MQTTSERVER:'+this.MQTTSERVER+'\n MQTTPort: '+this.MQTTPORT,
+      data: 'MQTTSERVER:'+this.MQTTSERVER+'\nMQTTPort: '+this.MQTTPORT,
       directory: Directory.Documents,
       encoding: Encoding.UTF8,
     });

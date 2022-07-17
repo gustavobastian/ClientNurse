@@ -128,7 +128,7 @@ let WaitingEventPage = class WaitingEventPage {
         let topic = "/caller-events/";
         this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
             let localMessage = JSON.parse(Message.string);
-            let receivedMessage = new _models_message_model__WEBPACK_IMPORTED_MODULE_2__.MessageModel(localMessage._username, localMessage._content, localMessage._bedId, localMessage._time);
+            let receivedMessage = new _models_message_model__WEBPACK_IMPORTED_MODULE_2__.MessageModel(localMessage._username, localMessage._content, localMessage._bedId, localMessage._time, localMessage._type);
             this.messages.push(receivedMessage);
             console.log(receivedMessage);
             //this.messages[0]=receivedMessage;

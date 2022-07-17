@@ -28,7 +28,7 @@ export class WaitingEventPage implements OnInit {
    * It is only used the bedId parameter
    */
    eventsSubscription(){
-    let topic="/caller-events/";
+    let topic="/Beds/caller-events";
     
     this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
     let localMessage = JSON.parse(Message.string);      

@@ -30,7 +30,7 @@ export class PacientService {
     console.log
     this.MQTTServ.sendMesagge(topic, "aqui estamos"+i);
   }
-  getPacientInfo(): Promise<Pacient> {
+  getPacientInfo(i:number): Promise<Pacient> {
     return ;
   }
 

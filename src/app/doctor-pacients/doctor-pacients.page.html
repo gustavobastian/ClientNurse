@@ -9,20 +9,23 @@
 
 <ion-content>
  
+  <div *ngIf="showAsk==true">
     <ion-item>      
      <div [formGroup]="numberId"> 
     <ion-label>Numero Paciente:</ion-label>
     <ion-input  type="number" formControlName="pacientNumber"  required></ion-input>
      </div>
     </ion-item>
+   
    <ion-button  (click)="onClick()" >Consultar</ion-button>
+  </div>
 
 <div *ngIf="showNotes==true">
     <ion-card class="PacientDataCard">
     <!--Informacion del paciente-->
       <ion-item>Apellido: {{pacientLocal.lastName}}</ion-item>
       <ion-item>Nombre: {{pacientLocal.firstName}}</ion-item>
-      <ion-item>id: {{pacientLocal.id}}</ion-item>
+      <ion-item>Id Paciente: {{pacientLocal.id}}</ion-item>
       
 
     </ion-card>
@@ -32,10 +35,10 @@
     <div *ngFor="let Note of notes; let i=index">
       <ion-card>
         <!--Informacion del paciente-->
-          <ion-item>ID: {{notes[i].noteId}}</ion-item>
+          <ion-item>ID nota: {{notes[i].noteId}}</ion-item>
           <ion-item>Nota:{{notes[i].note}}</ion-item>
         <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->
-        <ion-button>Desactivar</ion-button>
+        
        </ion-card>
 
     </div>
@@ -47,9 +50,9 @@
       <ion-input  type="text" formControlName="noteFormString" required></ion-input>
        </div>
       
-     <ion-button ion-color="primary" (click)="onClickEnviar()" >enviar</ion-button>
+     <ion-button ion-color="primary" (click)="onClickSend()" >enviar</ion-button>
 
-      <ion-button (click)="onClickVolver()" >Volver</ion-button>
+      <ion-button (click)="onClickReturn()" >Volver</ion-button>
   </div>
 
 
