@@ -18,6 +18,9 @@ export class Note{
     public set state(state:string){
         this._state= state;
     }
+    public get noteId(): number{
+        return this._noteId;
+    };
 
     public get note(): string{
         return this._note;

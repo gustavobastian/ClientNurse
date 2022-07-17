@@ -1,14 +1,16 @@
 export class MessageModel{
-    private _username: string;
+    private _username: string;    
     private _content: string;
     private _bedId: number;
     private _time: string;
+    private _type: number;
 
-    constructor(userName: string, content: string, bedId: number, time: string){
+    constructor(userName: string, content: string, bedId: number, time: string, type: number){
         this._username= userName;
         this._content= content;
         this._bedId= bedId;
         this._time= time;
+        this._type= type;
     } 
 
     public get username(){
@@ -23,6 +25,9 @@ export class MessageModel{
     public get time(){
         return this._time;
     }
+    public get type(){
+        return this._type;
+    }
 
     public set username(username: string){
         this._username = username;
@@ -35,6 +40,9 @@ export class MessageModel{
     }
     public set time(time: string){
         this._time = time;
+    }
+    public set type(type: number){
+        this._type = type;
     }
     
 }

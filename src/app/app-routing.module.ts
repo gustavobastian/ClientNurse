@@ -27,12 +27,20 @@ const routes: Routes = [
     loadChildren: () => import('./waiting-event/waiting-event.module').then( m => m.WaitingEventPageModule)
   },
   {
-    path: 'doctor-main',
+    path: 'doctor-main/:id',
     loadChildren: () => import('./doctor-main/doctor-main.module').then( m => m.DoctorMainPageModule)
   },
   {
     path: 'nurse-main',
     loadChildren: () => import('./nurse-main/nurse-main.module').then( m => m.NurseMainPageModule)
+  },
+  {
+    path: 'doctor-pacients/:id',
+    loadChildren: () => import('./doctor-pacients/doctor-pacients.module').then( m => m.DoctorPacientsPageModule)
+  },
+  {
+    path: 'doctor-messages/:id',
+    loadChildren: () => import('./doctor-messages/doctor-messages.module').then( m => m.DoctorMessagesPageModule)
   },
 /*
   {

@@ -1,9 +1,31 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>doctor-main</ion-title>
+    <ion-title>Doctor:</ion-title>
+    <ion-title>{{doctorName}}</ion-title>
+      <!-- Back button with a default href -->
+    <ion-buttons slot="start">
+        <ion-back-button    defaultHref="/login" [text]=""></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  
+    <ion-card >
+      <ion-icon name="bed" slot="start"></ion-icon>
+        <ion-label>Cambiar notas de Pacientes </ion-label>
+      <br>
+      <ion-item>
+        <ion-button (click)="onClickPacientNote(1)"> Ir </ion-button>        
+      </ion-item>
+    </ion-card>
+    <ion-card >
+      <ion-icon name="mailbox" slot="start"></ion-icon>
+        <ion-label>Leer Mensajes </ion-label>
+      <br>
+      <ion-item>
+        <ion-button (click)="onClickMessages()"> Aceptar </ion-button>        
+      </ion-item>
+    </ion-card>
+  
 </ion-content>

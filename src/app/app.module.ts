@@ -13,6 +13,7 @@ import { Drivers } from '@ionic/storage';
 import * as CordobaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Client, connect} from 'rsup-mqtt'
-import { catchError } from 'rxjs/operators';
 import { LocalStorageService } from '../services/local-storage.service';
 import { Storage } from '@capacitor/storage';
 
@@ -8,7 +8,7 @@ import { Storage } from '@capacitor/storage';
 @Injectable({
   providedIn: 'root'
 })
-export class MqttService {
+export class MqttService implements OnInit  {
   MQTTSERVER:string="127.0.0.2";
   MQTTPORT:number=9001;
   MQTTClientLocal: Client;
@@ -18,6 +18,12 @@ export class MqttService {
 
   constructor(public localSto: LocalStorageService) { }
 
+  
+  ngOnInit() {
+    connect({host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false,path:'/test/'})
+    .then(client => { this.MQTTClientLocal = client; });
+    
+  }
   /**
    * Saving port values to localStorage
    */
@@ -83,8 +89,9 @@ export class MqttService {
     //this.client=Mqtt.Client("myclient");
     this.getServer();
     this.getPort();
-    
-    connect({host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
+    console.log("here:"+this.MQTTSERVER);
+    //connect({host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
+    connect({host: "192.168.1.100", port: 9001, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
     .then(client => { 
       console.log(client);
       if(client.isConnected())

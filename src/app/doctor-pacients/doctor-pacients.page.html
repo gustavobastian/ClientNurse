@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Pacientes: {{doctorName}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button    defaultHref="/doctor-main/" [text]=""></ion-back-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ 
+    <ion-item>      
+     <div [formGroup]="numberId"> 
+    <ion-label>Numero Paciente:</ion-label>
+    <ion-input  type="number" formControlName="pacientNumber"  required></ion-input>
+     </div>
+    </ion-item>
+   <ion-button  (click)="onClick()" >Consultar</ion-button>
+
+<div *ngIf="showNotes==true">
+    <ion-card class="PacientDataCard">
+    <!--Informacion del paciente-->
+      <ion-item>Apellido: {{pacientLocal.lastName}}</ion-item>
+      <ion-item>Nombre: {{pacientLocal.firstName}}</ion-item>
+      <ion-item>id: {{pacientLocal.id}}</ion-item>
+      
+
+    </ion-card>
+
+    <ion-button  (click)="onClickAdd()" >Agregar</ion-button>
+    <!--Notas del paciente : limite 2-->
+    <div *ngFor="let Note of notes; let i=index">
+      <ion-card>
+        <!--Informacion del paciente-->
+          <ion-item>ID: {{notes[i].noteId}}</ion-item>
+          <ion-item>Nota:{{notes[i].note}}</ion-item>
+        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->
+        <ion-button>Desactivar</ion-button>
+       </ion-card>
+
+    </div>
+  </div>
+  <div *ngIf="showNotesForm==true">
+
+    <div [formGroup]="noteForm"> 
+      <ion-label>Nota:</ion-label>
+      <ion-input  type="text" formControlName="noteFormString" required></ion-input>
+       </div>
+      
+     <ion-button ion-color="primary" (click)="onClickEnviar()" >enviar</ion-button>
+
+      <ion-button (click)="onClickVolver()" >Volver</ion-button>
+  </div>
+
+
+  
+
+</ion-content>

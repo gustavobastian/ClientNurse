@@ -33,7 +33,7 @@ export class WaitingEventPage implements OnInit {
     this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
     let localMessage = JSON.parse(Message.string);      
       
-    let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time);
+    let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time,localMessage._type);
   
     
     this.messages.push(receivedMessage);    

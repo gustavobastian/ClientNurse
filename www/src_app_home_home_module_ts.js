@@ -117,7 +117,7 @@ let HomePage = class HomePage {
     }
     addData() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
-            yield this.storageService.addData('Hola ${Math.floor(Math.random()*100)}');
+            //await this.storageService.addData('Hola ${Math.floor(Math.random()*100)}');
             this.loadData();
         });
     }

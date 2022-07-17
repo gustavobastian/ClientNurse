@@ -127,7 +127,9 @@ let MqttService = class MqttService {
         //this.client=Mqtt.Client("myclient");
         this.getServer();
         this.getPort();
-        (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false, path: '/test/' })
+        console.log("here:" + this.MQTTSERVER);
+        //connect({host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
+        (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__.connect)({ host: "192.168.1.100", port: 9001, username: usernameP, password: passwordP, ssl: false, path: '/test/' })
             .then(client => {
             console.log(client);
             if (client.isConnected()) {
@@ -144,7 +146,7 @@ let MqttService = class MqttService {
             if (json.errorCode == 7) {
                 alert("error: mala configuracion broker");
             }
-            return 0;
+            return connected;
         })
             .finally(function () { return connected; });
         return connected;

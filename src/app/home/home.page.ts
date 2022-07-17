@@ -23,7 +23,7 @@ export class HomePage {
   }
   
   async addData(){
-    await this.storageService.addData('Hola ${Math.floor(Math.random()*100)}');
+    //await this.storageService.addData('Hola ${Math.floor(Math.random()*100)}');
     this.loadData();    
   }
   async removeItem(index){

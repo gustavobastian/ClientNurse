@@ -56,18 +56,19 @@ export class ChatPage implements OnInit {
 
 
   /**
-   * Sending the question to the system
+   * Sending the question to the system : command type 7
    */
   ask(question:string){
     //this.bedIdSubscription();
     this.counts++;
     console.log("counts tx:"+this.counts);
+    
     var time= new Date();
     //let value2= (time.getHours()).toString+":"+ (time.getMinutes()).toString();
     let value= time.getFullYear()+"/"+time.getMonth()+"/"+time.getDay() +"-"+(time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
     //console.log(value);
     //let value="12:24";
-    let a=new MessageModel(this.usernameLocal,question,  this.bedId, value);
+    let a=new MessageModel(this.usernameLocal,question,  this.bedId, value,7);
     
     let mqttmessage=JSON.stringify(a);
     let topic="/bed/"+this.bedId+"/chat/";
@@ -76,28 +77,27 @@ export class ChatPage implements OnInit {
     this.question="";
   }
   /**
-   * Record and send a sound message
+   * Record and send a sound message : command type 2
    */
   record(){
     this.question="grabando audio";    
     var time= new Date();
     let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
-    let a=new MessageModel(this.usernameLocal,this.question,  this.bedId, value);    
+    let a=new MessageModel(this.usernameLocal,this.question,  this.bedId, value,1);    
     let mqttmessage=JSON.stringify(a);
     let topic="/bed/"+this.bedId+"/chat/";
     this.MQTTServ.sendMesagge(topic, mqttmessage);
-    this.question="";
-    
+    this.question="";    
   }
 
   /**
-   * Closing the comunication
+   * Closing the comunication : command type: 6
    */
   finish(){
     this.question="terminando";
     var time= new Date();
     let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();
-    let a=new MessageModel(this.usernameLocal,this.question,  this.bedId, value);    
+    let a=new MessageModel(this.usernameLocal,this.question,  this.bedId, value,6);    
     let mqttmessage=(a).toString();
     let topic="/bed/"+this.bedId+"/chat/";
     this.MQTTServ.sendMesagge(topic, mqttmessage);
@@ -115,7 +115,7 @@ export class ChatPage implements OnInit {
     this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
     let localMessage = JSON.parse(Message.string);      
       
-    let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time);
+    let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time,localMessage._type);
     
     if((this.messages[this.messages.length - 1])!==receivedMessage){   
     this.messages.push(receivedMessage);    
