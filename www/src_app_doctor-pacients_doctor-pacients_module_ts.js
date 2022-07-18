@@ -127,6 +127,7 @@ let DoctorPacientsPage = class DoctorPacientsPage {
         this.notes = new Array;
         this.showNotes = false;
         this.showNotesForm = false;
+        this.showAsk = true;
         this.pacientLocal = new _models_pacient__WEBPACK_IMPORTED_MODULE_2__.Pacient(0, "Gus", "Bas", 0, 0, 0);
         this.numberId = new _angular_forms__WEBPACK_IMPORTED_MODULE_9__.FormGroup({
             pacientNumber: new _angular_forms__WEBPACK_IMPORTED_MODULE_9__.FormControl(),
@@ -143,10 +144,6 @@ let DoctorPacientsPage = class DoctorPacientsPage {
         this.pacientLocal.firstName = "Gus";
         this.pacientLocal.lastName = "Bas";
         this.pacientLocal.id = 0;
-        //making 2 notes
-        let nota1 = new _models_note__WEBPACK_IMPORTED_MODULE_6__.Note(1, "ahora me despierto", "active");
-        let nota2 = new _models_note__WEBPACK_IMPORTED_MODULE_6__.Note(2, "ahora me acuesto", "active");
-        //this.pacientServ.oneAsk(this.doctorId);
     }
     /**
        * Getting the parameters of the user from the local storage
@@ -161,6 +158,7 @@ let DoctorPacientsPage = class DoctorPacientsPage {
     onClick() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
             let local = (this.numberId.value);
+            this.notes.splice(0);
             console.log(local);
             this.pacientLocal.id = local.pacientNumber;
             this.showNotes = true;
@@ -196,6 +194,7 @@ let DoctorPacientsPage = class DoctorPacientsPage {
             let b = new _models_message_model__WEBPACK_IMPORTED_MODULE_7__.MessageModel(this.doctorName, JSON.stringify(this.pacientLocal.id), 0, "0", 5);
             mqttmessage = JSON.stringify(b);
             yield this.MQTTServ.sendMesagge(topic, mqttmessage);
+            this.showAsk = false;
         });
     }
     onClickAdd() {
@@ -204,17 +203,26 @@ let DoctorPacientsPage = class DoctorPacientsPage {
         this.showNotes = false;
         this.showNotesForm = true;
         this.pacientLocal.id = local.pacientNumber;
+        this.showAsk = false;
     }
-    onClickVolver() {
+    onClickReturn() {
         let local = (this.numberId.value);
         console.log(local);
-        this.showNotes = true;
+        this.showNotes = false;
         this.showNotesForm = false;
         this.pacientLocal.id = local.pacientNumber;
+        this.showAsk = false;
     }
-    onClickEnviar() {
+    onClickSend() {
         let local = (this.noteForm.value);
         console.log(local.noteFormString);
+        let nota = JSON.stringify(local.noteFormString);
+        let topic = "/Pacient/" + this.pacientLocal.id + "/newNote";
+        let b = new _models_message_model__WEBPACK_IMPORTED_MODULE_7__.MessageModel(this.doctorName, nota, 0, "0", 3);
+        let mqttmessage = JSON.stringify(b);
+        this.MQTTServ.sendMesagge(topic, mqttmessage);
+        this.showAsk = false;
+        this.showNotesForm = false;
         /*let local=(this.numberId.value);
         console.log(local);
         this.showNotes = false;
@@ -406,7 +414,7 @@ module.exports = ".pacientDataCard {\n  background-color: bisque;\n}\n/*# source
   \**********************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Pacientes: {{doctorName}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-back-button    defaultHref=\"/doctor-main/\" [text]=\"\"></ion-back-button>\n  </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n \n    <ion-item>      \n     <div [formGroup]=\"numberId\"> \n    <ion-label>Numero Paciente:</ion-label>\n    <ion-input  type=\"number\" formControlName=\"pacientNumber\"  required></ion-input>\n     </div>\n    </ion-item>\n   <ion-button  (click)=\"onClick()\" >Consultar</ion-button>\n\n<div *ngIf=\"showNotes==true\">\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{pacientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{pacientLocal.firstName}}</ion-item>\n      <ion-item>id: {{pacientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    <ion-button  (click)=\"onClickAdd()\" >Agregar</ion-button>\n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID: {{notes[i].noteId}}</ion-item>\n          <ion-item>Nota:{{notes[i].note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        <ion-button>Desactivar</ion-button>\n       </ion-card>\n\n    </div>\n  </div>\n  <div *ngIf=\"showNotesForm==true\">\n\n    <div [formGroup]=\"noteForm\"> \n      <ion-label>Nota:</ion-label>\n      <ion-input  type=\"text\" formControlName=\"noteFormString\" required></ion-input>\n       </div>\n      \n     <ion-button ion-color=\"primary\" (click)=\"onClickEnviar()\" >enviar</ion-button>\n\n      <ion-button (click)=\"onClickVolver()\" >Volver</ion-button>\n  </div>\n\n\n  \n\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Pacientes: {{doctorName}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-back-button    defaultHref=\"/doctor-main/\" [text]=\"\"></ion-back-button>\n  </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n \n  <div *ngIf=\"showAsk==true\">\n    <ion-item>      \n     <div [formGroup]=\"numberId\"> \n    <ion-label>Numero Paciente:</ion-label>\n    <ion-input  type=\"number\" formControlName=\"pacientNumber\"  required></ion-input>\n     </div>\n    </ion-item>\n   \n   <ion-button  (click)=\"onClick()\" >Consultar</ion-button>\n  </div>\n\n<div *ngIf=\"showNotes==true\">\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{pacientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{pacientLocal.firstName}}</ion-item>\n      <ion-item>Id Paciente: {{pacientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    <ion-button  (click)=\"onClickAdd()\" >Agregar</ion-button>\n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID nota: {{notes[i].noteId}}</ion-item>\n          <ion-item>Nota:{{notes[i].note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        \n       </ion-card>\n\n    </div>\n  </div>\n  <div *ngIf=\"showNotesForm==true\">\n\n    <div [formGroup]=\"noteForm\"> \n      <ion-label>Nota:</ion-label>\n      <ion-input  type=\"text\" formControlName=\"noteFormString\" required></ion-input>\n       </div>\n      \n     <ion-button ion-color=\"primary\" (click)=\"onClickSend()\" >enviar</ion-button>\n\n      <ion-button (click)=\"onClickReturn()\" >Volver</ion-button>\n  </div>\n\n\n  \n\n</ion-content>\n";
 
 /***/ })
 

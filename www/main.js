@@ -47,7 +47,7 @@ const routes = [
         loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts"), __webpack_require__.e("src_app_doctor-main_doctor-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./doctor-main/doctor-main.module */ 9921)).then(m => m.DoctorMainPageModule)
     },
     {
-        path: 'nurse-main',
+        path: 'nurse-main/:id',
         loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_nurse-main_nurse-main_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./nurse-main/nurse-main.module */ 8265)).then(m => m.NurseMainPageModule)
     },
     {

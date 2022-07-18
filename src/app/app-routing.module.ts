@@ -31,7 +31,7 @@ const routes: Routes = [
     loadChildren: () => import('./doctor-main/doctor-main.module').then( m => m.DoctorMainPageModule)
   },
   {
-    path: 'nurse-main',
+    path: 'nurse-main/:id',
     loadChildren: () => import('./nurse-main/nurse-main.module').then( m => m.NurseMainPageModule)
   },
   {
@@ -42,6 +42,11 @@ const routes: Routes = [
     path: 'doctor-messages/:id',
     loadChildren: () => import('./doctor-messages/doctor-messages.module').then( m => m.DoctorMessagesPageModule)
   },
+  {
+    path: 'nurse-bed/:id',
+    loadChildren: () => import('./nurse-bed/nurse-bed.module').then( m => m.NurseBedPageModule)
+  },
+  
 /*
   {
     path: 'beds',

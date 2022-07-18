@@ -90,22 +90,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "NurseMainPage": () => (/* binding */ NurseMainPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _nurse_main_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-main.page.html?ngResource */ 2489);
 /* harmony import */ var _nurse_main_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nurse-main.page.scss?ngResource */ 6181);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ 2816);
+
 
 
 
 
 let NurseMainPage = class NurseMainPage {
-    constructor() { }
+    constructor(activatedRoute) {
+        this.activatedRoute = activatedRoute;
+        this.bedId = 0;
+        this.bedId = parseInt(this.activatedRoute.snapshot.paramMap.get("id"));
+    }
     ngOnInit() {
     }
 };
-NurseMainPage.ctorParameters = () => [];
-NurseMainPage = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.Component)({
+NurseMainPage.ctorParameters = () => [
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__.ActivatedRoute }
+];
+NurseMainPage = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Component)({
         selector: 'app-nurse-main',
         template: _nurse_main_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_nurse_main_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -132,7 +140,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>nurse-main</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>nurse-main</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-card>\n   <ion-button>Capturar QR </ion-button> \n   <ion-button>Consultar notas de Paciente</ion-button> \n  </ion-card>\n</ion-content>\n";
 
 /***/ })
 

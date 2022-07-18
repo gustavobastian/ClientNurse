@@ -81,7 +81,7 @@ export class LoginPage implements OnInit {
     localMessage = JSON.parse(Message.string);      
     this.number=parseInt(localMessage.idNumber);
     this.mode=(localMessage.mode);
-    if(this.mode=="enfermero")
+    if(this.mode=="Enfermero")
       {
         console.log("here2");
         //this.mode="nurse";

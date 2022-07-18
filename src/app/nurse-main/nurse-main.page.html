@@ -1,9 +1,52 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>nurse-main</ion-title>
+    
+    <ion-item>
+    <ion-title>Enfermera:{{nurseName}}</ion-title>
+  </ion-item>
+  <ion-item>
+    <ion-buttons slot="start">
+      <ion-back-button  defaultHref="" [text]=""></ion-back-button>        
+    </ion-buttons>
+    <ion-title>Cama:{{bedId}}</ion-title>
+  </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-item>
+   <ion-button>Capturar QR </ion-button> 
+   <ion-button>Chat </ion-button> 
+   <div *ngIf="showNotes==false">
+   <ion-button (click)="onClick()">Consultar notas de Paciente</ion-button> 
+   </div>
+  </ion-item>
+  </ion-card>
+
+  <div *ngIf="showNotes==true">
+    <ion-card class="PacientDataCard">
+    <!--Informacion del paciente-->
+      <ion-item>Apellido: {{pacientLocal.lastName}}</ion-item>
+      <ion-item>Nombre: {{pacientLocal.firstName}}</ion-item>
+      <ion-item>Id Paciente: {{pacientLocal.id}}</ion-item>
+      
+
+    </ion-card>
+
+    
+    <!--Notas del paciente : limite 2-->
+    <div *ngFor="let Note of notes; let i=index">
+      <ion-card>
+        <!--Informacion del paciente-->
+          <ion-item>ID nota: {{notes[i].noteId}}</ion-item>
+          <ion-item>Nota:{{notes[i].note}}</ion-item>
+        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->
+        
+       </ion-card>
+
+    </div>
+  </div>
+
 
 </ion-content>

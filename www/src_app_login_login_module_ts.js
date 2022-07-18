@@ -169,7 +169,7 @@ let LoginPage = class LoginPage {
                 localMessage = JSON.parse(Message.string);
                 this.number = parseInt(localMessage.idNumber);
                 this.mode = (localMessage.mode);
-                if (this.mode == "enfermero") {
+                if (this.mode == "Enfermero") {
                     console.log("here2");
                     //this.mode="nurse";
                     this.router.navigate(['/waiting-event/']);

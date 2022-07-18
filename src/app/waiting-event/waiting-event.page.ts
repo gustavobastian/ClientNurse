@@ -42,7 +42,18 @@ export class WaitingEventPage implements OnInit {
   
     });
   }
+  //accepting the bed call
   onClick(i:number){
-    this.router.navigate(['/chat']);        
+    //this.router.navigate(['/chat']);
+    console.log("habitacion:"+i);    
+    this.localSto.saveValuesString('bedId',i.toString());
+    this.router.navigate(['/nurse-main/:'+i]);        
   }
+  //looking where the bed is
+  onClick2(i:number){
+    //this.router.navigate(['/chat']);
+    console.log("habitacion:"+i);        
+    this.router.navigate(['/nurse-bed/:'+i]);        
+  }
+
 }

@@ -142,21 +142,32 @@ let MqttConfigPage = class MqttConfigPage {
          * Read the server IP from the filesystem
          */
         this.writeSecretFile = () => (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
-            yield _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Filesystem.writeFile({
-                path: 'mqtt.txt',
-                data: 'MQTTSERVER:' + this.MQTTSERVER + '\nMQTTPort: ' + this.MQTTPORT,
-                directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Directory.Documents,
-                encoding: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Encoding.UTF8,
-            });
+            try {
+                const test = yield _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Filesystem.writeFile({
+                    path: 'mqtt.txt',
+                    data: 'MQTTSERVER:' + this.MQTTSERVER + '\nMQTTPort: ' + this.MQTTPORT,
+                    directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Directory.Documents,
+                    encoding: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Encoding.UTF8,
+                });
+                console.log(test);
+            }
+            catch (e) {
+                console.log(e);
+            }
         });
         this.readSecretFile = () => (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
-            let contents = yield _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Filesystem.readFile({
-                path: 'mqtt.txt',
-                directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Directory.Documents,
-                encoding: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Encoding.UTF8,
-            });
-            console.log('secrets:', contents);
-            this.general_data = contents.data.toString();
+            try {
+                let contents = yield _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Filesystem.readFile({
+                    path: 'mqtt.txt',
+                    directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Directory.Documents,
+                    encoding: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Encoding.UTF8,
+                });
+                console.log('secrets:', contents);
+                this.general_data = contents.data.toString();
+            }
+            catch (e) {
+                console.log(e);
+            }
         });
         this.deleteSecretFile = () => (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
             yield _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_5__.Filesystem.deleteFile({

@@ -9,6 +9,7 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
 
 
+
 @Component({
   selector: 'app-mqtt-config',
   templateUrl: './mqtt-config.page.html',
@@ -113,15 +114,21 @@ export class MqttConfigPage implements OnInit {
    */
   
   public writeSecretFile = async () => {
-    await Filesystem.writeFile({
+    try {
+    const test=await Filesystem.writeFile({
       path: 'mqtt.txt',
       data: 'MQTTSERVER:'+this.MQTTSERVER+'\nMQTTPort: '+this.MQTTPORT,
       directory: Directory.Documents,
       encoding: Encoding.UTF8,
     });
+    console.log(test);
+  } catch (e){
+    console.log(e);
+  }
   };
   
   public readSecretFile = async () => {
+    try{
     let contents = await Filesystem.readFile({
       path: 'mqtt.txt',
       directory: Directory.Documents,
@@ -129,7 +136,12 @@ export class MqttConfigPage implements OnInit {
     });
     
     console.log('secrets:', contents);
-    this.general_data = contents.data.toString();
+    this.general_data = contents.data.toString();    
+    
+    } catch (e){
+    console.log(e);
+  } 
+
   };
   
   public deleteSecretFile = async () => {

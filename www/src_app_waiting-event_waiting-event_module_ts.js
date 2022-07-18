@@ -125,7 +125,7 @@ let WaitingEventPage = class WaitingEventPage {
      * It is only used the bedId parameter
      */
     eventsSubscription() {
-        let topic = "/caller-events/";
+        let topic = "/Beds/caller-events";
         this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
             let localMessage = JSON.parse(Message.string);
             let receivedMessage = new _models_message_model__WEBPACK_IMPORTED_MODULE_2__.MessageModel(localMessage._username, localMessage._content, localMessage._bedId, localMessage._time, localMessage._type);
@@ -135,7 +135,9 @@ let WaitingEventPage = class WaitingEventPage {
         });
     }
     onClick(i) {
-        this.router.navigate(['/chat']);
+        //this.router.navigate(['/chat']);
+        console.log("habitacion:" + i);
+        this.router.navigate(['/nurse-main/:' + i]);
     }
 };
 WaitingEventPage.ctorParameters = () => [
@@ -172,7 +174,7 @@ module.exports = ".card {\n  background-color: #d15050;\n  box-shadow: none;\n}\
   \******************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Esperando notificacion</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button  href=\"home\">Logout</ion-button>        \n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <div class=\"msgbubble\" *ngFor=\"let msg of messages\">    \n    <ion-card >\n      <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n        <ion-label>Habitacion: {{ msg.bedId }}</ion-label>\n      <br>\n      <ion-item>\n        <ion-button (click)=\"onClick(1)\"> Aceptar </ion-button>\n        <ion-button > Ubicacion </ion-button>\n      </ion-item>\n    </ion-card>\n  </div>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Esperando notificacion</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button  href=\"home\">Logout</ion-button>        \n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <div class=\"msgbubble\" *ngFor=\"let msg of messages\">    \n    <ion-card >\n      <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n        <ion-label>Habitacion: {{ msg.bedId }}</ion-label>\n        \n      <br>\n      <ion-item>\n        <ion-button (click)=\"onClick(msg.bedId)\"> Aceptar </ion-button>\n        <ion-button > Ubicacion </ion-button>\n      </ion-item>\n    </ion-card>\n  </div>\n</ion-content>\n";
 
 /***/ })
 
