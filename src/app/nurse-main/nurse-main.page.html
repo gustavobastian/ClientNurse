@@ -17,11 +17,14 @@
   <ion-card>
     <ion-item>
    <ion-button>Capturar QR </ion-button> 
-   <ion-button>Chat </ion-button> 
-   <div *ngIf="showNotes==false">
-   <ion-button (click)="onClick()">Consultar notas de Paciente</ion-button> 
-   </div>
+   <ion-button (click)="goChat()">Chat </ion-button> 
   </ion-item>
+   <div *ngIf="showNotes==false">
+    <ion-item>
+    <ion-button (click)="onClick()">Consultar notas de Paciente</ion-button> 
+    </ion-item>
+   </div>
+  
   </ion-card>
 
   <div *ngIf="showNotes==true">

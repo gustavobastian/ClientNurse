@@ -16,7 +16,7 @@ import { Bed } from '../models/bed';
   styleUrls: ['./nurse-bed.page.scss'],
 })
 export class NurseBedPage implements OnInit {
-  public BedLocal: Bed = new Bed(0,0,0,0);
+  public BedLocal2: Bed = new Bed(0,0,0,0);
   private bedId: number = 0;
   private nurseName: string;  
   private localNurse: User= new User(0,"","","","",0,"");
@@ -28,11 +28,11 @@ export class NurseBedPage implements OnInit {
     public localSto: LocalStorageService, 
     private pacientServ:PacientService,
     public userLogged: UserService,
-    public localBed: BedsService,
+    public bedLocal: BedsService,
     public MQTTServ:MqttService) {
 
     let d = this.activatedRoute.snapshot.params['id'];
-    this.bedId=parseInt(d);
+    this.bedId=this.bedLocal.getBedId();
     console.log("bedId "+d);
 
   }
@@ -45,7 +45,7 @@ export class NurseBedPage implements OnInit {
   async getParams() {
     this.localNurse= this.userLogged.getUser();    
     this.nurseName=this.localNurse.username;    
-    this.bedId=this.localBed.getBedId();
+    this.bedId=this.bedLocal.getBedId();    
     this.getBedInfo();
   }
 

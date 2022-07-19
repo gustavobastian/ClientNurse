@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '../services/local-storage.service';
 import { MqttService } from '../services/mqtt.service';
 import { PacientService } from '../services/pacient.service';
@@ -9,6 +9,7 @@ import { MessageModel } from '../models/message-model';
 import { Pacient } from '../models/pacient';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
+import { BedsService } from '../services/beds.service';
 
 
 
@@ -32,15 +33,17 @@ export class NurseMainPage implements OnInit {
     public localSto: LocalStorageService, 
     private pacientServ:PacientService,
     public MQTTServ:MqttService,
-    public userlogged: UserService
+    public userlogged: UserService,
+    public bedlocal: BedsService,
+    private router:Router,
     ) {
-    this.bedId = parseInt( this.activatedRoute.snapshot.paramMap.get("id"));
-    console.log("bedId:"+this.bedId);
+    this.bedId = bedlocal.getBedId();
+   
    }
 
   ngOnInit() {
     this.getParams();
-    this.getBedId();
+    
   }
   async getParams() {
     //let { value } = await Storage.get({ key: 'username' });      
@@ -48,13 +51,9 @@ export class NurseMainPage implements OnInit {
     //console.log(this.nurseName);   
     this.localNurse=this.userlogged.getUser();
     this.nurseName=this.localNurse.username;
+    console.log("aqui bed:"+this.bedId)
   }
 
-  async getBedId() {
-    let { value } = await Storage.get({ key: 'bedId' });      
-    this.bedId=parseInt(value.toString());
-    console.log(this.nurseName);    
-  }
 
   async onClick() {
     let local=this.bedId;
@@ -110,5 +109,9 @@ export class NurseMainPage implements OnInit {
   
     this.showNotes=true;    
   
+   }
+   public goChat(){
+ /*   this.router.navigate(['/chat/]);        */
+  this.router.navigate(['/chat/']);        
    }
 }

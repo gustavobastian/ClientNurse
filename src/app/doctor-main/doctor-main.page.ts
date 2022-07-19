@@ -4,6 +4,8 @@ import { LocalStorageService } from '../services/local-storage.service';
 import { Storage } from '@capacitor/storage';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
+import { Bed } from '../models/bed';
+import { BedsService } from '../services/beds.service';
 
 @Component({
   selector: 'app-doctor-main',
@@ -12,14 +14,16 @@ import { User } from '../models/user';
 })
 export class DoctorMainPage implements OnInit {
   localDoctor: User= new User(0,"","","","",0,"");
+  localBed: Bed = new Bed(0,0,0,0);
   doctorId: number;
   doctorName: string;
   constructor(private router:Router,
     private activatedRoute: ActivatedRoute,
     public localSto: LocalStorageService,
+    public bedS: BedsService,
     public userServ: UserService
     ) { 
-    this.doctorId = parseInt( this.activatedRoute.snapshot.paramMap.get("id"));
+    //this.doctorId = parseInt( this.activatedRoute.snapshot.paramMap.get("id"));
     this.doctorName="";
     
   }
@@ -31,7 +35,7 @@ export class DoctorMainPage implements OnInit {
   onClickPacientNote(id:number){    
     this.router.navigate(['/doctor-pacients/'+this.doctorId]);        
   }
-  onClickMessages(){
+  onClickMessages(){    
     this.router.navigate(['/doctor-messages/'+this.doctorId]);        
   }
   /**
@@ -39,6 +43,7 @@ export class DoctorMainPage implements OnInit {
    */
    async getParams() {
     this.localDoctor=this.userServ.getUser();
+    this.doctorName = this.localDoctor.username;
     console.log("Doctor logged:"+this.localDoctor.username)
     /*let { value } = await Storage.get({ key: 'username' });      
     this.doctorName=value.toString();

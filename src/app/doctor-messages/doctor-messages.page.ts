@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '../services/local-storage.service';
 import { Storage } from '@capacitor/storage';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
+import { BedsService } from '../services/beds.service';
 
 @Component({
   selector: 'app-doctor-messages',
@@ -15,9 +16,12 @@ export class DoctorMessagesPage implements OnInit {
   doctorId: number;
   doctorName: string;
   constructor(private activatedRoute: ActivatedRoute,
-    public localSto: LocalStorageService,
-    public userServ: UserService) { 
-    this.doctorId = parseInt( this.activatedRoute.snapshot.paramMap.get("id"));
+    public localSto: LocalStorageService,    
+    public bedS: BedsService,
+    private router:Router,
+    public userServ: UserService
+    ) { 
+    this.doctorId = 0;
     this.doctorName="";
   }
 
@@ -26,5 +30,8 @@ export class DoctorMessagesPage implements OnInit {
     this.doctorName=this.localDoctor.username;
     this.doctorId=this.localDoctor.userId;
   }
-
+  public goChat(){
+    /*   this.router.navigate(['/chat/]);        */
+     this.router.navigate(['/chat/']);        
+      }
 }

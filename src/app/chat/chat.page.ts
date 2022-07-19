@@ -5,6 +5,10 @@ import { MqttService } from '../services/mqtt.service';
 import { MessageModel } from '../models/message-model';
 import { ActivatedRoute } from '@angular/router';
 import { json } from 'express';
+import { UserService } from '../services/user.service';
+import { BedsService } from '../services/beds.service';
+import { User } from '../models/user';
+import { Bed } from '../models/bed';
 
 @Component({
   selector: 'app-chat',
@@ -12,6 +16,8 @@ import { json } from 'express';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
+  localUser: User= new User(0,"","","","",0,"");
+  localBed: Bed = new Bed(0,0,0,0);
 
   usernameLocal: string;
   bedId: number;
@@ -21,15 +27,22 @@ export class ChatPage implements OnInit {
   counts :number = 0;
   
 
-  constructor(private activatedRoute: ActivatedRoute,public MQTTServ:MqttService,public localSto: LocalStorageService) { 
+  constructor(private activatedRoute: ActivatedRoute,
+    public MQTTServ:MqttService,
+    public localSto: LocalStorageService,
+    public userServ: UserService,
+    public bedlocal: BedsService
+    ) { 
     
-    this.bedId=0;
+    //this.bedId=0;
   }
 
   ngOnInit() {
     this.getParams();
-    this.bedId = parseInt( this.activatedRoute.snapshot.paramMap.get("id"));
-    console.log(this.bedId);
+  //  this.bedId = parseInt( this.activatedRoute.snapshot.paramMap.get("id"));
+    this.localBed.bedId= this.bedlocal.getBedId();
+    this.bedId =this.localBed.bedId;
+    console.log("cama ::::"+this.bedId);
     if(this.bedId === 0)
     {console.log("cama 0");    
     }    
@@ -49,9 +62,12 @@ export class ChatPage implements OnInit {
    * Getting the parameters of the user from the local storage
    */
   async getParams() {
-    let { value } = await Storage.get({ key: 'username' });      
+    /*let { value } = await Storage.get({ key: 'username' });      
     this.usernameLocal=value.toString();
-    console.log(this.usernameLocal);
+    console.log(this.usernameLocal);*/
+    this.localUser= this.userServ.getUser();
+    this.localBed.bedId= this.bedlocal.getBedId();
+
   }
 
 
@@ -68,10 +84,10 @@ export class ChatPage implements OnInit {
     let value= time.getFullYear()+"/"+time.getMonth()+"/"+time.getDay() +"-"+(time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
     //console.log(value);
     //let value="12:24";
-    let a=new MessageModel(this.usernameLocal,question,  this.bedId, value,7);
+    let a=new MessageModel(this.localUser.username,question,  this.bedId, value,7);
     
     let mqttmessage=JSON.stringify(a);
-    let topic="/bed/"+this.bedId+"/chat/";
+    let topic="/Beds/"+this.bedId+"/chat/";
     this.MQTTServ.sendMesagge(topic, mqttmessage);
 
     this.question="";
@@ -83,9 +99,9 @@ export class ChatPage implements OnInit {
     this.question="grabando audio";    
     var time= new Date();
     let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
-    let a=new MessageModel(this.usernameLocal,this.question,  this.bedId, value,1);    
+    let a=new MessageModel(this.localUser.username,this.question,  this.bedId, value,1);    
     let mqttmessage=JSON.stringify(a);
-    let topic="/bed/"+this.bedId+"/chat/";
+    let topic="/Beds/"+this.bedId+"/chat/";
     this.MQTTServ.sendMesagge(topic, mqttmessage);
     this.question="";    
   }
@@ -97,9 +113,9 @@ export class ChatPage implements OnInit {
     this.question="terminando";
     var time= new Date();
     let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();
-    let a=new MessageModel(this.usernameLocal,this.question,  this.bedId, value,6);    
+    let a=new MessageModel(this.localUser.username,this.question,  this.bedId, value,6);    
     let mqttmessage=(a).toString();
-    let topic="/bed/"+this.bedId+"/chat/";
+    let topic="/Beds/"+this.bedId+"/chat/";
     this.MQTTServ.sendMesagge(topic, mqttmessage);
     this.question="";
     this.MQTTServ.closingAll(topic);
@@ -110,7 +126,7 @@ export class ChatPage implements OnInit {
    * Subscription for receiving messages
    */
   bedIdSubscription(){
-    let topic="/bed/"+this.bedId+"/chat/";
+    let topic="/Beds/"+this.bedId+"/chat/";
     
     this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
     let localMessage = JSON.parse(Message.string);      
