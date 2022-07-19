@@ -8,6 +8,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Note } from '../models/note';
 import { MessageModel } from '../models/message-model';
 import { MqttService } from '../services/mqtt.service';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-doctor-pacients',
@@ -16,6 +18,7 @@ import { MqttService } from '../services/mqtt.service';
 })
 export class DoctorPacientsPage implements OnInit {
   notes: Array<Note> = new Array;
+  localDoctor: User= new User(0,"","","","",0,"");
   doctorId: number;
   doctorName: string;
   showNotes: boolean = false;
@@ -38,28 +41,25 @@ export class DoctorPacientsPage implements OnInit {
     public formBuilder: FormBuilder,
     public localSto: LocalStorageService, 
     private pacientServ:PacientService,
+    public userServ: UserService,
     public MQTTServ:MqttService,
     ) {
-    this.doctorId = parseInt( this.activatedRoute.snapshot.params.get("id"));
-    this.doctorName="";
+    
+    
    }
 
   ngOnInit() {
-    this.getParams();
+  
     console.log(JSON.stringify(this.pacientLocal));
     this.pacientLocal.firstName= "Gus";
     this.pacientLocal.lastName= "Bas";    
     this.pacientLocal.id = 0;
+    this.localDoctor= this.userServ.getUser();  
+    this.doctorId = this.localDoctor.userId;
+    this.doctorName=this.localDoctor.username;
     
   }
-/**
-   * Getting the parameters of the user from the local storage
-   */
- async getParams() {
-  let { value } = await Storage.get({ key: 'username' });      
-  this.doctorName=value.toString();
-  console.log(this.doctorName);
-}
+
 
 /**
  * asking for pacient notes

@@ -7,6 +7,8 @@ import { Storage } from '@capacitor/storage';
 import { Note } from '../models/note';
 import { MessageModel } from '../models/message-model';
 import { Pacient } from '../models/pacient';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user';
 
 
 
@@ -16,6 +18,7 @@ import { Pacient } from '../models/pacient';
   styleUrls: ['./nurse-main.page.scss'],
 })
 export class NurseMainPage implements OnInit {
+  private localNurse: User= new User(0,"","","","",0,"");
   private bedId = 0;
   private nurseName=" ";
   private nurseId=0;
@@ -28,7 +31,9 @@ export class NurseMainPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
     public localSto: LocalStorageService, 
     private pacientServ:PacientService,
-    public MQTTServ:MqttService) {
+    public MQTTServ:MqttService,
+    public userlogged: UserService
+    ) {
     this.bedId = parseInt( this.activatedRoute.snapshot.paramMap.get("id"));
     console.log("bedId:"+this.bedId);
    }
@@ -38,9 +43,11 @@ export class NurseMainPage implements OnInit {
     this.getBedId();
   }
   async getParams() {
-    let { value } = await Storage.get({ key: 'username' });      
-    this.nurseName=value.toString();
-    console.log(this.nurseName);    
+    //let { value } = await Storage.get({ key: 'username' });      
+    //this.nurseName=value.toString();
+    //console.log(this.nurseName);   
+    this.localNurse=this.userlogged.getUser();
+    this.nurseName=this.localNurse.username;
   }
 
   async getBedId() {

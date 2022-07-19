@@ -6,15 +6,29 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class UserService {
-  //port for api--> must be changed to a global variable
   
-  //array of beds  
-  private users: Array <User> = new Array<User>();
+  private loggedUser: User = new User(0,"","","","",0,"");
 
-  constructor(private _http: HttpClient) { 
+  constructor() { 
    
   }
 
+  /**
+   * Getting the current loged user
+  */
+  public getUser(): User {
+    return this.loggedUser;
+  }
+  /**
+   * Setting the current loged user(after validation from server)
+  */
 
+   public setUser(userId: number, userName: string, userFirstName: string, userLastName: string,usermode: string): User {
+    this.loggedUser.firstname= userFirstName;
+    this.loggedUser.lastname= userLastName;
+    this.loggedUser.occupation= usermode;
+    this.loggedUser.username= userName;
+    return this.loggedUser;
+  }
   
 }

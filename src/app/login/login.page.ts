@@ -5,6 +5,7 @@ import { MqttService } from '../services/mqtt.service';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../services/local-storage.service';
 import { MessageModel } from '../models/message-model';
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -29,14 +30,14 @@ export class LoginPage implements OnInit {
   constructor(public MQTTServ:MqttService,
     public formBuilder: FormBuilder ,
     public localSto: LocalStorageService, 
+    public userServ: UserService,
     private router:Router) {   
     this.mode ="unknown";
     this.showIn= false;
   }
 
   ngOnInit() {
-    //removing user name
-    //this.MQTTServ.Reset();
+   
   }
 
   async onClickLogin() {
@@ -86,6 +87,7 @@ export class LoginPage implements OnInit {
         console.log("here2");
         //this.mode="nurse";
         this.router.navigate(['/waiting-event/']);        
+        this.userServ.setUser(this.number,this.username,"","",this.mode);
         this.localSto.saveValuesString('username',this.username);        
         this.localSto.saveValuesString('mode',this.mode);
        }
@@ -96,13 +98,16 @@ export class LoginPage implements OnInit {
         console.log("Doctor");
         //this.mode="nurse";
         this.router.navigate(['/doctor-main/'+this.number]);        
+        this.userServ.setUser(this.number,this.username,"","",this.mode);
         this.localSto.saveValuesString('username',this.username);        
         this.localSto.saveValuesString('mode',this.mode);
        }
     else{
       this.router.navigate(['/home/']);        
+      this.userServ.setUser(0,"","","","");
       this.localSto.saveValuesString('username',"");        
       this.localSto.saveValuesString('mode',"");
+      this.statusLogged=false;
       }     
     this.statusLogged=true;
     }
