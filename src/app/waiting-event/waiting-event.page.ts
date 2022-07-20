@@ -17,6 +17,7 @@ export class WaitingEventPage implements OnInit {
   usernameLocal: string;
   bedId: number;
   messages: Array<MessageModel> = new Array;
+  messages2: Array<MessageModel> = new Array;
 
   constructor(private activatedRoute: ActivatedRoute,
     public MQTTServ:MqttService,
@@ -37,27 +38,38 @@ export class WaitingEventPage implements OnInit {
    * It is only used the bedId parameter
    */
    eventsSubscription(){
-    let topic="/Beds/caller-events";
-    
+    //let topic="/Beds/caller-events";
+    let topic="/Beds/status";
+    let receivedMessage;
+    console.log("subscribed")
     this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
+      console.log("received")
+      console.log(Message.string);            
     let localMessage = JSON.parse(Message.string);      
-      
-    let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time,localMessage._type);
-  
+    let local2=Message.string;
+    console.log(localMessage[0].message);    
+    this.messages=[];
+    localMessage.forEach(element => {      
+      {        
+      receivedMessage = new MessageModel("","",element.id,"",element.st);
+      this.messages.push(receivedMessage);
+     }
+    });
     
-    this.messages.push(receivedMessage);    
-    console.log(receivedMessage);  
-    //this.messages[0]=receivedMessage;
   
     });
   }
+
+
   /**
    * Accepting a bed call... and moving to the bed
    * @param i beds number 
    */
   onClick(i:number){
     this.localBed.setBedId(i);    
-    this.router.navigate(['/nurse-main/:'+i]);        
+    this.router.navigate(['/nurse-main/:'+i]);
+    let topic="/Beds/status";   
+    this.MQTTServ.MQTTClientLocal.unsubscribe(topic)        
   }
   /**
    * asking for bed information
@@ -65,7 +77,9 @@ export class WaitingEventPage implements OnInit {
    */
   onClick2(i:number){    
     this.localBed.setBedId(i);
-    //console.log("habitacion:"+i);        
+    //console.log("habitacion:"+i);   
+    let topic="/Beds/status";   
+    this.MQTTServ.MQTTClientLocal.unsubscribe(topic)  
     this.router.navigate(['/nurse-bed/:'+i]);        
   }
 
