@@ -51,18 +51,21 @@ export class WaitingEventPage implements OnInit {
   
     });
   }
-  //accepting the bed call
+  /**
+   * Accepting a bed call... and moving to the bed
+   * @param i beds number 
+   */
   onClick(i:number){
-    //this.router.navigate(['/chat']);
-    console.log("habitacion:"+i);    
-    this.localSto.saveValuesString('bedId',i.toString());
+    this.localBed.setBedId(i);    
     this.router.navigate(['/nurse-main/:'+i]);        
   }
-  //looking where the bed is
-  onClick2(i:number){
-    //this.router.navigate(['/chat']);
+  /**
+   * asking for bed information
+   * @param i beds number
+   */
+  onClick2(i:number){    
     this.localBed.setBedId(i);
-    console.log("habitacion:"+i);        
+    //console.log("habitacion:"+i);        
     this.router.navigate(['/nurse-bed/:'+i]);        
   }
 

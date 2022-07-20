@@ -6,6 +6,8 @@ import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { Bed } from '../models/bed';
 import { BedsService } from '../services/beds.service';
+import { MessageModel } from '../models/message-model';
+import { MqttService } from '../services/mqtt.service';
 
 @Component({
   selector: 'app-doctor-main',
@@ -21,6 +23,7 @@ export class DoctorMainPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     public localSto: LocalStorageService,
     public bedS: BedsService,
+    public MQTTServ:MqttService,
     public userServ: UserService
     ) { 
     //this.doctorId = parseInt( this.activatedRoute.snapshot.paramMap.get("id"));
@@ -30,6 +33,7 @@ export class DoctorMainPage implements OnInit {
 
   ngOnInit() {
     this.getParams();
+    this.getBeds();
     
   }
   onClickPacientNote(id:number){    
@@ -48,5 +52,16 @@ export class DoctorMainPage implements OnInit {
     /*let { value } = await Storage.get({ key: 'username' });      
     this.doctorName=value.toString();
     console.log(this.doctorName);*/
+   }
+    //getting list of pacients and beds
+    async getBeds() {
+      console.log("Doctor logged id:"+this.localDoctor.userId)  
+    let a=new MessageModel(this.doctorName,JSON.stringify(this.localDoctor.username),  0, "0",9);    
+    console.log(a)
+    let mqttmessage=JSON.stringify(a);
+    console.log(mqttmessage);
+    let topic="/User/general";
+    await this.MQTTServ.sendMesagge(topic, mqttmessage);
+
   }
 }

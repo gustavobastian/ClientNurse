@@ -46,23 +46,37 @@ export class NurseMainPage implements OnInit {
     
   }
   async getParams() {
-    //let { value } = await Storage.get({ key: 'username' });      
-    //this.nurseName=value.toString();
-    //console.log(this.nurseName);   
+    
     this.localNurse=this.userlogged.getUser();
-    this.nurseName=this.localNurse.username;
-    console.log("aqui bed:"+this.bedId)
+    this.nurseName=this.localNurse.username;    
+    let responseNoteTopic="/Beds/"+this.bedId+"/Pacient";  
+    this.MQTTServ.MQTTClientLocal.subscribe(responseNoteTopic).on(Message=>{
+      //console.log("SystemResponse:  "+Message.toString());
+      let localMessage = JSON.parse(Message.string);
+      let pacient1 =  JSON.parse(JSON.stringify(localMessage[0]));     
+      //console.log("pacientId:"+ pacient1.pacientId);
+      this.pacientLocal.id=pacient1.pacientId;
+
+      if(Message.toString()=="Error"){this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic);
+      }      
+      console.log("Pacient received")
+    });
+    let topic="/User/general";
+    let b=new MessageModel(this.nurseName,JSON.stringify(this.bedId),  0, "0",10);
+    let mqttmessage=JSON.stringify(b);    
+    await this.MQTTServ.sendMesagge(topic, mqttmessage);
+    this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic);
+
+
   }
 
 
   async onClick() {
     let local=this.bedId;
-    this.pacientLocal.id=this.bedId;
+   // this.pacientLocal.id=this.bedId;
     this.notes.splice(0);    
     console.log(local);
-    var {value} = await Storage.get({ key: 'bedId' });      
-    this.pacientLocal.id=parseInt(value.toString()); 
-   // this.pacientLocal.id = local.pacientNumber;
+    
     //this.showNotes = true;
     //this.pacientServ.oneAsk(local.pacientNumber);
   
@@ -110,6 +124,8 @@ export class NurseMainPage implements OnInit {
     this.showNotes=true;    
   
    }
+
+
    public goChat(){
  /*   this.router.navigate(['/chat/]);        */
   this.router.navigate(['/chat/']);        

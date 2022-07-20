@@ -24,6 +24,7 @@ export class UserService {
   */
 
    public setUser(userId: number, userName: string, userFirstName: string, userLastName: string,usermode: string): User {
+    this.loggedUser.userId = userId;
     this.loggedUser.firstname= userFirstName;
     this.loggedUser.lastname= userLastName;
     this.loggedUser.occupation= usermode;
