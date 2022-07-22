@@ -74,7 +74,7 @@ export class LoginPage implements OnInit {
   GetUserLogKind()  {
     console.log("wainting for response");
     let question="";
-    let topic="/User/System/response";    
+    let topic="/User/"+this.username+"/response";    
     let localMessage;
     this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
       console.log("respuestaSystem:  "+Message.toString());

@@ -17,7 +17,7 @@ export class WaitingEventPage implements OnInit {
   usernameLocal: string;
   bedId: number;
   messages: Array<MessageModel> = new Array;
-  messages2: Array<MessageModel> = new Array;
+  
 
   constructor(private activatedRoute: ActivatedRoute,
     public MQTTServ:MqttService,
@@ -27,6 +27,7 @@ export class WaitingEventPage implements OnInit {
     public userLogged:UserService) { }
 
   ngOnInit() {
+    this.localNurse=this.userLogged.getUser();
     setTimeout(()=>{
       this.eventsSubscription();
     },600);
@@ -83,4 +84,25 @@ export class WaitingEventPage implements OnInit {
     this.router.navigate(['/nurse-bed/:'+i]);        
   }
 
+
+  /**
+   * logout
+   */
+  logout(){
+    console.log("logging out");
+    console.log("name:"+this.localNurse.username);
+   let question="logout";
+      
+   let a=new MessageModel(this.localNurse.username, question, 0, "",2);    
+   console.log(JSON.stringify(a));
+   let mqttmessage=(a).toString();
+   console.log(mqttmessage);
+   let topic="/User/general";
+   this.MQTTServ.sendMesagge(topic, JSON.stringify(a));  
+   
+   
+     this.router.navigate(['/home/']);        
+
+   
+  }
 }

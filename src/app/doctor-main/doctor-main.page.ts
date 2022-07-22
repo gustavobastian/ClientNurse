@@ -64,4 +64,25 @@ export class DoctorMainPage implements OnInit {
     await this.MQTTServ.sendMesagge(topic, mqttmessage);
 
   }
+
+  /**
+   * logout
+   */
+   logout(){
+    console.log("logging out");
+    console.log("name:"+this.localDoctor.username);
+   let question="logout";
+      
+   let a=new MessageModel(this.localDoctor.username, question, 0, "",2);    
+   console.log(JSON.stringify(a));
+   let mqttmessage=(a).toString();
+   console.log(mqttmessage);
+   let topic="/User/general";
+   this.MQTTServ.sendMesagge(topic, JSON.stringify(a));  
+   
+   
+     this.router.navigate(['/home/']);        
+
+   
+  }
 }

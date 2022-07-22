@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Notificaciones: {{doctorName}}</ion-title>
+    <ion-title>{{doctorName}}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button    defaultHref="/doctor-main/" [text]=""></ion-back-button>
   </ion-buttons>
@@ -8,5 +8,21 @@
 </ion-header>
 
 <ion-content>
-<ion-button (click)="goChat()">chat</ion-button>
+  <ion-content>
+    <div class="msgbubble" *ngFor="let msg of messages">  
+      <div *ngIf="msg.type !== 0">  
+        <ion-card >
+          <ion-icon name="bed" slot="start"></ion-icon>
+            <ion-label>Habitacion: {{ msg.bedId }}</ion-label>
+            
+          <br>
+          <ion-item>
+            <ion-button (click)="goChat({{ msg.bedId }})"> go Chat </ion-button>            
+          </ion-item>
+          <ion-item>
+            <ion-button > Ver Paciente </ion-button>            
+          </ion-item>
+        </ion-card>
+      </div>  
+    </div>
 </ion-content>

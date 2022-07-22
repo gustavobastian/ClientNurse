@@ -112,7 +112,7 @@ export class DoctorPacientsPage implements OnInit {
       this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)}
     })  
 
-    let a=new MessageModel(this.doctorName,JSON.stringify(this.pacientLocal.id),  0, "0",2);    
+    let a=new MessageModel(this.doctorName,JSON.stringify(this.pacientLocal.id),  0, "0",4);    
     console.log(a)
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);

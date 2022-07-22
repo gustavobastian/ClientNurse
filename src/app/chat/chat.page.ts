@@ -3,7 +3,7 @@ import { LocalStorageService } from '../services/local-storage.service';
 import { Storage } from '@capacitor/storage';
 import { MqttService } from '../services/mqtt.service';
 import { MessageModel } from '../models/message-model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { json } from 'express';
 import { UserService } from '../services/user.service';
 import { BedsService } from '../services/beds.service';
@@ -31,6 +31,7 @@ export class ChatPage implements OnInit {
     public MQTTServ:MqttService,
     public localSto: LocalStorageService,
     public userServ: UserService,
+    private router:Router,
     public bedlocal: BedsService
     ) { 
     
@@ -118,8 +119,13 @@ export class ChatPage implements OnInit {
     let topic="/Beds/"+this.bedId+"/chat/";
     this.MQTTServ.sendMesagge(topic, mqttmessage);
     this.question="";
-    this.MQTTServ.closingAll(topic);
-
+    //this.MQTTServ.closingAll(topic);
+    if(this.localUser.occupation == "Medical"){
+    this.router.navigate(['/doctor-messages/']);        
+    }
+    else{
+      this.router.navigate(['/waiting-event/']);        
+    }
   }
 
   /**
