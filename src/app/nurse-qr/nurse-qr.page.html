@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>nurse-QR</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button    defaultHref="/nurse-bed/:{{bedId}}" [text]=""></ion-back-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-item>
+  <ion-input [(ngModel)]="capturedQR" placeholder="{{capturedQR}}" type="text"></ion-input>
+</ion-item>  
+<ion-item>
+  <ion-button (click)="sendQr()">Enviar</ion-button>
+</ion-item>
+</ion-content>

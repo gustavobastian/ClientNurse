@@ -46,6 +46,10 @@ const routes: Routes = [
     path: 'nurse-bed/:id',
     loadChildren: () => import('./nurse-bed/nurse-bed.module').then( m => m.NurseBedPageModule)
   },
+  {
+    path: 'nurse-qr',
+    loadChildren: () => import('./nurse-qr/nurse-qr.module').then( m => m.NurseQRPageModule)
+  },
   
 /*
   {

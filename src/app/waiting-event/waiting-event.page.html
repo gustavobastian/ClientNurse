@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Esperando notificacion</ion-title>
+    <ion-title>Sala de espera</ion-title>
     <ion-buttons slot="start">
       <ion-button  (click)="logout()">Logout</ion-button>        <!-- href="home" -->
     </ion-buttons>
@@ -8,12 +8,19 @@
 </ion-header>
 
 <ion-content>
+  <ion-item>
+    <ion-button (click)="goChat()"> Chat General </ion-button>
+  </ion-item>
   <div class="msgbubble" *ngFor="let msg of messages">  
-    <div *ngIf="msg.type !== 0">  
+    <div *ngIf="msg.type > 1">  
       <ion-card >
         <ion-icon name="bed" slot="start"></ion-icon>
+          <ion-item>
           <ion-label>Habitacion: {{ msg.bedId }}</ion-label>
-          
+          </ion-item>
+          <ion-item>
+          <ion-label>Estado: {{ msg.type }}</ion-label>
+          </ion-item>
         <br>
         <ion-item>
           <ion-button (click)="onClick(msg.bedId)"> Aceptar </ion-button>

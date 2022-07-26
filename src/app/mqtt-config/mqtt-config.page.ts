@@ -16,7 +16,7 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
   styleUrls: ['./mqtt-config.page.scss'],
 })
 export class MqttConfigPage implements OnInit {
-  MQTTSERVER:string="192.168.1.101";
+  MQTTSERVER:string="192.168.1.100";
   MQTTPORT:number=9001;
   MQTTClientLocal: Client;
   number:number;
@@ -30,8 +30,8 @@ export class MqttConfigPage implements OnInit {
   }
 
   ngOnInit() {
-    connect({host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false,path:'/test/'})
-    .then(client => { this.MQTTClientLocal = client; });
+  /*  connect({host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false,path:'/test/'})
+    .then(client => { this.MQTTClientLocal = client; });*/
     
   }
 
@@ -40,24 +40,29 @@ export class MqttConfigPage implements OnInit {
     this.saveValues();
   }
 
-  public Reset(){
+   public async Reset(){
     //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
 
-    this.getServer();
-    this.getPort();  
+    //this.getServer();
+    //this.getPort();  
     this.connected=0;
     
-    if(this.MQTTClientLocal!==null){    
+    /*if(this.MQTTClientLocal!==null){    
     
     this.MQTTClientLocal.disconnect();
     console.log("here");
     this.MQTTClientLocal= null;
-    }
+    }*/
     //this.MQTTClientLocal= NULL;
     
-    connect({host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false,path:'/test/'})
+    const client = await connect({host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false,path:'/test/'})
+    //connect({host: "192.168.1.100", port: 9001, username:"Laura", password:"123123", ssl: false,path:'/test/'})
     .then(client => { 
       console.log(client);
+      console.log("**************************************************************");
+      console.log("*******************************************************************************");
+      console.log("**************************************************************");
+      
       if(client.isConnected())
         {this.connected=1;
           this.MQTTClientLocal = client; 
@@ -66,6 +71,9 @@ export class MqttConfigPage implements OnInit {
     })
     .catch (function(json) { 
       console.log("Error:"+json.errorCode);
+      console.log("*******************************************************************************");
+      console.log("**************************************************************");
+      console.log("*******************************************************************************");
       if(json.errorCode == 7)
         {alert("error: mala configuracion broker");}
       return this.connected=0;})

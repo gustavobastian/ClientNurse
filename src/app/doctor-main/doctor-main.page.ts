@@ -85,4 +85,13 @@ export class DoctorMainPage implements OnInit {
 
    
   }
+  /**
+ * go to general chat
+ */
+   public goChat(){
+    /*   this.router.navigate(['/chat/]);        */
+    this.bedS.setBedId(0);
+    this.router.navigate(['/chat/']);        
+      }
+
 }

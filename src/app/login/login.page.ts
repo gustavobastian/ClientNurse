@@ -103,6 +103,7 @@ export class LoginPage implements OnInit {
         this.localSto.saveValuesString('mode',this.mode);
        }
     else{
+      alert("Error al acceder! verificar usuario y contraseña")
       this.router.navigate(['/home/']);        
       this.userServ.setUser(0,"","","","");
       this.localSto.saveValuesString('username',"");        

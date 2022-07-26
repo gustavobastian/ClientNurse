@@ -21,6 +21,7 @@ export class ChatPage implements OnInit {
 
   usernameLocal: string;
   bedId: number;
+  public mode :number=0;
   question: string;
   messages: Array<MessageModel> = new Array;
 
@@ -68,6 +69,15 @@ export class ChatPage implements OnInit {
     console.log(this.usernameLocal);*/
     this.localUser= this.userServ.getUser();
     this.localBed.bedId= this.bedlocal.getBedId();
+    console.log("occuppation:"+this.localUser.occupation)
+    if(this.localUser.occupation="Médico"){
+      this.mode=1;
+    }
+    else if(this.localUser.occupation==="Enfermero"){
+          this.mode=2;
+          }
+          
+
 
   }
 
@@ -119,13 +129,22 @@ export class ChatPage implements OnInit {
     let topic="/Beds/"+this.bedId+"/chat/";
     this.MQTTServ.sendMesagge(topic, mqttmessage);
     this.question="";
+    let b= new MessageModel(this.localUser.username,this.question,  this.bedId, value,15);    
+    mqttmessage=(b).toString();
+    topic="/User/general";
+    this.MQTTServ.sendMesagge(topic, mqttmessage);
+    this.question="";
     //this.MQTTServ.closingAll(topic);
-    if(this.localUser.occupation == "Medical"){
-    this.router.navigate(['/doctor-messages/']);        
+    if(this.localUser.occupation == "Doctor"){
+    this.router.navigate(['/doctor-main/{{localUser.userId}}/']);        
     }
     else{
-      this.router.navigate(['/waiting-event/']);        
+      if(this.bedId!=0)
+        {this.router.navigate(['/nurse-main/:{{bedId}}/']);}
+      else  
+        {this.router.navigate(['/waiting-event/']);}          
     }
+
   }
 
   /**

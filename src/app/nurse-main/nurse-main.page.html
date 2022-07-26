@@ -16,8 +16,9 @@
 <ion-content>
   <ion-card>
     <ion-item>
-   <ion-button>Capturar QR </ion-button> 
+   <ion-button (click)="goQR()">QR </ion-button> 
    <ion-button (click)="goChat()">Chat </ion-button> 
+   <ion-button (click)="goEnd()">Listo </ion-button> 
   </ion-item>
    <div *ngIf="showNotes==false">
     <ion-item>

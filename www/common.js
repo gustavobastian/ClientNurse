@@ -1,6 +1,52 @@
 "use strict";
 (self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["common"],{
 
+/***/ 982:
+/*!*******************************!*\
+  !*** ./src/app/models/bed.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Bed": () => (/* binding */ Bed)
+/* harmony export */ });
+class Bed {
+    constructor(bedId, roomId, callerId, floorId) {
+        this._bedId = bedId;
+        this._callerId = callerId;
+        this._floorId = floorId;
+        this._roomId = roomId;
+    }
+    get bedId() {
+        return this._bedId;
+    }
+    get roomId() {
+        return this._roomId;
+    }
+    get floorId() {
+        return this._floorId;
+    }
+    get callerId() {
+        return this._callerId;
+    }
+    set bedId(bedId) {
+        this._bedId = bedId;
+    }
+    set callerId(callerId) {
+        this._callerId = callerId;
+    }
+    set floorId(floorId) {
+        this._floorId = floorId;
+    }
+    set roomId(roomId) {
+        this._roomId = roomId;
+    }
+}
+
+
+/***/ }),
+
 /***/ 6397:
 /*!*****************************************!*\
   !*** ./src/app/models/message-model.ts ***!
@@ -50,6 +96,220 @@ class MessageModel {
         this._type = type;
     }
 }
+
+
+/***/ }),
+
+/***/ 5:
+/*!********************************!*\
+  !*** ./src/app/models/note.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Note": () => (/* binding */ Note)
+/* harmony export */ });
+class Note {
+    constructor(noteId, note, state) {
+        this._noteId = noteId;
+        this._note = note;
+        this._state = state;
+    }
+    set noteId(noteId) {
+        this._noteId = noteId;
+    }
+    set note(note) {
+        this._note = note;
+    }
+    set state(state) {
+        this._state = state;
+    }
+    get noteId() {
+        return this._noteId;
+    }
+    ;
+    get note() {
+        return this._note;
+    }
+    ;
+    get state() {
+        return this._state;
+    }
+}
+
+
+/***/ }),
+
+/***/ 7377:
+/*!***********************************!*\
+  !*** ./src/app/models/pacient.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Pacient": () => (/* binding */ Pacient)
+/* harmony export */ });
+class Pacient {
+    constructor(pacientId, pacientFirstName, pacientLastName, bedId, notesTableId, userTableId) {
+        this._id = pacientId;
+        this._firstName = pacientFirstName;
+        this._lastName = pacientLastName;
+        this._bedId = bedId;
+        this._notesTableId = notesTableId;
+        this._userTableId = userTableId;
+    }
+    set id(pacient) {
+        this._id = pacient;
+    }
+    get id() {
+        return this._id;
+    }
+    set firstName(pacient) {
+        this._firstName = pacient;
+    }
+    get firstName() {
+        return this._firstName;
+    }
+    set lastName(pacient) {
+        this._lastName = pacient;
+    }
+    get lastName() {
+        return this._lastName;
+    }
+    set bedId(pacient) {
+        this._bedId = pacient;
+    }
+    get bedId() {
+        return this._bedId;
+    }
+    set notesTableId(number) {
+        this._notesTableId = number;
+    }
+    get notesTableId() {
+        return this._notesTableId;
+    }
+    set userTableId(number) {
+        this._userTableId = number;
+    }
+    get userTableId() {
+        return this._userTableId;
+    }
+}
+
+
+/***/ }),
+
+/***/ 5783:
+/*!********************************!*\
+  !*** ./src/app/models/user.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "User": () => (/* binding */ User)
+/* harmony export */ });
+class User {
+    constructor(userId, username, firstName, lastName, occupation, state, password) {
+        this._userId = userId;
+        this._username = username;
+        this._firstname = firstName;
+        this._lastname = lastName;
+        this._occupation = occupation;
+        this._state = state;
+        this._password = password;
+    }
+    set userId(value) {
+        this._userId = value;
+    }
+    set username(value) {
+        this._username = value;
+    }
+    set firstname(value) {
+        this._firstname = value;
+    }
+    set lastname(value) {
+        this._lastname = value;
+    }
+    set occupation(value) {
+        this._occupation = value;
+    }
+    set state(state) {
+        this._state = state;
+    }
+    set password(password) {
+        this._password = password;
+    }
+    get userId() {
+        return this._userId;
+    }
+    get username() {
+        return this._username;
+    }
+    get firstName() {
+        return this._firstname;
+    }
+    get lastName() {
+        return this._lastname;
+    }
+    get occupation() {
+        return this._occupation;
+    }
+    get state() {
+        return this._state;
+    }
+    get password() {
+        return this._password;
+    }
+}
+
+
+/***/ }),
+
+/***/ 3082:
+/*!******************************************!*\
+  !*** ./src/app/services/beds.service.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BedsService": () => (/* binding */ BedsService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _models_bed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/bed */ 982);
+
+
+
+let BedsService = class BedsService {
+    constructor() {
+        this.localBed = new _models_bed__WEBPACK_IMPORTED_MODULE_0__.Bed(0, 0, 0, 0);
+    }
+    setBed(bed) {
+        this.localBed = bed;
+    }
+    getBed() {
+        return this.getBed();
+    }
+    setBedId(bedId) {
+        this.localBed.bedId = bedId;
+    }
+    ;
+    getBedId() {
+        return this.localBed.bedId;
+    }
+    ;
+};
+BedsService.ctorParameters = () => [];
+BedsService = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.Injectable)({
+        providedIn: 'root'
+    })
+], BedsService);
+
 
 
 /***/ }),
@@ -179,6 +439,103 @@ MqttService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
         providedIn: 'root'
     })
 ], MqttService);
+
+
+
+/***/ }),
+
+/***/ 2220:
+/*!*********************************************!*\
+  !*** ./src/app/services/pacient.service.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PacientService": () => (/* binding */ PacientService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _mqtt_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mqtt.service */ 3112);
+
+
+
+let PacientService = class PacientService {
+    constructor(MQTTServ) {
+        this.MQTTServ = MQTTServ;
+        this.pacients = new Array;
+    }
+    //not used
+    getAllPacients() {
+        return;
+    }
+    oneAsk(i) {
+        console.log("asking");
+        let topic = "general2";
+        console.log;
+        this.MQTTServ.sendMesagge(topic, "aqui estamos" + i);
+    }
+    getPacientInfo(i) {
+        return;
+    }
+};
+PacientService.ctorParameters = () => [
+    { type: _mqtt_service__WEBPACK_IMPORTED_MODULE_0__.MqttService }
+];
+PacientService = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.Injectable)({
+        providedIn: 'root'
+    })
+], PacientService);
+
+
+
+/***/ }),
+
+/***/ 3071:
+/*!******************************************!*\
+  !*** ./src/app/services/user.service.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "UserService": () => (/* binding */ UserService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/user */ 5783);
+
+
+
+let UserService = class UserService {
+    constructor() {
+        this.loggedUser = new _models_user__WEBPACK_IMPORTED_MODULE_0__.User(0, "", "", "", "", 0, "");
+    }
+    /**
+     * Getting the current loged user
+    */
+    getUser() {
+        return this.loggedUser;
+    }
+    /**
+     * Setting the current loged user(after validation from server)
+    */
+    setUser(userId, userName, userFirstName, userLastName, usermode) {
+        this.loggedUser.userId = userId;
+        this.loggedUser.firstname = userFirstName;
+        this.loggedUser.lastname = userLastName;
+        this.loggedUser.occupation = usermode;
+        this.loggedUser.username = userName;
+        return this.loggedUser;
+    }
+};
+UserService.ctorParameters = () => [];
+UserService = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.Injectable)({
+        providedIn: 'root'
+    })
+], UserService);
 
 
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Bed } from '../models/bed';
 import { MessageModel } from '../models/message-model';
 import { User } from '../models/user';
 import { BedsService } from '../services/beds.service';
@@ -15,6 +16,7 @@ import { UserService } from '../services/user.service';
 export class WaitingEventPage implements OnInit {
   localNurse: User= new User( 0,"","","","",0,"");
   usernameLocal: string;
+  bed : Bed = new Bed( 0,0,0,0,);
   bedId: number;
   messages: Array<MessageModel> = new Array;
   
@@ -39,7 +41,7 @@ export class WaitingEventPage implements OnInit {
    * It is only used the bedId parameter
    */
    eventsSubscription(){
-    //let topic="/Beds/caller-events";
+    
     let topic="/Beds/status";
     let receivedMessage;
     console.log("subscribed")
@@ -66,11 +68,19 @@ export class WaitingEventPage implements OnInit {
    * Accepting a bed call... and moving to the bed
    * @param i beds number 
    */
-  onClick(i:number){
-    this.localBed.setBedId(i);    
+  public async onClick(i:number){
+    this.localBed.setBedId(i);
+    this.bed.bedId = i;    
     this.router.navigate(['/nurse-main/:'+i]);
     let topic="/Beds/status";   
-    this.MQTTServ.MQTTClientLocal.unsubscribe(topic)        
+    
+    
+    let a=new MessageModel(this.localNurse.username,"",  this.bed.bedId, "0",12);    
+    console.log(a)
+    let mqttmessage=JSON.stringify(a);
+    console.log(mqttmessage);
+    topic="/User/general";
+    await this.MQTTServ.sendMesagge(topic, mqttmessage);        
   }
   /**
    * asking for bed information
@@ -78,9 +88,7 @@ export class WaitingEventPage implements OnInit {
    */
   onClick2(i:number){    
     this.localBed.setBedId(i);
-    //console.log("habitacion:"+i);   
-    let topic="/Beds/status";   
-    this.MQTTServ.MQTTClientLocal.unsubscribe(topic)  
+   
     this.router.navigate(['/nurse-bed/:'+i]);        
   }
 
@@ -99,10 +107,19 @@ export class WaitingEventPage implements OnInit {
    console.log(mqttmessage);
    let topic="/User/general";
    this.MQTTServ.sendMesagge(topic, JSON.stringify(a));  
+   topic="/Beds/status";   
    
    
-     this.router.navigate(['/home/']);        
+   this.router.navigate(['/home/']);        
 
    
   }
+/**
+ * go to general chat
+ */
+  public goChat(){
+    /*   this.router.navigate(['/chat/]);        */
+    this.localBed.setBedId(0);
+    this.router.navigate(['/chat/']);        
+      }
 }

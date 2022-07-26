@@ -83,7 +83,6 @@ export class NurseBedPage implements OnInit {
   await this.MQTTServ.sendMesagge(topic, mqttmessage);
   
 
-  
   }
 
 

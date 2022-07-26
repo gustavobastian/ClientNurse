@@ -109,7 +109,7 @@ __webpack_require__.r(__webpack_exports__);
 let MqttConfigPage = class MqttConfigPage {
     constructor(localSto) {
         this.localSto = localSto;
-        this.MQTTSERVER = "192.168.1.101";
+        this.MQTTSERVER = "192.168.1.100";
         this.MQTTPORT = 9001;
         /**
          * Saving port values to localStorage
@@ -188,41 +188,51 @@ let MqttConfigPage = class MqttConfigPage {
         this.connected = 0;
     }
     ngOnInit() {
-        (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_4__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false, path: '/test/' })
-            .then(client => { this.MQTTClientLocal = client; });
+        /*  connect({host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false,path:'/test/'})
+          .then(client => { this.MQTTClientLocal = client; });*/
     }
     saveClick() {
         //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
         this.saveValues();
     }
     Reset() {
-        //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
-        this.getServer();
-        this.getPort();
-        this.connected = 0;
-        if (this.MQTTClientLocal !== null) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
+            //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
+            //this.getServer();
+            //this.getPort();  
+            this.connected = 0;
+            /*if(this.MQTTClientLocal!==null){
+            
             this.MQTTClientLocal.disconnect();
             console.log("here");
-            this.MQTTClientLocal = null;
-        }
-        //this.MQTTClientLocal= NULL;
-        (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_4__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false, path: '/test/' })
-            .then(client => {
-            console.log(client);
-            if (client.isConnected()) {
-                this.connected = 1;
-                this.MQTTClientLocal = client;
-                console.log("status: connected");
-            }
-        })
-            .catch(function (json) {
-            console.log("Error:" + json.errorCode);
-            if (json.errorCode == 7) {
-                alert("error: mala configuracion broker");
-            }
-            return this.connected = 0;
-        })
-            .finally(function () { return this.connected = 0; });
+            this.MQTTClientLocal= null;
+            }*/
+            //this.MQTTClientLocal= NULL;
+            const client = yield (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_4__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false, path: '/test/' })
+                //connect({host: "192.168.1.100", port: 9001, username:"Laura", password:"123123", ssl: false,path:'/test/'})
+                .then(client => {
+                console.log(client);
+                console.log("**************************************************************");
+                console.log("*******************************************************************************");
+                console.log("**************************************************************");
+                if (client.isConnected()) {
+                    this.connected = 1;
+                    this.MQTTClientLocal = client;
+                    console.log("status: connected");
+                }
+            })
+                .catch(function (json) {
+                console.log("Error:" + json.errorCode);
+                console.log("*******************************************************************************");
+                console.log("**************************************************************");
+                console.log("*******************************************************************************");
+                if (json.errorCode == 7) {
+                    alert("error: mala configuracion broker");
+                }
+                return this.connected = 0;
+            })
+                .finally(function () { return this.connected = 0; });
+        });
     }
     pruebaClick() {
         this.number++;

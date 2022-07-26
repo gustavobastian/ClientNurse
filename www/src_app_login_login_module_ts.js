@@ -91,15 +91,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "LoginPage": () => (/* binding */ LoginPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _login_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./login.page.html?ngResource */ 1729);
 /* harmony import */ var _login_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./login.page.scss?ngResource */ 7047);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ 587);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 587);
 /* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/router */ 2816);
 /* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
 /* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/message-model */ 6397);
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/user.service */ 3071);
+
 
 
 
@@ -110,25 +112,24 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let LoginPage = class LoginPage {
-    constructor(MQTTServ, formBuilder, localSto, router) {
+    constructor(MQTTServ, formBuilder, localSto, userServ, router) {
         this.MQTTServ = MQTTServ;
         this.formBuilder = formBuilder;
         this.localSto = localSto;
+        this.userServ = userServ;
         this.router = router;
-        this.ionicForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_5__.FormGroup({
-            userName: new _angular_forms__WEBPACK_IMPORTED_MODULE_5__.FormControl(),
-            password: new _angular_forms__WEBPACK_IMPORTED_MODULE_5__.FormControl()
+        this.ionicForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormGroup({
+            userName: new _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormControl(),
+            password: new _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormControl()
         });
         this.statusLogged = false;
         this.mode = "unknown";
         this.showIn = false;
     }
     ngOnInit() {
-        //removing user name
-        //this.MQTTServ.Reset();
     }
     onClickLogin() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
             let local = (this.ionicForm.value);
             this.username = local.userName;
             this.password = local.password;
@@ -142,7 +143,7 @@ let LoginPage = class LoginPage {
         });
     }
     Log_in() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
             this.GetUserLogKind();
             console.log("here");
             let question = "log in";
@@ -161,7 +162,7 @@ let LoginPage = class LoginPage {
     GetUserLogKind() {
         console.log("wainting for response");
         let question = "";
-        let topic = "/User/System/response";
+        let topic = "/User/" + this.username + "/response";
         let localMessage;
         this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
             console.log("respuestaSystem:  " + Message.toString());
@@ -173,6 +174,7 @@ let LoginPage = class LoginPage {
                     console.log("here2");
                     //this.mode="nurse";
                     this.router.navigate(['/waiting-event/']);
+                    this.userServ.setUser(this.number, this.username, "", "", this.mode);
                     this.localSto.saveValuesString('username', this.username);
                     this.localSto.saveValuesString('mode', this.mode);
                 }
@@ -182,13 +184,16 @@ let LoginPage = class LoginPage {
                     console.log("Doctor");
                     //this.mode="nurse";
                     this.router.navigate(['/doctor-main/' + this.number]);
+                    this.userServ.setUser(this.number, this.username, "", "", this.mode);
                     this.localSto.saveValuesString('username', this.username);
                     this.localSto.saveValuesString('mode', this.mode);
                 }
                 else {
                     this.router.navigate(['/home/']);
+                    this.userServ.setUser(0, "", "", "", "");
                     this.localSto.saveValuesString('username', "");
                     this.localSto.saveValuesString('mode', "");
+                    this.statusLogged = false;
                 }
                 this.statusLogged = true;
             }
@@ -198,12 +203,13 @@ let LoginPage = class LoginPage {
 };
 LoginPage.ctorParameters = () => [
     { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_2__.MqttService },
-    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_5__.FormBuilder },
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormBuilder },
     { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_3__.LocalStorageService },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_7__.Router }
+    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_5__.UserService },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_8__.Router }
 ];
-LoginPage = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_8__.Component)({
+LoginPage = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_9__.Component)({
         selector: 'app-login',
         template: _login_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_login_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]

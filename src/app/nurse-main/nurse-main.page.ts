@@ -45,6 +45,10 @@ export class NurseMainPage implements OnInit {
     this.getParams();
     
   }
+
+  /**
+   * Get the pacient information 
+   */
   async getParams() {
     
     this.localNurse=this.userlogged.getUser();
@@ -71,6 +75,9 @@ export class NurseMainPage implements OnInit {
   }
 
 
+  /**
+   * Get the pacient Notes 
+   */
   async onClick() {
     let local=this.bedId;
    // this.pacientLocal.id=this.bedId;
@@ -124,10 +131,41 @@ export class NurseMainPage implements OnInit {
     this.showNotes=true;    
   
    }
+/**
+ * Got to pacient char for asking aditional information
+ */
 
-
-   public goChat(){
+   public async goChat(){
  /*   this.router.navigate(['/chat/]);        */
+   let a=new MessageModel(this.nurseName,JSON.stringify(this.pacientLocal.id),  this.bedId, "0",14);    
+  console.log(a)
+  let mqttmessage=JSON.stringify(a);
+  console.log(mqttmessage);
+  let topic="/User/general";
+  await this.MQTTServ.sendMesagge(topic, mqttmessage);       
+
   this.router.navigate(['/chat/']);        
    }
+
+/**
+ * Got to QR capture page
+ */
+   public goQR(){
+    /*   this.router.navigate(['/chat/]);        */
+     this.router.navigate(['/nurse-qr']);        
+      }
+ /**
+ * Ending notification
+ */
+  public async goEnd(){
+    /*   this.router.navigate(['/chat/]);        */
+    let a=new MessageModel(this.nurseName,JSON.stringify(this.pacientLocal.id),  this.bedId, "0",13);    
+    console.log(a)
+    let mqttmessage=JSON.stringify(a);
+    console.log(mqttmessage);
+    let topic="/User/general";
+    await this.MQTTServ.sendMesagge(topic, mqttmessage);
+     this.router.navigate(['/waiting-event/']);        
+      }     
+
 }
