@@ -70,7 +70,7 @@ export class ChatPage implements OnInit {
     this.localUser= this.userServ.getUser();
     this.localBed.bedId= this.bedlocal.getBedId();
     console.log("occuppation:"+this.localUser.occupation)
-    if(this.localUser.occupation="Médico"){
+    if(this.localUser.occupation=="Médico"){
       this.mode=1;
     }
     else if(this.localUser.occupation==="Enfermero"){
@@ -125,24 +125,27 @@ export class ChatPage implements OnInit {
     var time= new Date();
     let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();
     let a=new MessageModel(this.localUser.username,this.question,  this.bedId, value,6);    
-    let mqttmessage=(a).toString();
+    let mqttmessage=JSON.stringify(a).toString();
     let topic="/Beds/"+this.bedId+"/chat/";
     this.MQTTServ.sendMesagge(topic, mqttmessage);
     this.question="";
-    let b= new MessageModel(this.localUser.username,this.question,  this.bedId, value,15);    
-    mqttmessage=(b).toString();
-    topic="/User/general";
+    let b= new MessageModel(this.localUser.username,this.question,  this.bedId, "",15);    
+     mqttmessage=JSON.stringify(b);
+     topic="/User/general";
     this.MQTTServ.sendMesagge(topic, mqttmessage);
     this.question="";
+    console.log("mode:"+this.mode)
     //this.MQTTServ.closingAll(topic);
-    if(this.localUser.occupation == "Doctor"){
-    this.router.navigate(['/doctor-main/{{localUser.userId}}/']);        
+    if(this.mode!=1){
+    
+        if(this.bedId!=0)
+        {this.router.navigate(['/nurse-main/:{{bedId}}/']);}
+        else  
+        {this.router.navigate(['/waiting-event/']);}          
     }
     else{
-      if(this.bedId!=0)
-        {this.router.navigate(['/nurse-main/:{{bedId}}/']);}
-      else  
-        {this.router.navigate(['/waiting-event/']);}          
+      this.router.navigate(['/doctor-main/{{localUser.userId}}/']);        
+      
     }
 
   }

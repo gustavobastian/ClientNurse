@@ -1,10 +1,11 @@
 <ion-header>
   <ion-toolbar>
+    <div *ngIf="localBed.bedId != 0">
     <ion-title>cama: {{localBed.bedId}}</ion-title>
-
-  
-          
-    
+    </div>
+    <div *ngIf="localBed.bedId == 0">
+      <ion-title>Chat general</ion-title>
+      </div>
   </ion-toolbar>
 </ion-header>
 
