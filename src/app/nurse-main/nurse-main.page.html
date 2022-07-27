@@ -17,8 +17,10 @@
   <ion-card>
     <ion-item>
    <ion-button (click)="goQR()">QR </ion-button> 
+   <div *ngIf="inRoom===true">
    <ion-button (click)="goChat()">Chat </ion-button> 
    <ion-button (click)="goEnd()">Listo </ion-button> 
+  </div>
   </ion-item>
    <div *ngIf="showNotes==false">
     <ion-item>

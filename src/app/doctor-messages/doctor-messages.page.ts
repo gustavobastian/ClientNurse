@@ -18,12 +18,12 @@ export class DoctorMessagesPage implements OnInit {
   localDoctor : User = new User(0,"","","","",0,"");
   doctorId: number;
   doctorName: string;
-  public BedLocal2: Bed = new Bed(0,0,0,0);
-  messages: Array<MessageModel> = new Array;
+  public BedLocal: Bed = new Bed(0,0,0,0);
+  public messages: Array<MessageModel> = new Array;
   
   constructor(private activatedRoute: ActivatedRoute,
     public localSto: LocalStorageService,    
-    public bedS: BedsService,
+    public bedlocal: BedsService,
     private router:Router,
     public MQTTServ:MqttService,
     public userServ: UserService
@@ -36,16 +36,18 @@ export class DoctorMessagesPage implements OnInit {
     this.localDoctor= this.userServ.getUser();
     this.doctorName=this.localDoctor.username;
     this.doctorId=this.localDoctor.userId;
-    this.BedLocal2=this.bedS.getBed();
+    //this.BedLocal=this.bedS.getBed();
     this.eventsSubscription();
     
     }
     
     
 
-  public goChat(i: number){
+  public goChat(i: string){
     /*   this.router.navigate(['/chat/]);        */
-    this.bedS.setBedId(i);
+    console.log('cama:'+i);
+    this.bedlocal.setBedId(parseInt(i));
+    console.log('cama:'+i);
      this.router.navigate(['/chat/']);        
       }
   /**

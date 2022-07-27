@@ -10,18 +10,13 @@
 <ion-content>
   <ion-content>
     <div class="msgbubble" *ngFor="let msg of messages">  
-      <div *ngIf="msg.type !== 0">  
+      <div *ngIf="msg.type === 5">  
         <ion-card >
           <ion-icon name="bed" slot="start"></ion-icon>
-            <ion-label>Habitacion: {{ msg.bedId }}</ion-label>
-            
-          <br>
-          <ion-item>
-            <ion-button (click)="goChat({{ msg.bedId }})"> go Chat </ion-button>            
-          </ion-item>
-          <ion-item>
-            <ion-button > Ver Paciente </ion-button>            
-          </ion-item>
+            <ion-label>Habitacion: {{ msg.bedId }}</ion-label>            
+            <ion-button (click)="goChat(msg.bedId)"> go Chat </ion-button>            
+          
+          
         </ion-card>
       </div>  
     </div>

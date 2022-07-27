@@ -27,6 +27,8 @@ export class NurseMainPage implements OnInit {
   public showNotes = false;
   public pacientLocal: Pacient= new Pacient(0,"Gus","Bas",0,0,0);
   public QRCapture = false;
+  public inRoom =false;
+  messages: Array<MessageModel> = new Array;
 
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -43,7 +45,7 @@ export class NurseMainPage implements OnInit {
 
   ngOnInit() {
     this.getParams();
-    
+    this.eventsSubscription();//getting status of the bed
   }
 
   /**
@@ -74,6 +76,39 @@ export class NurseMainPage implements OnInit {
 
   }
 
+  /**
+   * Subscription for receiving messages
+   * of the status of the beds   
+   */
+   eventsSubscription(){
+    
+    let topic="/Beds/status";
+    let receivedMessage;
+    console.log("subscribed")
+    this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
+     console.log("received")
+    //console.log(Message.string);            
+    let localMessage = JSON.parse(Message.string);      
+    let local2=Message.string;
+    console.log(localMessage[0].message);    
+    this.messages=[];
+    
+    localMessage.forEach(element => {      
+      {        
+      receivedMessage = new MessageModel("","",element.id,"",element.st);
+      console.log("element id:"+element.id+"| element st:"+element.st);  
+      //console.log("here Id:"+this.bedlocal.getBedId())          ;
+       if(parseInt(element.id)==(this.bedId)){
+        console.log("Here")
+        if(element.st==4){this.inRoom=true;}
+        else{this.inRoom=false}
+      }
+     }
+    });
+    
+  //check status of this bed;
+    });
+  }
 
   /**
    * Get the pacient Notes 
@@ -166,6 +201,9 @@ export class NurseMainPage implements OnInit {
     let topic="/User/general";
     await this.MQTTServ.sendMesagge(topic, mqttmessage);
      this.router.navigate(['/waiting-event/']);        
-      }     
+     this.inRoom=false;  
+    
+    }
+           
 
 }

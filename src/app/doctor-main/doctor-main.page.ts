@@ -22,7 +22,7 @@ export class DoctorMainPage implements OnInit {
   constructor(private router:Router,
     private activatedRoute: ActivatedRoute,
     public localSto: LocalStorageService,
-    public bedS: BedsService,
+    public bedlocal: BedsService,
     public MQTTServ:MqttService,
     public userServ: UserService
     ) { 
@@ -90,7 +90,7 @@ export class DoctorMainPage implements OnInit {
  */
    public goChat(){
     /*   this.router.navigate(['/chat/]);        */
-    this.bedS.setBedId(0);
+    this.bedlocal.setBedId(0);
     this.router.navigate(['/chat/']);        
       }
 

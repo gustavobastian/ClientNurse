@@ -54,6 +54,7 @@ export class ChatPage implements OnInit {
     }    
     setTimeout(()=>{
       this.bedIdSubscription();
+      this.startResponse();
     },600);
     
     //
@@ -87,8 +88,6 @@ export class ChatPage implements OnInit {
    */
   ask(question:string){
     //this.bedIdSubscription();
-    this.counts++;
-    console.log("counts tx:"+this.counts);
     
     var time= new Date();
     //let value2= (time.getHours()).toString+":"+ (time.getMinutes()).toString();
@@ -118,6 +117,22 @@ export class ChatPage implements OnInit {
   }
 
   /**
+   * Sending listenting message from doctor
+   */
+   startResponse(){
+    if(this.mode==1){
+    this.question="conectado";    
+    var time= new Date();
+    let value= time.getFullYear()+"/"+time.getMonth()+"/"+time.getDay() +"-"+(time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
+    let a=new MessageModel(this.localUser.username,this.question,  this.bedId, value,1);    
+    let mqttmessage=JSON.stringify(a);
+    let topic="/Beds/"+this.bedId+"/chat/";
+    this.MQTTServ.sendMesagge(topic, mqttmessage);
+    this.question="";
+    }    
+  }
+
+  /**
    * Closing the comunication : command type: 6
    */
   finish(){
@@ -129,7 +144,7 @@ export class ChatPage implements OnInit {
     let topic="/Beds/"+this.bedId+"/chat/";
     this.MQTTServ.sendMesagge(topic, mqttmessage);
     this.question="";
-    let b= new MessageModel(this.localUser.username,this.question,  this.bedId, "",15);    
+    let b= new MessageModel(this.localUser.username,this.question,  this.bedId, "",16);    
      mqttmessage=JSON.stringify(b);
      topic="/User/general";
     this.MQTTServ.sendMesagge(topic, mqttmessage);
