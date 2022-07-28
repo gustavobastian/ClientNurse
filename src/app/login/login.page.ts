@@ -58,7 +58,7 @@ export class LoginPage implements OnInit {
   async Log_in() {
     this.GetUserLogKind(); 
     console.log("here")
-    let question="log in";
+    let question=this.password;
     var time= new Date();
     let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();
     let a=new MessageModel(this.username,question,  0, value,1);    
