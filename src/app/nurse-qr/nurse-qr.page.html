@@ -7,11 +7,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-<ion-item>
-  <ion-input [(ngModel)]="capturedQR" placeholder="{{capturedQR}}" type="text"></ion-input>
-</ion-item>  
-<ion-item>
-  <ion-button (click)="sendQr()">Enviar</ion-button>
-</ion-item>
-</ion-content>
+  <ion-content>
+  <div *ngIf="capturing!=true">
+    <ion-item>
+      <ion-input [(ngModel)]="capturedQR" placeholder="{{capturedQR}}" type="text"></ion-input>
+    </ion-item>  
+    <ion-item>
+      <ion-button (click)="sendQr()">Enviar</ion-button>
+      <div *ngIf="canCapture===true">
+        <ion-button (click)="startScanner()">Capturar</ion-button>
+        <ion-button (click)="stopScanner()">Frenar captura</ion-button>
+      </div>
+    </ion-item>
+  </div>  
+  </ion-content>
+

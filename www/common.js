@@ -394,33 +394,35 @@ let MqttService = class MqttService {
         this.MQTTClientLocal.publish(topic, message);
     }
     Connect(usernameP, passwordP) {
-        let connected = 0;
-        //this.client=Mqtt.Client("myclient");
-        this.getServer();
-        this.getPort();
-        console.log("here:" + this.MQTTSERVER);
-        (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false, path: '/test/' })
-            //connect({host: "192.168.1.100", port: 9001, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
-            .then(client => {
-            console.log(client);
-            if (client.isConnected()) {
-                connected = 1;
-                this.MQTTClientLocal = client;
-                console.log("status: connected");
-                return 1;
-            }
-            throw new TypeError("No connection");
-        })
-            .catch(function (json) {
-            console.log(json);
-            connected = 0;
-            if (json.errorCode == 7) {
-                alert("error: mala configuracion broker");
-            }
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
+            let connected = 0;
+            //this.client=Mqtt.Client("myclient");
+            this.getServer();
+            this.getPort();
+            console.log("here:" + this.MQTTSERVER);
+            yield (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false, path: '/test/' })
+                //connect({host: "192.168.1.100", port: 9001, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
+                .then(client => {
+                console.log(client);
+                if (client.isConnected()) {
+                    connected = 1;
+                    this.MQTTClientLocal = client;
+                    console.log("status: connected");
+                    return 1;
+                }
+                throw new TypeError("No connection");
+            })
+                .catch(function (json) {
+                console.log(json);
+                connected = 0;
+                if (json.errorCode == 7) {
+                    alert("error: mala configuracion broker");
+                }
+                return connected;
+            })
+                .finally(function () { return connected; });
             return connected;
-        })
-            .finally(function () { return connected; });
-        return connected;
+        });
     }
     listenToTopic(topic) {
         console.log("here");

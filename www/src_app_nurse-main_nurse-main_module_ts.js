@@ -135,11 +135,17 @@ let NurseMainPage = class NurseMainPage {
         this.showNotes = false;
         this.pacientLocal = new _models_pacient__WEBPACK_IMPORTED_MODULE_7__.Pacient(0, "Gus", "Bas", 0, 0, 0);
         this.QRCapture = false;
+        this.inRoom = false;
+        this.messages = new Array;
         this.bedId = bedlocal.getBedId();
     }
     ngOnInit() {
         this.getParams();
+        this.eventsSubscription(); //getting status of the bed
     }
+    /**
+     * Get the pacient information
+     */
     getParams() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
             this.localNurse = this.userlogged.getUser();
@@ -163,6 +169,43 @@ let NurseMainPage = class NurseMainPage {
             this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic);
         });
     }
+    /**
+     * Subscription for receiving messages
+     * of the status of the beds
+     */
+    eventsSubscription() {
+        let topic = "/Beds/status";
+        let receivedMessage;
+        console.log("subscribed");
+        this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
+            console.log("received");
+            //console.log(Message.string);            
+            let localMessage = JSON.parse(Message.string);
+            let local2 = Message.string;
+            console.log(localMessage[0].message);
+            this.messages = [];
+            localMessage.forEach(element => {
+                {
+                    receivedMessage = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel("", "", element.id, "", element.st);
+                    console.log("element id:" + element.id + "| element st:" + element.st);
+                    //console.log("here Id:"+this.bedlocal.getBedId())          ;
+                    if (parseInt(element.id) == (this.bedId)) {
+                        console.log("Here");
+                        if (element.st == 4) {
+                            this.inRoom = true;
+                        }
+                        else {
+                            this.inRoom = false;
+                        }
+                    }
+                }
+            });
+            //check status of this bed;
+        });
+    }
+    /**
+     * Get the pacient Notes
+     */
     onClick() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
             let local = this.bedId;
@@ -212,9 +255,43 @@ let NurseMainPage = class NurseMainPage {
             this.showNotes = true;
         });
     }
+    /**
+     * Got to pacient char for asking aditional information
+     */
     goChat() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
+            /*   this.router.navigate(['/chat/]);        */
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.pacientLocal.id), this.bedId, "0", 14);
+            console.log(a);
+            let mqttmessage = JSON.stringify(a);
+            console.log(mqttmessage);
+            let topic = "/User/general";
+            yield this.MQTTServ.sendMesagge(topic, mqttmessage);
+            this.router.navigate(['/chat/']);
+        });
+    }
+    /**
+     * Got to QR capture page
+     */
+    goQR() {
         /*   this.router.navigate(['/chat/]);        */
-        this.router.navigate(['/chat/']);
+        this.router.navigate(['/nurse-qr']);
+    }
+    /**
+    * Ending notification
+    */
+    goEnd() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
+            /*   this.router.navigate(['/chat/]);        */
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.pacientLocal.id), this.bedId, "0", 13);
+            console.log(a);
+            let mqttmessage = JSON.stringify(a);
+            console.log(mqttmessage);
+            let topic = "/User/general";
+            yield this.MQTTServ.sendMesagge(topic, mqttmessage);
+            this.router.navigate(['/waiting-event/']);
+            this.inRoom = false;
+        });
     }
 };
 NurseMainPage.ctorParameters = () => [
@@ -254,7 +331,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    \n    <ion-item>\n    <ion-title>Enfermera:{{nurseName}}</ion-title>\n  </ion-item>\n  <ion-item>\n    <ion-buttons slot=\"start\">\n      <ion-back-button  defaultHref=\"\" [text]=\"\"></ion-back-button>        \n    </ion-buttons>\n    <ion-title>Cama:{{bedId}}</ion-title>\n  </ion-item>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-card>\n    <ion-item>\n   <ion-button>Capturar QR </ion-button> \n   <ion-button (click)=\"goChat()\">Chat </ion-button> \n  </ion-item>\n   <div *ngIf=\"showNotes==false\">\n    <ion-item>\n    <ion-button (click)=\"onClick()\">Consultar notas de Paciente</ion-button> \n    </ion-item>\n   </div>\n  \n  </ion-card>\n\n  <div *ngIf=\"showNotes==true\">\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{pacientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{pacientLocal.firstName}}</ion-item>\n      <ion-item>Id Paciente: {{pacientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    \n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID nota: {{notes[i].noteId}}</ion-item>\n          <ion-item>Nota:{{notes[i].note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        \n       </ion-card>\n\n    </div>\n  </div>\n\n\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    \n    <ion-item>\n    <ion-title>Enfermera:{{nurseName}}</ion-title>\n  </ion-item>\n  <ion-item>\n    <ion-buttons slot=\"start\">\n      <ion-back-button  defaultHref=\"\" [text]=\"\"></ion-back-button>        \n    </ion-buttons>\n    <ion-title>Cama:{{bedId}}</ion-title>\n  </ion-item>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-card>\n    <ion-item>\n   <ion-button (click)=\"goQR()\">QR </ion-button> \n   <div *ngIf=\"inRoom===true\">\n   <ion-button (click)=\"goChat()\">Chat </ion-button> \n   <ion-button (click)=\"goEnd()\">Listo </ion-button> \n  </div>\n  </ion-item>\n   <div *ngIf=\"showNotes==false\">\n    <ion-item>\n    <ion-button (click)=\"onClick()\">Consultar notas de Paciente</ion-button> \n    </ion-item>\n   </div>\n  \n  </ion-card>\n\n  <div *ngIf=\"showNotes==true\">\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{pacientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{pacientLocal.firstName}}</ion-item>\n      <ion-item>Id Paciente: {{pacientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    \n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID nota: {{notes[i].noteId}}</ion-item>\n          <ion-item>Nota:{{notes[i].note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        \n       </ion-card>\n\n    </div>\n  </div>\n\n\n</ion-content>\n";
 
 /***/ })
 

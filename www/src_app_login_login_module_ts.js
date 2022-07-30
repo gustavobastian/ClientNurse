@@ -127,6 +127,10 @@ let LoginPage = class LoginPage {
         this.showIn = false;
     }
     ngOnInit() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
+            //
+            //this.number =  await this.MQTTServ.Connect("cliente", "asdf");
+        });
     }
     onClickLogin() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
@@ -137,16 +141,16 @@ let LoginPage = class LoginPage {
             console.log(this.password);
             this.number = yield this.MQTTServ.Connect(this.username, this.password);
             console.log(this.number);
-            this.showIn = true;
-            yield new Promise(f => setTimeout(f, 10000));
+            yield new Promise(f => setTimeout(f, 1000));
             this.Log_in();
+            this.showIn = true;
         });
     }
     Log_in() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
             this.GetUserLogKind();
             console.log("here");
-            let question = "log in";
+            let question = this.password;
             var time = new Date();
             let value = (time.getHours()) + ":" + (time.getMinutes()) + ":" + time.getSeconds();
             let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.username, question, 0, value, 1);
@@ -156,7 +160,6 @@ let LoginPage = class LoginPage {
             let topic = "/User/general";
             this.MQTTServ.sendMesagge(topic, mqttmessage);
             yield new Promise(f => setTimeout(f, 1000));
-            this.GetUserLogKind();
         });
     }
     GetUserLogKind() {
@@ -189,6 +192,7 @@ let LoginPage = class LoginPage {
                     this.localSto.saveValuesString('mode', this.mode);
                 }
                 else {
+                    alert("Error al acceder! verificar usuario y contraseña");
                     this.router.navigate(['/home/']);
                     this.userServ.setUser(0, "", "", "", "");
                     this.localSto.saveValuesString('username', "");
@@ -226,7 +230,7 @@ LoginPage = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([
   \**************************************************/
 /***/ ((module) => {
 
-module.exports = "#container {\n  text-align: center;\n  position: absolute;\n  left: 10%;\n  right: 0;\n  top: 20%;\n  transform: translateY(-50%);\n  width: 80%;\n  font-size: 20px;\n  line-height: 26px;\n}\n\n#container strong {\n  font-size: 20px;\n  line-height: 26px;\n}\n\n#container p {\n  font-size: 16px;\n  line-height: 22px;\n  color: #8c8c8c;\n  margin: 0;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxvZ2luLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDQTtFQUNJLGtCQUFBO0VBRUEsa0JBQUE7RUFDQSxTQUFBO0VBQ0EsUUFBQTtFQUNBLFFBQUE7RUFDQSwyQkFBQTtFQUNBLFVBQUE7RUFDQSxlQUFBO0VBQ0EsaUJBQUE7QUFESjs7QUFHRTtFQUNFLGVBQUE7RUFDQSxpQkFBQTtBQUFKOztBQUlBO0VBQ0UsZUFBQTtFQUNBLGlCQUFBO0VBRUEsY0FBQTtFQUVBLFNBQUE7QUFIRiIsImZpbGUiOiJsb2dpbi5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJcbiNjb250YWluZXIge1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgXG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIGxlZnQ6IDEwJTtcbiAgICByaWdodDogMDtcbiAgICB0b3A6IDIwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoLTUwJSk7XG4gICAgd2lkdGg6IDgwJTtcbiAgICBmb250LXNpemU6IDIwcHg7XG4gICAgbGluZS1oZWlnaHQ6IDI2cHg7XG4gIH1cbiAgI2NvbnRhaW5lciBzdHJvbmcge1xuICAgIGZvbnQtc2l6ZTogMjBweDtcbiAgICBsaW5lLWhlaWdodDogMjZweDtcbiAgfVxuXG5cbiNjb250YWluZXIgcCB7XG4gIGZvbnQtc2l6ZTogMTZweDtcbiAgbGluZS1oZWlnaHQ6IDIycHg7XG5cbiAgY29sb3I6ICM4YzhjOGM7XG5cbiAgbWFyZ2luOiAwO1xufVxuIl19 */";
+module.exports = "#container {\n  text-align: center;\n  position: absolute;\n  left: 10%;\n  right: 0;\n  top: 20%;\n  transform: translateY(-50%);\n  width: 80%;\n  font-size: 20px;\n  line-height: 26px;\n}\n\n#container strong {\n  font-size: 20px;\n  line-height: 26px;\n}\n\n#container p {\n  font-size: 16px;\n  line-height: 22px;\n  margin: 0;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxvZ2luLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDQTtFQUNJLGtCQUFBO0VBRUEsa0JBQUE7RUFDQSxTQUFBO0VBQ0EsUUFBQTtFQUNBLFFBQUE7RUFDQSwyQkFBQTtFQUNBLFVBQUE7RUFDQSxlQUFBO0VBQ0EsaUJBQUE7QUFESjs7QUFHRTtFQUNFLGVBQUE7RUFDQSxpQkFBQTtBQUFKOztBQUlBO0VBQ0UsZUFBQTtFQUNBLGlCQUFBO0VBQ0EsU0FBQTtBQURGIiwiZmlsZSI6ImxvZ2luLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIlxuI2NvbnRhaW5lciB7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgIC8vYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIGxlZnQ6IDEwJTtcbiAgICByaWdodDogMDtcbiAgICB0b3A6IDIwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoLTUwJSk7XG4gICAgd2lkdGg6IDgwJTtcbiAgICBmb250LXNpemU6IDIwcHg7ICAgIFxuICAgIGxpbmUtaGVpZ2h0OiAyNnB4O1xuICB9XG4gICNjb250YWluZXIgc3Ryb25nIHtcbiAgICBmb250LXNpemU6IDIwcHg7XG4gICAgbGluZS1oZWlnaHQ6IDI2cHg7XG4gIH1cblxuXG4jY29udGFpbmVyIHAge1xuICBmb250LXNpemU6IDE2cHg7XG4gIGxpbmUtaGVpZ2h0OiAyMnB4O1xuICBtYXJnaW46IDA7XG59XG4iXX0= */";
 
 /***/ }),
 
@@ -236,7 +240,7 @@ module.exports = "#container {\n  text-align: center;\n  position: absolute;\n  
   \**************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>login</ion-title>\n      <!-- Back button with a default href -->\n  \n      <ion-buttons slot=\"start\">\n        <ion-back-button  defaultHref=\"home\" [text]=\"\"></ion-back-button>        \n      </ion-buttons>\n  \n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  \n  <div id=\"container\" collapse=\"condense\">\n  <p><strong>Acceso al sistema</strong></p>\n  <Form [formGroup]=\"ionicForm\" (ngSubmit)=\"onClickLogin()\" novalidate>  \n  <ion-item lines=\"full\">\n    <ion-label position=\"fixed\" >Usuario</ion-label>\n    <ion-input color=\"primary\" placeholder=\"{{userName}}\" value=\"{{userName}}\" formControlName=\"userName\" type=\"text\" required></ion-input>        \n  </ion-item>         \n  <ion-item lines=\"full\">\n    <ion-label position=\"fixed\">Contraseña</ion-label>\n    <ion-input  color=\"primary\" formControlName=\"password\" type=\"password\" required></ion-input>        \n  </ion-item>  \n  <br>\n  <br>\n  <br>\n\n    <ion-item>\n      \n    <ion-button style = \"position:absolute; left:12.5%;width:70%\" type=\"submit\"  expand=\"block\">Acceder</ion-button>\n    \n  \n    </ion-item>\n    </Form>\n    <div *ngIf=\"showIn == true\">\n    <ion-button style = \"position:absolute; left:30%;width:40%\"   expand=\"block\" (click)=\"Log_in()\">Go Main Page</ion-button>\n    \n    </div>\n  </div>\n\n  </ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>login</ion-title>\n      <!-- Back button with a default href -->\n  \n      <ion-buttons slot=\"start\">\n        <ion-back-button  defaultHref=\"home\" [text]=\"\"></ion-back-button>        \n      </ion-buttons>\n  \n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  \n  <div id=\"container\" collapse=\"condense\">\n  <p><strong>Acceso al sistema</strong></p>\n  <Form [formGroup]=\"ionicForm\" (ngSubmit)=\"onClickLogin()\" novalidate>  \n  <ion-item     [style.--background]=\"blue\"  lines=\"full\">\n    <ion-label position=\"fixed\" >Usuario</ion-label>\n    <ion-input color=\"primary\" placeholder=\"{{userName}}\" value=\"{{userName}}\" formControlName=\"userName\" type=\"text\" required></ion-input>        \n  </ion-item>         \n  <ion-item [style.--background]=\"blue\" lines=\"full\">\n    <ion-label position=\"fixed\">Contraseña</ion-label>\n    <ion-input  color=\"primary\" formControlName=\"password\" type=\"password\" required></ion-input>        \n  </ion-item>  \n  <br>\n  <br>\n  <br>\n\n    <ion-item >\n      \n    <ion-button style = \"position:absolute; left:12.5%;width:70%\" type=\"submit\"  expand=\"block\">Acceder</ion-button>\n    \n  \n    </ion-item>\n    </Form>\n    <div *ngIf=\"showIn == true\">\n    <ion-button style = \"position:absolute; left:30%;width:40%\"   expand=\"block\" (click)=\"Log_in()\">Go Main Page</ion-button>\n    \n    </div>\n  </div>\n\n  </ion-content>\n";
 
 /***/ })
 

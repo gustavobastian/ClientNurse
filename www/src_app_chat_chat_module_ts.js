@@ -124,6 +124,7 @@ let ChatPage = class ChatPage {
         this.bedlocal = bedlocal;
         this.localUser = new _models_user__WEBPACK_IMPORTED_MODULE_7__.User(0, "", "", "", "", 0, "");
         this.localBed = new _models_bed__WEBPACK_IMPORTED_MODULE_8__.Bed(0, 0, 0, 0);
+        this.mode = 0;
         this.messages = new Array;
         this.counts = 0;
         //this.bedId=0;
@@ -143,6 +144,7 @@ let ChatPage = class ChatPage {
         }
         setTimeout(() => {
             this.bedIdSubscription();
+            this.startResponse();
         }, 600);
         //
     }
@@ -156,6 +158,13 @@ let ChatPage = class ChatPage {
             console.log(this.usernameLocal);*/
             this.localUser = this.userServ.getUser();
             this.localBed.bedId = this.bedlocal.getBedId();
+            console.log("occuppation:" + this.localUser.occupation);
+            if (this.localUser.occupation == "Médico") {
+                this.mode = 1;
+            }
+            else if (this.localUser.occupation === "Enfermero") {
+                this.mode = 2;
+            }
         });
     }
     /**
@@ -163,8 +172,6 @@ let ChatPage = class ChatPage {
      */
     ask(question) {
         //this.bedIdSubscription();
-        this.counts++;
-        console.log("counts tx:" + this.counts);
         var time = new Date();
         //let value2= (time.getHours()).toString+":"+ (time.getMinutes()).toString();
         let value = time.getFullYear() + "/" + time.getMonth() + "/" + time.getDay() + "-" + (time.getHours()) + ":" + (time.getMinutes()) + ":" + time.getSeconds();
@@ -192,6 +199,22 @@ let ChatPage = class ChatPage {
         this.question = "";
     }
     /**
+     * Sending listenting message from doctor
+     */
+    startResponse() {
+        if (this.mode == 1) {
+            this.question = "conectado";
+            var time = new Date();
+            let value = time.getFullYear() + "/" + time.getMonth() + "/" + time.getDay() + "-" + (time.getHours()) + ":" + (time.getMinutes()) + ":" + time.getSeconds();
+            ;
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.localUser.username, this.question, this.bedId, value, 1);
+            let mqttmessage = JSON.stringify(a);
+            let topic = "/Beds/" + this.bedId + "/chat/";
+            this.MQTTServ.sendMesagge(topic, mqttmessage);
+            this.question = "";
+        }
+    }
+    /**
      * Closing the comunication : command type: 6
      */
     finish() {
@@ -199,16 +222,27 @@ let ChatPage = class ChatPage {
         var time = new Date();
         let value = (time.getHours()) + ":" + (time.getMinutes()) + ":" + time.getSeconds();
         let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.localUser.username, this.question, this.bedId, value, 6);
-        let mqttmessage = (a).toString();
+        let mqttmessage = JSON.stringify(a).toString();
         let topic = "/Beds/" + this.bedId + "/chat/";
         this.MQTTServ.sendMesagge(topic, mqttmessage);
         this.question = "";
+        let b = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.localUser.username, this.question, this.bedId, "", 16);
+        mqttmessage = JSON.stringify(b);
+        topic = "/User/general";
+        this.MQTTServ.sendMesagge(topic, mqttmessage);
+        this.question = "";
+        console.log("mode:" + this.mode);
         //this.MQTTServ.closingAll(topic);
-        if (this.localUser.occupation == "Medical") {
-            this.router.navigate(['/doctor-messages/']);
+        if (this.mode != 1) {
+            if (this.bedId != 0) {
+                this.router.navigate(['/nurse-main/:{{bedId}}/']);
+            }
+            else {
+                this.router.navigate(['/waiting-event/']);
+            }
         }
         else {
-            this.router.navigate(['/waiting-event/']);
+            this.router.navigate(['/doctor-main/{{localUser.userId}}/']);
         }
     }
     /**
@@ -262,7 +296,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>cama: {{localBed.bedId}}</ion-title>\n\n  \n          <ion-buttons slot=\"start\">\n            <ion-button  href=\"login\">Logout</ion-button>        \n          </ion-buttons>\n    \n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  \n  <div class=\"msgbubble\" *ngFor=\"let msg of messages\">\n    <div style=\"font-size:10px; text-align:center;\">{{ msg.time }}</div>\n    <div class=\"innermsg\">\n      {{ msg.username }}: {{ msg.content }}\n    </div>\n  </div>\n</ion-content>\n\n<ion-footer>\n  <ion-toolbar>\n    <ion-item>\n    <ion-input placeholder=\"Escribir aqui\" [(ngModel)]=\"question\" type=\"text\"></ion-input>\n    <button ion-button clear icon-only id=\"sendicon\" (click)=\"ask(question)\">\n      <ion-icon name=\"send\"></ion-icon>\n    </button>\n    </ion-item>\n    <ion-buttons right>      \n      <button  ion-button clear icon-only id=\"record\" (click)=\"record()\">\n        <ion-icon name=\"mic\"></ion-icon>\n      </button>\n      <ion-button  style=\"font-size:20px;\"  id=\"finish\" (click)=\"finish()\"> Terminar</ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-footer>";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <div *ngIf=\"localBed.bedId != 0\">\n    <ion-title>cama: {{localBed.bedId}}</ion-title>\n    </div>\n    <div *ngIf=\"localBed.bedId == 0\">\n      <ion-title>Chat general</ion-title>\n      </div>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  \n  <div class=\"msgbubble\" *ngFor=\"let msg of messages\">\n    <div style=\"font-size:10px; text-align:center;\">{{ msg.time }}</div>\n    <div class=\"innermsg\">\n      {{ msg.username }}: {{ msg.content }}\n    </div>\n  </div>\n</ion-content>\n\n<ion-footer>\n  <ion-toolbar>\n    <ion-item>\n    <ion-input placeholder=\"Escribir aqui\" [(ngModel)]=\"question\" type=\"text\"></ion-input>\n    <button ion-button clear icon-only id=\"sendicon\" (click)=\"ask(question)\">\n      <ion-icon name=\"send\"></ion-icon>\n    </button>\n    </ion-item>\n    <ion-buttons right>      \n      <button  ion-button clear icon-only id=\"record\" (click)=\"record()\">\n        <ion-icon name=\"mic\"></ion-icon>\n      </button>\n      <ion-button  style=\"font-size:20px;\"  id=\"finish\" (click)=\"finish()\"> Terminar</ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-footer>";
 
 /***/ })
 

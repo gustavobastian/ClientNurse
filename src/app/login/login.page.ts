@@ -36,8 +36,9 @@ export class LoginPage implements OnInit {
     this.showIn= false;
   }
 
-  ngOnInit() {
-   
+  async ngOnInit() {
+    //
+    //this.number =  await this.MQTTServ.Connect("cliente", "asdf");
   }
 
   async onClickLogin() {
@@ -50,9 +51,11 @@ export class LoginPage implements OnInit {
     
     this.number =  await this.MQTTServ.Connect(this.username, this.password);
     console.log(this.number);
-    this.showIn= true;
-    await new Promise(f => setTimeout(f, 10000));
+    
+    await new Promise(f => setTimeout(f, 1000));
     this.Log_in();
+    this.showIn= true;
+    
     }
 
   async Log_in() {
@@ -68,7 +71,7 @@ export class LoginPage implements OnInit {
     let topic="/User/general";
     this.MQTTServ.sendMesagge(topic, mqttmessage);
     await new Promise(f => setTimeout(f, 1000));
-    this.GetUserLogKind(); 
+    
   }
 
   GetUserLogKind()  {
@@ -83,7 +86,7 @@ export class LoginPage implements OnInit {
     this.number=parseInt(localMessage.idNumber);
     this.mode=(localMessage.mode);
     if(this.mode=="Enfermero")
-      {
+      { 
         console.log("here2");
         //this.mode="nurse";
         this.router.navigate(['/waiting-event/']);        

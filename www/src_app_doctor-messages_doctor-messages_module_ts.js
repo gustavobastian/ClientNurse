@@ -115,15 +115,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let DoctorMessagesPage = class DoctorMessagesPage {
-    constructor(activatedRoute, localSto, bedS, router, MQTTServ, userServ) {
+    constructor(activatedRoute, localSto, bedlocal, router, MQTTServ, userServ) {
         this.activatedRoute = activatedRoute;
         this.localSto = localSto;
-        this.bedS = bedS;
+        this.bedlocal = bedlocal;
         this.router = router;
         this.MQTTServ = MQTTServ;
         this.userServ = userServ;
         this.localDoctor = new _models_user__WEBPACK_IMPORTED_MODULE_4__.User(0, "", "", "", "", 0, "");
-        this.BedLocal2 = new _models_bed__WEBPACK_IMPORTED_MODULE_8__.Bed(0, 0, 0, 0);
+        this.BedLocal = new _models_bed__WEBPACK_IMPORTED_MODULE_8__.Bed(0, 0, 0, 0);
         this.messages = new Array;
         this.doctorId = 0;
         this.doctorName = "";
@@ -132,12 +132,14 @@ let DoctorMessagesPage = class DoctorMessagesPage {
         this.localDoctor = this.userServ.getUser();
         this.doctorName = this.localDoctor.username;
         this.doctorId = this.localDoctor.userId;
-        this.BedLocal2 = this.bedS.getBed();
+        //this.BedLocal=this.bedS.getBed();
         this.eventsSubscription();
     }
     goChat(i) {
         /*   this.router.navigate(['/chat/]);        */
-        this.bedS.setBedId(i);
+        console.log('cama:' + i);
+        this.bedlocal.setBedId(parseInt(i));
+        console.log('cama:' + i);
         this.router.navigate(['/chat/']);
     }
     /**
@@ -202,7 +204,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \**********************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>{{doctorName}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-back-button    defaultHref=\"/doctor-main/\" [text]=\"\"></ion-back-button>\n  </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-content>\n    <div class=\"msgbubble\" *ngFor=\"let msg of messages\">  \n      <div *ngIf=\"msg.type !== 0\">  \n        <ion-card >\n          <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n            <ion-label>Habitacion: {{ msg.bedId }}</ion-label>\n            \n          <br>\n          <ion-item>\n            <ion-button (click)=\"goChat({{ msg.bedId }})\"> go Chat </ion-button>            \n          </ion-item>\n          <ion-item>\n            <ion-button > Ver Paciente </ion-button>            \n          </ion-item>\n        </ion-card>\n      </div>  \n    </div>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>{{doctorName}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-back-button    defaultHref=\"/doctor-main/\" [text]=\"\"></ion-back-button>\n  </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-content>\n    <div class=\"msgbubble\" *ngFor=\"let msg of messages\">  \n      <div *ngIf=\"msg.type === 5\">  \n        <ion-card >\n          <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n            <ion-label>Habitacion: {{ msg.bedId }}</ion-label>            \n            <ion-button (click)=\"goChat(msg.bedId)\"> go Chat </ion-button>            \n          \n          \n        </ion-card>\n      </div>  \n    </div>\n</ion-content>\n";
 
 /***/ })
 

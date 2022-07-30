@@ -83,14 +83,14 @@ export class MqttService implements OnInit  {
     this.MQTTClientLocal.publish(topic, message);
   }
 
-   public Connect(usernameP:string, passwordP:string): number{
+   public async Connect(usernameP:string, passwordP:string): Promise<number>{
     let connected=0;
     
     //this.client=Mqtt.Client("myclient");
     this.getServer();
     this.getPort();
     console.log("here:"+this.MQTTSERVER);
-    connect({host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
+    await connect({host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
     //connect({host: "192.168.1.100", port: 9001, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
     .then(client => { 
       console.log(client);

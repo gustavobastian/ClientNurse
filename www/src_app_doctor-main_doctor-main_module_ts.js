@@ -115,11 +115,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let DoctorMainPage = class DoctorMainPage {
-    constructor(router, activatedRoute, localSto, bedS, MQTTServ, userServ) {
+    constructor(router, activatedRoute, localSto, bedlocal, MQTTServ, userServ) {
         this.router = router;
         this.activatedRoute = activatedRoute;
         this.localSto = localSto;
-        this.bedS = bedS;
+        this.bedlocal = bedlocal;
         this.MQTTServ = MQTTServ;
         this.userServ = userServ;
         this.localDoctor = new _models_user__WEBPACK_IMPORTED_MODULE_4__.User(0, "", "", "", "", 0, "");
@@ -177,6 +177,14 @@ let DoctorMainPage = class DoctorMainPage {
         this.MQTTServ.sendMesagge(topic, JSON.stringify(a));
         this.router.navigate(['/home/']);
     }
+    /**
+   * go to general chat
+   */
+    goChat() {
+        /*   this.router.navigate(['/chat/]);        */
+        this.bedlocal.setBedId(0);
+        this.router.navigate(['/chat/']);
+    }
 };
 DoctorMainPage.ctorParameters = () => [
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_10__.Router },
@@ -214,7 +222,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \**************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Doctor:</ion-title>\n    <ion-title>{{doctorName}}</ion-title>\n      <!-- Back button with a default href -->\n    <ion-buttons slot=\"start\">\n      <ion-button (click)=\"logout()\" >Logout</ion-button>        <!--href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  \n    <ion-card >\n      <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n        <ion-label>Cambiar notas de Pacientes </ion-label>\n      <br>\n      <ion-item>\n        <ion-button (click)=\"onClickPacientNote(1)\"> Ir </ion-button>        \n      </ion-item>\n    </ion-card>\n    <ion-card >\n      <ion-icon name=\"mailbox\" slot=\"start\"></ion-icon>\n        <ion-label>Leer Mensajes </ion-label>\n      <br>\n      <ion-item>\n        <ion-button (click)=\"onClickMessages()\"> Aceptar </ion-button>        \n      </ion-item>\n    </ion-card>\n  \n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Doctor:</ion-title>\n    <ion-title>{{doctorName}}</ion-title>\n      <!-- Back button with a default href -->\n    <ion-buttons slot=\"start\">\n      <ion-button (click)=\"logout()\" >Logout</ion-button>        <!--href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  \n    <ion-card >\n      <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n        <ion-label>Cambiar notas de Pacientes </ion-label>\n      <br>\n      <ion-item>\n        <ion-button (click)=\"onClickPacientNote(1)\"> Ir </ion-button>        \n      </ion-item>\n    </ion-card>\n    <ion-card >\n      <ion-icon name=\"mailbox\" slot=\"start\"></ion-icon>\n        <ion-label>Leer Mensajes </ion-label>\n      <br>\n      <ion-item>\n        <ion-button (click)=\"onClickMessages()\"> Aceptar </ion-button>        \n      </ion-item>\n    <!--  <ion-item>\n        <ion-button (click)=\"goChat()\"> Chat General </ion-button>        \n      </ion-item>-->\n\n    </ion-card>\n  \n</ion-content>\n";
 
 /***/ })
 
