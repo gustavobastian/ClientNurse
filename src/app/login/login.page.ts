@@ -98,7 +98,7 @@ export class LoginPage implements OnInit {
       {
         //received in /User/System 
         //{"idNumber":1,"mode":"doctor"}
-        console.log("Doctor");
+        console.log("Médico");
         //this.mode="nurse";
         this.router.navigate(['/doctor-main/'+this.number]);        
         this.userServ.setUser(this.number,this.username,"","",this.mode);

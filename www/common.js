@@ -391,7 +391,7 @@ let MqttService = class MqttService {
         });
     }
     sendMesagge(topic, message) {
-        this.MQTTClientLocal.publish(topic, message);
+        this.MQTTClientLocal.publish(topic, message, { retain: true });
     }
     Connect(usernameP, passwordP) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {

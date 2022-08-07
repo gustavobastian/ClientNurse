@@ -24,7 +24,8 @@ export class NurseQRPage implements OnInit {
   private nurseId=0;  
   public showNotes = false;  
   public capturing = false;  
-  public canCapture = false;  
+  public canCapture = false;
+  public scanActive: boolean = false;  
   private Platform: Platform;
 
   public capturedQR :string ="Coloque aqui";
@@ -61,16 +62,8 @@ export class NurseQRPage implements OnInit {
       if(this.platform.is('android') || this.platform.is('ios'))
       {
         this.canCapture=true;
-        console.log("puedo capturar")      
-      }
-      else{
-        this.canCapture=false;
-        console.log("no puedo capturar")
-      }
-    
-
-    if(this.platform.is('android') || this.platform.is('ios'))
-    {
+        console.log("puedo capturar")   
+        console.log("check permisions on android")
       const state=await this.checkPermission();
       if((state)== true){
         console.log(" permisos correctos");
@@ -78,6 +71,11 @@ export class NurseQRPage implements OnInit {
       else{
         alert("Permission denied");
           }    
+         
+      }
+      else{
+        this.canCapture=false;
+        console.log("no puedo capturar")
       }
     
   }
@@ -175,11 +173,18 @@ public async checkPermission() : Promise<boolean>{
 
 public async startScan (){
   this.capturing=true;
-  BarcodeScanner.hideBackground();
+  this.scanActive = true;
+  console.log("setting opacity")
+  BarcodeScanner.hideBackground(); // make background of WebView transparent
+  document.body.style.opacity="0.2";
+
   const result = await BarcodeScanner.startScan();
   if (result.hasContent) {
+    document.body.style.background = "";
+    document.body.style.opacity="1";
     console.log(result.content);
     this.capturedQR=result.content;
+    
     this.capturing=false;
   }
   else{
@@ -192,7 +197,17 @@ public async prepare(){
 public async stopScan (){
     BarcodeScanner.showBackground();
     BarcodeScanner.stopScan();
+    document.body.style.background = "";
+    document.body.style.opacity="1";
+    
+    this.scanActive = false;
   };
+public ionViewWillLeave() {
+    BarcodeScanner.stopScan();
+    document.body.style.background = "";
+    document.body.style.opacity="1";
+    this.scanActive = false;
+  }  
 
 /****************************************************************************************************************** */
 /* Buttons functions
@@ -219,10 +234,7 @@ public async stopScan (){
   async stopScanner(){  
     if(this.platform.is('android') || this.platform.is('ios'))
     {
-        if((await this.didUserGrantPermission()) === true) {
-          this.startScan()
-        }
-        
+                
        /**
        * This function will stop the look for for QR codes using the back camera
        */

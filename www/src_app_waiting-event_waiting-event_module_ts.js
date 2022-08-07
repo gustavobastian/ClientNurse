@@ -134,8 +134,7 @@ let WaitingEventPage = class WaitingEventPage {
     }
     /**
      * Subscription for receiving messages
-     * kind of messages waiting for: {"_bedId":2,"_content":"alert","_time":"today","_username":"system"}
-     * It is only used the bedId parameter
+     * of the status of the beds
      */
     eventsSubscription() {
         let topic = "/Beds/status";

@@ -5,9 +5,11 @@ import { Storage } from '@capacitor/storage';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { Bed } from '../models/bed';
+import { PacientsTable } from '../models/pacientsTable';
 import { BedsService } from '../services/beds.service';
 import { MessageModel } from '../models/message-model';
 import { MqttService } from '../services/mqtt.service';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-doctor-main',
@@ -19,6 +21,10 @@ export class DoctorMainPage implements OnInit {
   localBed: Bed = new Bed(0,0,0,0);
   doctorId: number;
   doctorName: string;
+  newMessage=false;
+  messages: Array<MessageModel> = new Array;
+  pacientTable: Array<PacientsTable> = new Array;
+
   constructor(private router:Router,
     private activatedRoute: ActivatedRoute,
     public localSto: LocalStorageService,
@@ -31,9 +37,10 @@ export class DoctorMainPage implements OnInit {
     
   }
 
-  ngOnInit() {
-    this.getParams();
-    this.getBeds();
+  async ngOnInit() {
+   await this.getParams();
+   await this.getBeds();
+   
     
   }
   onClickPacientNote(id:number){    
@@ -48,21 +55,40 @@ export class DoctorMainPage implements OnInit {
    async getParams() {
     this.localDoctor=this.userServ.getUser();
     this.doctorName = this.localDoctor.username;
-    console.log("Doctor logged:"+this.localDoctor.username)
-    /*let { value } = await Storage.get({ key: 'username' });      
-    this.doctorName=value.toString();
-    console.log(this.doctorName);*/
+    
    }
-    //getting list of pacients and beds
+   /***
+    * getting list of pacients and beds
+    */
+    
     async getBeds() {
-      console.log("Doctor logged id:"+this.localDoctor.userId)  
-    let a=new MessageModel(this.doctorName,JSON.stringify(this.localDoctor.username),  0, "0",9);    
-    console.log(a)
+   // console.log("Doctor logged:"+this.localDoctor.username)    
+   // console.log("Doctor logged:"+this.localDoctor.userId) 
+    let  responseInfoTopic="/User/"+this.localDoctor.userId+"/Beds";
+    await this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message=>{
+        let localMessage = JSON.parse(Message.string);
+        if(Message.toString()=="Error"){this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);}              
+        else{
+        //console.log(localMessage);
+        /*localMessage.forEach(element => {
+          this.pacientTable.push(element);
+        });*/
+        this.pacientTable=localMessage;
+        
+        this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
+       // console.log(JSON.stringify(this.pacientTable=localMessage));
+       this.listenMessages();
+      }
+        
+      })    
+
+   // console.log("Doctor logged id:"+this.localDoctor.userId)  
+    let a=new MessageModel(this.localDoctor.username,JSON.stringify(this.localDoctor.userId),  0, "0",9);    
+   // console.log(a)
     let mqttmessage=JSON.stringify(a);
-    console.log(mqttmessage);
+   // console.log(mqttmessage);
     let topic="/User/general";
     await this.MQTTServ.sendMesagge(topic, mqttmessage);
-
   }
 
   /**
@@ -76,12 +102,13 @@ export class DoctorMainPage implements OnInit {
    let a=new MessageModel(this.localDoctor.username, question, 0, "",2);    
    console.log(JSON.stringify(a));
    let mqttmessage=(a).toString();
-   console.log(mqttmessage);
+  // console.log(mqttmessage);
    let topic="/User/general";
    this.MQTTServ.sendMesagge(topic, JSON.stringify(a));  
    
+   App.exitApp();   //this will close all services
+   //this.router.navigate(['/home/']);     
    
-     this.router.navigate(['/home/']);        
 
    
   }
@@ -93,5 +120,41 @@ export class DoctorMainPage implements OnInit {
     this.bedlocal.setBedId(0);
     this.router.navigate(['/chat/']);        
       }
+
+  
+
+  /**
+ * 
+ * @param topic this will subscribe to a general messaging stack
+ */
+    public async listenMessages(){
+   // console.log("El usuario es:"+this.localDoctor.userId)
+    console.log("escuchando")
+    console.log("aqui:"+this.pacientTable.length)
+    let topic="/User/"+this.localDoctor.userId+"/questions/";
+
+    this.pacientTable.forEach(element => {
+    console.log(JSON.stringify(element)) ; 
+    topic="/User/"+this.localDoctor.userId+"/questions/"+element.pacientId;
+    console.log("topic: "+topic)    
+    this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
+        let localMessage = JSON.parse(Message.string);
+        if(Message.toString()=="Error"){this.MQTTServ.MQTTClientLocal.unsubscribe(topic+"#");}      
+        //console.log("respuestaSystem2:  "+localMessage[0].lastName);
+        console.log("here doc listening");
+        this.MQTTServ.MQTTClientLocal.onMessage(topic, Message=>{
+          let localMessage = JSON.parse(Message.string);      
+            
+          let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time,localMessage._type);
+          console.log("Recibido por doc");
+          
+          this.messages.push(receivedMessage);    
+          this.newMessage=true;          
+      });})
+      
+    });
+    
+   
+  }
 
 }

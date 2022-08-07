@@ -16,20 +16,66 @@
 <ion-content>
   <ion-card>
     <ion-item>
+   <div *ngIf="inRoom===false">   
    <ion-button (click)="goQR()">QR </ion-button> 
-   <div *ngIf="inRoom===true">
-   <ion-button (click)="goChat()">Chat </ion-button> 
-   <ion-button (click)="goEnd()">Listo </ion-button> 
-  </div>
-  </ion-item>
-   <div *ngIf="showNotes==false">
-    <ion-item>
-    <ion-button (click)="onClick()">Consultar notas de Paciente</ion-button> 
-    </ion-item>
    </div>
+   <div *ngIf="inRoom===true">
+<!--******************************************************Now in room options*****************************************************************************-->
+<ion-item>
+   <!--  <ion-button (click)="goChat()">Chat </ion-button> -->
+     <ion-button (click)="goEnd()">Listo </ion-button> 
+</ion-item>     
+<!--******************************************Asking doctor **********************************************************************************************-->  
+<ion-item>
+    <ion-label>Lista de Médicos:</ion-label>
+    </ion-item>
+
   
+  <div *ngFor="let item of MDT; let i = index">
+    
+      <ion-card>
+        <ion-item >
+        <ion-label>{{item.userID}}:{{item.username}}</ion-label>           
+        <ion-icon name="arrow-down" (click)= "openMsg(i)" end></ion-icon>
+        </ion-item>
+        <div *ngIf="msg[i]===1">
+        <ion-item >
+          <ion-label position="stacked">Mensaje:</ion-label>
+          <ion-input #A (ionChange)="updatingText(i,A.value)" type="text"></ion-input>
+
+        </ion-item>
+         <ion-item >
+         <ion-icon name="mic" (click)= "closeMsg(i)" begin></ion-icon>
+         <ion-icon name="arrow-up" (click)= "closeMsg(i)" middle></ion-icon>
+         <ion-icon name="arrow-forward" (click)= "sendMsg(i)" end></ion-icon>
+        </ion-item>
+        <!--- if there is a response from doctor show-->
+            <div *ngIf="msgRx[i]==1">
+            <ion-item >
+              <ion-label position="stacked">Respuesta:</ion-label>
+              <p>{{item.username}}:{{RxText}}</p>
+              <ion-icon name="play" end></ion-icon> <!--(click)= "sendMsg(i)" -->
+            </ion-item>
+            </div>
+        </div>
+      </ion-card>  
+          
+  </div>
+ 
+
+
+</div>  
+</ion-item>
+  
+        <div *ngIf="showNotes==false">
+          <ion-item>
+          <ion-button (click)="onClick()">Consultar notas de Paciente</ion-button> 
+          </ion-item>
+        </div>  
   </ion-card>
 
+
+<!--******************************************Showing notes **********************************************************************************************-->
   <div *ngIf="showNotes==true">
     <ion-card class="PacientDataCard">
     <!--Informacion del paciente-->

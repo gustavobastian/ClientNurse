@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header  [translucent]="true">
   <ion-toolbar>
     <ion-title>nurse-QR</ion-title>
     <ion-buttons slot="start">
@@ -6,19 +6,25 @@
   </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-  <ion-content>
-  <div *ngIf="capturing!=true">
-    <ion-item>
-      <ion-input [(ngModel)]="capturedQR" placeholder="{{capturedQR}}" type="text"></ion-input>
-    </ion-item>  
-    <ion-item>
-      <ion-button (click)="sendQr()">Enviar</ion-button>
-      <div *ngIf="canCapture===true">
-        <ion-button (click)="startScanner()">Capturar</ion-button>
-        <ion-button (click)="stopScanner()">Frenar captura</ion-button>
-      </div>
-    </ion-item>
-  </div>  
-  </ion-content>
+<!--[.item.style.--background]="scanActive?'#00000000':'#ffffff'"-->
+<ion-content  [fullscreen]="true"  [.item.style.--background]="scanActive?'#00000000':'#ffffff'" >
+   
+    
+      <ion-item >
+        <ion-input [(ngModel)]="capturedQR" placeholder="{{capturedQR}}" type="text"></ion-input>
+      </ion-item>  
+   
+      <ion-item >
+        <ion-button (click)="sendQr()">Enviar</ion-button>
+        <div *ngIf="canCapture===true">
+          <ion-button (click)="startScanner()"  >Capturar</ion-button>
+          <ion-button (click)="stopScanner()">Frenar captura</ion-button>
+        </div>
+      </ion-item>   
+    
+   
+   <div class="scan-box" ></div>
+   
+    
+</ion-content>
 

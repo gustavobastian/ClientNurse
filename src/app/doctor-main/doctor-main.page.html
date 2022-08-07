@@ -19,17 +19,31 @@
         <ion-button (click)="onClickPacientNote(1)"> Ir </ion-button>        
       </ion-item>
     </ion-card>
-    <ion-card >
-      <ion-icon name="mailbox" slot="start"></ion-icon>
+    
+    <ion-card >      
         <ion-label>Leer Mensajes </ion-label>
       <br>
       <ion-item>
         <ion-button (click)="onClickMessages()"> Aceptar </ion-button>        
       </ion-item>
-    <!--  <ion-item>
-        <ion-button (click)="goChat()"> Chat General </ion-button>        
-      </ion-item>-->
-
     </ion-card>
-  
+
+    <ion-item>
+    <ion-card >        
+      <div *ngIf="newMessage===false">
+        <ion-button color="primary">msg</ion-button>
+      </div>
+      <div *ngIf="newMessage===true">
+        <ion-button color="secondary">msg</ion-button>
+      </div>
+    </ion-card>    
+  </ion-item>
+
+  <ion-card >    
+    <div *ngFor="let element of pacientTable; let i=index">
+      <ion-item>
+      <p>{{element | json}}</p>
+      </ion-item>
+    </div>
+  </ion-card >    
 </ion-content>
