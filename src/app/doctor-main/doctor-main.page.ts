@@ -21,9 +21,11 @@ export class DoctorMainPage implements OnInit {
   localBed: Bed = new Bed(0,0,0,0);
   doctorId: number;
   doctorName: string;
+  pacientNumber: number;
   newMessage=false;
   messages: Array<MessageModel> = new Array;
   pacientTable: Array<PacientsTable> = new Array;
+  textResponse: string=""  ;
 
   constructor(private router:Router,
     private activatedRoute: ActivatedRoute,
@@ -44,7 +46,7 @@ export class DoctorMainPage implements OnInit {
     
   }
   onClickPacientNote(id:number){    
-    this.router.navigate(['/doctor-pacients/'+this.doctorId]);        
+    this.router.navigate(['/doctor-pacients/'+this.pacientNumber]);        
   }
   onClickMessages(){    
     this.router.navigate(['/doctor-messages/'+this.doctorId]);        
@@ -134,7 +136,7 @@ export class DoctorMainPage implements OnInit {
     let topic="/User/"+this.localDoctor.userId+"/questions/";
 
     this.pacientTable.forEach(element => {
-    console.log(JSON.stringify(element)) ; 
+    //console.log(JSON.stringify(element)) ; 
     topic="/User/"+this.localDoctor.userId+"/questions/"+element.pacientId;
     console.log("topic: "+topic)    
     this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
@@ -142,19 +144,45 @@ export class DoctorMainPage implements OnInit {
         if(Message.toString()=="Error"){this.MQTTServ.MQTTClientLocal.unsubscribe(topic+"#");}      
         //console.log("respuestaSystem2:  "+localMessage[0].lastName);
         console.log("here doc listening");
-        this.MQTTServ.MQTTClientLocal.onMessage(topic, Message=>{
-          let localMessage = JSON.parse(Message.string);      
+        
+        
             
-          let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time,localMessage._type);
+        let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time,localMessage._type);
           console.log("Recibido por doc");
           
           this.messages.push(receivedMessage);    
           this.newMessage=true;          
-      });})
+      })
       
     });
     
    
+  }
+
+  onChangeText(text:string){
+    this.textResponse=text;
+    //console.log(this.textResponse);
+  }
+
+  sendResponseText(id:number){
+    //console.log((this.pacientTable[id].pacientId));
+    let topic="/User/"+this.localDoctor.userId+"/answers/"+this.pacientTable[id].pacientId;
+    console.log(topic);
+    let a=new MessageModel(this.localDoctor.username,this.textResponse,  this.pacientTable[id].bedId, "0",7);    
+    let mqttmessage=JSON.stringify(a);
+    console.log("sending:",mqttmessage);    
+    this.MQTTServ.sendMesagge(topic, mqttmessage);  
+    this.messages.splice(id,1);  
+  }
+  sendAudioText(response:string, id:number){
+    let topic="/User/"+this.localDoctor.userId+"/answers/"+this.pacientTable[id].pacientId;
+    let a=new MessageModel(this.localDoctor.username,response,  this.pacientTable[id].bedId, "0",27);    
+    let mqttmessage=JSON.stringify(a);    
+    this.MQTTServ.sendMesagge(topic, mqttmessage);
+  }
+
+  upgradingPacientNumber(id:number){
+    this.pacientNumber=id;
   }
 
 }

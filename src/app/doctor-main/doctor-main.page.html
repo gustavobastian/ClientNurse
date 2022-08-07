@@ -1,7 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Doctor:</ion-title>
-    <ion-title>{{doctorName}}</ion-title>
+        <ion-title>{{doctorName}}</ion-title>
       <!-- Back button with a default href -->
     <ion-buttons slot="start">
       <ion-button (click)="logout()" >Logout</ion-button>        <!--href="home" -->
@@ -15,8 +14,15 @@
       <ion-icon name="bed" slot="start"></ion-icon>
         <ion-label>Cambiar notas de Pacientes </ion-label>
       <br>
+      <ion-select interface="action-sheet" #C (ionChange)="upgradingPacientNumber(C.value)" type="number" required>
+        <div *ngFor="let element of pacientTable; let i=index">           
+         
+         <ion-select-option  value="{{pacientTable[i].pacientId}}">{{pacientTable[i].pacientId}}</ion-select-option>                   
+        </div>
+      </ion-select>
+
       <ion-item>
-        <ion-button (click)="onClickPacientNote(1)"> Ir </ion-button>        
+        <ion-button (click)="onClickPacientNote(pacientNmber)"> Ir </ion-button>        
       </ion-item>
     </ion-card>
     
@@ -28,22 +34,31 @@
       </ion-item>
     </ion-card>
 
-    <ion-item>
-    <ion-card >        
-      <div *ngIf="newMessage===false">
-        <ion-button color="primary">msg</ion-button>
-      </div>
-      <div *ngIf="newMessage===true">
-        <ion-button color="secondary">msg</ion-button>
-      </div>
-    </ion-card>    
-  </ion-item>
-
   <ion-card >    
-    <div *ngFor="let element of pacientTable; let i=index">
-      <ion-item>
-      <p>{{element | json}}</p>
-      </ion-item>
+    <div *ngFor="let element of messages; let i=index">
+      
+        <ion-card ion-color="terciary" >      
+          <ion-item>
+          <ion-label>Mensaje de : {{element._username}}</ion-label>
+          </ion-item><ion-item>
+          <ion-label> cama:{{element._bedId}}</ion-label>
+          </ion-item>          
+          <div *ngIf="element._type === 7">
+              <ion-item>
+              <ion-label>{{element._content}}</ion-label>                        
+              </ion-item>
+          </div>      
+          <ion-item>
+          <ion-label position="stacked">Respuesta:</ion-label>
+              <ion-input type="text" #A (ionChange)="onChangeText(A.value,i)"  ></ion-input>
+              <ion-item>
+              <ion-button><ion-icon name="mic" ></ion-icon></ion-button>
+              <ion-button (click)="sendResponseText(i)" ><ion-icon name="arrow-forward" end></ion-icon></ion-button> <!--(click)= "sendMsg(i)" -->
+              </ion-item>
+          </ion-item>      
+           <!--(click)= "sendMsg(i)" -->
+        </ion-card>
+      
     </div>
   </ion-card >    
 </ion-content>

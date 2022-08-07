@@ -268,7 +268,7 @@ export class NurseMainPage implements OnInit {
     let a=new MessageModel(this.localNurse.username,question,  this.bedId, value,7);
     
     let mqttmessage=JSON.stringify(a);
-    let topic="/User/"+doctorId+"/questions/"+this.bedId;
+    let topic="/User/"+doctorId+"/questions/"+this.pacientLocal.pacientId;
     this.MQTTServ.sendMesagge(topic, mqttmessage);
 
     
@@ -282,7 +282,7 @@ export class NurseMainPage implements OnInit {
   closeMsg(i:number){
     this.msg[i]=0;
   }
-  //opening closing msg dialog
+  // sending msg dialog
   sendMsg(i:number){
     console.log("sending to:"+this.MDT[i].userID);
     console.log("MSG send:"+this.textToSend[i]);
@@ -315,7 +315,7 @@ export class NurseMainPage implements OnInit {
     console.log("recibido:"+parsedMessage._content) ;
     
         
-    this.RxText= (parsedMessage._content);   
+    this.RxText[i]= (parsedMessage._content);   
     this.msgRx[i] = 1;     
     
     

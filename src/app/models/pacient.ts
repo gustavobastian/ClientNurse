@@ -21,6 +21,9 @@ export class Pacient{
     public get id():number{
         return this._id;
     }
+    public get pacientId():number{
+        return this._id;
+    }
 
     public set firstName(pacient:string){
         this._firstName=pacient;
