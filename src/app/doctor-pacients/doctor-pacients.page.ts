@@ -67,18 +67,18 @@ export class DoctorPacientsPage implements OnInit {
  * asking for pacient notes
  */
  async onClickNotes() {
+  this.notes=[];
   let userBad=0;
   let local=(this.numberId.value);  
   this.notes.splice(0);    
   console.log(local);
   this.pacientLocal.id = this.pacientNumber2;
   console.log("nro de paciente:", this.pacientLocal.id);
-  //this.pacientServ.oneAsk(local.pacientNumber);
 
-  let responseNoteTopic="/Pacient/"+this.pacientLocal.id+"/notes";  
-  console.log(responseNoteTopic);
+  let responseNoteTopic="/Pacient/"+this.pacientNumber2+"/notes";  
+  //console.log(responseNoteTopic);
   await this.MQTTServ.MQTTClientLocal.subscribe(responseNoteTopic).on(Message=>{
-    console.log("respuestaSystem:  "+Message.toString());
+   // console.log("respuestaSystem:  "+Message.toString());
     if(Message.toString()=== '"Error"'){
       this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic);
       alert("Error");
@@ -86,22 +86,27 @@ export class DoctorPacientsPage implements OnInit {
     }
     else{
     console.log("recibo nota")
-    //let localMessage = JSON.parse(Message[0].string);      
-    let localMessage = JSON.parse(Message.string);
-    let note1 =  JSON.parse(JSON.stringify(localMessage[0]));     
-    let notaLocal1: Note= new Note(note1.notesId,note1.note,note1.state);
-    localMessage.forEach(element => {
-        note1=    JSON.parse(JSON.stringify(element));     
-        console.log(JSON.stringify(note1));
-        notaLocal1.noteId=element.notesId;
-        notaLocal1.note=element.note;
-        notaLocal1.state="1";
-        this.notes.push(notaLocal1);
-    });
+    let localMessage = JSON.parse(Message.toString());      
+    //let localMessage = JSON.parse(JSON.stringify(Message));
     
-   
+    let notaLocal1: Note= new Note(0,"","");
+   /* localMessage.forEach(element => {
+        
+        let  note1=    JSON.parse(JSON.stringify(element)); 
+            
+        console.log(JSON.stringify(note1));
+        notaLocal1.noteId=note1.notesId;
+        notaLocal1.note=note1.note;
+        console.log(note1.note);
+        notaLocal1.state="1";
+        console.log(JSON.stringify(notaLocal1));
+        this.notes.append(notaLocal1);
+    });*/
+    this.notes=localMessage;
+    console.log(JSON.stringify(this.notes));
     
     } 
+    });
     let topic="/User/general";
   
     let b=new MessageModel(this.doctorName,(this.pacientLocal.id).toString(),  0, "0",5);
@@ -112,10 +117,11 @@ export class DoctorPacientsPage implements OnInit {
     userBad=0;
     //this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic)
    
-  })
+  
 };
 
   async onClick() {
+    this.showNotes=true;
     let userBad=0;
     let local=(this.numberId.value);  
     this.notes.splice(0);    
@@ -146,7 +152,7 @@ export class DoctorPacientsPage implements OnInit {
     console.log(mqttmessage);
     let topic="/User/general";
   await this.MQTTServ.sendMesagge(topic, mqttmessage);
- 
+ /*
   if(userBad===0)  
     {this.showAsk=false; 
       this.showNotes = true;
@@ -155,6 +161,8 @@ export class DoctorPacientsPage implements OnInit {
     this.showNotes = false;    
   }  
 
+*/
+  this.showNotes = true;
  }
 /**
  * Adding a note
@@ -192,5 +200,17 @@ export class DoctorPacientsPage implements OnInit {
   this.showNotes = false;
   this.showNotesForm = true;
   this.pacientLocal.id = local.pacientNumber;  */
+ }
+
+ deleteNote(i:number){
+  console.log("borrando nota:", i)
+  let data=JSON.parse(JSON.stringify(this.notes[i]))
+  
+  console.log("borrando notaId:", data.notesId)
+  //let topic="/Pacient/"+this.pacientNumber2+"/";
+  let topic="/User/general";
+  let b=new MessageModel(this.doctorName,JSON.stringify(data.notesId),  0, "0",18);
+  let mqttmessage=JSON.stringify(b);    
+  this.MQTTServ.sendMesagge(topic, mqttmessage);
  }
 }
