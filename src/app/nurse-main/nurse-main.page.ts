@@ -11,6 +11,8 @@ import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { BedsService } from '../services/beds.service';
 import { MedicalTable } from '../models/MedicalTable';
+import { Platform } from '@ionic/angular';
+import { AudioRecording, Microphone } from '@mozartec/capacitor-microphone';
 
 
 
@@ -35,7 +37,14 @@ export class NurseMainPage implements OnInit {
   private QRCapture = false;
   private inRoom =false;
   private asking = false;
+  private actionFinished= false;
+  private recordingAudio=false;
+  private canRecord=false;
   messages: Array<MessageModel> = new Array;
+
+  recording: AudioRecording;
+  webPaths = [];
+  dataUrls = [];
 
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -45,14 +54,52 @@ export class NurseMainPage implements OnInit {
     public userlogged: UserService,
     public bedlocal: BedsService,
     private router:Router,
+    private platform: Platform
     ) {
     this.bedId = bedlocal.getBedId();
+    this.actionFinished=false;
+    this.recordingAudio=false;
    
    }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.getParams();
     this.eventsSubscription();//getting status of the bed
+
+    //permissions for recording
+    await this.platform.ready().then(() => {
+      if (this.platform.is('android')) {
+           console.log('android');
+      } else if (this.platform.is('ios')) {
+           console.log('ios');
+      } else {
+           //fallback to browser APIs or
+           console.log('The platform is not supported');
+             }
+      });
+
+      if(this.platform.is('android') || this.platform.is('ios'))
+      {
+        this.canRecord=true;
+        console.log("puedo capturar")   
+        console.log("check permisions on android")
+      const state=await this.checkPermissions();
+      if((state)== true){
+        console.log(" permisos correctos");
+        return;}
+      else{
+        alert("Permission denied");
+          }    
+         
+      }
+      else{
+        this.canRecord=false;
+        console.log("no puedo capturar")
+      }
+    
+  
+
+
   }
 
   /**
@@ -250,7 +297,7 @@ export class NurseMainPage implements OnInit {
     await this.MQTTServ.sendMesagge(topic, mqttmessage);
      this.router.navigate(['/waiting-event/']);        
      this.inRoom=false;  
-    
+     this.actionFinished=true;
     }
   
   
@@ -317,10 +364,68 @@ export class NurseMainPage implements OnInit {
         
     this.RxText[i]= (parsedMessage._content);   
     this.msgRx[i] = 1;     
-    
-    
     });
   }
   
+  async recordingAudioStart(i: number){
+    if(this.recordingAudio==true){return;}
+    this.recordingAudio=true;
+    if(this.canRecord){
+      this.startRecording();
+    }
+  }
+
+  async recordingAudioStop(i:number){
+    this.recordingAudio=false;
+    this.stopRecording();
+  }
+
+  async checkPermissions() :Promise<boolean> {
+    try {
+      const checkPermissionsResult = await Microphone.checkPermissions();
+      console.log('checkPermissionsResult: ' + JSON.stringify(checkPermissionsResult));
+      return true;
+    } catch (error) {
+      console.error('checkPermissions Error: ' + JSON.stringify(error));
+    }
+  }
+
+  async requestPermissions() {
+    try {
+      const requestPermissionsResult = await Microphone.requestPermissions();
+      console.log('requestPermissionsResult: ' + JSON.stringify(requestPermissionsResult));
+    } catch (error) {
+      console.error('requestPermissions Error: ' + JSON.stringify(error));
+    }
+  }
+
+  async startRecording() {
+    try {
+      const startRecordingResult = await Microphone.startRecording();
+      console.log('startRecordingResult: ' + JSON.stringify(startRecordingResult));
+    } catch (error) {
+      console.error('startRecordingResult Error: ' + JSON.stringify(error));
+    }
+
+  }
+
+  async stopRecording() {
+    try {
+      this.recording = await Microphone.stopRecording();
+      console.log('recording: ' + JSON.stringify(this.recording));
+      console.log('recording.dataUrl: ' + JSON.stringify(this.recording.dataUrl));
+      console.log('recording.duration: ' + JSON.stringify(this.recording.duration));
+      console.log('recording.format: ' + JSON.stringify(this.recording.format));
+      console.log('recording.mimeType: ' + JSON.stringify(this.recording.mimeType));
+      console.log('recording.path: ' + JSON.stringify(this.recording.path));
+      console.log('recording.webPath: ' + JSON.stringify(this.recording.webPath));
+      this.webPaths.push(this.recording.webPath);
+      this.dataUrls.push(this.recording.dataUrl);
+    } catch (error) {
+      console.error('recordingResult Error: ' + JSON.stringify(error));
+    }
+  
+  }
+
 
 }

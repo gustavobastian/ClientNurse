@@ -6,7 +6,9 @@
   </ion-item>
   <ion-item>
     <ion-buttons slot="start">
+      <div *ngIf="actionFinished==true">
       <ion-back-button  defaultHref="" [text]=""></ion-back-button>        
+      </div>
     </ion-buttons>
     <ion-title>Cama:{{bedId}}</ion-title>
   </ion-item>
@@ -45,9 +47,14 @@
 
         </ion-item>
          <ion-item >
-         <ion-icon name="mic" (click)= "closeMsg(i)" begin></ion-icon>
+         <ion-icon name="mic" (click)= "recordingAudioStart(i)" begin></ion-icon>
+         <div *ngIf="recordingAudio==true">
+          <ion-icon name="log-out" (click)= "recordingAudioStop(i)" begin></ion-icon>
+         </div>
+
+
          <ion-icon name="arrow-up" (click)= "closeMsg(i)" middle></ion-icon>
-         <ion-icon name="arrow-forward" (click)= "sendMsg(i)" end></ion-icon>
+         <ion-icon name="arrow-forward"  (click)= "sendMsg(i)" end></ion-icon>
         </ion-item>
         <!--- if there is a response from doctor show-->
             <div *ngIf="msgRx[i]==1">

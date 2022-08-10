@@ -132,6 +132,7 @@ let DoctorPacientsPage = class DoctorPacientsPage {
         this.showNotes = false;
         this.showNotesForm = false;
         this.showAsk = true;
+        this.pacientNumber2 = 1;
         this.pacientLocal = new _models_pacient__WEBPACK_IMPORTED_MODULE_2__.Pacient(0, "Gus", "Bas", 0, 0, 0);
         this.numberId = new _angular_forms__WEBPACK_IMPORTED_MODULE_10__.FormGroup({
             pacientNumber: new _angular_forms__WEBPACK_IMPORTED_MODULE_10__.FormControl(),
@@ -148,42 +149,72 @@ let DoctorPacientsPage = class DoctorPacientsPage {
         this.localDoctor = this.userServ.getUser();
         this.doctorId = this.localDoctor.userId;
         this.doctorName = this.localDoctor.username;
+        let d = this.activatedRoute.snapshot.params['id'];
+        this.pacientNumber2 = d;
+        this.pacientLocal.id = d;
     }
     /**
      * asking for pacient notes
      */
-    onClick() {
+    onClickNotes() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
+            this.notes = [];
             let userBad = 0;
             let local = (this.numberId.value);
             this.notes.splice(0);
             console.log(local);
-            this.pacientLocal.id = local.pacientNumber;
-            //this.pacientServ.oneAsk(local.pacientNumber);
-            let responseNoteTopic = "/Pacient/" + this.pacientLocal.id + "/notes";
-            this.MQTTServ.MQTTClientLocal.subscribe(responseNoteTopic).on(Message => {
-                console.log("respuestaSystem:  " + Message.toString());
+            this.pacientLocal.id = this.pacientNumber2;
+            console.log("nro de paciente:", this.pacientLocal.id);
+            let responseNoteTopic = "/Pacient/" + this.pacientNumber2 + "/notes";
+            //console.log(responseNoteTopic);
+            yield this.MQTTServ.MQTTClientLocal.subscribe(responseNoteTopic).on(Message => {
+                // console.log("respuestaSystem:  "+Message.toString());
                 if (Message.toString() === '"Error"') {
                     this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic);
-                    //   alert("Error");
+                    alert("Error");
                     userBad = 1;
                 }
                 else {
                     console.log("recibo nota");
-                    //let localMessage = JSON.parse(Message[0].string);      
-                    let localMessage = JSON.parse(Message.string);
-                    let note1 = JSON.parse(JSON.stringify(localMessage[0]));
-                    let note2 = JSON.parse(JSON.stringify(localMessage[1]));
-                    let notaLocal1 = new _models_note__WEBPACK_IMPORTED_MODULE_5__.Note(note1.notesId, note1.note, note1.state);
-                    let notaLocal2 = new _models_note__WEBPACK_IMPORTED_MODULE_5__.Note(note2.notesId, note2.note, note2.state);
-                    this.notes.push(notaLocal1);
-                    this.notes.push(notaLocal2);
-                    userBad = 0;
-                    this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic);
+                    let localMessage = JSON.parse(Message.toString());
+                    //let localMessage = JSON.parse(JSON.stringify(Message));
+                    let notaLocal1 = new _models_note__WEBPACK_IMPORTED_MODULE_5__.Note(0, "", "");
+                    /* localMessage.forEach(element => {
+                         
+                         let  note1=    JSON.parse(JSON.stringify(element));
+                             
+                         console.log(JSON.stringify(note1));
+                         notaLocal1.noteId=note1.notesId;
+                         notaLocal1.note=note1.note;
+                         console.log(note1.note);
+                         notaLocal1.state="1";
+                         console.log(JSON.stringify(notaLocal1));
+                         this.notes.append(notaLocal1);
+                     });*/
+                    this.notes = localMessage;
+                    console.log(JSON.stringify(this.notes));
                 }
             });
+            let topic = "/User/general";
+            let b = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.doctorName, (this.pacientLocal.id).toString(), 0, "0", 5);
+            let mqttmessage = JSON.stringify(b);
+            this.MQTTServ.sendMesagge(topic, mqttmessage);
+            userBad = 0;
+            //this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic)
+        });
+    }
+    ;
+    onClick() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
+            this.showNotes = true;
+            let userBad = 0;
+            let local = (this.numberId.value);
+            this.notes.splice(0);
+            console.log(local);
+            this.pacientLocal.id = this.pacientNumber2;
+            console.log("nro de paciente:", this.pacientLocal.id);
             let responseInfoTopic = "/Pacient/" + this.pacientLocal.id + "/info";
-            this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message => {
+            yield this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message => {
                 let localMessage = JSON.parse(Message.string);
                 //console.log("respuestaSystem2:  "+localMessage[0].lastName);
                 if (Message.toString() == "Error") {
@@ -198,22 +229,23 @@ let DoctorPacientsPage = class DoctorPacientsPage {
                     this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
                 }
             });
-            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.doctorName, JSON.stringify(this.pacientLocal.id), 0, "0", 4);
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.doctorName, (this.pacientLocal.id).toString(), 0, "0", 4);
             console.log(a);
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
             let topic = "/User/general";
             yield this.MQTTServ.sendMesagge(topic, mqttmessage);
-            let b = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.doctorName, JSON.stringify(this.pacientLocal.id), 0, "0", 5);
-            mqttmessage = JSON.stringify(b);
-            yield this.MQTTServ.sendMesagge(topic, mqttmessage);
-            if (userBad === 0) {
-                this.showAsk = false;
-                this.showNotes = true;
-            }
-            else {
-                this.showNotes = false;
-            }
+            /*
+             if(userBad===0)
+               {this.showAsk=false;
+                 this.showNotes = true;
+                }
+             else{
+               this.showNotes = false;
+             }
+           
+           */
+            this.showNotes = true;
         });
     }
     /**
@@ -237,9 +269,10 @@ let DoctorPacientsPage = class DoctorPacientsPage {
     }
     onClickSend() {
         let local = (this.noteForm.value);
+        console.log("envío nota:" + this.pacientLocal.id);
         console.log(local.noteFormString);
         let nota = JSON.stringify(local.noteFormString);
-        let topic = "/Pacient/" + this.pacientLocal.id + "/newNote";
+        let topic = "/Pacient/" + this.pacientNumber2 + "/newNote";
         let b = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.doctorName, nota, 0, "0", 3);
         let mqttmessage = JSON.stringify(b);
         this.MQTTServ.sendMesagge(topic, mqttmessage);
@@ -250,6 +283,16 @@ let DoctorPacientsPage = class DoctorPacientsPage {
         this.showNotes = false;
         this.showNotesForm = true;
         this.pacientLocal.id = local.pacientNumber;  */
+    }
+    deleteNote(i) {
+        console.log("borrando nota:", i);
+        let data = JSON.parse(JSON.stringify(this.notes[i]));
+        console.log("borrando notaId:", data.notesId);
+        //let topic="/Pacient/"+this.pacientNumber2+"/";
+        let topic = "/User/general";
+        let b = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.doctorName, JSON.stringify(data.notesId), 0, "0", 18);
+        let mqttmessage = JSON.stringify(b);
+        this.MQTTServ.sendMesagge(topic, mqttmessage);
     }
 };
 DoctorPacientsPage.ctorParameters = () => [
@@ -288,7 +331,7 @@ module.exports = ".pacientDataCard {\n  background-color: bisque;\n}\n/*# source
   \**********************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Pacientes: {{doctorName}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-back-button    defaultHref=\"/doctor-main/\" [text]=\"\"></ion-back-button>\n  </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n \n  <div *ngIf=\"showAsk==true\">\n    <ion-item>      \n     <div [formGroup]=\"numberId\"> \n    <ion-label>Numero Paciente:</ion-label>\n    <ion-input  type=\"number\" formControlName=\"pacientNumber\"  required></ion-input>\n     </div>\n    </ion-item>\n   \n   <ion-button  (click)=\"onClick()\" >Consultar</ion-button>\n  </div>\n\n<div *ngIf=\"showNotes==true\">\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{pacientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{pacientLocal.firstName}}</ion-item>\n      <ion-item>Id Paciente: {{pacientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    <ion-button  (click)=\"onClickAdd()\" >Agregar</ion-button>\n    <ion-button   >Chat</ion-button>\n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID nota: {{notes[i].noteId}}</ion-item>\n          <ion-item>Nota:{{notes[i].note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        \n       </ion-card>\n\n    </div>\n  </div>\n  <div *ngIf=\"showNotesForm==true\">\n\n    <div [formGroup]=\"noteForm\"> \n      <ion-label>Nota:</ion-label>\n      <ion-input  type=\"text\" formControlName=\"noteFormString\" required></ion-input>\n       </div>\n      \n     <ion-button ion-color=\"primary\" (click)=\"onClickSend()\" >enviar</ion-button>\n\n      <ion-button (click)=\"onClickReturn()\" >Volver</ion-button>\n  </div>\n\n\n  \n\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Pacientes: {{doctorName}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-back-button    defaultHref=\"/doctor-main/\" [text]=\"\"></ion-back-button>\n  </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n \n  <div *ngIf=\"showAsk==true\">\n    <ion-item>      \n     <!--<div [formGroup]=\"numberId\"> -->\n        <ion-label>Numero Paciente: {{pacientNumber2}}</ion-label>\n    <!--<ion-input  type=\"number\" formControlName=\"pacientNumber\" placeholder=\"{{pacientNumber2}}\" required></ion-input>\n     </div>-->\n    </ion-item>\n   \n   <ion-button  (click)=\"onClick()\" >Consultar</ion-button>\n   <ion-button  (click)=\"onClickNotes()\" >Notas</ion-button>\n  \n  </div>\n\n<div *ngIf=\"showNotes==true\">\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{pacientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{pacientLocal.firstName}}</ion-item>\n      <ion-item>Id Paciente: {{pacientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    <ion-button  (click)=\"onClickAdd()\" >Agregar Nota</ion-button>\n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID nota: {{Note.notesId}}</ion-item>\n          <ion-item>Nota:{{Note.note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        <ion-button (click)=\"deleteNote(i)\">borrar</ion-button>\n       </ion-card>\n\n    </div>\n  </div>\n  <div *ngIf=\"showNotesForm==true\">\n\n    <div [formGroup]=\"noteForm\"> \n      <ion-label>Nota:</ion-label>\n      <ion-input  type=\"text\" formControlName=\"noteFormString\" required></ion-input>\n       </div>\n      \n     <ion-button ion-color=\"primary\" (click)=\"onClickSend()\" >enviar</ion-button>\n\n      <ion-button (click)=\"onClickReturn()\" >Volver</ion-button>\n  </div>\n\n\n  \n\n</ion-content>\n";
 
 /***/ })
 
