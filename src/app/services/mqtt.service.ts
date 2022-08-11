@@ -15,8 +15,6 @@ export class MqttService implements OnInit  {
   MQTTClientLocal: Client;
   number:number;
   connected: number;
-  mqttMessages: Array<MessageModel> = new Array;
-  public msgAlert=false;
 
   constructor(public localSto: LocalStorageService) { }
 
@@ -82,6 +80,10 @@ export class MqttService implements OnInit  {
   }
   public sendMesagge(topic: string, message: string){
       
+    this.MQTTClientLocal.publish(topic, message);
+  }
+  public sendMesaggeRetain(topic: string, message: string){
+      
     this.MQTTClientLocal.publish(topic, message,{retain: true});
   }
 
@@ -120,25 +122,7 @@ export class MqttService implements OnInit  {
      //this.MQTTClientLocal.onMessage(topic, message=>console.log(message.string));
   //   this.MQTTClientLocal.subscribe(topic).on(Message=>console.log(Message.string));
   }
-/**
- * 
- * @param topic this will subscribe to a general messaging stack
- */
-  public listenMessages(topic: string){
-    console.log("here");
-   this.MQTTClientLocal.onMessage(topic, Message=>{
-    let localMessage = JSON.parse(Message.string);      
-      
-    let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time,localMessage._type);
-    console.log("Recibido por doc");
-    if((this.mqttMessages[this.mqttMessages.length - 1])!==receivedMessage){   
-    this.mqttMessages.push(receivedMessage);    
-    this.msgAlert=true;
-    }
-   
-  });
-   this.MQTTClientLocal.subscribe(topic).on(Message=>console.log(Message.string));
-  }
+
   public closingAll(topic: string){
     this.MQTTClientLocal.removeMessageListener(topic, message=>console.log(message.string));
     

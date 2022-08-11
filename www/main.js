@@ -33,7 +33,7 @@ const routes = [
     },
     {
         path: 'login',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_login_login_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./login/login.module */ 107)).then(m => m.LoginPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_login_login_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./login/login.module */ 107)).then(m => m.LoginPageModule)
     }, {
         path: 'chat',
         loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_chat_chat_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./chat/chat.module */ 818)).then(m => m.ChatPageModule)
@@ -48,11 +48,11 @@ const routes = [
     },
     {
         path: 'nurse-main/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("default-src_app_models_note_ts-src_app_models_pacient_ts-src_app_services_pacient_service_ts--01d6eb"), __webpack_require__.e("common"), __webpack_require__.e("src_app_nurse-main_nurse-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./nurse-main/nurse-main.module */ 8265)).then(m => m.NurseMainPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_nurse-main_nurse-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./nurse-main/nurse-main.module */ 8265)).then(m => m.NurseMainPageModule)
     },
     {
         path: 'doctor-pacients/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("default-src_app_models_note_ts-src_app_models_pacient_ts-src_app_services_pacient_service_ts--01d6eb"), __webpack_require__.e("src_app_doctor-pacients_doctor-pacients_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./doctor-pacients/doctor-pacients.module */ 1689)).then(m => m.DoctorPacientsPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_doctor-pacients_doctor-pacients_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./doctor-pacients/doctor-pacients.module */ 1689)).then(m => m.DoctorPacientsPageModule)
     },
     {
         path: 'doctor-messages/:id',

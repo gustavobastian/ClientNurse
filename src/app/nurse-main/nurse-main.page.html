@@ -52,6 +52,30 @@
           <ion-icon name="log-out" (click)= "recordingAudioStop(i)" begin></ion-icon>
          </div>
 
+         <ion-item-group>
+          <ion-item-divider>
+            <ion-label>Web Paths</ion-label>
+          </ion-item-divider>
+          <ion-item *ngFor="let webPath of webPaths">
+            <audio controls>
+              <source src="{{webPath}}" type="{{recording?.mimeType}}">
+              Your browser does not support the audio element.
+            </audio>
+          </ion-item>
+        </ion-item-group>
+    
+        <ion-item-group>
+          <ion-item-divider>
+            <ion-label>Data Urls (Verify on)</ion-label>
+            <ion-input value="https://base64.guru/converter/decode/audio" readonly></ion-input>
+          </ion-item-divider>
+          <ion-item *ngFor="let dataUrl of dataUrls">
+            <ion-label position="floating">Data Url</ion-label>
+            <ion-textarea value="{{dataUrl}}"></ion-textarea>
+          </ion-item>
+        </ion-item-group>
+        
+
 
          <ion-icon name="arrow-up" (click)= "closeMsg(i)" middle></ion-icon>
          <ion-icon name="arrow-forward"  (click)= "sendMsg(i)" end></ion-icon>
