@@ -29,7 +29,7 @@ const routes = [
     },
     {
         path: 'mqtt-config',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_mqtt-config_mqtt-config_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./mqtt-config/mqtt-config.module */ 4670)).then(m => m.MqttConfigPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_mqtt-config_mqtt-config_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./mqtt-config/mqtt-config.module */ 4670)).then(m => m.MqttConfigPageModule)
     },
     {
         path: 'login',

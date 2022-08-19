@@ -19,6 +19,7 @@ export class WaitingEventPage implements OnInit {
   bed : Bed = new Bed( 0,0,0,0,);
   bedId: number;
   messages: Array<MessageModel> = new Array;
+  calendarNotes : string;
   
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -45,11 +46,11 @@ export class WaitingEventPage implements OnInit {
     let receivedMessage;
     console.log("subscribed")
     this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
-      console.log("received")
-      console.log(Message.string);            
+    //  console.log("received")
+    //  console.log(Message.string);            
     let localMessage = JSON.parse(Message.string);      
     let local2=Message.string;
-    console.log(localMessage[0].message);    
+    //console.log(localMessage[0].message);    
     this.messages=[];
     localMessage.forEach(element => {      
       {        
@@ -75,7 +76,7 @@ export class WaitingEventPage implements OnInit {
     
     
     let a=new MessageModel(this.localNurse.username,"",  this.bed.bedId, "0",12);    
-    console.log(a)
+    //console.log(a)
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);
     topic="/User/general";
@@ -89,6 +90,16 @@ export class WaitingEventPage implements OnInit {
     this.localBed.setBedId(i);
    
     this.router.navigate(['/nurse-bed/:'+i]);        
+  }
+  /**
+   * asking for Calendar Notes information
+   * @param i beds number
+   */
+   onClick3(i:number){    
+    /*this.localBed.setBedId(i);
+   
+    this.router.navigate(['/nurse-bed/:'+i]);        */
+    console.log(i);
   }
 
 

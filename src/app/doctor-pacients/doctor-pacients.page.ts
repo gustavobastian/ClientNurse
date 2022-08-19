@@ -152,18 +152,10 @@ export class DoctorPacientsPage implements OnInit {
     console.log(mqttmessage);
     let topic="/User/general";
   await this.MQTTServ.sendMesagge(topic, mqttmessage);
- /*
-  if(userBad===0)  
-    {this.showAsk=false; 
-      this.showNotes = true;
-     }
-  else{
-    this.showNotes = false;    
-  }  
-
-*/
+ 
   this.showNotes = true;
  }
+ 
 /**
  * Adding a note
  */

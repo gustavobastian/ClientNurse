@@ -25,6 +25,9 @@
         <ion-item>
           <ion-button (click)="onClick(msg.bedId)"> Aceptar </ion-button>
           <ion-button (click)="onClick2(msg.bedId)"> Ubicacion </ion-button>
+          <div *ngIf="msg.type == 9">  
+            <ion-button (click)="onClick3(msg.bedId)"> Notas Calendario </ion-button>
+          </div>  
         </ion-item>
       </ion-card>
     </div>  

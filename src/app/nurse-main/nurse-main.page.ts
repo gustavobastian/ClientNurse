@@ -13,6 +13,8 @@ import { BedsService } from '../services/beds.service';
 import { MedicalTable } from '../models/MedicalTable';
 import { Platform } from '@ionic/angular';
 import { AudioRecording, Microphone } from '@mozartec/capacitor-microphone';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+
 
 
 
@@ -29,17 +31,25 @@ export class NurseMainPage implements OnInit {
   private notes: Array<Note> = new Array;
   private msg: Array<number> = new Array;
   private msgRx: Array<number> = new Array;
+  private audio: Array<number> = new Array;
+  private audioRx: Array<number> = new Array;
   private textToSend: Array<string> = new Array;
   private RxText: Array<string> = new Array;
   private MDT: Array<MedicalTable> = new Array;
-  private showNotes = false;
+  
   private pacientLocal: Pacient= new Pacient(0,"Gus","Bas",0,0,0);
   private QRCapture = false;
   private inRoom =false;
+
+  private showNotes = false;
+  private showMedical = false;
   private asking = false;
+  
   private actionFinished= false;
   private recordingAudio=false;
   private canRecord=false;
+  
+  
   messages: Array<MessageModel> = new Array;
 
   recording: AudioRecording;
@@ -63,8 +73,11 @@ export class NurseMainPage implements OnInit {
    }
 
   async ngOnInit() {
-    this.getParams();
-    this.eventsSubscription();//getting status of the bed
+    await this.getParams();
+    console.log("pacientID onInit:"+this.pacientLocal.id)
+    
+    await this.eventsSubscription();//getting status of the bed
+    
 
     //permissions for recording
     await this.platform.ready().then(() => {
@@ -103,29 +116,70 @@ export class NurseMainPage implements OnInit {
   }
 
   /**
-   * Get the pacient information 
+   * Get the pacient id
    */
   async getParams() {    
     this.localNurse=this.userlogged.getUser();
     this.nurseName=this.localNurse.username;    
-    let responseNoteTopic="/Beds/"+this.bedId+"/Pacient";  
-
+    let responseInfoTopic="/Beds/"+this.bedId+"/Pacient";  
+    console.log("asking on pacient info:  "+responseInfoTopic.toString());
     //cleaning
     this.MDT=[];
     
 
-    this.MQTTServ.MQTTClientLocal.subscribe(responseNoteTopic).on(Message=>{
-      //console.log("SystemResponse:  "+Message.toString());
+    this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message=>{
+      console.log("SystemResponse on pacient info:  "+Message.toString());
       let localMessage = JSON.parse(Message.string);
       let pacient1 =  JSON.parse(JSON.stringify(localMessage[0]));     
       //console.log("pacientId:"+ pacient1.pacientId);
       this.pacientLocal.id=pacient1.pacientId;
-
-      if(Message.toString()=="Error"){this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic);
+      console.log(JSON.stringify(this.pacientLocal))
+      if(Message.toString()=="Error"){this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
       }      
-      //console.log("Pacient received")
+      console.log("Pacient received")
+      this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
     });
     
+    let topic="/User/general";
+    let b=new MessageModel(this.nurseName,JSON.stringify(this.bedId),  this.bedId, "0",10);
+    let mqttmessage=JSON.stringify(b);    
+    await this.MQTTServ.sendMesagge(topic, mqttmessage);
+    
+  }
+
+  /**
+   * getting pacient information
+   */
+   async getPacientInformation(){
+   console.log("Pacient:"+this.pacientLocal.id);
+   let responseInfoTopic="/Pacient/"+this.pacientLocal.id+"/info";  
+   this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message=>{
+       let localMessage = JSON.parse(Message.string);
+       if(Message.toString()=="Error"){this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);}      
+       //console.log("respuestaSystem2:  "+localMessage[0].lastName);
+       this.pacientLocal.lastName = localMessage[0].lastName;
+       this.pacientLocal.firstName = localMessage[0].firstName;      
+       this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
+     })  
+
+    let a=new MessageModel(this.nurseName,JSON.stringify(this.pacientLocal.id),  0, "0",4);    
+    console.log(a)
+    let mqttmessage=JSON.stringify(a);
+    console.log(mqttmessage);
+    let topic="/User/general";
+    await this.MQTTServ.sendMesagge(topic, mqttmessage);
+
+    }   
+  /**
+   * getting medical table
+   */
+   async getMedicalTable() {    
+    this.localNurse=this.userlogged.getUser();
+    this.nurseName=this.localNurse.username;    
+    let responseNoteTopic="/Beds/"+this.bedId+"/info";  
+
+    //cleaning
+    this.MDT=[];
 
     /*asking for pacient's doctors */
     console.log("MDT bedId:"+this.bedId)
@@ -144,30 +198,33 @@ export class NurseMainPage implements OnInit {
       else{
 
         MDTLocal.forEach(element => {
+          console.log("************************")
           console.log(JSON.stringify(element));
           let MDTLocal2: MedicalTable= new MedicalTable(element.lastname,element.userId);
+          console.log(JSON.stringify(MDTLocal2));
           this.MDT.push(MDTLocal2); 
           this.msg.push(0); 
           this.msgRx.push(0);
+          this.audio.push(0); 
+          this.audioRx.push(0);
           this.textToSend.push(""); 
           this.RxText.push(""); 
         });
         
       }      
+      
+      this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic);
       console.log("mdt received")
     });
 
-    let topic="/User/general";
-    let b=new MessageModel(this.nurseName,JSON.stringify(this.bedId),  this.bedId, "0",10);
-    let mqttmessage=JSON.stringify(b);    
+    let topic="/User/general";    
     let c=new MessageModel(this.nurseName,JSON.stringify(this.bedId),  this.bedId, "0",17);
     let mqttmessage2=JSON.stringify(c);    
     await this.MQTTServ.sendMesagge(topic, mqttmessage2);
-    await this.MQTTServ.sendMesagge(topic, mqttmessage);
-    this.MQTTServ.MQTTClientLocal.unsubscribe(responseMDTTopic);
-    this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic);
+    
 
   }
+
 
   /**
    * Subscription for receiving messages
@@ -179,8 +236,7 @@ export class NurseMainPage implements OnInit {
     let receivedMessage;
     console.log("subscribed")
     this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
-     console.log("received")
-    //console.log(Message.string);            
+     console.log("received")    
     let localMessage = JSON.parse(Message.string);      
     let local2=Message.string;
     console.log(localMessage[0].message);    
@@ -189,8 +245,7 @@ export class NurseMainPage implements OnInit {
     localMessage.forEach(element => {      
       {        
       receivedMessage = new MessageModel("","",element.id,"",element.st);
-      console.log("element id:"+element.id+"| element st:"+element.st);  
-      //console.log("here Id:"+this.bedlocal.getBedId())          ;
+      console.log("element id:"+element.id+"| element st:"+element.st);        
        if(parseInt(element.id)==(this.bedId)){
         console.log("Here")
         if(element.st==4){this.inRoom=true;}
@@ -206,17 +261,16 @@ export class NurseMainPage implements OnInit {
   /**
    * Get the pacient Notes 
    */
-  async onClick() {
+  async getNotes() {
     let local=this.bedId;
-   // this.pacientLocal.id=this.bedId;
+   
     this.notes.splice(0);    
-    console.log(local);
+    console.log("***********************************************************");
+    console.log("***********gettin notes****************************");
     
-    //this.showNotes = true;
-    //this.pacientServ.oneAsk(local.pacientNumber);
-  
+  console.log("pacientID:"+this.pacientLocal.id)
    let responseNoteTopic="/Pacient/"+this.pacientLocal.id+"/notes";  
-    this.MQTTServ.MQTTClientLocal.subscribe(responseNoteTopic).on(Message=>{
+     await  this.MQTTServ.MQTTClientLocal.subscribe(responseNoteTopic).on(Message=>{
       console.log("respuestaSystem:  "+Message.toString());
       if(Message.toString()=="Error"){this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic);
       }      
@@ -235,35 +289,26 @@ export class NurseMainPage implements OnInit {
     })
     
 
-    console.log("Pacient:"+this.pacientLocal.id);
-    let responseInfoTopic="/Pacient/"+this.pacientLocal.id+"/info";  
-    this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message=>{
-        let localMessage = JSON.parse(Message.string);
-        if(Message.toString()=="Error"){this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);}      
-        //console.log("respuestaSystem2:  "+localMessage[0].lastName);
-        this.pacientLocal.lastName = localMessage[0].lastName;
-        this.pacientLocal.firstName = localMessage[0].firstName;      
-        this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
-      })  
+    
   
-      let a=new MessageModel(this.nurseName,JSON.stringify(this.pacientLocal.id),  0, "0",4);    
-      console.log(a)
-      let mqttmessage=JSON.stringify(a);
-      console.log(mqttmessage);
-      let topic="/User/general";
-    await this.MQTTServ.sendMesagge(topic, mqttmessage);
+      
+    let topic="/User/general";
     let b=new MessageModel(this.nurseName,JSON.stringify(this.pacientLocal.id),  0, "0",5);
-    mqttmessage=JSON.stringify(b);    
+    let mqttmessage=JSON.stringify(b);    
     await this.MQTTServ.sendMesagge(topic, mqttmessage);
   
-    this.showNotes=true;    
+    
   
    }
+
+
 /**
  * Got to pacient char for asking aditional information
  */
 
-   public async goChat(){
+   public async goChat(i: number){
+    this.router.navigate(['/chat/']);
+    
  /*   this.router.navigate(['/chat/]);        */
  /*
    let a=new MessageModel(this.nurseName,JSON.stringify(this.pacientLocal.id),  this.bedId, "0",14);    
@@ -280,17 +325,32 @@ export class NurseMainPage implements OnInit {
 /**
  * Got to QR capture page
  */
-   public goQR(){
-    /*   this.router.navigate(['/chat/]);        */
+   public goQR(){    
      this.router.navigate(['/nurse-qr']);        
       }
+ 
  /**
+ * Got to Cancelling the response to call
+ */
+  public async Quit(){
+    let a=new MessageModel(this.nurseName,JSON.stringify(this.pacientLocal.id),  this.bedId, "0",19);    
+    let mqttmessage=JSON.stringify(a);
+    console.log(mqttmessage);
+    let topic="/User/general";
+    await this.MQTTServ.sendMesagge(topic, mqttmessage);
+     this.router.navigate(['/waiting-event/']);        
+     this.inRoom=false;  
+     this.actionFinished=true;
+
+    console.log("quitting")
+      }     
+
+ /** 
  * Ending notification
  */
   public async goEnd(){
     /*   this.router.navigate(['/chat/]);        */
     let a=new MessageModel(this.nurseName,JSON.stringify(this.pacientLocal.id),  this.bedId, "0",13);    
-    console.log(a)
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);
     let topic="/User/general";
@@ -305,13 +365,12 @@ export class NurseMainPage implements OnInit {
    * Sending the question to the system : command type 17
    */
    askToDoctor(question:string, doctorId: number){
-    //this.bedIdSubscription();
+    
     
     var time= new Date();
-    //let value2= (time.getHours()).toString+":"+ (time.getMinutes()).toString();
+    
     let value= time.getFullYear()+"/"+time.getMonth()+"/"+time.getDay() +"-"+(time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
-    //console.log(value);
-    //let value="12:24";
+    
     let a=new MessageModel(this.localNurse.username,question,  this.bedId, value,7);
     
     let mqttmessage=JSON.stringify(a);
@@ -328,6 +387,13 @@ export class NurseMainPage implements OnInit {
   }
   closeMsg(i:number){
     this.msg[i]=0;
+  }
+  //opening closing Audio dialog
+  openAudio(i:number){
+    this.audio[i]=1;
+  }
+  closeAudio(i:number){
+    this.audio[i]=0;
   }
   // sending msg dialog
   sendMsg(i:number){
@@ -377,7 +443,7 @@ export class NurseMainPage implements OnInit {
 
   async recordingAudioStop(i:number){
     this.recordingAudio=false;
-    this.stopRecording();
+    this.stopRecording(i);
   }
 
   async checkPermissions() :Promise<boolean> {
@@ -409,7 +475,7 @@ export class NurseMainPage implements OnInit {
 
   }
 
-  async stopRecording() {
+  async stopRecording(i: number) {
     try {
       this.recording = await Microphone.stopRecording();
       console.log('recording: ' + JSON.stringify(this.recording));
@@ -421,11 +487,52 @@ export class NurseMainPage implements OnInit {
       console.log('recording.webPath: ' + JSON.stringify(this.recording.webPath));
       this.webPaths.push(this.recording.webPath);
       this.dataUrls.push(this.recording.dataUrl);
+
+      let recordedMessage=await this.readFilePath(this.recording.path);
+      let recordedMessage2=JSON.parse(JSON.stringify(recordedMessage));
+
+      console.log("MSG0="+JSON.stringify(recordedMessage2))
+      
+
+/*
+      let a= new MessageModel(this.localNurse.username,JSON.stringify(recordedMessage),  this.bedId, "0",22);
+    
+      let mqttmessage=JSON.stringify(a);
+      let topic="/User/"+this.MDT[i].userID+"/questionsAudio/"+this.bedId;
+      this.MQTTServ.sendMesagge(topic, mqttmessage);
+*/
     } catch (error) {
       console.error('recordingResult Error: ' + JSON.stringify(error));
     }
   
   }
 
+  public async readFilePath (PATH: string ): Promise<string> {
+    // Here's an example of reading a file with a full file path. Use this to
+    // read binary data (base64 encoded) from plugins that return File URIs, such as
+    // the Camera.
+    const contents = await Filesystem.readFile({
+      path: PATH
+    });
+  
+    console.log('data:', contents);
+    return contents.toString();
+  };
 
+  async openMedicalTable(){
+    if(this.MDT.length==0){
+    await this.getMedicalTable();}
+
+    this.showNotes=false;
+    this.showMedical=true;
+  }
+
+  async openNotesTable(){    
+    await this.getPacientInformation();
+    if(this.notes.length==0){
+    await this.getNotes();}
+    this.showNotes=true;
+    this.showMedical=false;
+  }
 }
+

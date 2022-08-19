@@ -20,19 +20,23 @@
     <ion-item>
    <div *ngIf="inRoom===false">   
    <ion-button (click)="goQR()">QR </ion-button> 
+   <ion-button (click)="Quit()">Cancelar </ion-button> 
    </div>
    <div *ngIf="inRoom===true">
 <!--******************************************************Now in room options*****************************************************************************-->
 <ion-item>
    <!--  <ion-button (click)="goChat()">Chat </ion-button> -->
-     <ion-button (click)="goEnd()">Listo </ion-button> 
+   <ion-button (click)="Quit()">Cancelar </ion-button> 
+   <ion-button (click)="goEnd()">Listo </ion-button> 
+   <ion-button (click)="openNotesTable()">Notas</ion-button>
+   <ion-button (click)="openMedicalTable()" >Mensajes</ion-button>
 </ion-item>     
 <!--******************************************Asking doctor **********************************************************************************************-->  
 <ion-item>
-    <ion-label>Lista de Médicos:</ion-label>
-    </ion-item>
+<ion-label>Lista de Médicos:</ion-label>
+ </ion-item>
 
-  
+ <div *ngIf="showMedical===true">
   <div *ngFor="let item of MDT; let i = index">
     
       <ion-card>
@@ -40,18 +44,20 @@
         <ion-label>{{item.userID}}:{{item.username}}</ion-label>           
         <ion-icon name="arrow-down" (click)= "openMsg(i)" end></ion-icon>
         </ion-item>
+
         <div *ngIf="msg[i]===1">
         <ion-item >
           <ion-label position="stacked">Mensaje:</ion-label>
           <ion-input #A (ionChange)="updatingText(i,A.value)" type="text"></ion-input>
 
         </ion-item>
+
          <ion-item >
          <ion-icon name="mic" (click)= "recordingAudioStart(i)" begin></ion-icon>
          <div *ngIf="recordingAudio==true">
           <ion-icon name="log-out" (click)= "recordingAudioStop(i)" begin></ion-icon>
          </div>
-
+        </ion-item>
          <ion-item-group>
           <ion-item-divider>
             <ion-label>Web Paths</ion-label>
@@ -73,13 +79,13 @@
             <ion-label position="floating">Data Url</ion-label>
             <ion-textarea value="{{dataUrl}}"></ion-textarea>
           </ion-item>
-        </ion-item-group>
-        
+        </ion-item-group>        
 
-
+        <ion-item-group>
          <ion-icon name="arrow-up" (click)= "closeMsg(i)" middle></ion-icon>
          <ion-icon name="arrow-forward"  (click)= "sendMsg(i)" end></ion-icon>
-        </ion-item>
+        
+        </ion-item-group>
         <!--- if there is a response from doctor show-->
             <div *ngIf="msgRx[i]==1">
             <ion-item >
@@ -91,19 +97,14 @@
         </div>
       </ion-card>  
           
+    </div>
   </div>
- 
 
 
 </div>  
-</ion-item>
-  
-        <div *ngIf="showNotes==false">
-          <ion-item>
-          <ion-button (click)="onClick()">Consultar notas de Paciente</ion-button> 
-          </ion-item>
-        </div>  
-  </ion-card>
+</ion-item>  
+       
+</ion-card>
 
 
 <!--******************************************Showing notes **********************************************************************************************-->

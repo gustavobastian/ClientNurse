@@ -549,6 +549,150 @@ UserService = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
 
 /***/ }),
 
+/***/ 3568:
+/*!********************************************************************!*\
+  !*** ./node_modules/@capacitor/filesystem/dist/esm/definitions.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Directory": () => (/* binding */ Directory),
+/* harmony export */   "Encoding": () => (/* binding */ Encoding),
+/* harmony export */   "FilesystemDirectory": () => (/* binding */ FilesystemDirectory),
+/* harmony export */   "FilesystemEncoding": () => (/* binding */ FilesystemEncoding)
+/* harmony export */ });
+var Directory;
+(function (Directory) {
+    /**
+     * The Documents directory
+     * On iOS it's the app's documents directory.
+     * Use this directory to store user-generated content.
+     * On Android it's the Public Documents folder, so it's accessible from other apps.
+     * It's not accesible on Android 10 unless the app enables legacy External Storage
+     * by adding `android:requestLegacyExternalStorage="true"` in the `application` tag
+     * in the `AndroidManifest.xml`.
+     * It's not accesible on Android 11 or newer.
+     *
+     * @since 1.0.0
+     */
+    Directory["Documents"] = "DOCUMENTS";
+    /**
+     * The Data directory
+     * On iOS it will use the Documents directory.
+     * On Android it's the directory holding application files.
+     * Files will be deleted when the application is uninstalled.
+     *
+     * @since 1.0.0
+     */
+    Directory["Data"] = "DATA";
+    /**
+     * The Library directory
+     * On iOS it will use the Library directory.
+     * On Android it's the directory holding application files.
+     * Files will be deleted when the application is uninstalled.
+     *
+     * @since 1.1.0
+     */
+    Directory["Library"] = "LIBRARY";
+    /**
+     * The Cache directory
+     * Can be deleted in cases of low memory, so use this directory to write app-specific files
+     * that your app can re-create easily.
+     *
+     * @since 1.0.0
+     */
+    Directory["Cache"] = "CACHE";
+    /**
+     * The external directory
+     * On iOS it will use the Documents directory
+     * On Android it's the directory on the primary shared/external
+     * storage device where the application can place persistent files it owns.
+     * These files are internal to the applications, and not typically visible
+     * to the user as media.
+     * Files will be deleted when the application is uninstalled.
+     *
+     * @since 1.0.0
+     */
+    Directory["External"] = "EXTERNAL";
+    /**
+     * The external storage directory
+     * On iOS it will use the Documents directory
+     * On Android it's the primary shared/external storage directory.
+     * It's not accesible on Android 10 unless the app enables legacy External Storage
+     * by adding `android:requestLegacyExternalStorage="true"` in the `application` tag
+     * in the `AndroidManifest.xml`.
+     * It's not accesible on Android 11 or newer.
+     *
+     * @since 1.0.0
+     */
+    Directory["ExternalStorage"] = "EXTERNAL_STORAGE";
+})(Directory || (Directory = {}));
+var Encoding;
+(function (Encoding) {
+    /**
+     * Eight-bit UCS Transformation Format
+     *
+     * @since 1.0.0
+     */
+    Encoding["UTF8"] = "utf8";
+    /**
+     * Seven-bit ASCII, a.k.a. ISO646-US, a.k.a. the Basic Latin block of the
+     * Unicode character set
+     * This encoding is only supported on Android.
+     *
+     * @since 1.0.0
+     */
+    Encoding["ASCII"] = "ascii";
+    /**
+     * Sixteen-bit UCS Transformation Format, byte order identified by an
+     * optional byte-order mark
+     * This encoding is only supported on Android.
+     *
+     * @since 1.0.0
+     */
+    Encoding["UTF16"] = "utf16";
+})(Encoding || (Encoding = {}));
+/**
+ * @deprecated Use `Directory`.
+ * @since 1.0.0
+ */
+const FilesystemDirectory = Directory;
+/**
+ * @deprecated Use `Encoding`.
+ * @since 1.0.0
+ */
+const FilesystemEncoding = Encoding;
+
+
+/***/ }),
+
+/***/ 1662:
+/*!**************************************************************!*\
+  !*** ./node_modules/@capacitor/filesystem/dist/esm/index.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Directory": () => (/* reexport safe */ _definitions__WEBPACK_IMPORTED_MODULE_1__.Directory),
+/* harmony export */   "Encoding": () => (/* reexport safe */ _definitions__WEBPACK_IMPORTED_MODULE_1__.Encoding),
+/* harmony export */   "Filesystem": () => (/* binding */ Filesystem),
+/* harmony export */   "FilesystemDirectory": () => (/* reexport safe */ _definitions__WEBPACK_IMPORTED_MODULE_1__.FilesystemDirectory),
+/* harmony export */   "FilesystemEncoding": () => (/* reexport safe */ _definitions__WEBPACK_IMPORTED_MODULE_1__.FilesystemEncoding)
+/* harmony export */ });
+/* harmony import */ var _capacitor_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @capacitor/core */ 5099);
+/* harmony import */ var _definitions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./definitions */ 3568);
+
+const Filesystem = (0,_capacitor_core__WEBPACK_IMPORTED_MODULE_0__.registerPlugin)('Filesystem', {
+    web: () => __webpack_require__.e(/*! import() */ "node_modules_capacitor_filesystem_dist_esm_web_js").then(__webpack_require__.bind(__webpack_require__, /*! ./web */ 4046)).then(m => new m.FilesystemWeb()),
+});
+
+
+
+
+/***/ }),
+
 /***/ 5800:
 /*!*********************************************************************!*\
   !*** ./node_modules/@ionic/core/dist/esm/button-active-eaaa6ece.js ***!
