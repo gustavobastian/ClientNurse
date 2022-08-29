@@ -10,6 +10,7 @@ import { BedsService } from '../services/beds.service';
 import { MessageModel } from '../models/message-model';
 import { MqttService } from '../services/mqtt.service';
 import { App } from '@capacitor/app';
+import { Directory, Filesystem } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-doctor-main',
@@ -26,6 +27,8 @@ export class DoctorMainPage implements OnInit {
   messages: Array<MessageModel> = new Array;
   pacientTable: Array<PacientsTable> = new Array;
   textResponse: string=""  ;
+  pacientActivated=false
+  storedFileNames=[];
 
   constructor(private router:Router,
     private activatedRoute: ActivatedRoute,
@@ -42,8 +45,11 @@ export class DoctorMainPage implements OnInit {
   async ngOnInit() {
    await this.getParams();
    await this.getBeds();
+   //subscription for audio
+   await this.subscribe();
+   await this.waiting(); 
    
-    
+   this.loadFiles();       
   }
   onClickPacientNote(id:number){    
     this.router.navigate(['/doctor-pacients/'+this.pacientNumber]);        
@@ -58,27 +64,35 @@ export class DoctorMainPage implements OnInit {
     this.localDoctor=this.userServ.getUser();
     this.doctorName = this.localDoctor.username;
     
+    
    }
+   /***
+    * for example
+    */
+  
+  public async subscribe(){
+  await this.MQTTServ.MQTTClientLocal.subscribe("/audio/recording");
+  }
+ 
    /***
     * getting list of pacients and beds
     */
     
     async getBeds() {
-   // console.log("Doctor logged:"+this.localDoctor.username)    
-   // console.log("Doctor logged:"+this.localDoctor.userId) 
-    let  responseInfoTopic="/User/"+this.localDoctor.userId+"/Beds";
+    let  responseInfoTopic="/User/"+this.localDoctor.userId+"/Pacients";
     await this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message=>{
         let localMessage = JSON.parse(Message.string);
         if(Message.toString()=="Error"){this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);}              
         else{
         //console.log(localMessage);
-        /*localMessage.forEach(element => {
+        localMessage.forEach(element => {
           this.pacientTable.push(element);
-        });*/
+        });
         this.pacientTable=localMessage;
-        
+        console.log(JSON.stringify(this.pacientTable))
         this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
        // console.log(JSON.stringify(this.pacientTable=localMessage));
+        this.MQTTServ.sendMesagge(responseInfoTopic, "");
        this.listenMessages();
       }
         
@@ -96,7 +110,7 @@ export class DoctorMainPage implements OnInit {
   /**
    * logout
    */
-   logout(){
+   public logout(){
     console.log("logging out");
     console.log("name:"+this.localDoctor.username);
    let question="logout";
@@ -108,20 +122,12 @@ export class DoctorMainPage implements OnInit {
    let topic="/User/general";
    this.MQTTServ.sendMesagge(topic, JSON.stringify(a));  
    
-   App.exitApp();   //this will close all services
-   //this.router.navigate(['/home/']);     
+   //App.exitApp();   //this will close all services
+   this.router.navigate(['/home/']);     
    
 
    
   }
-  /**
- * go to general chat
- */
-   public goChat(){
-    /*   this.router.navigate(['/chat/]);        */
-    this.bedlocal.setBedId(0);
-    this.router.navigate(['/chat/']);        
-      }
 
   
 
@@ -131,8 +137,8 @@ export class DoctorMainPage implements OnInit {
  */
     public async listenMessages(){
    // console.log("El usuario es:"+this.localDoctor.userId)
-    console.log("escuchando")
-    console.log("aqui:"+this.pacientTable.length)
+    //
+    //console.log("aqui:"+this.pacientTable.length)
     let topic="/User/"+this.localDoctor.userId+"/questions/";
 
     this.pacientTable.forEach(element => {
@@ -151,7 +157,8 @@ export class DoctorMainPage implements OnInit {
           console.log("Recibido por doc");
           
           this.messages.push(receivedMessage);    
-          this.newMessage=true;          
+          this.newMessage=true;        
+          this.MQTTServ.sendMesagge(topic, "");  
       })
       
     });
@@ -183,6 +190,61 @@ export class DoctorMainPage implements OnInit {
 
   upgradingPacientNumber(id:number){
     this.pacientNumber=id;
+    this.pacientActivated=true;
   }
 
+  async loadFiles(){
+    Filesystem.readdir({
+      path:'audios/',
+      directory: Directory.Documents //Data 
+      
+    }).then(result => {
+      console.log(result);
+      this.storedFileNames=result.files;
+    });
+  }
+
+  public async waiting(){    
+    console.log("escuchando audio")
+    this.MQTTServ.MQTTClientLocal.onMessage("/audio/recording",
+      async (message) => {
+        console.log(message.string);
+        {
+          if (message.string) {
+            const recorData = message.string;
+            const fileName = 'T' + new Date().getTime() + '.wav';
+            console.log("archivo:"+fileName);
+            await Filesystem.writeFile({
+              path: 'audios/'+fileName,
+              directory: Directory.Documents,//Data
+              recursive:true,
+              data: recorData
+            });
+          };
+          this.loadFiles();
+
+        }
+
+      })
+  }
+  async playFile(fileName: string){
+    const audioFile= await Filesystem.readFile({
+      path: 'audios/'+fileName,
+      directory: Directory.Documents//Data
+    })
+    const base64Sound=audioFile.data;
+    const audioRef = new Audio(`data:audio/aac;base64,${base64Sound}`);
+    audioRef.oncanplaythrough = () => audioRef.play();
+    audioRef.load();
+  }
+
+  async deleteFile(fileName: string){
+    await Filesystem.deleteFile({
+      path: 'audios/'+fileName,
+      directory: Directory.Documents
+    })
+    this.loadFiles();      
+  }
+
+  
 }

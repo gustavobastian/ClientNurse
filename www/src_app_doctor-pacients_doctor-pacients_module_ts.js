@@ -235,16 +235,6 @@ let DoctorPacientsPage = class DoctorPacientsPage {
             console.log(mqttmessage);
             let topic = "/User/general";
             yield this.MQTTServ.sendMesagge(topic, mqttmessage);
-            /*
-             if(userBad===0)
-               {this.showAsk=false;
-                 this.showNotes = true;
-                }
-             else{
-               this.showNotes = false;
-             }
-           
-           */
             this.showNotes = true;
         });
     }

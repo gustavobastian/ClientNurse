@@ -102,7 +102,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/beds.service */ 3082);
 /* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../models/message-model */ 6397);
 /* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
-/* harmony import */ var _capacitor_app__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @capacitor/app */ 3253);
+/* harmony import */ var _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @capacitor/filesystem */ 1662);
 
 
 
@@ -130,6 +130,8 @@ let DoctorMainPage = class DoctorMainPage {
         this.messages = new Array;
         this.pacientTable = new Array;
         this.textResponse = "";
+        this.pacientActivated = false;
+        this.storedFileNames = [];
         //this.doctorId = parseInt( this.activatedRoute.snapshot.paramMap.get("id"));
         this.doctorName = "";
     }
@@ -137,6 +139,10 @@ let DoctorMainPage = class DoctorMainPage {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
             yield this.getParams();
             yield this.getBeds();
+            //subscription for audio
+            yield this.subscribe();
+            yield this.waiting();
+            this.loadFiles();
         });
     }
     onClickPacientNote(id) {
@@ -155,13 +161,19 @@ let DoctorMainPage = class DoctorMainPage {
         });
     }
     /***
+     * for example
+     */
+    subscribe() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
+            yield this.MQTTServ.MQTTClientLocal.subscribe("/audio/recording");
+        });
+    }
+    /***
      * getting list of pacients and beds
      */
     getBeds() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
-            // console.log("Doctor logged:"+this.localDoctor.username)    
-            // console.log("Doctor logged:"+this.localDoctor.userId) 
-            let responseInfoTopic = "/User/" + this.localDoctor.userId + "/Beds";
+            let responseInfoTopic = "/User/" + this.localDoctor.userId + "/Pacients";
             yield this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message => {
                 let localMessage = JSON.parse(Message.string);
                 if (Message.toString() == "Error") {
@@ -169,12 +181,14 @@ let DoctorMainPage = class DoctorMainPage {
                 }
                 else {
                     //console.log(localMessage);
-                    /*localMessage.forEach(element => {
-                      this.pacientTable.push(element);
-                    });*/
+                    localMessage.forEach(element => {
+                        this.pacientTable.push(element);
+                    });
                     this.pacientTable = localMessage;
+                    console.log(JSON.stringify(this.pacientTable));
                     this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
                     // console.log(JSON.stringify(this.pacientTable=localMessage));
+                    this.MQTTServ.sendMesagge(responseInfoTopic, "");
                     this.listenMessages();
                 }
             });
@@ -200,16 +214,8 @@ let DoctorMainPage = class DoctorMainPage {
         // console.log(mqttmessage);
         let topic = "/User/general";
         this.MQTTServ.sendMesagge(topic, JSON.stringify(a));
-        _capacitor_app__WEBPACK_IMPORTED_MODULE_9__.App.exitApp(); //this will close all services
-        //this.router.navigate(['/home/']);     
-    }
-    /**
-   * go to general chat
-   */
-    goChat() {
-        /*   this.router.navigate(['/chat/]);        */
-        this.bedlocal.setBedId(0);
-        this.router.navigate(['/chat/']);
+        //App.exitApp();   //this will close all services
+        this.router.navigate(['/home/']);
     }
     /**
    *
@@ -218,8 +224,8 @@ let DoctorMainPage = class DoctorMainPage {
     listenMessages() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
             // console.log("El usuario es:"+this.localDoctor.userId)
-            console.log("escuchando");
-            console.log("aqui:" + this.pacientTable.length);
+            //
+            //console.log("aqui:"+this.pacientTable.length)
             let topic = "/User/" + this.localDoctor.userId + "/questions/";
             this.pacientTable.forEach(element => {
                 //console.log(JSON.stringify(element)) ; 
@@ -236,6 +242,7 @@ let DoctorMainPage = class DoctorMainPage {
                     console.log("Recibido por doc");
                     this.messages.push(receivedMessage);
                     this.newMessage = true;
+                    this.MQTTServ.sendMesagge(topic, "");
                 });
             });
         });
@@ -262,6 +269,62 @@ let DoctorMainPage = class DoctorMainPage {
     }
     upgradingPacientNumber(id) {
         this.pacientNumber = id;
+        this.pacientActivated = true;
+    }
+    loadFiles() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
+            _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_9__.Filesystem.readdir({
+                path: 'audios/',
+                directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_9__.Directory.Documents //Data 
+            }).then(result => {
+                console.log(result);
+                this.storedFileNames = result.files;
+            });
+        });
+    }
+    waiting() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
+            console.log("escuchando audio");
+            this.MQTTServ.MQTTClientLocal.onMessage("/audio/recording", (message) => (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
+                console.log(message.string);
+                {
+                    if (message.string) {
+                        const recorData = message.string;
+                        const fileName = 'T' + new Date().getTime() + '.wav';
+                        console.log("archivo:" + fileName);
+                        yield _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_9__.Filesystem.writeFile({
+                            path: 'audios/' + fileName,
+                            directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_9__.Directory.Documents,
+                            recursive: true,
+                            data: recorData
+                        });
+                    }
+                    ;
+                    this.loadFiles();
+                }
+            }));
+        });
+    }
+    playFile(fileName) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
+            const audioFile = yield _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_9__.Filesystem.readFile({
+                path: 'audios/' + fileName,
+                directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_9__.Directory.Documents //Data
+            });
+            const base64Sound = audioFile.data;
+            const audioRef = new Audio(`data:audio/aac;base64,${base64Sound}`);
+            audioRef.oncanplaythrough = () => audioRef.play();
+            audioRef.load();
+        });
+    }
+    deleteFile(fileName) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
+            yield _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_9__.Filesystem.deleteFile({
+                path: 'audios/' + fileName,
+                directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_9__.Directory.Documents
+            });
+            this.loadFiles();
+        });
     }
 };
 DoctorMainPage.ctorParameters = () => [
@@ -284,40 +347,6 @@ DoctorMainPage = (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__decorate)([
 
 /***/ }),
 
-/***/ 5203:
-/*!*************************************************************!*\
-  !*** ./node_modules/@capacitor/app/dist/esm/definitions.js ***!
-  \*************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-
-
-
-/***/ }),
-
-/***/ 3253:
-/*!*******************************************************!*\
-  !*** ./node_modules/@capacitor/app/dist/esm/index.js ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "App": () => (/* binding */ App)
-/* harmony export */ });
-/* harmony import */ var _capacitor_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @capacitor/core */ 5099);
-/* harmony import */ var _definitions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./definitions */ 5203);
-
-const App = (0,_capacitor_core__WEBPACK_IMPORTED_MODULE_0__.registerPlugin)('App', {
-    web: () => __webpack_require__.e(/*! import() */ "node_modules_capacitor_app_dist_esm_web_js").then(__webpack_require__.bind(__webpack_require__, /*! ./web */ 731)).then(m => new m.AppWeb()),
-});
-
-
-
-
-/***/ }),
-
 /***/ 2722:
 /*!**************************************************************!*\
   !*** ./src/app/doctor-main/doctor-main.page.scss?ngResource ***!
@@ -334,7 +363,7 @@ module.exports = ".card {\n  background-color: #4edad3;\n  color: red;\n}\n/*# s
   \**************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n        <ion-title>{{doctorName}}</ion-title>\n      <!-- Back button with a default href -->\n    <ion-buttons slot=\"start\">\n      <ion-button (click)=\"logout()\" >Logout</ion-button>        <!--href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  \n    <ion-card >\n      <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n        <ion-label>Cambiar notas de Pacientes </ion-label>\n      <br>\n      <ion-select interface=\"action-sheet\" #C (ionChange)=\"upgradingPacientNumber(C.value)\" type=\"number\" required>\n        <div *ngFor=\"let element of pacientTable; let i=index\">           \n         \n         <ion-select-option  value=\"{{pacientTable[i].pacientId}}\">{{pacientTable[i].pacientId}}</ion-select-option>                   \n        </div>\n      </ion-select>\n\n      <ion-item>\n        <ion-button (click)=\"onClickPacientNote(pacientNmber)\"> Ir </ion-button>        \n      </ion-item>\n    </ion-card>\n    \n    <ion-card >      \n        <ion-label>Leer Mensajes </ion-label>\n      <br>\n      <ion-item>\n        <ion-button (click)=\"onClickMessages()\"> Aceptar </ion-button>        \n      </ion-item>\n    </ion-card>\n\n  <ion-card >    \n    <div *ngFor=\"let element of messages; let i=index\">\n      \n        <ion-card ion-color=\"terciary\" >      \n          <ion-item>\n          <ion-label>Mensaje de : {{element._username}}</ion-label>\n          </ion-item><ion-item>\n          <ion-label> cama:{{element._bedId}}</ion-label>\n          </ion-item>          \n          <div *ngIf=\"element._type === 7\">\n              <ion-item>\n              <ion-label>{{element._content}}</ion-label>                        \n              </ion-item>\n          </div>      \n          <ion-item>\n          <ion-label position=\"stacked\">Respuesta:</ion-label>\n              <ion-input type=\"text\" #A (ionChange)=\"onChangeText(A.value,i)\"  ></ion-input>\n              <ion-item>\n              <ion-button><ion-icon name=\"mic\" ></ion-icon></ion-button>\n              <ion-button (click)=\"sendResponseText(i)\" ><ion-icon name=\"arrow-forward\" end></ion-icon></ion-button> <!--(click)= \"sendMsg(i)\" -->\n              </ion-item>\n          </ion-item>      \n           <!--(click)= \"sendMsg(i)\" -->\n        </ion-card>\n      \n    </div>\n  </ion-card >    \n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n        <ion-title>{{doctorName}}</ion-title>\n      <!-- Back button with a default href -->\n    <ion-buttons slot=\"start\">\n      <ion-button (click)=\"logout()\" >Logout</ion-button>        <!--href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  \n    <ion-card >\n      <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n        <ion-label>Cambiar notas de Pacientes </ion-label>\n      <br>\n      <ion-select interface=\"action-sheet\" #C (ionChange)=\"upgradingPacientNumber(C.value)\" type=\"number\" required>\n        <div *ngFor=\"let element of pacientTable; let i=index\">           \n         \n         <ion-select-option  value=\"{{pacientTable[i].pacientId}}\">{{pacientTable[i].pacientId}}</ion-select-option>                   \n        </div>\n      </ion-select>\n\n      <ion-item>\n        <div *ngIf=\"pacientActivated==true\">\n          <ion-button (click)=\"onClickPacientNote(pacientNmber)\"> Ir </ion-button>        \n        </div>\n      </ion-item>\n    </ion-card>\n    \n  <ion-card >    \n    <div *ngFor=\"let element of messages; let i=index\">\n      \n        <ion-card ion-color=\"terciary\" >      \n          <ion-item>\n          <ion-label>Mensaje de : {{element._username}}</ion-label>\n          </ion-item><ion-item>\n          <ion-label> cama:{{element._bedId}}</ion-label>\n          </ion-item>          \n          <div *ngIf=\"element._type === 7\">\n              <ion-item>\n              <ion-label>{{element._content}}</ion-label>                        \n              </ion-item>\n          </div>      \n          <ion-item>\n          <ion-label position=\"stacked\">Respuesta:</ion-label>\n              <ion-input type=\"text\" #A (ionChange)=\"onChangeText(A.value,i)\"  ></ion-input>\n              <ion-item>\n              <ion-button><ion-icon name=\"mic\" ></ion-icon></ion-button>\n              <ion-button (click)=\"sendResponseText(i)\" ><ion-icon name=\"arrow-forward\" end></ion-icon></ion-button> <!--(click)= \"sendMsg(i)\" -->\n              </ion-item>\n          </ion-item>      \n           <!--(click)= \"sendMsg(i)\" -->\n        </ion-card>\n      \n    </div>\n  </ion-card >    \n  <ion-label>Audio received</ion-label>\n  <ion-list>\n    <ion-item *ngFor=\"let f of storedFileNames\" >\n          \n        {{f|json}}  \n      \n      <ion-button (click)=\"playFile(f)\">\n          <ion-icon name=\"play\" slot=\"icon-only\"></ion-icon>\n      </ion-button>  \n      \n      <ion-button (click)=\"deleteFile(f)\">\n        <ion-icon name=\"trash-outline\" slot=\"icon-only\"></ion-icon>\n      </ion-button>\n      </ion-item>\n    </ion-list>\n  \n</ion-content>\n";
 
 /***/ })
 

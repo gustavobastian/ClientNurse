@@ -141,11 +141,11 @@ let WaitingEventPage = class WaitingEventPage {
         let receivedMessage;
         console.log("subscribed");
         this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
-            console.log("received");
-            console.log(Message.string);
+            //  console.log("received")
+            //  console.log(Message.string);            
             let localMessage = JSON.parse(Message.string);
             let local2 = Message.string;
-            console.log(localMessage[0].message);
+            //console.log(localMessage[0].message);    
             this.messages = [];
             localMessage.forEach(element => {
                 {
@@ -166,7 +166,7 @@ let WaitingEventPage = class WaitingEventPage {
             this.router.navigate(['/nurse-main/:' + i]);
             let topic = "/Beds/status";
             let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_3__.MessageModel(this.localNurse.username, "", this.bed.bedId, "0", 12);
-            console.log(a);
+            //console.log(a)
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
             topic = "/User/general";
@@ -180,6 +180,16 @@ let WaitingEventPage = class WaitingEventPage {
     onClick2(i) {
         this.localBed.setBedId(i);
         this.router.navigate(['/nurse-bed/:' + i]);
+    }
+    /**
+     * asking for Calendar Notes information
+     * @param i beds number
+     */
+    onClick3(i) {
+        /*this.localBed.setBedId(i);
+       
+        this.router.navigate(['/nurse-bed/:'+i]);        */
+        console.log(i);
     }
     /**
      * logout
@@ -242,7 +252,7 @@ module.exports = ".card {\n  background-color: #d15050;\n  box-shadow: none;\n}\
   \******************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Sala de espera</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button  (click)=\"logout()\">Logout</ion-button>        <!-- href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n<!--  <ion-item>\n    <ion-button (click)=\"goChat()\"> Chat General </ion-button>\n  </ion-item>-->\n  <div class=\"msgbubble\" *ngFor=\"let msg of messages\">  \n    <div *ngIf=\"msg.type > 1\">  \n      <ion-card >\n        <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n          <ion-item>\n          <ion-label>Habitacion: {{ msg.bedId }}</ion-label>\n          </ion-item>\n          <ion-item>\n          <ion-label>Estado: {{ msg.type }}</ion-label>\n          </ion-item>\n        <br>\n        <ion-item>\n          <ion-button (click)=\"onClick(msg.bedId)\"> Aceptar </ion-button>\n          <ion-button (click)=\"onClick2(msg.bedId)\"> Ubicacion </ion-button>\n        </ion-item>\n      </ion-card>\n    </div>  \n  </div>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Sala de espera</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button  (click)=\"logout()\">Logout</ion-button>        <!-- href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n<!--  <ion-item>\n    <ion-button (click)=\"goChat()\"> Chat General </ion-button>\n  </ion-item>-->\n  <div class=\"msgbubble\" *ngFor=\"let msg of messages\">  \n    <div *ngIf=\"msg.type > 1\">  \n      <ion-card >\n        <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n          <ion-item>\n          <ion-label>Habitacion: {{ msg.bedId }}</ion-label>\n          </ion-item>\n          <ion-item>\n          <ion-label>Estado: {{ msg.type }}</ion-label>\n          </ion-item>\n        <br>\n        <ion-item>\n          <ion-button (click)=\"onClick(msg.bedId)\"> Aceptar </ion-button>\n          <ion-button (click)=\"onClick2(msg.bedId)\"> Ubicacion </ion-button>\n          <div *ngIf=\"msg.type == 9\">  \n            <ion-button (click)=\"onClick3(msg.bedId)\"> Notas Calendario </ion-button>\n          </div>  \n        </ion-item>\n      </ion-card>\n    </div>  \n  </div>\n</ion-content>\n";
 
 /***/ })
 

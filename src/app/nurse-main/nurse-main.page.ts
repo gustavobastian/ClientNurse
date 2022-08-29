@@ -52,9 +52,7 @@ export class NurseMainPage implements OnInit {
   
   messages: Array<MessageModel> = new Array;
 
-  recording: AudioRecording;
-  webPaths = [];
-  dataUrls = [];
+  
 
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -477,30 +475,21 @@ export class NurseMainPage implements OnInit {
 
   async stopRecording(i: number) {
     try {
-      this.recording = await Microphone.stopRecording();
-      console.log('recording: ' + JSON.stringify(this.recording));
-      console.log('recording.dataUrl: ' + JSON.stringify(this.recording.dataUrl));
-      console.log('recording.duration: ' + JSON.stringify(this.recording.duration));
-      console.log('recording.format: ' + JSON.stringify(this.recording.format));
-      console.log('recording.mimeType: ' + JSON.stringify(this.recording.mimeType));
-      console.log('recording.path: ' + JSON.stringify(this.recording.path));
-      console.log('recording.webPath: ' + JSON.stringify(this.recording.webPath));
-      this.webPaths.push(this.recording.webPath);
-      this.dataUrls.push(this.recording.dataUrl);
-
-      let recordedMessage=await this.readFilePath(this.recording.path);
-      let recordedMessage2=JSON.parse(JSON.stringify(recordedMessage));
-
-      console.log("MSG0="+JSON.stringify(recordedMessage2))
       
+      let recording="";
+      
+      let recordedMessage=recording;
+      
+      let recordedMessage2=JSON.parse(JSON.stringify(recording));
+      
+     console.log("*************************************************************************************************************"); 
 
-/*
       let a= new MessageModel(this.localNurse.username,JSON.stringify(recordedMessage),  this.bedId, "0",22);
     
       let mqttmessage=JSON.stringify(a);
       let topic="/User/"+this.MDT[i].userID+"/questionsAudio/"+this.bedId;
       this.MQTTServ.sendMesagge(topic, mqttmessage);
-*/
+
     } catch (error) {
       console.error('recordingResult Error: ' + JSON.stringify(error));
     }
