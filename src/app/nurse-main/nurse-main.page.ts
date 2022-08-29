@@ -14,7 +14,7 @@ import { MedicalTable } from '../models/MedicalTable';
 import { Platform } from '@ionic/angular';
 import { AudioRecording, Microphone } from '@mozartec/capacitor-microphone';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
-
+import { RecordingData, VoiceRecorder } from 'capacitor-voice-recorder';
 
 
 
@@ -47,8 +47,9 @@ export class NurseMainPage implements OnInit {
   
   private actionFinished= false;
   private recordingAudio=false;
+  recording = false;
   private canRecord=false;
-  
+  duration=0;
   
   messages: Array<MessageModel> = new Array;
 
@@ -434,9 +435,9 @@ export class NurseMainPage implements OnInit {
   async recordingAudioStart(i: number){
     if(this.recordingAudio==true){return;}
     this.recordingAudio=true;
-    if(this.canRecord){
+   // if(this.canRecord){
       this.startRecording();
-    }
+    //}
   }
 
   async recordingAudioStop(i:number){
@@ -465,7 +466,12 @@ export class NurseMainPage implements OnInit {
 
   async startRecording() {
     try {
-      const startRecordingResult = await Microphone.startRecording();
+      this.duration=0;
+      const startRecordingResult = " ";
+      if(this.recording){return;     }
+        this.recording=true;
+        VoiceRecorder.startRecording();
+        this.calculateDuration();
       console.log('startRecordingResult: ' + JSON.stringify(startRecordingResult));
     } catch (error) {
       console.error('startRecordingResult Error: ' + JSON.stringify(error));
@@ -475,26 +481,40 @@ export class NurseMainPage implements OnInit {
 
   async stopRecording(i: number) {
     try {
-      
-      let recording="";
-      
-      let recordedMessage=recording;
-      
-      let recordedMessage2=JSON.parse(JSON.stringify(recording));
+      let recordedMessage="";
+      this.recording=false;
+      VoiceRecorder.stopRecording().then(
+      async (result: RecordingData) => {
+        if(result.value&&result.value.recordDataBase64){
+          recordedMessage = result.value.recordDataBase64;  
+          let a= new MessageModel(this.localNurse.username,(recordedMessage),  this.bedId, "0",22);                
+          let mqttmessage=JSON.stringify(a);
+          let topic="/User/"+this.MDT[i].userID+"/questions/"+this.bedId;
+          this.MQTTServ.sendMesagge(topic, mqttmessage);
+        };})
+         
       
      console.log("*************************************************************************************************************"); 
 
-      let a= new MessageModel(this.localNurse.username,JSON.stringify(recordedMessage),  this.bedId, "0",22);
+      
     
-      let mqttmessage=JSON.stringify(a);
-      let topic="/User/"+this.MDT[i].userID+"/questionsAudio/"+this.bedId;
-      this.MQTTServ.sendMesagge(topic, mqttmessage);
 
     } catch (error) {
       console.error('recordingResult Error: ' + JSON.stringify(error));
     }
   
   }
+
+  
+
+calculateDuration(){
+  if(!this.recording){this.duration=0;return;}  
+  this.duration+=1;
+  setTimeout(()=>{
+  this.calculateDuration();
+  },1000);
+}  
+
 
   public async readFilePath (PATH: string ): Promise<string> {
     // Here's an example of reading a file with a full file path. Use this to

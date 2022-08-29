@@ -37,6 +37,7 @@
     "@ionic/storage-angular": "^3.0.6",
     "@mozartec/capacitor-microphone": "^0.0.7",
     "bcrypt": "^5.0.1",
+    "capacitor-voice-recorder": "^4.0.0",
     "cordova-sqlite-storage": "^6.0.0",
     "localforage": "^1.10.0",
     "localforage-cordovasqlitedriver": "^1.8.0",

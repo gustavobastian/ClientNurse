@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '../services/local-storage.service';
-import { Storage } from '@capacitor/storage';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { Bed } from '../models/bed';
@@ -9,8 +8,8 @@ import { PacientsTable } from '../models/pacientsTable';
 import { BedsService } from '../services/beds.service';
 import { MessageModel } from '../models/message-model';
 import { MqttService } from '../services/mqtt.service';
-import { App } from '@capacitor/app';
 import { Directory, Filesystem } from '@capacitor/filesystem';
+import { RecordingData, VoiceRecorder } from 'capacitor-voice-recorder';
 
 @Component({
   selector: 'app-doctor-main',
@@ -27,6 +26,8 @@ export class DoctorMainPage implements OnInit {
   messages: Array<MessageModel> = new Array;
   pacientTable: Array<PacientsTable> = new Array;
   textResponse: string=""  ;
+  recording = false;
+  duration= 0;
   pacientActivated=false
   storedFileNames=[];
 
@@ -43,13 +44,15 @@ export class DoctorMainPage implements OnInit {
   }
 
   async ngOnInit() {
+   VoiceRecorder.requestAudioRecordingPermission(); 
+
    await this.getParams();
    await this.getBeds();
    //subscription for audio
-   await this.subscribe();
-   await this.waiting(); 
+   //await this.subscribe();
+   //await this.waiting(); 
    
-   this.loadFiles();       
+   
   }
   onClickPacientNote(id:number){    
     this.router.navigate(['/doctor-pacients/'+this.pacientNumber]);        
@@ -107,6 +110,7 @@ export class DoctorMainPage implements OnInit {
     await this.MQTTServ.sendMesagge(topic, mqttmessage);
   }
 
+
   /**
    * logout
    */
@@ -149,10 +153,8 @@ export class DoctorMainPage implements OnInit {
         let localMessage = JSON.parse(Message.string);
         if(Message.toString()=="Error"){this.MQTTServ.MQTTClientLocal.unsubscribe(topic+"#");}      
         //console.log("respuestaSystem2:  "+localMessage[0].lastName);
-        console.log("here doc listening");
-        
-        
-            
+        console.log("here doc listening");       
+                    
         let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time,localMessage._type);
           console.log("Recibido por doc");
           
@@ -193,40 +195,7 @@ export class DoctorMainPage implements OnInit {
     this.pacientActivated=true;
   }
 
-  async loadFiles(){
-    Filesystem.readdir({
-      path:'audios/',
-      directory: Directory.Documents //Data 
-      
-    }).then(result => {
-      console.log(result);
-      this.storedFileNames=result.files;
-    });
-  }
 
-  public async waiting(){    
-    console.log("escuchando audio")
-    this.MQTTServ.MQTTClientLocal.onMessage("/audio/recording",
-      async (message) => {
-        console.log(message.string);
-        {
-          if (message.string) {
-            const recorData = message.string;
-            const fileName = 'T' + new Date().getTime() + '.wav';
-            console.log("archivo:"+fileName);
-            await Filesystem.writeFile({
-              path: 'audios/'+fileName,
-              directory: Directory.Documents,//Data
-              recursive:true,
-              data: recorData
-            });
-          };
-          this.loadFiles();
-
-        }
-
-      })
-  }
   async playFile(fileName: string){
     const audioFile= await Filesystem.readFile({
       path: 'audios/'+fileName,
@@ -238,13 +207,48 @@ export class DoctorMainPage implements OnInit {
     audioRef.load();
   }
 
-  async deleteFile(fileName: string){
-    await Filesystem.deleteFile({
-      path: 'audios/'+fileName,
-      directory: Directory.Documents
-    })
-    this.loadFiles();      
+  async playString(data: string){
+    
+    const base64Sound=data;
+    const audioRef = new Audio(`data:audio/aac;base64,${base64Sound}`);
+    audioRef.oncanplaythrough = () => audioRef.play();
+    audioRef.load();
   }
 
+/**
+ * recording audio
+ */
+ startRecording() {
+    
+  if(this.recording){return;     }
+  this.recording=true;
+  VoiceRecorder.startRecording();
+  this.calculateDuration();
+}
+
+calculateDuration(){
+  if(!this.recording){this.duration=0;return;}  
+  this.duration+=1;
+  setTimeout(()=>{
+  this.calculateDuration();
+  },1000);
+}  
+stopRecording( id:number) {
+  let topic="/User/"+this.localDoctor.userId+"/answers/"+this.pacientTable[id].pacientId;
   
+  this.recording=false;
+  VoiceRecorder.stopRecording().then(
+    async (result: RecordingData) => {
+      if(result.value&&result.value.recordDataBase64){
+        const recorData = result.value.recordDataBase64;        
+        let a=new MessageModel(this.localDoctor.username,result.value.recordDataBase64,  this.pacientTable[id].bedId, "0",27);    
+          let mqttmessage=JSON.stringify(a);    
+          this.MQTTServ.sendMesagge(topic, mqttmessage);
+      };
+           
+        
+      }
+    
+  );
+}
 }
