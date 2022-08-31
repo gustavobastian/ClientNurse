@@ -85,7 +85,7 @@ export class DoctorPacientsPage implements OnInit {
       userBad=1;
     }
     else{
-    console.log("recibo nota")
+//console.log("recibo nota")
     let localMessage = JSON.parse(Message.toString());      
     //let localMessage = JSON.parse(JSON.stringify(Message));
     

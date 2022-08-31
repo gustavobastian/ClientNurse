@@ -160,7 +160,7 @@ export class DoctorMainPage implements OnInit {
           
           this.messages.push(receivedMessage);    
           this.newMessage=true;        
-          this.MQTTServ.sendMesagge(topic, "");  
+          //this.MQTTServ.sendMesagge(topic, " ");  
       })
       
     });
@@ -218,10 +218,10 @@ export class DoctorMainPage implements OnInit {
 /**
  * recording audio
  */
- startRecording() {
-    
+ startRecording(i) {
+  console.log("startin recording")  
   if(this.recording){return;     }
-  this.recording=true;
+  this.recording=true;  
   VoiceRecorder.startRecording();
   this.calculateDuration();
 }
@@ -233,20 +233,21 @@ calculateDuration(){
   this.calculateDuration();
   },1000);
 }  
-stopRecording( id:number) {
+async stopRecording( id:number) {
+  console.log("stopping recording")
   let topic="/User/"+this.localDoctor.userId+"/answers/"+this.pacientTable[id].pacientId;
   
   this.recording=false;
   VoiceRecorder.stopRecording().then(
     async (result: RecordingData) => {
       if(result.value&&result.value.recordDataBase64){
+        console.log("sending recording")
         const recorData = result.value.recordDataBase64;        
-        let a=new MessageModel(this.localDoctor.username,result.value.recordDataBase64,  this.pacientTable[id].bedId, "0",27);    
+        let a=new MessageModel(this.localDoctor.username,result.value.recordDataBase64,  this.pacientTable[id].bedId, "0",22);    
           let mqttmessage=JSON.stringify(a);    
-          this.MQTTServ.sendMesagge(topic, mqttmessage);
+         await this.MQTTServ.sendMesagge(topic, mqttmessage);
+          console.log("recording sent")
       };
-           
-        
       }
     
   );

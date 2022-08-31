@@ -35,6 +35,7 @@ export class NurseMainPage implements OnInit {
   private audioRx: Array<number> = new Array;
   private textToSend: Array<string> = new Array;
   private RxText: Array<string> = new Array;
+  private RxType: Array<number> = new Array;
   private MDT: Array<MedicalTable> = new Array;
   
   private pacientLocal: Pacient= new Pacient(0,"Gus","Bas",0,0,0);
@@ -204,8 +205,7 @@ export class NurseMainPage implements OnInit {
           this.MDT.push(MDTLocal2); 
           this.msg.push(0); 
           this.msgRx.push(0);
-          this.audio.push(0); 
-          this.audioRx.push(0);
+          this.RxType.push(0);          
           this.textToSend.push(""); 
           this.RxText.push(""); 
         });
@@ -425,9 +425,15 @@ export class NurseMainPage implements OnInit {
     let parsedMessage = JSON.parse(Message.string);      
     console.log("recibido1:"+ JSON.stringify(parsedMessage._content)) ;
     console.log("recibido:"+parsedMessage._content) ;
+    console.log("recibido Tipo:"+parsedMessage._type) ;
     
         
-    this.RxText[i]= (parsedMessage._content);   
+    this.RxText[i]= (parsedMessage._content);
+    if(parsedMessage._type==7)
+        this.RxType[i]=1;           
+    else    
+        this.RxType[i]=2;
+
     this.msgRx[i] = 1;     
     });
   }
@@ -491,13 +497,9 @@ export class NurseMainPage implements OnInit {
           let mqttmessage=JSON.stringify(a);
           let topic="/User/"+this.MDT[i].userID+"/questions/"+this.bedId;
           this.MQTTServ.sendMesagge(topic, mqttmessage);
-        };})
-         
+        };})         
       
      console.log("*************************************************************************************************************"); 
-
-      
-    
 
     } catch (error) {
       console.error('recordingResult Error: ' + JSON.stringify(error));
@@ -543,5 +545,19 @@ calculateDuration(){
     this.showNotes=true;
     this.showMedical=false;
   }
+/**
+ * Functions that play a string in system
+ * 
+ */
+
+  async playString(data: string){
+    
+    const base64Sound=data;
+    const audioRef = new Audio(`data:audio/aac;base64,${base64Sound}`);
+    audioRef.oncanplaythrough = () => audioRef.play();
+    audioRef.load();
+  }
+
+
 }
 
