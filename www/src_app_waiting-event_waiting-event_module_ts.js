@@ -638,7 +638,7 @@ WaitingEventPage = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([
   \******************************************************************/
 /***/ ((module) => {
 
-module.exports = ".card {\n  background-color: #d15050;\n  box-shadow: none;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndhaXRpbmctZXZlbnQucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0kseUJBQUE7RUFDQSxnQkFBQTtBQUNKIiwiZmlsZSI6IndhaXRpbmctZXZlbnQucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNhcmQge1xuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYigyMDksIDgwLCA4MCk7IC8vIGJsYWNrXG4gICAgYm94LXNoYWRvdzogbm9uZTtcbiAgfSJdfQ== */";
+module.exports = ".card {\n  background-color: #d15050;\n  box-shadow: none;\n}\n\n* {\n  background: transparent !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndhaXRpbmctZXZlbnQucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0kseUJBQUE7RUFDQSxnQkFBQTtBQUNKOztBQUVFO0VBQUUsa0NBQUE7QUFFSiIsImZpbGUiOiJ3YWl0aW5nLWV2ZW50LnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jYXJkIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjA5LCA4MCwgODApOyAvLyBibGFja1xuICAgIGJveC1zaGFkb3c6IG5vbmU7XG4gIH1cblxuICAqe2JhY2tncm91bmQ6IHRyYW5zcGFyZW50ICFpbXBvcnRhbnQ7fSAgIl19 */";
 
 /***/ }),
 

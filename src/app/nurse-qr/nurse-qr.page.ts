@@ -29,6 +29,7 @@ export class NurseQRPage implements OnInit {
   private Platform: Platform;
 
   public capturedQR :string ="Coloque aqui";
+  data=" "
   
 
   constructor(
@@ -43,216 +44,54 @@ export class NurseQRPage implements OnInit {
   ) {
     
     this.bedId = this.bedlocal.getBedId();
+    this.capturing=false;
    
    }
 
   async ngOnInit() {
-    console.log("on QR init")
-    await this.platform.ready().then(() => {
-      if (this.platform.is('android')) {
-           console.log('android');
-      } else if (this.platform.is('ios')) {
-           console.log('ios');
-      } else {
-           //fallback to browser APIs or
-           console.log('The platform is not supported');
-             }
-      });
-
-      if(this.platform.is('android') || this.platform.is('ios'))
-      {
-        this.canCapture=true;
-        console.log("puedo capturar")   
-        console.log("check permisions on android")
-      const state=await this.checkPermission();
-      if((state)== true){
-        console.log(" permisos correctos");
-        return;}
-      else{
-        alert("Permission denied");
-          }    
-         
-      }
-      else{
-        this.canCapture=false;
-        console.log("no puedo capturar")
-      }
+    const state=await this.checkPermission();
+    if((state)== true){return;}
+    else{
+      alert("Permission denied");
+    }
     
   }
 
+  ngAfterViewInit(){
+    BarcodeScanner.prepare();
+  }
+
+  ngOnDestroy(){
+    BarcodeScanner.stopScan();
+  }
+
+  public async startScan() {
+    BarcodeScanner.hideBackground(); // make background of WebView transparent
+    document.body.style.opacity="0.2";
+
+    document.body.style.background = "transparent"; 
+    const result = await BarcodeScanner.startScan(); // start scanning and wait for a result
   
+    // if the result has content
+    if (result.hasContent) {
+      document.body.style.background = "";
+      document.body.style.opacity="1";
 
-/****************************************************************************************************************** */
-/* QR scanner functions
-/****************************************************************************************************************** */
+      console.log(result.content); // log the raw scanned content
+      this.data=result.content;
+    }
+  };
 
-  //check permissions of the camera
-  //from "https://github.com/capacitor-community/barcode-scanner"
-   public async didUserGrantPermission() {
-    // check if user already granted permission
-    const status = await BarcodeScanner.checkPermission({ force: false });
+
+  public async checkPermission() {
+    // check or request permission
+    const status = await BarcodeScanner.checkPermission({ force: true });
   
     if (status.granted) {
-      // user granted permission
+      // the user granted permission
       return true;
     }
   
-    if (status.denied) {
-      // user denied permission
-      return false;
-    }
-  
-    if (status.asked) {
-      // system requested the user for permission during this call
-      // only possible when force set to true
-    }
-  
-    if (status.neverAsked) {
-      // user has not been requested this permission before
-      // it is advised to show the user some sort of prompt
-      // this way you will not waste your only chance to ask for the permission
-      const c = confirm(
-        'Necesitamos permisos de la camara para realizar el la busqueda de código qr',
-      );
-      if (!c) {
-        return false;
-      }
-    }
-  
-    if (status.restricted || status.unknown) {
-      // ios only
-      // probably means the permission has been denied
-      return false;
-    }
-    // user has not denied permission
-  // but the user also has not yet granted the permission
-  // so request it
-  const statusRequest = await BarcodeScanner.checkPermission({ force: true });
-
-  if (statusRequest.asked) {
-    // system requested the user for permission during this call
-    // only possible when force set to true
-  }
-
-  if (statusRequest.granted) {
-    // the user did grant the permission now
-    return true;
-  }
-
-  // user did not grant the permission, so he must have declined the request
-  return false;
-};
-
-//checking permisions
-/*public async checkPermission(): Promise<boolean>{
-  const status = await BarcodeScanner.checkPermission();
-
-  if (status.denied) {
-    // the user denied permission for good
-    // redirect user to app settings if they want to grant it anyway
-    const c = confirm(
-      'Si deseas utilizar el traductor de codigos QR debes permitir acceder a la camara en las opciones de la aplicación',
-    );
-    if (c) {
-      BarcodeScanner.openAppSettings();
-    }
-  }
-};*/
-public async checkPermission() : Promise<boolean>{
-  // check or request permission
-  const status = await BarcodeScanner.checkPermission({ force: true });
-
-  if (status.granted) {
-    // the user granted permission
-    return true;
-  }
-
-  return false;
-};
-
-
-public async startScan (){
-  this.capturing=true;
-  this.scanActive = true;
-  console.log("setting opacity")
-  BarcodeScanner.hideBackground(); // make background of WebView transparent
-  document.body.style.opacity="0.2";
-
-  const result = await BarcodeScanner.startScan();
-  if (result.hasContent) {
-    document.body.style.background = "";
-    document.body.style.opacity="1";
-    console.log(result.content);
-    this.capturedQR=result.content;
-    
-    this.capturing=false;
-  }
-  else{
-    this.capturing=false;
-  }
-};
-public async prepare(){
-    BarcodeScanner.prepare();
+    return false;
   };
-public async stopScan (){
-    BarcodeScanner.showBackground();
-    BarcodeScanner.stopScan();
-    document.body.style.background = "";
-    document.body.style.opacity="1";
-    
-    this.scanActive = false;
-  };
-public ionViewWillLeave() {
-    BarcodeScanner.stopScan();
-    document.body.style.background = "";
-    document.body.style.opacity="1";
-    this.scanActive = false;
-  }  
-
-/****************************************************************************************************************** */
-/* Buttons functions
-/****************************************************************************************************************** */
-  /**
-   * This function will start the look for for QR codes using the back camera
-   */
-   async startScanner(){  
-    if(this.platform.is('android') || this.platform.is('ios'))
-    {
-        if((await this.didUserGrantPermission()) === true) {
-          this.startScan()
-        }
-        
-       /**
-       * This function will stop the look for for QR codes using the back camera
-       */
-      await this.stopScan();
-    }
-    else{
-      alert("no implementado en web browser")
-    }    
-  }  
-  async stopScanner(){  
-    if(this.platform.is('android') || this.platform.is('ios'))
-    {
-                
-       /**
-       * This function will stop the look for for QR codes using the back camera
-       */
-      await this.stopScan();
-    }    
-  }  
-
-  //sending qr information for system notification
-  async sendQr(){
-    console.log("QR:"+this.capturedQR)
-    let a=new MessageModel(this.nurseName,JSON.stringify(this.capturedQR),  this.bedId, "0",11);    
-      console.log(a)
-      let mqttmessage=JSON.stringify(a);
-      console.log(mqttmessage);
-      let topic="/User/general";
-    await this.MQTTServ.sendMesagge(topic, mqttmessage);
-
-  }
-  // setting information 
-
 }

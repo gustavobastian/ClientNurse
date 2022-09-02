@@ -47,59 +47,6 @@ class Bed {
 
 /***/ }),
 
-/***/ 6397:
-/*!*****************************************!*\
-  !*** ./src/app/models/message-model.ts ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "MessageModel": () => (/* binding */ MessageModel)
-/* harmony export */ });
-class MessageModel {
-    constructor(userName, content, bedId, time, type) {
-        this._username = userName;
-        this._content = content;
-        this._bedId = bedId;
-        this._time = time;
-        this._type = type;
-    }
-    get username() {
-        return this._username;
-    }
-    get content() {
-        return this._content;
-    }
-    get bedId() {
-        return this._bedId;
-    }
-    get time() {
-        return this._time;
-    }
-    get type() {
-        return this._type;
-    }
-    set username(username) {
-        this._username = username;
-    }
-    set content(content) {
-        this._content = content;
-    }
-    set bedId(bedId) {
-        this._bedId = bedId;
-    }
-    set time(time) {
-        this._time = time;
-    }
-    set type(type) {
-        this._type = type;
-    }
-}
-
-
-/***/ }),
-
 /***/ 5783:
 /*!********************************!*\
   !*** ./src/app/models/user.ts ***!
@@ -256,20 +203,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "NurseQRPage": () => (/* binding */ NurseQRPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _nurse_qr_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-qr.page.html?ngResource */ 9035);
 /* harmony import */ var _nurse_qr_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nurse-qr.page.scss?ngResource */ 1461);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/router */ 2816);
-/* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/message-model */ 6397);
-/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/user */ 5783);
-/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/beds.service */ 3082);
-/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
-/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
-/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/user.service */ 3071);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ionic/angular */ 3819);
-/* harmony import */ var _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @capacitor-community/barcode-scanner */ 8353);
-
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/user */ 5783);
+/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/beds.service */ 3082);
+/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
+/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/user.service */ 3071);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @capacitor-community/barcode-scanner */ 8353);
 
 
 
@@ -291,7 +236,7 @@ let NurseQRPage = class NurseQRPage {
         this.bedlocal = bedlocal;
         this.router = router;
         this.platform = platform;
-        this.localNurse = new _models_user__WEBPACK_IMPORTED_MODULE_3__.User(0, "", "", "", "", 0, "");
+        this.localNurse = new _models_user__WEBPACK_IMPORTED_MODULE_2__.User(0, "", "", "", "", 0, "");
         this.bedId = 0;
         this.nurseName = " ";
         this.nurseId = 0;
@@ -300,113 +245,47 @@ let NurseQRPage = class NurseQRPage {
         this.canCapture = false;
         this.scanActive = false;
         this.capturedQR = "Coloque aqui";
+        this.data = " ";
         this.bedId = this.bedlocal.getBedId();
+        this.capturing = false;
     }
     ngOnInit() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
-            console.log("on QR init");
-            yield this.platform.ready().then(() => {
-                if (this.platform.is('android')) {
-                    console.log('android');
-                }
-                else if (this.platform.is('ios')) {
-                    console.log('ios');
-                }
-                else {
-                    //fallback to browser APIs or
-                    console.log('The platform is not supported');
-                }
-            });
-            if (this.platform.is('android') || this.platform.is('ios')) {
-                this.canCapture = true;
-                console.log("puedo capturar");
-                console.log("check permisions on android");
-                const state = yield this.checkPermission();
-                if ((state) == true) {
-                    console.log(" permisos correctos");
-                    return;
-                }
-                else {
-                    alert("Permission denied");
-                }
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+            const state = yield this.checkPermission();
+            if ((state) == true) {
+                return;
             }
             else {
-                this.canCapture = false;
-                console.log("no puedo capturar");
+                alert("Permission denied");
             }
         });
     }
-    /****************************************************************************************************************** */
-    /* QR scanner functions
-    /****************************************************************************************************************** */
-    //check permissions of the camera
-    //from "https://github.com/capacitor-community/barcode-scanner"
-    didUserGrantPermission() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
-            // check if user already granted permission
-            const status = yield _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.checkPermission({ force: false });
-            if (status.granted) {
-                // user granted permission
-                return true;
+    ngAfterViewInit() {
+        _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_7__.BarcodeScanner.prepare();
+    }
+    ngOnDestroy() {
+        _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_7__.BarcodeScanner.stopScan();
+    }
+    startScan() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+            _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_7__.BarcodeScanner.hideBackground(); // make background of WebView transparent
+            document.body.style.opacity = "0.2";
+            document.body.style.background = "transparent";
+            const result = yield _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_7__.BarcodeScanner.startScan(); // start scanning and wait for a result
+            // if the result has content
+            if (result.hasContent) {
+                document.body.style.background = "";
+                document.body.style.opacity = "1";
+                console.log(result.content); // log the raw scanned content
+                this.data = result.content;
             }
-            if (status.denied) {
-                // user denied permission
-                return false;
-            }
-            if (status.asked) {
-                // system requested the user for permission during this call
-                // only possible when force set to true
-            }
-            if (status.neverAsked) {
-                // user has not been requested this permission before
-                // it is advised to show the user some sort of prompt
-                // this way you will not waste your only chance to ask for the permission
-                const c = confirm('Necesitamos permisos de la camara para realizar el la busqueda de código qr');
-                if (!c) {
-                    return false;
-                }
-            }
-            if (status.restricted || status.unknown) {
-                // ios only
-                // probably means the permission has been denied
-                return false;
-            }
-            // user has not denied permission
-            // but the user also has not yet granted the permission
-            // so request it
-            const statusRequest = yield _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.checkPermission({ force: true });
-            if (statusRequest.asked) {
-                // system requested the user for permission during this call
-                // only possible when force set to true
-            }
-            if (statusRequest.granted) {
-                // the user did grant the permission now
-                return true;
-            }
-            // user did not grant the permission, so he must have declined the request
-            return false;
         });
     }
     ;
-    //checking permisions
-    /*public async checkPermission(): Promise<boolean>{
-      const status = await BarcodeScanner.checkPermission();
-    
-      if (status.denied) {
-        // the user denied permission for good
-        // redirect user to app settings if they want to grant it anyway
-        const c = confirm(
-          'Si deseas utilizar el traductor de codigos QR debes permitir acceder a la camara en las opciones de la aplicación',
-        );
-        if (c) {
-          BarcodeScanner.openAppSettings();
-        }
-      }
-    };*/
     checkPermission() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
             // check or request permission
-            const status = yield _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.checkPermission({ force: true });
+            const status = yield _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_7__.BarcodeScanner.checkPermission({ force: true });
             if (status.granted) {
                 // the user granted permission
                 return true;
@@ -415,105 +294,18 @@ let NurseQRPage = class NurseQRPage {
         });
     }
     ;
-    startScan() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
-            this.capturing = true;
-            this.scanActive = true;
-            console.log("setting opacity");
-            _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.hideBackground(); // make background of WebView transparent
-            document.body.style.opacity = "0.2";
-            const result = yield _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.startScan();
-            if (result.hasContent) {
-                document.body.style.background = "";
-                document.body.style.opacity = "1";
-                console.log(result.content);
-                this.capturedQR = result.content;
-                this.capturing = false;
-            }
-            else {
-                this.capturing = false;
-            }
-        });
-    }
-    ;
-    prepare() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
-            _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.prepare();
-        });
-    }
-    ;
-    stopScan() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
-            _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.showBackground();
-            _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.stopScan();
-            document.body.style.background = "";
-            document.body.style.opacity = "1";
-            this.scanActive = false;
-        });
-    }
-    ;
-    ionViewWillLeave() {
-        _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.stopScan();
-        document.body.style.background = "";
-        document.body.style.opacity = "1";
-        this.scanActive = false;
-    }
-    /****************************************************************************************************************** */
-    /* Buttons functions
-    /****************************************************************************************************************** */
-    /**
-     * This function will start the look for for QR codes using the back camera
-     */
-    startScanner() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
-            if (this.platform.is('android') || this.platform.is('ios')) {
-                if ((yield this.didUserGrantPermission()) === true) {
-                    this.startScan();
-                }
-                /**
-                * This function will stop the look for for QR codes using the back camera
-                */
-                yield this.stopScan();
-            }
-            else {
-                alert("no implementado en web browser");
-            }
-        });
-    }
-    stopScanner() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
-            if (this.platform.is('android') || this.platform.is('ios')) {
-                /**
-                * This function will stop the look for for QR codes using the back camera
-                */
-                yield this.stopScan();
-            }
-        });
-    }
-    //sending qr information for system notification
-    sendQr() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
-            console.log("QR:" + this.capturedQR);
-            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_2__.MessageModel(this.nurseName, JSON.stringify(this.capturedQR), this.bedId, "0", 11);
-            console.log(a);
-            let mqttmessage = JSON.stringify(a);
-            console.log(mqttmessage);
-            let topic = "/User/general";
-            yield this.MQTTServ.sendMesagge(topic, mqttmessage);
-        });
-    }
 };
 NurseQRPage.ctorParameters = () => [
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_10__.ActivatedRoute },
-    { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_5__.LocalStorageService },
-    { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_6__.MqttService },
-    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_7__.UserService },
-    { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_4__.BedsService },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_10__.Router },
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_11__.Platform }
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_9__.ActivatedRoute },
+    { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_4__.LocalStorageService },
+    { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_5__.MqttService },
+    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_6__.UserService },
+    { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_3__.BedsService },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_9__.Router },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_10__.Platform }
 ];
-NurseQRPage = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_12__.Component)({
+NurseQRPage = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_11__.Component)({
         selector: 'app-nurse-qr',
         template: _nurse_qr_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_nurse_qr_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -856,7 +648,7 @@ const BarcodeScanner = (0,_capacitor_core__WEBPACK_IMPORTED_MODULE_0__.registerP
   \********************************************************/
 /***/ ((module) => {
 
-module.exports = ".scan-box {\n  border: 2px solid #fff;\n  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);\n  content: \"\";\n  display: block;\n  left: 50%;\n  height: 300px;\n  position: absolute;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  width: 300px;\n}\n\n.scan-button {\n  margin: 0px;\n  position: absolute;\n  bottom: 100px;\n  width: 100vw;\n  height: 50px;\n  z-index: 11;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm51cnNlLXFyLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLHNCQUFBO0VBQ0EsNENBQUE7RUFDQSxXQUFBO0VBQ0EsY0FBQTtFQUNBLFNBQUE7RUFDQSxhQUFBO0VBQ0Esa0JBQUE7RUFDQSxRQUFBO0VBQ0EsZ0NBQUE7RUFDQSxZQUFBO0FBQ0o7O0FBQ0U7RUFDRSxXQUFBO0VBQ0Esa0JBQUE7RUFDQSxhQUFBO0VBQ0EsWUFBQTtFQUNBLFlBQUE7RUFDQSxXQUFBO0FBRUoiLCJmaWxlIjoibnVyc2UtcXIucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnNjYW4tYm94IHtcbiAgICBib3JkZXI6IDJweCBzb2xpZCAjZmZmO1xuICAgIGJveC1zaGFkb3c6IDAgMCAwIDEwMHZtYXggcmdiKDAsIDAsIDAsIDAuNSk7XG4gICAgY29udGVudDogXCJcIjtcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICBsZWZ0OiA1MCU7XG4gICAgaGVpZ2h0OiAzMDBweDtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiA1MCU7XG4gICAgdHJhbnNmb3JtOiB0cmFuc2xhdGUoLTUwJSwgLTUwJSk7XG4gICAgd2lkdGg6IDMwMHB4O1xuICB9XG4gIC5zY2FuLWJ1dHRvbiB7XG4gICAgbWFyZ2luOiAwcHg7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIGJvdHRvbTogMTAwcHg7XG4gICAgd2lkdGg6IDEwMHZ3O1xuICAgIGhlaWdodDogNTBweDtcbiAgICB6LWluZGV4OiAxMTtcbiAgfVxuICAiXX0= */";
+module.exports = "#container {\n  text-align: center;\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  transform: translateY(-50%);\n}\n\n#container strong {\n  font-size: 20px;\n  line-height: 26px;\n}\n\n#container p {\n  font-size: 16px;\n  line-height: 22px;\n  color: #8c8c8c;\n  margin: 0;\n}\n\n#container a {\n  text-decoration: none;\n}\n\n* {\n  box-sizing: border-box;\n}\n\np {\n  color: #fff;\n  font-family: sans-serif;\n  text-align: center;\n  font-weight: 600;\n}\n\nhtml,\nbody,\n.container {\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n}\n\n.container {\n  display: flex;\n}\n\n.relative {\n  position: relative;\n  z-index: 1;\n}\n\n.square {\n  width: 100%;\n  position: relative;\n  overflow: hidden;\n  transition: 0.3s;\n}\n\n.square:after {\n  content: \"\";\n  top: 0;\n  display: block;\n  padding-bottom: 100%;\n}\n\n.square > div {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n}\n\n.surround-cover {\n  box-shadow: 0 0 0 99999px rgba(0, 0, 0, 0.5);\n}\n\n.barcode-scanner--area--container {\n  width: 80%;\n  max-width: min(500px, 80vh);\n  margin: auto;\n}\n\n.barcode-scanner--area--outer {\n  display: flex;\n  border-radius: 1em;\n}\n\n.barcode-scanner--area--inner {\n  width: 100%;\n  margin: 1rem;\n  border: 2px solid #fff;\n  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 1px rgba(0, 0, 0, 0.5);\n  border-radius: 1rem;\n}\n\n.sample-background {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  background: linear-gradient(45deg, #673ab7, transparent);\n  background-position: 45% 50%;\n  background-size: cover;\n  background-repeat: no-repeat;\n  animation: shake 5s infinite;\n}\n\n@keyframes shake {\n  0% {\n    transform: translate(0, 0) rotate(0deg) scale(1);\n  }\n  20% {\n    transform: translate(5px, 5px) rotate(-1deg) scale(1.05);\n  }\n  40% {\n    transform: translate(5px, 5px) rotate(-2deg) scale(1.07);\n  }\n  60% {\n    transform: translate(2px, 2px) rotate(0deg) scale(1.04);\n  }\n  80% {\n    transform: translate(-1px, -1px) rotate(-2deg) scale(1.05);\n  }\n  100% {\n    transform: translate(0, 0) rotate(0deg) scale(1);\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm51cnNlLXFyLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGtCQUFBO0VBRUEsa0JBQUE7RUFDQSxPQUFBO0VBQ0EsUUFBQTtFQUNBLFFBQUE7RUFDQSwyQkFBQTtBQUFGOztBQUdBO0VBQ0UsZUFBQTtFQUNBLGlCQUFBO0FBQUY7O0FBR0E7RUFDRSxlQUFBO0VBQ0EsaUJBQUE7RUFFQSxjQUFBO0VBRUEsU0FBQTtBQUZGOztBQUtBO0VBQ0UscUJBQUE7QUFGRjs7QUFLQTtFQUNFLHNCQUFBO0FBRkY7O0FBSUE7RUFDRSxXQUFBO0VBQ0EsdUJBQUE7RUFDQSxrQkFBQTtFQUNBLGdCQUFBO0FBREY7O0FBR0E7OztFQUdFLFdBQUE7RUFDQSxZQUFBO0VBQ0EsZ0JBQUE7QUFBRjs7QUFFQTtFQUNFLGFBQUE7QUFDRjs7QUFDQTtFQUNFLGtCQUFBO0VBQ0EsVUFBQTtBQUVGOztBQUFBO0VBQ0UsV0FBQTtFQUNBLGtCQUFBO0VBQ0EsZ0JBQUE7RUFDQSxnQkFBQTtBQUdGOztBQURBO0VBQ0UsV0FBQTtFQUNBLE1BQUE7RUFDQSxjQUFBO0VBQ0Esb0JBQUE7QUFJRjs7QUFGQTtFQUNFLGtCQUFBO0VBQ0EsTUFBQTtFQUNBLE9BQUE7RUFDQSxTQUFBO0VBQ0EsUUFBQTtBQUtGOztBQUhBO0VBQ0UsNENBQUE7QUFNRjs7QUFKQTtFQUNFLFVBQUE7RUFDQSwyQkFBQTtFQUNBLFlBQUE7QUFPRjs7QUFMQTtFQUNFLGFBQUE7RUFDQSxrQkFBQTtBQVFGOztBQU5BO0VBQ0UsV0FBQTtFQUNBLFlBQUE7RUFDQSxzQkFBQTtFQUNBLHdGQUFBO0VBRUEsbUJBQUE7QUFRRjs7QUFMQTtFQUNFLGtCQUFBO0VBQ0EsTUFBQTtFQUNBLE9BQUE7RUFDQSxTQUFBO0VBQ0EsUUFBQTtFQUNBLHdEQUFBO0VBRUEsNEJBQUE7RUFDQSxzQkFBQTtFQUNBLDRCQUFBO0VBQ0EsNEJBQUE7QUFPRjs7QUFMQTtFQUNFO0lBQ0UsZ0RBQUE7RUFRRjtFQU5BO0lBQ0Usd0RBQUE7RUFRRjtFQU5BO0lBQ0Usd0RBQUE7RUFRRjtFQU5BO0lBQ0UsdURBQUE7RUFRRjtFQU5BO0lBQ0UsMERBQUE7RUFRRjtFQU5BO0lBQ0UsZ0RBQUE7RUFRRjtBQUNGIiwiZmlsZSI6Im51cnNlLXFyLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIiNjb250YWluZXIge1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG5cbiAgcG9zaXRpb246IGFic29sdXRlO1xuICBsZWZ0OiAwO1xuICByaWdodDogMDtcbiAgdG9wOiA1MCU7XG4gIHRyYW5zZm9ybTogdHJhbnNsYXRlWSgtNTAlKTtcbn1cblxuI2NvbnRhaW5lciBzdHJvbmcge1xuICBmb250LXNpemU6IDIwcHg7XG4gIGxpbmUtaGVpZ2h0OiAyNnB4O1xufVxuXG4jY29udGFpbmVyIHAge1xuICBmb250LXNpemU6IDE2cHg7XG4gIGxpbmUtaGVpZ2h0OiAyMnB4O1xuXG4gIGNvbG9yOiAjOGM4YzhjO1xuXG4gIG1hcmdpbjogMDtcbn1cblxuI2NvbnRhaW5lciBhIHtcbiAgdGV4dC1kZWNvcmF0aW9uOiBub25lO1xufVxuXG4qIHtcbiAgYm94LXNpemluZzogYm9yZGVyLWJveDtcbn1cbnAge1xuICBjb2xvcjogI2ZmZjtcbiAgZm9udC1mYW1pbHk6IHNhbnMtc2VyaWY7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgZm9udC13ZWlnaHQ6IDYwMDtcbn1cbmh0bWwsXG5ib2R5LFxuLmNvbnRhaW5lciB7XG4gIHdpZHRoOiAxMDAlO1xuICBoZWlnaHQ6IDEwMCU7XG4gIG92ZXJmbG93OiBoaWRkZW47XG59XG4uY29udGFpbmVyIHtcbiAgZGlzcGxheTogZmxleDtcbn1cbi5yZWxhdGl2ZSB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgei1pbmRleDogMTtcbn1cbi5zcXVhcmUge1xuICB3aWR0aDogMTAwJTtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICBvdmVyZmxvdzogaGlkZGVuO1xuICB0cmFuc2l0aW9uOiAwLjNzO1xufVxuLnNxdWFyZTphZnRlciB7XG4gIGNvbnRlbnQ6ICcnO1xuICB0b3A6IDA7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICBwYWRkaW5nLWJvdHRvbTogMTAwJTtcbn1cbi5zcXVhcmUgPiBkaXYge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHRvcDogMDtcbiAgbGVmdDogMDtcbiAgYm90dG9tOiAwO1xuICByaWdodDogMDtcbn1cbi5zdXJyb3VuZC1jb3ZlciB7XG4gIGJveC1zaGFkb3c6IDAgMCAwIDk5OTk5cHggcmdiYSgwLCAwLCAwLCAwLjUpO1xufVxuLmJhcmNvZGUtc2Nhbm5lci0tYXJlYS0tY29udGFpbmVyIHtcbiAgd2lkdGg6IDgwJTtcbiAgbWF4LXdpZHRoOiBtaW4oNTAwcHgsIDgwdmgpO1xuICBtYXJnaW46IGF1dG87XG59XG4uYmFyY29kZS1zY2FubmVyLS1hcmVhLS1vdXRlciB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGJvcmRlci1yYWRpdXM6IDFlbTtcbn1cbi5iYXJjb2RlLXNjYW5uZXItLWFyZWEtLWlubmVyIHtcbiAgd2lkdGg6IDEwMCU7XG4gIG1hcmdpbjogMXJlbTtcbiAgYm9yZGVyOiAycHggc29saWQgI2ZmZjtcbiAgYm94LXNoYWRvdzogMHB4IDBweCAycHggMXB4IHJnYigwIDAgMCAvIDAuNSksXG4gICAgaW5zZXQgMHB4IDBweCAycHggMXB4IHJnYigwIDAgMCAvIDAuNSk7XG4gIGJvcmRlci1yYWRpdXM6IDFyZW07XG59XG5cbi5zYW1wbGUtYmFja2dyb3VuZCB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiAwO1xuICBsZWZ0OiAwO1xuICBib3R0b206IDA7XG4gIHJpZ2h0OiAwO1xuICBiYWNrZ3JvdW5kOiBsaW5lYXItZ3JhZGllbnQoNDVkZWcsICM2NzNhYjcsIHRyYW5zcGFyZW50KTtcbiAgLy9iYWNrZ3JvdW5kOiB1cmwoLi9tb2NrdXAuanBnKTtcbiAgYmFja2dyb3VuZC1wb3NpdGlvbjogNDUlIDUwJTtcbiAgYmFja2dyb3VuZC1zaXplOiBjb3ZlcjtcbiAgYmFja2dyb3VuZC1yZXBlYXQ6IG5vLXJlcGVhdDtcbiAgYW5pbWF0aW9uOiBzaGFrZSA1cyBpbmZpbml0ZTtcbn1cbkBrZXlmcmFtZXMgc2hha2Uge1xuICAwJSB7XG4gICAgdHJhbnNmb3JtOiB0cmFuc2xhdGUoMCwgMCkgcm90YXRlKDBkZWcpIHNjYWxlKDEpO1xuICB9XG4gIDIwJSB7XG4gICAgdHJhbnNmb3JtOiB0cmFuc2xhdGUoNXB4LCA1cHgpIHJvdGF0ZSgtMWRlZykgc2NhbGUoMS4wNSk7XG4gIH1cbiAgNDAlIHtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSg1cHgsIDVweCkgcm90YXRlKC0yZGVnKSBzY2FsZSgxLjA3KTtcbiAgfVxuICA2MCUge1xuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlKDJweCwgMnB4KSByb3RhdGUoMGRlZykgc2NhbGUoMS4wNCk7XG4gIH1cbiAgODAlIHtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtMXB4LCAtMXB4KSByb3RhdGUoLTJkZWcpIHNjYWxlKDEuMDUpO1xuICB9XG4gIDEwMCUge1xuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlKDAsIDApIHJvdGF0ZSgwZGVnKSBzY2FsZSgxKTtcbiAgfVxufSJdfQ== */";
 
 /***/ }),
 
@@ -866,7 +658,7 @@ module.exports = ".scan-box {\n  border: 2px solid #fff;\n  box-shadow: 0 0 0 10
   \********************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header  [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>nurse-QR</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-back-button    defaultHref=\"/nurse-bed/:{{bedId}}\" [text]=\"\"></ion-back-button>\n  </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n<!--[.item.style.--background]=\"scanActive?'#00000000':'#ffffff'\"-->\n<ion-content  [fullscreen]=\"true\"  [.item.style.--background]=\"scanActive?'#00000000':'#ffffff'\" >\n   \n    \n      <ion-item >\n        <ion-input [(ngModel)]=\"capturedQR\" placeholder=\"{{capturedQR}}\" type=\"text\"></ion-input>\n      </ion-item>  \n   \n      <ion-item >\n        <ion-button (click)=\"sendQr()\">Enviar</ion-button>\n        <div *ngIf=\"canCapture===true\">\n          <ion-button (click)=\"startScanner()\"  >Capturar</ion-button>\n          <ion-button (click)=\"stopScanner()\">Frenar captura</ion-button>\n        </div>\n      </ion-item>   \n    \n   \n   <div class=\"scan-box\" ></div>\n   \n    \n</ion-content>\n\n";
+module.exports = "<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      Lector\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n<ion-content>\n<ion-item>\n<ion-label>Dato:{{data}}</ion-label>\n</ion-item> \n<ion-item>\n<ion-button (click)=\"startScan()\">Captura</ion-button>>\n</ion-item> \n\n<div class=\"sample-background\">\n  <!-- this background simulates the camera view -->\n</div>\n<div class=\"container\">\n  <div class=\"barcode-scanner--area--container\">\n    <div class=\"relative\">\n      <p>Focalizar barcode</p>\n    </div>\n    <div class=\"square surround-cover\">\n      <div class=\"barcode-scanner--area--outer surround-cover\">\n        <div class=\"barcode-scanner--area--inner\"></div>\n      </div>\n    </div>\n  </div>\n</div>\n\n</ion-content>\n";
 
 /***/ })
 

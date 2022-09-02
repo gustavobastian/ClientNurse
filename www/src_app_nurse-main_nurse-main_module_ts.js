@@ -729,7 +729,7 @@ const Microphone = (0,_capacitor_core__WEBPACK_IMPORTED_MODULE_0__.registerPlugi
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJudXJzZS1tYWluLnBhZ2Uuc2NzcyJ9 */";
+module.exports = "* {\n  background: transparent !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm51cnNlLW1haW4ucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQUUsa0NBQUE7QUFFRiIsImZpbGUiOiJudXJzZS1tYWluLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIip7YmFja2dyb3VuZDogdHJhbnNwYXJlbnQgIWltcG9ydGFudDt9Il19 */";
 
 /***/ }),
 

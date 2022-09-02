@@ -1,30 +1,32 @@
-<ion-header  [translucent]="true">
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>nurse-QR</ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button    defaultHref="/nurse-bed/:{{bedId}}" [text]=""></ion-back-button>
-  </ion-buttons>
+    <ion-title>
+      Lector
+    </ion-title>
   </ion-toolbar>
 </ion-header>
-<!--[.item.style.--background]="scanActive?'#00000000':'#ffffff'"-->
-<ion-content  [fullscreen]="true"  [.item.style.--background]="scanActive?'#00000000':'#ffffff'" >
-   
-    
-      <ion-item >
-        <ion-input [(ngModel)]="capturedQR" placeholder="{{capturedQR}}" type="text"></ion-input>
-      </ion-item>  
-   
-      <ion-item >
-        <ion-button (click)="sendQr()">Enviar</ion-button>
-        <div *ngIf="canCapture===true">
-          <ion-button (click)="startScanner()"  >Capturar</ion-button>
-          <ion-button (click)="stopScanner()">Frenar captura</ion-button>
-        </div>
-      </ion-item>   
-    
-   
-   <div class="scan-box" ></div>
-   
-    
-</ion-content>
+<ion-content>
+<ion-item>
+<ion-label>Dato:{{data}}</ion-label>
+</ion-item> 
+<ion-item>
+<ion-button (click)="startScan()">Captura</ion-button>>
+</ion-item> 
 
+<div class="sample-background">
+  <!-- this background simulates the camera view -->
+</div>
+<div class="container">
+  <div class="barcode-scanner--area--container">
+    <div class="relative">
+      <p>Focalizar barcode</p>
+    </div>
+    <div class="square surround-cover">
+      <div class="barcode-scanner--area--outer surround-cover">
+        <div class="barcode-scanner--area--inner"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</ion-content>
