@@ -122,11 +122,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "NurseMainPage": () => (/* binding */ NurseMainPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _nurse_main_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-main.page.html?ngResource */ 2489);
 /* harmony import */ var _nurse_main_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nurse-main.page.scss?ngResource */ 6181);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/router */ 2816);
 /* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
 /* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
 /* harmony import */ var _services_pacient_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/pacient.service */ 2220);
@@ -137,9 +137,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../models/user */ 5783);
 /* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../services/beds.service */ 3082);
 /* harmony import */ var _models_MedicalTable__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../models/MedicalTable */ 4377);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @ionic/angular */ 3819);
 /* harmony import */ var _mozartec_capacitor_microphone__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @mozartec/capacitor-microphone */ 9528);
 /* harmony import */ var _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @capacitor/filesystem */ 1662);
+/* harmony import */ var capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! capacitor-voice-recorder */ 8782);
+
 
 
 
@@ -179,6 +181,7 @@ let NurseMainPage = class NurseMainPage {
         this.audioRx = new Array;
         this.textToSend = new Array;
         this.RxText = new Array;
+        this.RxType = new Array;
         this.MDT = new Array;
         this.pacientLocal = new _models_pacient__WEBPACK_IMPORTED_MODULE_7__.Pacient(0, "Gus", "Bas", 0, 0, 0);
         this.QRCapture = false;
@@ -188,14 +191,16 @@ let NurseMainPage = class NurseMainPage {
         this.asking = false;
         this.actionFinished = false;
         this.recordingAudio = false;
+        this.recording = false;
         this.canRecord = false;
+        this.duration = 0;
         this.messages = new Array;
         this.bedId = bedlocal.getBedId();
         this.actionFinished = false;
         this.recordingAudio = false;
     }
     ngOnInit() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             yield this.getParams();
             console.log("pacientID onInit:" + this.pacientLocal.id);
             yield this.eventsSubscription(); //getting status of the bed
@@ -235,7 +240,7 @@ let NurseMainPage = class NurseMainPage {
      * Get the pacient id
      */
     getParams() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             this.localNurse = this.userlogged.getUser();
             this.nurseName = this.localNurse.username;
             let responseInfoTopic = "/Beds/" + this.bedId + "/Pacient";
@@ -265,7 +270,7 @@ let NurseMainPage = class NurseMainPage {
      * getting pacient information
      */
     getPacientInformation() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             console.log("Pacient:" + this.pacientLocal.id);
             let responseInfoTopic = "/Pacient/" + this.pacientLocal.id + "/info";
             this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message => {
@@ -290,7 +295,7 @@ let NurseMainPage = class NurseMainPage {
      * getting medical table
      */
     getMedicalTable() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             this.localNurse = this.userlogged.getUser();
             this.nurseName = this.localNurse.username;
             let responseNoteTopic = "/Beds/" + this.bedId + "/info";
@@ -317,8 +322,7 @@ let NurseMainPage = class NurseMainPage {
                         this.MDT.push(MDTLocal2);
                         this.msg.push(0);
                         this.msgRx.push(0);
-                        this.audio.push(0);
-                        this.audioRx.push(0);
+                        this.RxType.push(0);
                         this.textToSend.push("");
                         this.RxText.push("");
                     });
@@ -368,7 +372,7 @@ let NurseMainPage = class NurseMainPage {
      * Get the pacient Notes
      */
     getNotes() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             let local = this.bedId;
             this.notes.splice(0);
             console.log("***********************************************************");
@@ -401,7 +405,7 @@ let NurseMainPage = class NurseMainPage {
      * Got to pacient char for asking aditional information
      */
     goChat(i) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             this.router.navigate(['/chat/']);
             /*   this.router.navigate(['/chat/]);        */
             /*
@@ -426,7 +430,7 @@ let NurseMainPage = class NurseMainPage {
     * Got to Cancelling the response to call
     */
     Quit() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.pacientLocal.id), this.bedId, "0", 19);
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
@@ -442,7 +446,7 @@ let NurseMainPage = class NurseMainPage {
     * Ending notification
     */
     goEnd() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             /*   this.router.navigate(['/chat/]);        */
             let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.pacientLocal.id), this.bedId, "0", 13);
             let mqttmessage = JSON.stringify(a);
@@ -499,7 +503,7 @@ let NurseMainPage = class NurseMainPage {
      * Subscription for receiving messages
      */
     bedIdSubscription(i) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             let topic = "/User/" + this.MDT[i].userID + "/answers/" + this.bedId;
             this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
                 //console.log("recibido:"+JSON.stringify(Message.string))  
@@ -507,30 +511,35 @@ let NurseMainPage = class NurseMainPage {
                 let parsedMessage = JSON.parse(Message.string);
                 console.log("recibido1:" + JSON.stringify(parsedMessage._content));
                 console.log("recibido:" + parsedMessage._content);
+                console.log("recibido Tipo:" + parsedMessage._type);
                 this.RxText[i] = (parsedMessage._content);
+                if (parsedMessage._type == 7)
+                    this.RxType[i] = 1;
+                else
+                    this.RxType[i] = 2;
                 this.msgRx[i] = 1;
             });
         });
     }
     recordingAudioStart(i) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             if (this.recordingAudio == true) {
                 return;
             }
             this.recordingAudio = true;
-            if (this.canRecord) {
-                this.startRecording();
-            }
+            // if(this.canRecord){
+            this.startRecording();
+            //}
         });
     }
     recordingAudioStop(i) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             this.recordingAudio = false;
             this.stopRecording(i);
         });
     }
     checkPermissions() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             try {
                 const checkPermissionsResult = yield _mozartec_capacitor_microphone__WEBPACK_IMPORTED_MODULE_12__.Microphone.checkPermissions();
                 console.log('checkPermissionsResult: ' + JSON.stringify(checkPermissionsResult));
@@ -542,7 +551,7 @@ let NurseMainPage = class NurseMainPage {
         });
     }
     requestPermissions() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             try {
                 const requestPermissionsResult = yield _mozartec_capacitor_microphone__WEBPACK_IMPORTED_MODULE_12__.Microphone.requestPermissions();
                 console.log('requestPermissionsResult: ' + JSON.stringify(requestPermissionsResult));
@@ -553,9 +562,16 @@ let NurseMainPage = class NurseMainPage {
         });
     }
     startRecording() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             try {
-                const startRecordingResult = yield _mozartec_capacitor_microphone__WEBPACK_IMPORTED_MODULE_12__.Microphone.startRecording();
+                this.duration = 0;
+                const startRecordingResult = " ";
+                if (this.recording) {
+                    return;
+                }
+                this.recording = true;
+                capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_14__.VoiceRecorder.startRecording();
+                this.calculateDuration();
                 console.log('startRecordingResult: ' + JSON.stringify(startRecordingResult));
             }
             catch (error) {
@@ -564,24 +580,39 @@ let NurseMainPage = class NurseMainPage {
         });
     }
     stopRecording(i) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             try {
-                let recording = "";
-                let recordedMessage = recording;
-                let recordedMessage2 = JSON.parse(JSON.stringify(recording));
+                let recordedMessage = "";
+                this.recording = false;
+                capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_14__.VoiceRecorder.stopRecording().then((result) => (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
+                    if (result.value && result.value.recordDataBase64) {
+                        recordedMessage = result.value.recordDataBase64;
+                        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.localNurse.username, (recordedMessage), this.bedId, "0", 22);
+                        let mqttmessage = JSON.stringify(a);
+                        let topic = "/User/" + this.MDT[i].userID + "/questions/" + this.bedId;
+                        this.MQTTServ.sendMesagge(topic, mqttmessage);
+                    }
+                    ;
+                }));
                 console.log("*************************************************************************************************************");
-                let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.localNurse.username, JSON.stringify(recordedMessage), this.bedId, "0", 22);
-                let mqttmessage = JSON.stringify(a);
-                let topic = "/User/" + this.MDT[i].userID + "/questionsAudio/" + this.bedId;
-                this.MQTTServ.sendMesagge(topic, mqttmessage);
             }
             catch (error) {
                 console.error('recordingResult Error: ' + JSON.stringify(error));
             }
         });
     }
+    calculateDuration() {
+        if (!this.recording) {
+            this.duration = 0;
+            return;
+        }
+        this.duration += 1;
+        setTimeout(() => {
+            this.calculateDuration();
+        }, 1000);
+    }
     readFilePath(PATH) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             // Here's an example of reading a file with a full file path. Use this to
             // read binary data (base64 encoded) from plugins that return File URIs, such as
             // the Camera.
@@ -594,7 +625,7 @@ let NurseMainPage = class NurseMainPage {
     }
     ;
     openMedicalTable() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             if (this.MDT.length == 0) {
                 yield this.getMedicalTable();
             }
@@ -603,7 +634,7 @@ let NurseMainPage = class NurseMainPage {
         });
     }
     openNotesTable() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             yield this.getPacientInformation();
             if (this.notes.length == 0) {
                 yield this.getNotes();
@@ -612,19 +643,31 @@ let NurseMainPage = class NurseMainPage {
             this.showMedical = false;
         });
     }
+    /**
+     * Functions that play a string in system
+     *
+     */
+    playString(data) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
+            const base64Sound = data;
+            const audioRef = new Audio(`data:audio/aac;base64,${base64Sound}`);
+            audioRef.oncanplaythrough = () => audioRef.play();
+            audioRef.load();
+        });
+    }
 };
 NurseMainPage.ctorParameters = () => [
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_15__.ActivatedRoute },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_16__.ActivatedRoute },
     { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__.LocalStorageService },
     { type: _services_pacient_service__WEBPACK_IMPORTED_MODULE_4__.PacientService },
     { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_3__.MqttService },
     { type: _services_user_service__WEBPACK_IMPORTED_MODULE_8__.UserService },
     { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_10__.BedsService },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_15__.Router },
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_16__.Platform }
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_16__.Router },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_17__.Platform }
 ];
-NurseMainPage = (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_17__.Component)({
+NurseMainPage = (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_18__.Component)({
         selector: 'app-nurse-main',
         template: _nurse_main_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_nurse_main_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -696,7 +739,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    \n    <ion-item>\n    <ion-title>Enfermera:{{nurseName}}</ion-title>\n  </ion-item>\n  <ion-item>\n    <ion-buttons slot=\"start\">\n      <div *ngIf=\"actionFinished==true\">\n      <ion-back-button  defaultHref=\"\" [text]=\"\"></ion-back-button>        \n      </div>\n    </ion-buttons>\n    <ion-title>Cama:{{bedId}}</ion-title>\n  </ion-item>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-card>\n    <ion-item>\n   <div *ngIf=\"inRoom===false\">   \n   <ion-button (click)=\"goQR()\">QR </ion-button> \n   <ion-button (click)=\"Quit()\">Cancelar </ion-button> \n   </div>\n   <div *ngIf=\"inRoom===true\">\n<!--******************************************************Now in room options*****************************************************************************-->\n<ion-item>\n   <!--  <ion-button (click)=\"goChat()\">Chat </ion-button> -->\n   <ion-button (click)=\"Quit()\">Cancelar </ion-button> \n   <ion-button (click)=\"goEnd()\">Listo </ion-button> \n   <ion-button (click)=\"openNotesTable()\">Notas</ion-button>\n   <ion-button (click)=\"openMedicalTable()\" >Mensajes</ion-button>\n</ion-item>     \n<!--******************************************Asking doctor **********************************************************************************************-->  \n<ion-item>\n<ion-label>Lista de Médicos:</ion-label>\n </ion-item>\n\n <div *ngIf=\"showMedical===true\">\n  <div *ngFor=\"let item of MDT; let i = index\">\n    \n      <ion-card>\n        <ion-item >\n        <ion-label>{{item.userID}}:{{item.username}}</ion-label>           \n        <ion-icon name=\"arrow-down\" (click)= \"openMsg(i)\" end></ion-icon>\n        </ion-item>\n\n        <div *ngIf=\"msg[i]===1\">\n        <ion-item >\n          <ion-label position=\"stacked\">Mensaje:</ion-label>\n          <ion-input #A (ionChange)=\"updatingText(i,A.value)\" type=\"text\"></ion-input>\n\n        </ion-item>\n\n         <ion-item >\n         <ion-icon name=\"mic\" (click)= \"recordingAudioStart(i)\" begin></ion-icon>\n         <div *ngIf=\"recordingAudio==true\">\n          <ion-icon name=\"log-out\" (click)= \"recordingAudioStop(i)\" begin></ion-icon>\n         </div>\n        </ion-item>\n         <ion-item-group>\n          <ion-item-divider>\n            <ion-label>Web Paths</ion-label>\n          </ion-item-divider>\n          <ion-item *ngFor=\"let webPath of webPaths\">\n            <audio controls>\n              <source src=\"{{webPath}}\" type=\"{{recording?.mimeType}}\">\n              Your browser does not support the audio element.\n            </audio>\n          </ion-item>\n        </ion-item-group>\n    <!--\n        <ion-item-group>\n          <ion-item-divider>\n            <ion-label>Data Urls (Verify on)</ion-label>\n            <ion-input value=\"https://base64.guru/converter/decode/audio\" readonly></ion-input>\n          </ion-item-divider>\n          <ion-item *ngFor=\"let dataUrl of dataUrls\">\n            <ion-label position=\"floating\">Data Url</ion-label>\n            <ion-textarea value=\"{{dataUrl}}\"></ion-textarea>\n          </ion-item>\n        </ion-item-group>       --> \n\n        <ion-item-group>\n         <ion-icon name=\"arrow-up\" (click)= \"closeMsg(i)\" middle></ion-icon>\n         <ion-icon name=\"arrow-forward\"  (click)= \"sendMsg(i)\" end></ion-icon>\n        \n        </ion-item-group>\n        <!--- if there is a response from doctor show-->\n            <div *ngIf=\"msgRx[i]==1\">\n            <ion-item >\n              <ion-label position=\"stacked\">Respuesta:</ion-label>\n              <p>{{item.username}}:{{RxText}}</p>\n              <ion-icon name=\"play\" end></ion-icon> <!--(click)= \"sendMsg(i)\" -->\n            </ion-item>\n            </div>\n        </div>\n      </ion-card>  \n          \n    </div>\n  </div>\n\n\n</div>  \n</ion-item>  \n       \n</ion-card>\n\n\n<!--******************************************Showing notes **********************************************************************************************-->\n  <div *ngIf=\"showNotes==true\">\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{pacientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{pacientLocal.firstName}}</ion-item>\n      <ion-item>Id Paciente: {{pacientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    \n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID nota: {{notes[i].noteId}}</ion-item>\n          <ion-item>Nota:{{notes[i].note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        \n       </ion-card>\n\n    </div>\n  </div>\n\n\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    \n    <ion-item>\n    <ion-title>Enfermera:{{nurseName}}</ion-title>\n  </ion-item>\n  <ion-item>\n    <ion-buttons slot=\"start\">\n      <div *ngIf=\"actionFinished==true\">\n      <ion-back-button  defaultHref=\"\" [text]=\"\"></ion-back-button>        \n      </div>\n    </ion-buttons>\n    <ion-title>Cama:{{bedId}}</ion-title>\n  </ion-item>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-card>\n    <ion-item>\n   <div *ngIf=\"inRoom===false\">   \n   <ion-button (click)=\"goQR()\">QR </ion-button> \n   <ion-button (click)=\"Quit()\">Cancelar </ion-button> \n   </div>\n   <div *ngIf=\"inRoom===true\">\n<!--******************************************************Now in room options*****************************************************************************-->\n<ion-item>\n   <!--  <ion-button (click)=\"goChat()\">Chat </ion-button> -->\n   <ion-button (click)=\"Quit()\">Cancelar </ion-button> \n   <ion-button (click)=\"goEnd()\">Listo </ion-button> \n   <ion-button (click)=\"openNotesTable()\">Notas</ion-button>\n   <ion-button (click)=\"openMedicalTable()\" >Mensajes</ion-button>\n</ion-item>     \n<!--******************************************Asking doctor **********************************************************************************************-->  \n<ion-item>\n<ion-label>Lista de Médicos:</ion-label>\n </ion-item>\n\n <div *ngIf=\"showMedical===true\">\n  <ul>\n  <div *ngFor=\"let item of MDT; let i = index\">\n      <li>\n   <!-- <ion-card>-->  \n        <ion-item >\n        <ion-label>{{item.userID}}:{{item.username}}</ion-label>           \n        <ion-button (click)= \"openMsg(i)\" end>Consultar</ion-button>\n        <ion-button  (click)= \"closeMsg(i)\" middle>Cerrar</ion-button>\n        </ion-item>\n\n        <div *ngIf=\"msg[i]===1\">\n              <ion-item >\n                <ion-label position=\"stacked\">Consulta:</ion-label>\n                <ion-textarea #A (ionChange)=\"updatingText(i,A.value)\"></ion-textarea> <!--style=\"height: 200px;\" type=\"text\"></ion-input>-->\n              </ion-item>  \n              <ion-item >  \n                <ion-button  (click)= \"sendMsg(i)\" end>Enviar</ion-button>        \n              </ion-item>\n\n              <ion-item >\n              <ion-icon name=\"mic\" (click)= \"recordingAudioStart(i)\" begin></ion-icon>\n              <div *ngIf=\"recordingAudio==true\">\n                <ion-icon name=\"stop\" (click)= \"recordingAudioStop(i)\" begin></ion-icon>\n              </div>\n              </ion-item>          \n        <!--- if there is a response from doctor show-->\n            <div *ngIf=\"msgRx[i]==1\">\n                  <ion-label position=\"stacked\">Respuesta:</ion-label>\n                  <!--- Text-->\n                  <div *ngIf=\"RxType[i]==1\">\n                      <ion-item >              \n                        <p>{{item.username}}:{{RxText}}</p>             \n                      </ion-item>\n                  </div>\n                  <!--- Audio -->\n                  <div *ngIf=\"RxType[i]==2\">\n                    <ion-item>\n                    <ion-label>Audio</ion-label>      \n                    <ion-button (click)=\"playString(RxText[i])\">\n                      <ion-icon name=\"play\" slot=\"icon-only\"></ion-icon>\n                    </ion-button>   \n                    </ion-item>\n                   \n\n\n                  <!--<ion-item > \n                    <p>{{item.username}}:{{RxText}}</p>\n                    <ion-icon name=\"play\" end></ion-icon> <!--(click)= \"sendMsg(i)\" -->\n                  <!--</ion-item>-->\n                  </div>\n            </div>\n        </div>\n      <!--</ion-card> -->  \n      </li> \n        \n      </div>\n    </ul>   \n  </div>\n\n\n</div>  \n</ion-item>  \n       \n</ion-card>\n\n\n<!--******************************************Showing notes **********************************************************************************************-->\n  <div *ngIf=\"showNotes==true\">\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{pacientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{pacientLocal.firstName}}</ion-item>\n      <ion-item>Id Paciente: {{pacientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    \n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID nota: {{notes[i].noteId}}</ion-item>\n          <ion-item>Nota:{{notes[i].note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        \n       </ion-card>\n\n    </div>\n  </div>\n\n\n</ion-content>\n";
 
 /***/ })
 
