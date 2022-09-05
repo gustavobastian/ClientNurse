@@ -46,6 +46,9 @@ export class User{
     public get username(): string{
        return this._username;
     }
+    public get_username(): string{
+        return this._username;
+     }
     public get firstName():string{
         return this._firstname;
     }
