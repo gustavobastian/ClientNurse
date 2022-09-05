@@ -47,6 +47,59 @@ class Bed {
 
 /***/ }),
 
+/***/ 6397:
+/*!*****************************************!*\
+  !*** ./src/app/models/message-model.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "MessageModel": () => (/* binding */ MessageModel)
+/* harmony export */ });
+class MessageModel {
+    constructor(userName, content, bedId, time, type) {
+        this._username = userName;
+        this._content = content;
+        this._bedId = bedId;
+        this._time = time;
+        this._type = type;
+    }
+    get username() {
+        return this._username;
+    }
+    get content() {
+        return this._content;
+    }
+    get bedId() {
+        return this._bedId;
+    }
+    get time() {
+        return this._time;
+    }
+    get type() {
+        return this._type;
+    }
+    set username(username) {
+        this._username = username;
+    }
+    set content(content) {
+        this._content = content;
+    }
+    set bedId(bedId) {
+        this._bedId = bedId;
+    }
+    set time(time) {
+        this._time = time;
+    }
+    set type(type) {
+        this._type = type;
+    }
+}
+
+
+/***/ }),
+
 /***/ 5783:
 /*!********************************!*\
   !*** ./src/app/models/user.ts ***!
@@ -203,18 +256,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "NurseQRPage": () => (/* binding */ NurseQRPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _nurse_qr_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-qr.page.html?ngResource */ 9035);
 /* harmony import */ var _nurse_qr_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nurse-qr.page.scss?ngResource */ 1461);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/router */ 2816);
-/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/user */ 5783);
-/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/beds.service */ 3082);
-/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
-/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
-/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/user.service */ 3071);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/message-model */ 6397);
+/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/user */ 5783);
+/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/beds.service */ 3082);
+/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
+/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/user.service */ 3071);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @ionic/angular */ 3819);
-/* harmony import */ var _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @capacitor-community/barcode-scanner */ 8353);
+/* harmony import */ var _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @capacitor-community/barcode-scanner */ 8353);
+
 
 
 
@@ -228,7 +283,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let NurseQRPage = class NurseQRPage {
-    constructor(activatedRoute, localSto, MQTTServ, userlogged, bedlocal, router, platform) {
+    constructor(alertController, activatedRoute, localSto, MQTTServ, userlogged, bedlocal, router, platform) {
+        this.alertController = alertController;
         this.activatedRoute = activatedRoute;
         this.localSto = localSto;
         this.MQTTServ = MQTTServ;
@@ -236,7 +292,7 @@ let NurseQRPage = class NurseQRPage {
         this.bedlocal = bedlocal;
         this.router = router;
         this.platform = platform;
-        this.localNurse = new _models_user__WEBPACK_IMPORTED_MODULE_2__.User(0, "", "", "", "", 0, "");
+        this.localNurse = new _models_user__WEBPACK_IMPORTED_MODULE_3__.User(0, "", "", "", "", 0, "");
         this.bedId = 0;
         this.nurseName = " ";
         this.nurseId = 0;
@@ -250,7 +306,7 @@ let NurseQRPage = class NurseQRPage {
         this.capturing = false;
     }
     ngOnInit() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
             const state = yield this.checkPermission();
             if ((state) == true) {
                 return;
@@ -258,34 +314,57 @@ let NurseQRPage = class NurseQRPage {
             else {
                 alert("Permission denied");
             }
+            this.BedQrSubscription(this.bedId);
         });
     }
     ngAfterViewInit() {
-        _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_7__.BarcodeScanner.prepare();
+        _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.prepare();
     }
     ngOnDestroy() {
-        _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_7__.BarcodeScanner.stopScan();
+        _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.stopScan();
     }
     startScan() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
-            _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_7__.BarcodeScanner.hideBackground(); // make background of WebView transparent
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
+            _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.hideBackground(); // make background of WebView transparent
             document.body.style.opacity = "0.2";
             document.body.style.background = "transparent";
-            const result = yield _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_7__.BarcodeScanner.startScan(); // start scanning and wait for a result
+            const result = yield _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.startScan(); // start scanning and wait for a result
             // if the result has content
             if (result.hasContent) {
                 document.body.style.background = "";
                 document.body.style.opacity = "1";
                 console.log(result.content); // log the raw scanned content
                 this.data = result.content;
+                this.capturedQR = result.content;
+                ;
             }
         });
     }
     ;
+    cancelScan() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
+            document.body.style.background = "";
+            document.body.style.opacity = "1";
+            _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.stopScan();
+        });
+    }
+    //sending qr information for system notification
+    sendQr() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
+            console.log("QR:" + this.capturedQR);
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_2__.MessageModel(this.nurseName, JSON.stringify(this.capturedQR), this.bedId, "0", 11);
+            console.log(a);
+            let mqttmessage = JSON.stringify(a);
+            console.log(mqttmessage);
+            let topic = "/Beds/" + this.bedId + "/QR";
+            yield this.MQTTServ.sendMesagge(topic, mqttmessage);
+        });
+    }
+    //Checking permissions
     checkPermission() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
             // check or request permission
-            const status = yield _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_7__.BarcodeScanner.checkPermission({ force: true });
+            const status = yield _capacitor_community_barcode_scanner__WEBPACK_IMPORTED_MODULE_8__.BarcodeScanner.checkPermission({ force: true });
             if (status.granted) {
                 // the user granted permission
                 return true;
@@ -294,18 +373,58 @@ let NurseQRPage = class NurseQRPage {
         });
     }
     ;
+    //
+    /**
+     * Subscription for receiving messages
+     */
+    BedQrSubscription(i) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
+            let topic = "/Beds/" + this.bedId + "/QRresponse/";
+            this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
+                //console.log("recibido:"+JSON.stringify(Message.string))  
+                let localMessage = JSON.stringify(Message.string);
+                console.log("recibido:" + localMessage);
+                if (localMessage === "Error") {
+                    console.log("habitacion no encontrada en base de datos");
+                    this.presentAlert("habitacion no encontrada en base de datos");
+                }
+                else if (localMessage === "QR invalid") {
+                    console.log("QR equivocado");
+                    this.presentAlert("QR equivocado");
+                }
+                else {
+                    console.log("habilitado");
+                    this.presentAlert("Perfecto");
+                }
+            });
+        });
+    }
+    /**
+     * ERROR ALERTS MESSAGES
+     *  */
+    presentAlert(text) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
+            const alert = yield this.alertController.create({
+                header: text,
+                message: '',
+                buttons: ['OK'],
+            });
+            yield alert.present();
+        });
+    }
 };
 NurseQRPage.ctorParameters = () => [
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_9__.ActivatedRoute },
-    { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_4__.LocalStorageService },
-    { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_5__.MqttService },
-    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_6__.UserService },
-    { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_3__.BedsService },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_9__.Router },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_10__.AlertController },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_11__.ActivatedRoute },
+    { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_5__.LocalStorageService },
+    { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_6__.MqttService },
+    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_7__.UserService },
+    { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_4__.BedsService },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_11__.Router },
     { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_10__.Platform }
 ];
-NurseQRPage = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_11__.Component)({
+NurseQRPage = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_12__.Component)({
         selector: 'app-nurse-qr',
         template: _nurse_qr_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_nurse_qr_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -658,7 +777,7 @@ module.exports = "#container {\n  text-align: center;\n  position: absolute;\n  
   \********************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      Lector\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n<ion-content>\n<ion-item>\n<ion-label>Dato:{{data}}</ion-label>\n</ion-item> \n<ion-item>\n<ion-button (click)=\"startScan()\">Captura</ion-button>>\n</ion-item> \n\n<div class=\"sample-background\">\n  <!-- this background simulates the camera view -->\n</div>\n<div class=\"container\">\n  <div class=\"barcode-scanner--area--container\">\n    <div class=\"relative\">\n      <p>Focalizar barcode</p>\n    </div>\n    <div class=\"square surround-cover\">\n      <div class=\"barcode-scanner--area--outer surround-cover\">\n        <div class=\"barcode-scanner--area--inner\"></div>\n      </div>\n    </div>\n  </div>\n</div>\n\n</ion-content>\n";
+module.exports = "<ion-header [translucent]=\"false\">\n  <ion-toolbar>\n    <ion-title>\n      Lector\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n<ion-content>\n<ion-item>\n<ion-label>Captura:{{data}}</ion-label>\n</ion-item> \n<ion-item>\n<ion-button (click)=\"startScan()\">Empezar Captura</ion-button>>\n<ion-button (click)=\"cancelScan()\">Cancelar Captura</ion-button>>\n<ion-button (click)=\"sendQr()\">Enviar</ion-button>>\n</ion-item> \n\n<div class=\"sample-background\">\n  <!-- this background simulates the camera view -->\n</div>\n<div class=\"container\">\n  <div class=\"barcode-scanner--area--container\">\n    <div class=\"relative\">\n      <p>Focalizar barcode</p>\n    </div>\n    <div class=\"square surround-cover\">\n      <div class=\"barcode-scanner--area--outer surround-cover\">\n        <div class=\"barcode-scanner--area--inner\"></div>\n      </div>\n    </div>\n  </div>\n</div>\n\n</ion-content>\n";
 
 /***/ })
 

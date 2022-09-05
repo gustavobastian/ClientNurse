@@ -18,6 +18,7 @@ import { RecordingData, VoiceRecorder } from 'capacitor-voice-recorder';
 
 
 
+
 @Component({
   selector: 'app-nurse-main',
   templateUrl: './nurse-main.page.html',
@@ -51,6 +52,11 @@ export class NurseMainPage implements OnInit {
   recording = false;
   private canRecord=false;
   duration=0;
+  textQR="";
+  
+  platformLocal="none"
+  manualQR= false;
+
   
   messages: Array<MessageModel> = new Array;
 
@@ -75,7 +81,7 @@ export class NurseMainPage implements OnInit {
   async ngOnInit() {
     await this.getParams();
     console.log("pacientID onInit:"+this.pacientLocal.id)
-    
+    this.manualQR= false;
     await this.eventsSubscription();//getting status of the bed
     
 
@@ -83,11 +89,14 @@ export class NurseMainPage implements OnInit {
     await this.platform.ready().then(() => {
       if (this.platform.is('android')) {
            console.log('android');
+           this.platformLocal="android"
       } else if (this.platform.is('ios')) {
            console.log('ios');
+           this.platformLocal="ios"
       } else {
            //fallback to browser APIs or
            console.log('The platform is not supported');
+           this.platformLocal="none"
              }
       });
 
@@ -101,15 +110,17 @@ export class NurseMainPage implements OnInit {
         console.log(" permisos correctos");
         return;}
       else{
-        alert("Permission denied");
+        //alert("Permission denied");
+        this.platformLocal="none"
           }    
          
       }
       else{
         this.canRecord=false;
-        console.log("no puedo capturar")
+        //console.log("no puedo capturar")
+        this.platformLocal="none"
       }
-    
+    console.log(this.platformLocal)
   
 
 
@@ -557,7 +568,29 @@ calculateDuration(){
     audioRef.oncanplaythrough = () => audioRef.play();
     audioRef.load();
   }
+/**
+ * enabling manualQr
+ */
+  toggleManualQR(){
+    if(this.manualQR==false){
+      this.manualQR=true;
+    }
+    else{this.manualQR=false}
+  }
 
 
+  //sending qr information for system notification
+  async sendQr(){
+    console.log("QR:"+this.textQR)
+    let a=new MessageModel(this.nurseName,JSON.stringify(this.textQR),  this.bedId, "0",11);    
+      console.log(a)
+      let mqttmessage=JSON.stringify(a);
+      console.log(mqttmessage);
+      let topic="/Beds/"+this.bedId+"/QR";
+    await this.MQTTServ.sendMesagge(topic, mqttmessage);
+  }
+  updatingTextQR(i:string){
+    this.textQR=i;
+  }
 }
 

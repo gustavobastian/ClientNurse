@@ -6,7 +6,7 @@ import { BedsService } from '../services/beds.service';
 import { LocalStorageService } from '../services/local-storage.service';
 import { MqttService } from '../services/mqtt.service';
 import { UserService } from '../services/user.service';
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 
 import { BarcodeScanner,  SupportedFormat} from '@capacitor-community/barcode-scanner';
 
@@ -33,6 +33,7 @@ export class NurseQRPage implements OnInit {
   
 
   constructor(
+    private alertController: AlertController,
     private activatedRoute: ActivatedRoute,
     public localSto: LocalStorageService,    
     public MQTTServ:MqttService,
@@ -54,6 +55,7 @@ export class NurseQRPage implements OnInit {
     else{
       alert("Permission denied");
     }
+    this.BedQrSubscription(this.bedId);
     
   }
 
@@ -79,10 +81,29 @@ export class NurseQRPage implements OnInit {
 
       console.log(result.content); // log the raw scanned content
       this.data=result.content;
+      this.capturedQR=result.content;;
+
     }
   };
 
+  public async cancelScan() {
+    document.body.style.background = "";
+    document.body.style.opacity="1";
+    BarcodeScanner.stopScan();
+  }
 
+  //sending qr information for system notification
+  async sendQr(){
+    console.log("QR:"+this.capturedQR)
+    let a=new MessageModel(this.nurseName,JSON.stringify(this.capturedQR),  this.bedId, "0",11);    
+      console.log(a)
+      let mqttmessage=JSON.stringify(a);
+      console.log(mqttmessage);
+      let topic="/Beds/"+this.bedId+"/QR";
+    await this.MQTTServ.sendMesagge(topic, mqttmessage);
+
+  }
+  //Checking permissions
   public async checkPermission() {
     // check or request permission
     const status = await BarcodeScanner.checkPermission({ force: true });
@@ -94,4 +115,46 @@ export class NurseQRPage implements OnInit {
   
     return false;
   };
+
+  //
+  /**
+   * Subscription for receiving messages
+   */
+   async BedQrSubscription(i: number){
+    
+                let topic="/Beds/"+this.bedId+"/QRresponse/";
+              
+                this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
+                //console.log("recibido:"+JSON.stringify(Message.string))  
+                let localMessage= JSON.stringify(Message.string);
+                console.log("recibido:"+localMessage);
+                  if (localMessage==="Error"){
+                    console.log("habitacion no encontrada en base de datos");
+                    this.presentAlert("habitacion no encontrada en base de datos");
+                  }
+                  else if (localMessage==="QR invalid"){
+                    console.log("QR equivocado");
+                    this.presentAlert("QR equivocado");
+                  }    
+                  else {
+                    console.log("habilitado");
+                    this.presentAlert("Perfecto");
+                  }
+              });
+    }
+
+  /**
+   * ERROR ALERTS MESSAGES
+   *  */  
+
+   async presentAlert(text: string) {
+    const alert = await this.alertController.create({
+      header: text,      
+      message: '',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
 }

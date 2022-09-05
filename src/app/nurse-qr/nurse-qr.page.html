@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="false">
   <ion-toolbar>
     <ion-title>
       Lector
@@ -7,10 +7,12 @@
 </ion-header>
 <ion-content>
 <ion-item>
-<ion-label>Dato:{{data}}</ion-label>
+<ion-label>Captura:{{data}}</ion-label>
 </ion-item> 
 <ion-item>
-<ion-button (click)="startScan()">Captura</ion-button>>
+<ion-button (click)="startScan()">Empezar Captura</ion-button>>
+<ion-button (click)="cancelScan()">Cancelar Captura</ion-button>>
+<ion-button (click)="sendQr()">Enviar</ion-button>>
 </ion-item> 
 
 <div class="sample-background">

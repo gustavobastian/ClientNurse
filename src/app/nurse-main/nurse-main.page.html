@@ -19,8 +19,21 @@
   <ion-card>
     <ion-item>
    <div *ngIf="inRoom===false">   
-   <ion-button (click)="goQR()">QR </ion-button> 
-   <ion-button (click)="Quit()">Cancelar </ion-button> 
+        <div *ngIf="platformLocal!='none'">
+            <ion-button (click)="goQR()">QR </ion-button> 
+        </div>
+        <div *ngIf="platformLocal=='none'">
+          <ion-button (click)="toggleManualQR()">Manual QR </ion-button> 
+         </div>
+        <ion-button (click)="Quit()">Cancelar </ion-button> 
+        
+        <div *ngIf="manualQR==true">
+          <ion-item>
+            <ion-input type="text" placeholder="EjemploQR" #Q (ionChange)="updatingTextQR(Q.value)"></ion-input>
+            <ion-button (click)="sendQr()">enviar </ion-button> 
+          </ion-item>
+        </div>
+
    </div>
    <div *ngIf="inRoom===true">
 <!--******************************************************Now in room options*****************************************************************************-->
@@ -40,7 +53,7 @@
   <ul>
   <div *ngFor="let item of MDT; let i = index">
       <li>
-   <!-- <ion-card>-->  
+   
         <ion-item >
         <ion-label>{{item.userID}}:{{item.username}}</ion-label>           
         <ion-button (click)= "openMsg(i)" end>Consultar</ion-button>
@@ -79,17 +92,11 @@
                       <ion-icon name="play" slot="icon-only"></ion-icon>
                     </ion-button>   
                     </ion-item>
-                   
-
-
-                  <!--<ion-item > 
-                    <p>{{item.username}}:{{RxText}}</p>
-                    <ion-icon name="play" end></ion-icon> <!--(click)= "sendMsg(i)" -->
-                  <!--</ion-item>-->
+                  
                   </div>
             </div>
         </div>
-      <!--</ion-card> -->  
+      
       </li> 
         
       </div>
