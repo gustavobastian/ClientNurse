@@ -18,7 +18,8 @@ export class AdminMainPage implements OnInit {
   userLocal: User= new User(0,"","","","",0,"");
   userLocalName=" ";
 
-  messages: Array<MessageModel> = new Array;
+  messagesBeds: Array<MessageModel> = new Array;
+  messagesUsers: Array<MessageModel> = new Array;
   bedstates = ["Desocupada","Ocupada","Llamando","Por ser atendida","Siendo atendida","Llamada programada"]
   userstates=["no Logeado","Logeado"]
   showing="Users";
@@ -39,6 +40,7 @@ export class AdminMainPage implements OnInit {
     await this.getParams();
     setTimeout(()=>{
       this.eventsSubscription();
+      this.usersSubscription();
     },600);
   }
 /**
@@ -84,18 +86,39 @@ async onClickCalendar(){
   let localMessage = JSON.parse(Message.string);      
   let local2=Message.string;
   //console.log(localMessage[0].message);    
-  this.messages=[];
+  this.messagesBeds=[];
   localMessage.forEach(element => {      
     {        
     receivedMessage = new MessageModel("","",element.id,"",element.st);
-    this.messages.push(receivedMessage);
+    this.messagesBeds.push(receivedMessage);
    }
   });
   
 
   });
 }
+usersSubscription(){
+    
+  let topic="/User/status";
+  let receivedMessage;
+  console.log("user subscribed")
+  this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
+  //  console.log("received")
+  //  console.log(Message.string);            
+  let localMessage = JSON.parse(Message.string);      
+  let local2=Message.string;
+  console.log(localMessage[0].message);    
+  this.messagesUsers=[];
+  localMessage.forEach(element => {      
+    {        
+    receivedMessage = new MessageModel("","",element.id,"",element.st);
+    this.messagesUsers.push(receivedMessage);
+   }
+  });
+  
 
+  });
+}
 
 
 }

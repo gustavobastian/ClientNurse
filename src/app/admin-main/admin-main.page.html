@@ -20,6 +20,20 @@
     <ion-item>
     <p>users</p>
     </ion-item>
+    <div class="msgbubble" *ngFor="let msg of messagesUsers">  
+      <div *ngIf="msg.userId!=0">
+       <ion-card >
+         <!--<ion-icon name="person" slot="start"></ion-icon>-->
+           <ion-item>
+            <!--<p>{{msg | json}}</p>-->
+           <ion-label>usuario: {{ msg.bedId }}</ion-label>            
+           <ion-label>Estado: {{ userstates[msg.type] }}</ion-label>
+           <ion-button>  <ion-icon slot="icon-only" name="arrow-forward"></ion-icon></ion-button>
+           </ion-item>
+         <br>         
+       </ion-card>
+     </div> 
+   </div>
 </div>
 <!-- showing beds status**********************************************-->
 <div *ngIf="showing=='Beds'">
@@ -27,7 +41,7 @@
       <p>beds</p>
     </ion-item>
 
-    <div class="msgbubble" *ngFor="let msg of messages">  
+    <div class="msgbubble" *ngFor="let msg of messagesBeds">  
        <div *ngIf="msg.bedId!=0">
         <ion-card >
           <ion-icon name="bed" slot="start"></ion-icon>
