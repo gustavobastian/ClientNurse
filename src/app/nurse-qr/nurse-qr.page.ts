@@ -101,7 +101,6 @@ export class NurseQRPage implements OnInit {
       console.log(mqttmessage);
       let topic="/Beds/"+this.bedId+"/QR";
     await this.MQTTServ.sendMesagge(topic, mqttmessage);
-
   }
   //Checking permissions
   public async checkPermission() {
@@ -132,7 +131,7 @@ export class NurseQRPage implements OnInit {
                     console.log("habitacion no encontrada en base de datos");
                     this.presentAlert("habitacion no encontrada en base de datos");
                   }
-                  else if (localMessage==="QR invalid"){
+                  else if (localMessage==='QR invalid'){
                     console.log("QR equivocado");
                     this.presentAlert("QR equivocado");
                   }    

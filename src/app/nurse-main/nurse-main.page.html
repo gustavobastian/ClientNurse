@@ -19,12 +19,10 @@
   <ion-card>
     <ion-item>
    <div *ngIf="inRoom===false">   
-        <div *ngIf="platformLocal!='none'">
-            <ion-button (click)="goQR()">QR </ion-button> 
-        </div>
-        <div *ngIf="platformLocal=='none'">
-          <ion-button (click)="toggleManualQR()">Manual QR </ion-button> 
-         </div>
+        
+        <ion-button (click)="goQR()">QR </ion-button> 
+        <ion-button (click)="toggleManualQR()">Manual QR </ion-button> 
+        
         <ion-button (click)="Quit()">Cancelar </ion-button> 
         
         <div *ngIf="manualQR==true">

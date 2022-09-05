@@ -50,16 +50,11 @@ const routes: Routes = [
     path: 'nurse-qr',
     loadChildren: () => import('./nurse-qr/nurse-qr.module').then( m => m.NurseQRPageModule)
   },
-  
-/*
   {
-    path: 'beds',
-    loadChildren: () => import('./beds/beds.module').then( m => m.BedsPageModule)
-  },
-  {
-    path: 'users',
-    loadChildren: () => import('./users/users.module').then( m => m.UsersPageModule)
-  },*/
+    path: 'admin-main/:id',
+    loadChildren: () => import('./admin-main/admin-main.module').then( m => m.AdminMainPageModule)
+  },  
+
 ];
 
 @NgModule({
