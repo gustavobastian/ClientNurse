@@ -405,6 +405,9 @@ class User {
     get username() {
         return this._username;
     }
+    get_username() {
+        return this._username;
+    }
     get firstName() {
         return this._firstname;
     }

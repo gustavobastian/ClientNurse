@@ -191,6 +191,16 @@ let LoginPage = class LoginPage {
                     this.localSto.saveValuesString('username', this.username);
                     this.localSto.saveValuesString('mode', this.mode);
                 }
+                else if (this.mode == "Administrador") {
+                    //received in /User/System 
+                    //{"idNumber":1,"mode":"doctor"}
+                    console.log("Administrador");
+                    //this.mode="nurse";
+                    this.router.navigate(['admin-main/' + this.number]);
+                    this.userServ.setUser(this.number, this.username, "", "", this.mode);
+                    this.localSto.saveValuesString('username', this.username);
+                    this.localSto.saveValuesString('mode', this.mode);
+                }
                 else {
                     alert("Error al acceder! verificar usuario y contraseña");
                     this.router.navigate(['/home/']);
@@ -322,6 +332,9 @@ class User {
         return this._userId;
     }
     get username() {
+        return this._username;
+    }
+    get_username() {
         return this._username;
     }
     get firstName() {

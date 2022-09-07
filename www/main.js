@@ -66,15 +66,10 @@ const routes = [
         path: 'nurse-qr',
         loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_nurse-qr_nurse-qr_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./nurse-qr/nurse-qr.module */ 3652)).then(m => m.NurseQRPageModule)
     },
-    /*
-      {
-        path: 'beds',
-        loadChildren: () => import('./beds/beds.module').then( m => m.BedsPageModule)
-      },
-      {
-        path: 'users',
-        loadChildren: () => import('./users/users.module').then( m => m.UsersPageModule)
-      },*/
+    {
+        path: 'admin-main/:id',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_admin-main_admin-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./admin-main/admin-main.module */ 8943)).then(m => m.AdminMainPageModule)
+    },
 ];
 let AppRoutingModule = class AppRoutingModule {
 };

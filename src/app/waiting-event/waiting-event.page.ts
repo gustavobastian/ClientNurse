@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Bed } from '../models/bed';
+import { bedStats } from '../models/bed-status';
 import { MessageModel } from '../models/message-model';
 import { User } from '../models/user';
 import { BedsService } from '../services/beds.service';
@@ -19,6 +20,7 @@ export class WaitingEventPage implements OnInit {
   bed : Bed = new Bed( 0,0,0,0,);
   bedId: number;
   messages: Array<MessageModel> = new Array;
+  messagesbeds: Array<bedStats> = new Array;
   calendarNotes : string;
   
 
@@ -53,7 +55,9 @@ export class WaitingEventPage implements OnInit {
     //console.log(localMessage[0].message);    
     this.messages=[];
     localMessage.forEach(element => {      
-      {        
+      {
+       let localBedStatus= new bedStats(element.id,element.st)        
+       this.messagesbeds.push(localBedStatus);
       receivedMessage = new MessageModel("","",element.id,"",element.st);
       this.messages.push(receivedMessage);
      }

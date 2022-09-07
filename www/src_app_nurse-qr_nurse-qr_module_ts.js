@@ -147,6 +147,9 @@ class User {
     get username() {
         return this._username;
     }
+    get_username() {
+        return this._username;
+    }
     get firstName() {
         return this._firstname;
     }
@@ -388,7 +391,7 @@ let NurseQRPage = class NurseQRPage {
                     console.log("habitacion no encontrada en base de datos");
                     this.presentAlert("habitacion no encontrada en base de datos");
                 }
-                else if (localMessage === "QR invalid") {
+                else if (localMessage === 'QR invalid') {
                     console.log("QR equivocado");
                     this.presentAlert("QR equivocado");
                 }
