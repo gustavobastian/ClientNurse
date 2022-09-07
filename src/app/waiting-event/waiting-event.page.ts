@@ -167,7 +167,7 @@ export class WaitingEventPage implements OnInit {
    topic="/Beds/status";   
    
    
-   this.router.navigate(['/home/']);        
+   this.router.navigate(['/']);        
 
    
   }

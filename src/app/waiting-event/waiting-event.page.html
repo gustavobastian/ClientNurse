@@ -21,6 +21,9 @@
           <ion-item>
           <ion-label>Estado: {{ msg.get_st()}}</ion-label>
           </ion-item>
+          <div *ngIf="msg.get_st()==6">
+            <ion-label>AYUDA</ion-label>
+          </div>
         <br>
         <ion-item>
           <ion-button (click)="onClick(msg.get_bedId())"> Aceptar </ion-button>
