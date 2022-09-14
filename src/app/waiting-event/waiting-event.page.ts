@@ -5,7 +5,6 @@ import { Bed } from '../models/bed';
 import { bedStPrio } from '../models/bed-st-prio';
 import { bedStats } from '../models/bed-status';
 import { MessageModel } from '../models/message-model';
-import { PriorityModel } from '../models/priority-model';
 import { User } from '../models/user';
 import { BedsService } from '../services/beds.service';
 import { LocalStorageService } from '../services/local-storage.service';
@@ -23,8 +22,7 @@ export class WaitingEventPage implements OnInit {
   bed : Bed = new Bed( 0,0,0,0,);
   bedId: number;
   messages: Array<MessageModel> = new Array;
-  messagesbeds: Array<bedStats> = new Array;  
-  priorities2: Array<bedStPrio> = new Array;
+  messagesbeds: Array<bedStats> = new Array;    
   calendarNotes : string;
   
 
@@ -38,8 +36,7 @@ export class WaitingEventPage implements OnInit {
   ngOnInit() {
     this.localNurse=this.userLogged.getUser();
     setTimeout(()=>{
-      this.eventsSubscription();
-      this.prioritiesSubscription();
+      this.eventsSubscription();      
     },600);
   }
 
@@ -58,19 +55,12 @@ export class WaitingEventPage implements OnInit {
     let localMessage = JSON.parse(Message.string);      
     let local2=Message.string;
     //console.log(localMessage[0].message);    
-    this.messages=[];
+    this.messagesbeds=[];
     localMessage.forEach(element => {      
       {
-       let localBedStatus= new bedStats(element.id,element.st)        
-       this.messagesbeds.push(localBedStatus);      
-       //let localbedst= this.priorities2.find((obj)=>{return obj.get_bedId()==element.id})
-
-       //console.log("recibo status:"+JSON.stringify(localbedst))
-       for (const obj of this.priorities2){
-        if (obj.get_bedId()==element.id){          
-          obj.set_st(element.st) 
-        }
-       }
+       let localBedStatus= new bedStats(element.id,element.st,element.spec)        
+       this.messagesbeds.push(localBedStatus);             
+       
      }
     });
 
@@ -79,36 +69,6 @@ export class WaitingEventPage implements OnInit {
     });
   }
 
-  /**
-   * Subscription for receiving messages
-   * of the status of the beds   
-   */
-   async prioritiesSubscription(){
-    
-    let topic="/Beds/priorities";
-    let receivedMessage;
-    console.log("subscribed")
-    this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
-    console.log("received Priorities list")
-    //console.log(Message.string);            
-    let localMessage = JSON.parse(Message.string);      
-    let local2=Message.string;
-    //console.log(localMessage[0].message);    
-    this.priorities2=[];
-    localMessage.forEach(element => {      
-      {
-       let localbedst= this.messagesbeds.find((obj)=>{return obj.get_bedId()==element.id})
-       
-       let localbedStPrio=new bedStPrio(element.id,localbedst.get_st(),element.priority)
-     //  console.log(JSON.stringify(localbedStPrio))       
-       this.priorities2.push(localbedStPrio)       
-     }
-    });
-    //console.log(JSON.stringify(this.priorities2));
-    this.priorities2.sort((a,b)=>(a.get_priority()>b.get_priority()?-1:1));
-    console.log(JSON.stringify(this.priorities2));
-    });
-  }
 
 
   /**

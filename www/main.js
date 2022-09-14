@@ -40,7 +40,7 @@ const routes = [
     },
     {
         path: 'waiting-event',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_waiting-event_waiting-event_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./waiting-event/waiting-event.module */ 6554)).then(m => m.WaitingEventPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_waiting-event_waiting-event_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./waiting-event/waiting-event.module */ 6554)).then(m => m.WaitingEventPageModule)
     },
     {
         path: 'doctor-main/:id',

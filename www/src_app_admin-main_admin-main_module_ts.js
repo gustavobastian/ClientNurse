@@ -90,19 +90,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AdminMainPage": () => (/* binding */ AdminMainPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _admin_main_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin-main.page.html?ngResource */ 550);
 /* harmony import */ var _admin_main_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin-main.page.scss?ngResource */ 7954);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/router */ 2816);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ionic/angular */ 3819);
-/* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/message-model */ 6397);
-/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/user */ 5783);
-/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/beds.service */ 3082);
-/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
-/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
-/* harmony import */ var _services_pacient_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/pacient.service */ 2220);
-/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/user.service */ 3071);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _models_bed_status__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/bed-status */ 6000);
+/* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/message-model */ 6397);
+/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/user */ 5783);
+/* harmony import */ var _models_user_status__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/user-status */ 225);
+/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/beds.service */ 3082);
+/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
+/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
+/* harmony import */ var _services_pacient_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../services/pacient.service */ 2220);
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../services/user.service */ 3071);
+
+
 
 
 
@@ -127,16 +131,16 @@ let AdminMainPage = class AdminMainPage {
         this.router = router;
         this.userServ = userServ;
         this.platform = platform;
-        this.userLocal = new _models_user__WEBPACK_IMPORTED_MODULE_3__.User(0, "", "", "", "", 0, "");
+        this.userLocal = new _models_user__WEBPACK_IMPORTED_MODULE_4__.User(0, "", "", "", "", 0, "");
         this.userLocalName = " ";
-        this.messagesBeds = new Array;
+        this.messagesBeds2 = new Array;
         this.messagesUsers = new Array;
-        this.bedstates = ["Desocupada", "Ocupada", "Llamando", "Por ser atendida", "Siendo atendida", "Llamada programada"];
+        this.bedstates = ["Desocupada", "Ocupada", "Llamando", "Por ser atendida", "Siendo atendida", "Llamada programada", "Solicita Ayuda"];
         this.userstates = ["no Logeado", "Logeado"];
         this.showing = "Users";
     }
     ngOnInit() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
             yield this.getParams();
             setTimeout(() => {
                 this.eventsSubscription();
@@ -148,32 +152,32 @@ let AdminMainPage = class AdminMainPage {
        * Getting the parameters of the user from the local storage
        */
     getParams() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
             this.userLocal = this.userServ.getUser();
             this.userLocalName = this.userLocal.get_username();
             console.log(JSON.stringify(this.userLocal));
         });
     }
     onClickUsers() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
             console.log("clicked Users");
             this.showing = "Users";
         });
     }
     onClickBeds() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
             console.log("clicked Beds");
             this.showing = "Beds";
         });
     }
     onClickEvents() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
             console.log("clicked Events");
             this.showing = "Events";
         });
     }
     onClickCalendar() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
             console.log("clicked calendar");
             this.showing = "Calendar";
         });
@@ -192,11 +196,11 @@ let AdminMainPage = class AdminMainPage {
             let localMessage = JSON.parse(Message.string);
             let local2 = Message.string;
             //console.log(localMessage[0].message);    
-            this.messagesBeds = [];
+            this.messagesBeds2 = [];
             localMessage.forEach(element => {
                 {
-                    receivedMessage = new _models_message_model__WEBPACK_IMPORTED_MODULE_2__.MessageModel("", "", element.id, "", element.st);
-                    this.messagesBeds.push(receivedMessage);
+                    let bedStatsLocal = new _models_bed_status__WEBPACK_IMPORTED_MODULE_2__.bedStats(element.id, element.st);
+                    this.messagesBeds2.push(bedStatsLocal);
                 }
             });
         });
@@ -206,34 +210,49 @@ let AdminMainPage = class AdminMainPage {
         let receivedMessage;
         console.log("user subscribed");
         this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
-            //  console.log("received")
-            //  console.log(Message.string);            
             let localMessage = JSON.parse(Message.string);
             let local2 = Message.string;
             console.log(localMessage[0].message);
             this.messagesUsers = [];
             localMessage.forEach(element => {
                 {
-                    receivedMessage = new _models_message_model__WEBPACK_IMPORTED_MODULE_2__.MessageModel("", "", element.id, "", element.st);
-                    this.messagesUsers.push(receivedMessage);
+                    let userStatsLocal = new _models_user_status__WEBPACK_IMPORTED_MODULE_5__.userStats(element.id, element.st);
+                    this.messagesUsers.push(userStatsLocal);
+                    console.log(JSON.stringify(userStatsLocal));
                 }
             });
         });
     }
+    /**
+     * logout
+     */
+    logout() {
+        console.log("logging out");
+        console.log("name:" + this.userLocal.username);
+        let question = "logout";
+        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_3__.MessageModel(this.userLocal.username, question, 0, "", 2);
+        console.log(JSON.stringify(a));
+        let mqttmessage = (a).toString();
+        // console.log(mqttmessage);
+        let topic = "/User/general";
+        this.MQTTServ.sendMesagge(topic, JSON.stringify(a));
+        //App.exitApp();   //this will close all services
+        this.router.navigate(['/home/']);
+    }
 };
 AdminMainPage.ctorParameters = () => [
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_10__.ActivatedRoute },
-    { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_5__.LocalStorageService },
-    { type: _services_pacient_service__WEBPACK_IMPORTED_MODULE_7__.PacientService },
-    { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_6__.MqttService },
-    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_8__.UserService },
-    { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_4__.BedsService },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_10__.Router },
-    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_8__.UserService },
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_11__.Platform }
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_12__.ActivatedRoute },
+    { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_7__.LocalStorageService },
+    { type: _services_pacient_service__WEBPACK_IMPORTED_MODULE_9__.PacientService },
+    { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_8__.MqttService },
+    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_10__.UserService },
+    { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_6__.BedsService },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_12__.Router },
+    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_10__.UserService },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.Platform }
 ];
-AdminMainPage = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_12__.Component)({
+AdminMainPage = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_14__.Component)({
         selector: 'app-admin-main',
         template: _admin_main_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_admin_main_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -337,6 +356,38 @@ class MessageModel {
     }
     set type(type) {
         this._type = type;
+    }
+}
+
+
+/***/ }),
+
+/***/ 225:
+/*!***************************************!*\
+  !*** ./src/app/models/user-status.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "userStats": () => (/* binding */ userStats)
+/* harmony export */ });
+class userStats {
+    constructor(userId, st) {
+        this._userId = userId;
+        this._st = st;
+    }
+    get_userId() {
+        return this._userId;
+    }
+    get_st() {
+        return this._st;
+    }
+    set_userId(num) {
+        this._userId = num;
+    }
+    set_st(num) {
+        this._st = num;
     }
 }
 
@@ -659,7 +710,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>{{userLocal.username}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button (click)=\"logout()\" >Logout</ion-button>        <!--href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n<ion-item>\n  <ion-button (click)=\"onClickUsers()\">Usuarios </ion-button>\n  <ion-button (click)=\"onClickBeds()\">Camas</ion-button>\n  <ion-button (click)=\"onClickEvents()\">Eventos</ion-button>\n  <ion-button (click)=\"onClickCalendar()\">Calendario</ion-button>\n\n</ion-item>\n<!-- showing logged users**********************************************-->\n<div *ngIf=\"showing=='Users'\">\n    <ion-item>\n    <p>users</p>\n    </ion-item>\n    <div class=\"msgbubble\" *ngFor=\"let msg of messagesUsers\">  \n      <div *ngIf=\"msg.userId!=0\">\n       <ion-card >\n         <!--<ion-icon name=\"person\" slot=\"start\"></ion-icon>-->\n           <ion-item>\n            <!--<p>{{msg | json}}</p>-->\n           <ion-label>usuario: {{ msg.bedId }}</ion-label>            \n           <ion-label>Estado: {{ userstates[msg.type] }}</ion-label>\n           <ion-button>  <ion-icon slot=\"icon-only\" name=\"arrow-forward\"></ion-icon></ion-button>\n           </ion-item>\n         <br>         \n       </ion-card>\n     </div> \n   </div>\n</div>\n<!-- showing beds status**********************************************-->\n<div *ngIf=\"showing=='Beds'\">\n    <ion-item>\n      <p>beds</p>\n    </ion-item>\n\n    <div class=\"msgbubble\" *ngFor=\"let msg of messagesBeds\">  \n       <div *ngIf=\"msg.bedId!=0\">\n        <ion-card >\n          <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n            <ion-item>\n            <ion-label>Habitacion: {{ msg.bedId }}</ion-label>            \n            <ion-label>Estado: {{ bedstates[msg.type] }}</ion-label>\n            <ion-button>  <ion-icon slot=\"icon-only\" name=\"arrow-forward\"></ion-icon></ion-button>\n            </ion-item>\n          <br>         \n        </ion-card>\n      </div> \n    </div>\n</div>\n<!-- showing Events status**********************************************-->\n<div *ngIf=\"showing=='Events'\">\n    <ion-item>\n      <p>events</p>\n    </ion-item>\n</div>\n<!-- showing Calendar **********************************************-->\n<div *ngIf=\"showing=='Calendar'\">\n    <ion-item>\n      <p>Calendario</p>\n    </ion-item>\n</div>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>{{userLocal.username}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button (click)=\"logout()\" >Logout</ion-button>        <!--href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n<ion-item>\n  <ion-button (click)=\"onClickUsers()\">Usuarios </ion-button>\n  <ion-button (click)=\"onClickBeds()\">Camas</ion-button>\n <!-- <ion-button (click)=\"onClickEvents()\">Eventos</ion-button>\n  <ion-button (click)=\"onClickCalendar()\">Calendario</ion-button>-->\n\n</ion-item>\n<!-- showing logged users**********************************************-->\n<div *ngIf=\"showing=='Users'\">\n    <ion-item>\n    <p>users</p>\n    </ion-item>\n    <div class=\"msgbubble\" *ngFor=\"let msg2 of messagesUsers\">  \n      <div *ngIf=\"msg2.get_userId()!=0\">\n       <ion-card >         \n           <ion-item>            \n           <ion-label>Usuario: {{ msg2.get_userId()}}</ion-label>            \n           <ion-label>Estado: {{ userstates[msg2.get_st()] }}</ion-label>\n           <!--<ion-button>  <ion-icon slot=\"icon-only\" name=\"arrow-forward\"></ion-icon></ion-button>-->\n           </ion-item>\n         <br>         \n       </ion-card>\n      </div> \n   </div>\n</div>\n<!-- showing beds status**********************************************-->\n<div *ngIf=\"showing=='Beds'\">\n    <ion-item>\n      <p>beds</p>\n    </ion-item>\n\n    <div class=\"msgbubble\" *ngFor=\"let msg of messagesBeds2\">  \n       <div *ngIf=\"msg.get_bedId()!=0\">\n        <ion-card >\n          <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n            <ion-item>\n            <ion-label>Habitacion: {{ msg.get_bedId() }}</ion-label>            \n            <ion-label>Estado: {{ bedstates[msg.get_st()] }}</ion-label>\n            <ion-button>  <ion-icon slot=\"icon-only\" name=\"arrow-forward\"></ion-icon></ion-button>\n            </ion-item>\n          <br>         \n        </ion-card>\n      </div> \n    </div>\n</div>\n<!-- showing Events status**********************************************-->\n<div *ngIf=\"showing=='Events'\">\n    <ion-item>\n      <p>events</p>\n    </ion-item>\n</div>\n<!-- showing Calendar **********************************************-->\n<div *ngIf=\"showing=='Calendar'\">\n    <ion-item>\n      <p>Calendario</p>\n    </ion-item>\n</div>\n</ion-content>\n";
 
 /***/ })
 

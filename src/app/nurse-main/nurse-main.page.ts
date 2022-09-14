@@ -599,9 +599,9 @@ calculateDuration(){
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);
     let topic="/User/general";
-    await this.MQTTServ.sendMesagge(topic, mqttmessage);         
-     
+    await this.MQTTServ.sendMesagge(topic, mqttmessage);              
     console.log("asking for help")
+    return;
   }
 }
 

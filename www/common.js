@@ -1,6 +1,38 @@
 "use strict";
 (self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["common"],{
 
+/***/ 6000:
+/*!**************************************!*\
+  !*** ./src/app/models/bed-status.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "bedStats": () => (/* binding */ bedStats)
+/* harmony export */ });
+class bedStats {
+    constructor(bedId, st) {
+        this._bedId = bedId;
+        this._st = st;
+    }
+    get_bedId() {
+        return this._bedId;
+    }
+    get_st() {
+        return this._st;
+    }
+    set_bedId(num) {
+        this._bedId = num;
+    }
+    set_st(num) {
+        this._st = num;
+    }
+}
+
+
+/***/ }),
+
 /***/ 5:
 /*!********************************!*\
   !*** ./src/app/models/note.ts ***!

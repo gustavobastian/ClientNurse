@@ -1,6 +1,45 @@
 "use strict";
 (self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_waiting-event_waiting-event_module_ts"],{
 
+/***/ 257:
+/*!***************************************!*\
+  !*** ./src/app/models/bed-st-prio.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "bedStPrio": () => (/* binding */ bedStPrio)
+/* harmony export */ });
+class bedStPrio {
+    constructor(bedId, st, priority) {
+        this._bedId = bedId;
+        this._st = st;
+        this._priority = priority;
+    }
+    get_bedId() {
+        return this._bedId;
+    }
+    get_st() {
+        return this._st;
+    }
+    get_priority() {
+        return this._priority;
+    }
+    set_bedId(num) {
+        this._bedId = num;
+    }
+    set_st(num) {
+        this._st = num;
+    }
+    set_priority(num) {
+        this._priority = num;
+    }
+}
+
+
+/***/ }),
+
 /***/ 982:
 /*!*******************************!*\
   !*** ./src/app/models/bed.ts ***!
@@ -489,18 +528,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "WaitingEventPage": () => (/* binding */ WaitingEventPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _waiting_event_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./waiting-event.page.html?ngResource */ 4862);
 /* harmony import */ var _waiting_event_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./waiting-event.page.scss?ngResource */ 6576);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/router */ 2816);
 /* harmony import */ var _models_bed__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/bed */ 982);
-/* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/message-model */ 6397);
-/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/user */ 5783);
-/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/beds.service */ 3082);
-/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
-/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
-/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/user.service */ 3071);
+/* harmony import */ var _models_bed_st_prio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/bed-st-prio */ 257);
+/* harmony import */ var _models_bed_status__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/bed-status */ 6000);
+/* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/message-model */ 6397);
+/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../models/user */ 5783);
+/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/beds.service */ 3082);
+/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
+/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../services/user.service */ 3071);
+
+
 
 
 
@@ -521,14 +564,17 @@ let WaitingEventPage = class WaitingEventPage {
         this.router = router;
         this.localBed = localBed;
         this.userLogged = userLogged;
-        this.localNurse = new _models_user__WEBPACK_IMPORTED_MODULE_4__.User(0, "", "", "", "", 0, "");
+        this.localNurse = new _models_user__WEBPACK_IMPORTED_MODULE_6__.User(0, "", "", "", "", 0, "");
         this.bed = new _models_bed__WEBPACK_IMPORTED_MODULE_2__.Bed(0, 0, 0, 0);
         this.messages = new Array;
+        this.messagesbeds = new Array;
+        this.priorities2 = new Array;
     }
     ngOnInit() {
         this.localNurse = this.userLogged.getUser();
         setTimeout(() => {
             this.eventsSubscription();
+            this.prioritiesSubscription();
         }, 600);
     }
     /**
@@ -538,7 +584,7 @@ let WaitingEventPage = class WaitingEventPage {
     eventsSubscription() {
         let topic = "/Beds/status";
         let receivedMessage;
-        console.log("subscribed");
+        console.log("status subscribed");
         this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
             //  console.log("received")
             //  console.log(Message.string);            
@@ -548,9 +594,46 @@ let WaitingEventPage = class WaitingEventPage {
             this.messages = [];
             localMessage.forEach(element => {
                 {
-                    receivedMessage = new _models_message_model__WEBPACK_IMPORTED_MODULE_3__.MessageModel("", "", element.id, "", element.st);
-                    this.messages.push(receivedMessage);
+                    let localBedStatus = new _models_bed_status__WEBPACK_IMPORTED_MODULE_4__.bedStats(element.id, element.st);
+                    this.messagesbeds.push(localBedStatus);
+                    //console.log("recibo status:"+JSON.stringify(localbedst))
+                    for (const obj of this.priorities2) {
+                        if (obj.get_bedId() == element.id) {
+                            obj.set_st(element.st);
+                        }
+                    }
                 }
+            });
+            //console.log(JSON.stringify(this.messagesbeds));
+        });
+    }
+    /**
+     * Subscription for receiving messages
+     * of the status of the beds
+     */
+    prioritiesSubscription() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
+            let topic = "/Beds/priorities";
+            let receivedMessage;
+            console.log("subscribed");
+            this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
+                console.log("received Priorities list");
+                //console.log(Message.string);            
+                let localMessage = JSON.parse(Message.string);
+                let local2 = Message.string;
+                //console.log(localMessage[0].message);    
+                this.priorities2 = [];
+                localMessage.forEach(element => {
+                    {
+                        let localbedst = this.messagesbeds.find((obj) => { return obj.get_bedId() == element.id; });
+                        let localbedStPrio = new _models_bed_st_prio__WEBPACK_IMPORTED_MODULE_3__.bedStPrio(element.id, 0, element.priority);
+                        console.log(JSON.stringify(localbedStPrio));
+                        this.priorities2.push(localbedStPrio);
+                    }
+                });
+                //console.log(JSON.stringify(this.priorities2));
+                this.priorities2.sort((a, b) => (a.get_priority() > b.get_priority() ? -1 : 1));
+                console.log(JSON.stringify(this.priorities2));
             });
         });
     }
@@ -559,12 +642,12 @@ let WaitingEventPage = class WaitingEventPage {
      * @param i beds number
      */
     onClick(i) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
             this.localBed.setBedId(i);
             this.bed.bedId = i;
             this.router.navigate(['/nurse-main/:' + i]);
             let topic = "/Beds/status";
-            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_3__.MessageModel(this.localNurse.username, "", this.bed.bedId, "0", 12);
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_5__.MessageModel(this.localNurse.username, "", this.bed.bedId, "0", 12);
             //console.log(a)
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
@@ -597,14 +680,14 @@ let WaitingEventPage = class WaitingEventPage {
         console.log("logging out");
         console.log("name:" + this.localNurse.username);
         let question = "logout";
-        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_3__.MessageModel(this.localNurse.username, question, 0, "", 2);
+        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_5__.MessageModel(this.localNurse.username, question, 0, "", 2);
         console.log(JSON.stringify(a));
         let mqttmessage = (a).toString();
         console.log(mqttmessage);
         let topic = "/User/general";
         this.MQTTServ.sendMesagge(topic, JSON.stringify(a));
         topic = "/Beds/status";
-        this.router.navigate(['/home/']);
+        this.router.navigate(['/']);
     }
     /**
      * go to general chat
@@ -616,15 +699,15 @@ let WaitingEventPage = class WaitingEventPage {
     }
 };
 WaitingEventPage.ctorParameters = () => [
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_10__.ActivatedRoute },
-    { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_7__.MqttService },
-    { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_6__.LocalStorageService },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_10__.Router },
-    { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_5__.BedsService },
-    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_8__.UserService }
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_12__.ActivatedRoute },
+    { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_9__.MqttService },
+    { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_8__.LocalStorageService },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_12__.Router },
+    { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_7__.BedsService },
+    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_10__.UserService }
 ];
-WaitingEventPage = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_11__.Component)({
+WaitingEventPage = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_13__.Component)({
         selector: 'app-waiting-event',
         template: _waiting_event_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_waiting_event_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -651,7 +734,7 @@ module.exports = ".card {\n  background-color: #d15050;\n  box-shadow: none;\n}\
   \******************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Sala de espera</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button  (click)=\"logout()\">Logout</ion-button>        <!-- href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n<!--  <ion-item>\n    <ion-button (click)=\"goChat()\"> Chat General </ion-button>\n  </ion-item>-->\n  <div class=\"msgbubble\" *ngFor=\"let msg of messages\">  \n    <div *ngIf=\"msg.type > 1\">  \n      <ion-card >\n        <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n          <ion-item>\n          <ion-label>Habitacion: {{ msg.bedId }}</ion-label>\n          </ion-item>\n          <ion-item>\n          <ion-label>Estado: {{ msg.type }}</ion-label>\n          </ion-item>\n        <br>\n        <ion-item>\n          <ion-button (click)=\"onClick(msg.bedId)\"> Aceptar </ion-button>\n          <ion-button (click)=\"onClick2(msg.bedId)\"> Ubicacion </ion-button>\n          <div *ngIf=\"msg.type == 9\">  \n            <ion-button (click)=\"onClick3(msg.bedId)\"> Notas Calendario </ion-button>\n          </div>  \n        </ion-item>\n      </ion-card>\n    </div>  \n  </div>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Sala de espera</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button  (click)=\"logout()\">Logout</ion-button>        <!-- href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n<!--  <ion-item>\n    <ion-button (click)=\"goChat()\"> Chat General </ion-button>\n  </ion-item>-->\n  <div class=\"msgbubble\" *ngFor=\"let msg of priorities2\">  \n    <div *ngIf=\"msg.get_st() > 1\">  \n      <ion-card >\n        <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n          <ion-item>\n          <ion-label>Habitación: {{ msg.get_bedId() }}</ion-label>\n          </ion-item>\n          <ion-item>\n          <ion-label>Estado: {{ msg.get_st()}}</ion-label>\n          <div *ngIf=\"msg.get_st()==6\">\n            <ion-label>AYUDA</ion-label>\n          </div>\n          </ion-item>\n         \n        <br>\n        <ion-item>\n          <div *ngIf=\"msg.get_st()!=6\">\n          <ion-button (click)=\"onClick(msg.get_bedId())\"> Aceptar </ion-button>\n          </div>\n          <ion-button (click)=\"onClick2(msg.get_bedId())\"> Ubicacion </ion-button>\n          <div *ngIf=\"msg.type == 9\">  \n            <ion-button (click)=\"onClick3(msg.get_bedId())\"> Notas Calendario </ion-button>\n          </div>  \n        </ion-item>\n      </ion-card>\n    </div>  \n  </div>\n</ion-content>\n";
 
 /***/ })
 

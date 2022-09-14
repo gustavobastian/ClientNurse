@@ -96,7 +96,7 @@ async onClickCalendar(){
   this.messagesBeds2=[];
   localMessage.forEach(element => {      
     {        
-    let bedStatsLocal=new bedStats(element.id,element.st)  
+    let bedStatsLocal=new bedStats(element.id,element.st,element.spec)  
     this.messagesBeds2.push(bedStatsLocal);
     
    }
