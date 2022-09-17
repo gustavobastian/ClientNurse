@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { StorageService } from '../services/storage.service';
+import { StorageService } from '../../services/storage.service';
 import { Storage } from '@capacitor/storage';
-import { LocalStorageService } from '../services/local-storage.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 import {Client, connect} from 'rsup-mqtt'
 import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';

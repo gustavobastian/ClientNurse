@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LocalStorageService } from '../services/local-storage.service';
-import { MqttService } from '../services/mqtt.service';
-import { PacientService } from '../services/pacient.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
+import { MqttService } from '../../../services/mqtt.service';
+import { PacientService } from '../../../services/pacient.service';
 import { Storage } from '@capacitor/storage';
-import { MessageModel } from '../models/message-model';
-import { UserService } from '../services/user.service';
-import { User } from '../models/user';
-import { BedsService } from '../services/beds.service';
-import { Bed } from '../models/bed';
+import { MessageModel } from '../../../models/message-model';
+import { UserService } from '../../../services/user.service';
+import { User } from '../../../models/user';
+import { BedsService } from '../../../services/beds.service';
+import { Bed } from '../../../models/bed';
 
 @Component({
   selector: 'app-nurse-bed',

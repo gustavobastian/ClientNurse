@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { userInfo } from 'os';
-import { MqttService } from '../services/mqtt.service';
+import { MqttService } from '../../services/mqtt.service';
 import { Router } from '@angular/router';
-import { LocalStorageService } from '../services/local-storage.service';
-import { MessageModel } from '../models/message-model';
-import { UserService } from '../services/user.service';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { MessageModel } from '../../models/message-model';
+import { UserService } from '../../services/user.service';
 
 
 @Component({

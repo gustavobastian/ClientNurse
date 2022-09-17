@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageModel } from '../models/message-model';
-import { User } from '../models/user';
-import { BedsService } from '../services/beds.service';
-import { LocalStorageService } from '../services/local-storage.service';
-import { MqttService } from '../services/mqtt.service';
-import { UserService } from '../services/user.service';
+import { MessageModel } from '../../../models/message-model';
+import { User } from '../../../models/user';
+import { BedsService } from '../../../services/beds.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
+import { MqttService } from '../../../services/mqtt.service';
+import { UserService } from '../../../services/user.service';
 import { AlertController, Platform } from '@ionic/angular';
 
 import { BarcodeScanner,  SupportedFormat} from '@capacitor-community/barcode-scanner';

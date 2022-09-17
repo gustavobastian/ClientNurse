@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObjectFlags } from 'typescript';
-import { Bed } from '../models/bed';
-import { bedStPrio } from '../models/bed-st-prio';
-import { bedStats } from '../models/bed-status';
-import { MessageModel } from '../models/message-model';
-import { User } from '../models/user';
-import { BedsService } from '../services/beds.service';
-import { LocalStorageService } from '../services/local-storage.service';
-import { MqttService } from '../services/mqtt.service';
-import { UserService } from '../services/user.service';
+import { Bed } from '../../../models/bed';
+import { bedStPrio } from '../../../models/bed-st-prio';
+import { bedStats } from '../../../models/bed-status';
+import { MessageModel } from '../../../models/message-model';
+import { User } from '../../../models/user';
+import { BedsService } from '../../../services/beds.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
+import { MqttService } from '../../../services/mqtt.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-waiting-event',
