@@ -4,7 +4,7 @@ import { LocalStorageService } from '../../../services/local-storage.service';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user';
 import { Bed } from '../../../models/bed';
-import { PacientsTable } from '../../../models/pacientsTable';
+import { PatientsTable } from '../../../models/patientsTable';
 import { BedsService } from '../../../services/beds.service';
 import { MessageModel } from '../../../models/message-model';
 import { MqttService } from '../../../services/mqtt.service';
@@ -21,14 +21,14 @@ export class DoctorMainPage implements OnInit {
   private localBed: Bed = new Bed(0,0,0,0);
   private doctorId: number;
   private doctorName: string;
-  private pacientNumber: number;
+  private patientNumber: number;
   private newMessage=false;
   private messages: Array<MessageModel> = new Array;
-  private pacientTable: Array<PacientsTable> = new Array;
+  private pacientTable: Array<PatientsTable> = new Array;
   private textResponse: string=""  ;
   private recording = false;
   private duration= 0;
-  private pacientActivated=false
+  private patientActivated=false
   private viewMode=0
   //storedFileNames=[];
 
@@ -56,7 +56,7 @@ export class DoctorMainPage implements OnInit {
    
   }
   onClickPacientNote(id:number){    
-    this.router.navigate(['/doctor-pacients/'+this.pacientNumber]);        
+    this.router.navigate(['/doctor-patients/'+this.patientNumber]);        
   }
   onClickMessages(){    
     this.router.navigate(['/doctor-messages/'+this.doctorId]);        
@@ -187,9 +187,9 @@ export class DoctorMainPage implements OnInit {
     this.MQTTServ.sendMesagge(topic, mqttmessage);
   }
 
-  upgradingPacientNumber(id:number){
-    this.pacientNumber=id;
-    this.pacientActivated=true;
+  upgradingPatientNumber(id:number){
+    this.patientNumber=id;
+    this.patientActivated=true;
   }
 
 

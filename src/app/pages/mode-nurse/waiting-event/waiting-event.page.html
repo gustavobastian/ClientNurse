@@ -8,9 +8,17 @@
 </ion-header>
 
 <ion-content>
-<!--  <ion-item>
-    <ion-button (click)="goChat()"> Chat General </ion-button>
-  </ion-item>-->
+ <ion-item>
+    <ion-item>
+      <label>Especialidades:</label> 
+    </ion-item>
+    <div *ngFor="let item of nurseSpecs">  
+      <ion-item>
+      <p>{{item._name}}</p>
+      </ion-item>
+    </div>  
+      
+  </ion-item>
   <div class="msgbubble" *ngFor="let msg of messagesbeds">  
     <div *ngIf="msg.get_st() > 1">  
       <ion-card >

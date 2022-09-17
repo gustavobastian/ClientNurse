@@ -35,8 +35,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/mode-nurse/nurse-main/nurse-main.module').then( m => m.NurseMainPageModule)
   },
   {
-    path: 'doctor-pacients/:id',
-    loadChildren: () => import('./pages/mode-doctor/doctor-pacients/doctor-pacients.module').then( m => m.DoctorPacientsPageModule)
+    path: 'doctor-patients/:id',
+    loadChildren: () => import('./pages/mode-doctor/doctor-patients/doctor-pacients.module').then( m => m.DoctorPacientsPageModule)
   },
   {
     path: 'doctor-messages/:id',

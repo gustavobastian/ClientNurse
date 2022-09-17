@@ -1,4 +1,4 @@
-export class PacientsTable{
+export class PatientsTable{
     private _pacientId: number;    
     private _bedId: number;
     constructor(bedId: number, pacientID: number)

@@ -1,4 +1,4 @@
-export class PriorityModel{      
+export class PriorityModel2{      
     private _bedId: number;    
     private _priority: number;
     

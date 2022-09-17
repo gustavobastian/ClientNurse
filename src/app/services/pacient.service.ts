@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Pacient } from '../models/pacient';
+import { Patient } from '../models/patient';
 import { MqttService } from './mqtt.service';
 import {Client, connect} from 'rsup-mqtt'
 
@@ -10,15 +10,15 @@ import {Client, connect} from 'rsup-mqtt'
 })
 export class PacientService {
   doctorId: number;
-  pacients: Array<Pacient>= new Array;
-  pacient: Pacient;
+  patients: Array<Patient>= new Array;
+  patient: Patient;
 
   constructor(public MQTTServ: MqttService) { 
     
     
   }
   //not used
-  getAllPacients(): Array<Pacient> {
+  getAllPatients(): Array<Patient> {
     return ;
   }
   
@@ -30,7 +30,7 @@ export class PacientService {
     console.log
     this.MQTTServ.sendMesagge(topic, "aqui estamos"+i);
   }
-  getPacientInfo(i:number): Promise<Pacient> {
+  getPatientInfo(i:number): Promise<Patient> {
     return ;
   }
 

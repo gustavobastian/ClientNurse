@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { nurseSpec } from 'src/app/models/nurse-specs';
 import { ObjectFlags } from 'typescript';
 import { Bed } from '../../../models/bed';
-import { bedStPrio } from '../../../models/bed-st-prio';
 import { bedStats } from '../../../models/bed-status';
 import { MessageModel } from '../../../models/message-model';
 import { User } from '../../../models/user';
@@ -10,6 +10,7 @@ import { BedsService } from '../../../services/beds.service';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { MqttService } from '../../../services/mqtt.service';
 import { UserService } from '../../../services/user.service';
+
 
 @Component({
   selector: 'app-waiting-event',
@@ -24,7 +25,8 @@ export class WaitingEventPage implements OnInit {
   messages: Array<MessageModel> = new Array;
   messagesbeds: Array<bedStats> = new Array;    
   calendarNotes : string;
-  
+  private nurseSpecs : Array<nurseSpec> = new Array;
+  responseSpec=" ";
 
   constructor(private activatedRoute: ActivatedRoute,
     public MQTTServ:MqttService,
@@ -33,8 +35,9 @@ export class WaitingEventPage implements OnInit {
     public localBed: BedsService,
     public userLogged:UserService) { }
 
-  ngOnInit() {
-    this.localNurse=this.userLogged.getUser();
+  async ngOnInit() {
+    this.localNurse= await this.userLogged.getUser();
+    await this.getNurseSpec();
     setTimeout(()=>{
       this.eventsSubscription();      
     },600);
@@ -69,7 +72,33 @@ export class WaitingEventPage implements OnInit {
     });
   }
 
+/**
+   * getting nurse information
+   */
+ async getNurseSpec(){
+  console.log("nurse:"+this.localNurse.userId );
+  let responseInfoTopic="/User/"+this.localNurse.userId+"/Specs";  
+  this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message=>{
+      let localMessage = JSON.parse(Message.string);
+      if(Message.toString()=="Error"){this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);}      
+      //console.log("respuestaSystem2:  "+localMessage[0].lastName);
+      this.nurseSpecs=[]
+      localMessage.forEach(element => {
+        let localSpec= new nurseSpec(this.localNurse.userId, this.localNurse.userId, element.Name,element.specId);
+        this.nurseSpecs.push(localSpec);
+      });
+      console.log(JSON.stringify(localMessage));      
+      this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
+    })  
 
+   let a=new MessageModel(this.localNurse.username,JSON.stringify(this.localNurse.username),  0, "0",43);    
+   console.log(a)
+   let mqttmessage=JSON.stringify(a);
+   console.log(mqttmessage);
+   let topic="/User/general";
+   await this.MQTTServ.sendMesagge(topic, mqttmessage);
+
+   }   
 
   /**
    * Accepting a bed call... and moving to the bed
@@ -80,8 +109,7 @@ export class WaitingEventPage implements OnInit {
     this.bed.bedId = i;    
     this.router.navigate(['/nurse-main/:'+i]);
     let topic="/Beds/status";   
-    
-    
+        
     let a=new MessageModel(this.localNurse.username,"",  this.bed.bedId, "0",12);    
     //console.log(a)
     let mqttmessage=JSON.stringify(a);

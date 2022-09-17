@@ -18,7 +18,7 @@
         <ion-icon name="bed" slot="start"></ion-icon>
           <ion-label>Seleccionar numero paciente  </ion-label>
         <br>
-        <ion-select interface="action-sheet" #C (ionChange)="upgradingPacientNumber(C.value)" type="number" required>
+        <ion-select interface="action-sheet" #C (ionChange)="upgradingPatientNumber(C.value)" type="number" required>
           <div *ngFor="let element of pacientTable; let i=index">           
           
           <ion-select-option  value="{{pacientTable[i].pacientId}}">{{pacientTable[i].pacientId}}</ion-select-option>                   
@@ -26,8 +26,8 @@
         </ion-select>
 
         <ion-item>
-          <div *ngIf="pacientActivated==true">
-            <ion-button (click)="onClickPacientNote(pacientNmber)"> Ir </ion-button>        
+          <div *ngIf="patientActivated==true">
+            <ion-button (click)="onClickPacientNote(patientNumber)"> Ir </ion-button>        
           </div>
         </ion-item>
       </ion-card>

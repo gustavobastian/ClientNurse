@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Pacient } from '../../../models/pacient';
+import { Patient } from '../../../models/patient';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { Storage } from '@capacitor/storage';
 import { PacientService } from '../../../services/pacient.service';
@@ -24,12 +24,12 @@ export class DoctorPacientsPage implements OnInit {
   showNotes: boolean = false;
   showNotesForm: boolean = false;
   showAsk: boolean = true;
-  pacientNumber2= 1;
+  patientNumber2= 1;
 
-  public pacientLocal: Pacient= new Pacient(0,"Gus","Bas",0,0,0);
+  public patientLocal: Patient= new Patient(0,"Gus","Bas",0,0,0);
 
   numberId: FormGroup = new FormGroup({
-    pacientNumber: new FormControl(),    
+    patientNumber: new FormControl(),    
   });
 
   noteForm: FormGroup = new FormGroup({
@@ -50,16 +50,16 @@ export class DoctorPacientsPage implements OnInit {
 
   ngOnInit() {
   
-    console.log(JSON.stringify(this.pacientLocal));
-    this.pacientLocal.firstName= "Gus";
-    this.pacientLocal.lastName= "Bas";    
-    this.pacientLocal.id = 0;
+    console.log(JSON.stringify(this.patientLocal));
+    this.patientLocal.firstName= "Gus";
+    this.patientLocal.lastName= "Bas";    
+    this.patientLocal.id = 0;
     this.localDoctor= this.userServ.getUser();  
     this.doctorId = this.localDoctor.userId;
     this.doctorName=this.localDoctor.username;
     let d = this.activatedRoute.snapshot.params['id'];
-    this.pacientNumber2=d;
-    this.pacientLocal.id=d;
+    this.patientNumber2=d;
+    this.patientLocal.id=d;
   }
 
 
@@ -72,10 +72,10 @@ export class DoctorPacientsPage implements OnInit {
   let local=(this.numberId.value);  
   this.notes.splice(0);    
   console.log(local);
-  this.pacientLocal.id = this.pacientNumber2;
-  console.log("nro de paciente:", this.pacientLocal.id);
+  this.patientLocal.id = this.patientNumber2;
+  console.log("nro de paciente:", this.patientLocal.id);
 
-  let responseNoteTopic="/Pacient/"+this.pacientNumber2+"/notes";  
+  let responseNoteTopic="/Pacient/"+this.patientNumber2+"/notes";  
   //console.log(responseNoteTopic);
   await this.MQTTServ.MQTTClientLocal.subscribe(responseNoteTopic).on(Message=>{
    // console.log("respuestaSystem:  "+Message.toString());
@@ -109,7 +109,7 @@ export class DoctorPacientsPage implements OnInit {
     });
     let topic="/User/general";
   
-    let b=new MessageModel(this.doctorName,(this.pacientLocal.id).toString(),  0, "0",5);
+    let b=new MessageModel(this.doctorName,(this.patientLocal.id).toString(),  0, "0",5);
     let mqttmessage=JSON.stringify(b);    
     this.MQTTServ.sendMesagge(topic, mqttmessage);
     
@@ -126,27 +126,27 @@ export class DoctorPacientsPage implements OnInit {
     let local=(this.numberId.value);  
     this.notes.splice(0);    
     console.log(local);
-    this.pacientLocal.id = this.pacientNumber2;
-    console.log("nro de paciente:", this.pacientLocal.id);
+    this.patientLocal.id = this.patientNumber2;
+    console.log("nro de paciente:", this.patientLocal.id);
 
-  let responseInfoTopic="/Pacient/"+this.pacientLocal.id+"/info";  
+  let responseInfoTopic="/Pacient/"+this.patientLocal.id+"/info";  
   await this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message=>{
       let localMessage = JSON.parse(Message.string);      
       //console.log("respuestaSystem2:  "+localMessage[0].lastName);
       if(Message.toString()=="Error"){
         this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
-        this.pacientLocal.lastName = "Error";
-        this.pacientLocal.firstName = "Error";      
+        this.patientLocal.lastName = "Error";
+        this.patientLocal.firstName = "Error";      
         return;
       }
       else{
-      this.pacientLocal.lastName = localMessage[0].lastName;
-      this.pacientLocal.firstName = localMessage[0].firstName;      
+      this.patientLocal.lastName = localMessage[0].lastName;
+      this.patientLocal.firstName = localMessage[0].firstName;      
       this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
     }
     })  
 
-    let a=new MessageModel(this.doctorName,(this.pacientLocal.id).toString(),  0, "0",4);    
+    let a=new MessageModel(this.doctorName,(this.patientLocal.id).toString(),  0, "0",4);    
     console.log(a)
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);
@@ -165,7 +165,7 @@ export class DoctorPacientsPage implements OnInit {
   console.log(local);
   this.showNotes = false;
   this.showNotesForm = true;
-  this.pacientLocal.id = local.pacientNumber;  
+  this.patientLocal.id = local.patientNumber;  
   this.showAsk=false;    
  }
  onClickReturn() {
@@ -173,15 +173,15 @@ export class DoctorPacientsPage implements OnInit {
   console.log(local);
   this.showNotes = false;
   this.showNotesForm = false;
-  this.pacientLocal.id = local.pacientNumber; 
+  this.patientLocal.id = local.patientNumber; 
   this.showAsk=false;    
  }
  onClickSend() {
   let local=(this.noteForm.value);    
-  console.log("envío nota:"+this.pacientLocal.id)
+  console.log("envío nota:"+this.patientLocal.id)
   console.log(local.noteFormString);
   let nota=JSON.stringify(local.noteFormString);
-  let topic="/Pacient/"+this.pacientNumber2+"/newNote";
+  let topic="/Pacient/"+this.patientNumber2+"/newNote";
   let b=new MessageModel(this.doctorName,nota,  0, "0",3);
   let mqttmessage=JSON.stringify(b);    
   this.MQTTServ.sendMesagge(topic, mqttmessage);
@@ -191,7 +191,7 @@ export class DoctorPacientsPage implements OnInit {
   console.log(local);
   this.showNotes = false;
   this.showNotesForm = true;
-  this.pacientLocal.id = local.pacientNumber;  */
+  this.patientLocal.id = local.patientNumber;  */
  }
 
  deleteNote(i:number){
@@ -199,7 +199,7 @@ export class DoctorPacientsPage implements OnInit {
   let data=JSON.parse(JSON.stringify(this.notes[i]))
   
   console.log("borrando notaId:", data.notesId)
-  //let topic="/Pacient/"+this.pacientNumber2+"/";
+  //let topic="/Pacient/"+this.patientNumber2+"/";
   let topic="/User/general";
   let b=new MessageModel(this.doctorName,JSON.stringify(data.notesId),  0, "0",18);
   let mqttmessage=JSON.stringify(b);    

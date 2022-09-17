@@ -1,4 +1,4 @@
-export class Pacient{
+export class Patient{
     public _id: number;
     public _firstName: string;
     public _lastName: string;
