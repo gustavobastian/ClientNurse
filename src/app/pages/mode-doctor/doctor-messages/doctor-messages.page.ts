@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalStorageService } from '../services/local-storage.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
 import { Storage } from '@capacitor/storage';
-import { UserService } from '../services/user.service';
-import { User } from '../models/user';
-import { BedsService } from '../services/beds.service';
-import { MessageModel } from '../models/message-model';
-import { MqttService } from '../services/mqtt.service';
-import { Bed } from '../models/bed';
+import { UserService } from '../../../services/user.service';
+import { User } from '../../../models/user';
+import { BedsService } from '../../../services/beds.service';
+import { MessageModel } from '../../../models/message-model';
+import { MqttService } from '../../../services/mqtt.service';
+import { Bed } from '../../../models/bed';
 
 @Component({
   selector: 'app-doctor-messages',

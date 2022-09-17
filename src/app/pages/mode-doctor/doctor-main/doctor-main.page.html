@@ -3,16 +3,19 @@
         <ion-title>{{doctorName}}</ion-title>
       <!-- Back button with a default href -->
     <ion-buttons slot="start">
-      <ion-button (click)="logout()" >Logout</ion-button>        <!--href="home" -->
+      <ion-button (click)="logout()" >Cerrar Sesión</ion-button>        <!--href="home" -->
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  
+  <ion-item>
+    <ion-button>Notas de paciente</ion-button>
+    <ion-button>Camas de pacientes</ion-button>
+  </ion-item>
     <ion-card >
       <ion-icon name="bed" slot="start"></ion-icon>
-        <ion-label>Cambiar notas de Pacientes </ion-label>
+        <ion-label>Seleccionar numero paciente  </ion-label>
       <br>
       <ion-select interface="action-sheet" #C (ionChange)="upgradingPacientNumber(C.value)" type="number" required>
         <div *ngFor="let element of pacientTable; let i=index">           
@@ -61,34 +64,18 @@
           <ion-item><ion-label>Responder Audio</ion-label></ion-item>
           <ion-item>
             <ion-button (click)="startRecording(element._bedId)"><ion-icon name="mic" ></ion-icon></ion-button>          
-          <div *ngIf="recording==true">
+            <div *ngIf="recording==true">
             <ion-button (click)="stopRecording(i)" >
               <ion-icon name="stop" slot="icon-only"></ion-icon>
             </ion-button>                  
 
           </div>
           </ion-item>   
-           <!--(click)= "sendMsg(i)" -->
+           
         </ion-card>
       
     </div>
   </ion-card >    
-  <!--
-  <ion-label>Audio received</ion-label>
-
-  <ion-list>
-    <ion-item *ngFor="let f of storedFileNames" >
-          
-        {{f|json}}  
-      
-      <ion-button (click)="playFile(f)">
-          <ion-icon name="play" slot="icon-only"></ion-icon>
-      </ion-button>  
-      
-      <ion-button (click)="deleteFile(f)">
-        <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
-      </ion-button>
-      </ion-item>
-    </ion-list>-->
+  
   
 </ion-content>

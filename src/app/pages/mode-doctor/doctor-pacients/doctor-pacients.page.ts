@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Pacient } from '../models/pacient';
-import { LocalStorageService } from '../services/local-storage.service';
+import { Pacient } from '../../../models/pacient';
+import { LocalStorageService } from '../../../services/local-storage.service';
 import { Storage } from '@capacitor/storage';
-import { PacientService } from '../services/pacient.service';
+import { PacientService } from '../../../services/pacient.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Note } from '../models/note';
-import { MessageModel } from '../models/message-model';
-import { MqttService } from '../services/mqtt.service';
-import { UserService } from '../services/user.service';
-import { User } from '../models/user';
+import { Note } from '../../../models/note';
+import { MessageModel } from '../../../models/message-model';
+import { MqttService } from '../../../services/mqtt.service';
+import { UserService } from '../../../services/user.service';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-doctor-pacients',

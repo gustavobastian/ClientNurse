@@ -28,7 +28,7 @@ const routes: Routes = [
   },
   {
     path: 'doctor-main/:id',
-    loadChildren: () => import('./doctor-main/doctor-main.module').then( m => m.DoctorMainPageModule)
+    loadChildren: () => import('./pages/mode-doctor/doctor-main/doctor-main.module').then( m => m.DoctorMainPageModule)
   },
   {
     path: 'nurse-main/:id',
@@ -36,23 +36,23 @@ const routes: Routes = [
   },
   {
     path: 'doctor-pacients/:id',
-    loadChildren: () => import('./doctor-pacients/doctor-pacients.module').then( m => m.DoctorPacientsPageModule)
+    loadChildren: () => import('./pages/mode-doctor/doctor-pacients/doctor-pacients.module').then( m => m.DoctorPacientsPageModule)
   },
   {
     path: 'doctor-messages/:id',
-    loadChildren: () => import('./doctor-messages/doctor-messages.module').then( m => m.DoctorMessagesPageModule)
+    loadChildren: () => import('./pages/mode-doctor/doctor-messages/doctor-messages.module').then( m => m.DoctorMessagesPageModule)
   },
   {
     path: 'nurse-bed/:id',
     loadChildren: () => import('./nurse-bed/nurse-bed.module').then( m => m.NurseBedPageModule)
   },
   {
-    path: 'nurse-qr',
+    path: 'nurse-qr/:id',
     loadChildren: () => import('./nurse-qr/nurse-qr.module').then( m => m.NurseQRPageModule)
   },
   {
     path: 'admin-main/:id',
-    loadChildren: () => import('./admin-main/admin-main.module').then( m => m.AdminMainPageModule)
+    loadChildren: () => import('./pages/mode-admin/admin-main/admin-main.module').then( m => m.AdminMainPageModule)
   },  
 
 ];

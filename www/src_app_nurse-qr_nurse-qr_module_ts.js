@@ -415,6 +415,9 @@ let NurseQRPage = class NurseQRPage {
             yield alert.present();
         });
     }
+    goBack() {
+        this.router.navigate(['/nurse-main/{{this.bedId}}']);
+    }
 };
 NurseQRPage.ctorParameters = () => [
     { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_10__.AlertController },
@@ -780,7 +783,7 @@ module.exports = "#container {\n  text-align: center;\n  position: absolute;\n  
   \********************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header [translucent]=\"false\">\n  <ion-toolbar>\n    <ion-title>\n      Lector\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n<ion-content>\n<ion-item>\n<ion-label>Captura:{{data}}</ion-label>\n</ion-item> \n<ion-item>\n<ion-button (click)=\"startScan()\">Empezar Captura</ion-button>>\n<ion-button (click)=\"cancelScan()\">Cancelar Captura</ion-button>>\n<ion-button (click)=\"sendQr()\">Enviar</ion-button>>\n</ion-item> \n\n<div class=\"sample-background\">\n  <!-- this background simulates the camera view -->\n</div>\n<div class=\"container\">\n  <div class=\"barcode-scanner--area--container\">\n    <div class=\"relative\">\n      <p>Focalizar barcode</p>\n    </div>\n    <div class=\"square surround-cover\">\n      <div class=\"barcode-scanner--area--outer surround-cover\">\n        <div class=\"barcode-scanner--area--inner\"></div>\n      </div>\n    </div>\n  </div>\n</div>\n\n</ion-content>\n";
+module.exports = "<ion-header [translucent]=\"false\">\n  <ion-toolbar>\n    <ion-title>\n      Lector\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n<ion-content>\n\n<div class=\"sample-background\">\n  <!-- this background simulates the camera view -->\n</div>\n<div class=\"container\">\n  <div class=\"barcode-scanner--area--container\">\n    <div class=\"relative\">\n      <p>Focalizar barcode</p>\n    </div>\n    <div class=\"square surround-cover\">\n      <div class=\"barcode-scanner--area--outer surround-cover\">\n        <div class=\"barcode-scanner--area--inner\"></div>\n      </div>\n    </div>\n  </div>\n</div>\n<ion-item>\n  <ion-label>Captura:{{data}}</ion-label>\n  </ion-item> \n  <ion-item>\n  <ion-button style=\"width:25%;\" (click)=\"startScan()\">Empezar Captura</ion-button>\n  <ion-button style=\"width:25%;\"(click)=\"cancelScan()\">Cancelar Captura</ion-button>\n  <ion-button style=\"width:25%;\"(click)=\"sendQr()\">Enviar</ion-button>\n  <ion-button style=\"width:25%;\"(click)=\"goBack()\">Volver</ion-button>\n  </ion-item> \n  \n</ion-content>\n";
 
 /***/ })
 

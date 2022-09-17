@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>{{userLocal.username}}</ion-title>
     <ion-buttons slot="start">
-      <ion-button (click)="logout()" >Logout</ion-button>        <!--href="home" -->
+      <ion-button (click)="logout()" >Cerrar Sesión</ion-button>        <!--href="home" -->
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -46,7 +46,7 @@
             <ion-item>
             <ion-label>Habitacion: {{ msg.get_bedId() }}</ion-label>            
             <ion-label>Estado: {{ bedstates[msg.get_st()] }}</ion-label>
-            <ion-button>  <ion-icon slot="icon-only" name="arrow-forward"></ion-icon></ion-button>
+            <!--<ion-button>  <ion-icon slot="icon-only" name="arrow-forward"></ion-icon></ion-button>-->
             </ion-item>
           <br>         
         </ion-card>

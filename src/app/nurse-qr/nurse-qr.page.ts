@@ -155,5 +155,7 @@ export class NurseQRPage implements OnInit {
 
     await alert.present();
   }
-
+  goBack(){
+    this.router.navigate(['/nurse-main/{{this.bedId}}']);        
+  }
 }

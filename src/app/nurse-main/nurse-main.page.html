@@ -46,11 +46,12 @@
   <ion-button (click)="Help()">Ayuda</ion-button>
 </ion-item>
 <!--******************************************Asking doctor **********************************************************************************************-->  
-<ion-item>
-<ion-label>Lista de Médicos:</ion-label>
- </ion-item>
 
  <div *ngIf="showMedical===true">
+  <ion-item>
+   <ion-label>Lista de Médicos:</ion-label>
+  </ion-item>
+    
   <ul>
   <div *ngFor="let item of MDT; let i = index">
       <li>

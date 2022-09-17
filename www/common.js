@@ -12,9 +12,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "bedStats": () => (/* binding */ bedStats)
 /* harmony export */ });
 class bedStats {
-    constructor(bedId, st) {
+    constructor(bedId, st, spec) {
         this._bedId = bedId;
         this._st = st;
+        this._spec = spec;
     }
     get_bedId() {
         return this._bedId;
@@ -22,11 +23,17 @@ class bedStats {
     get_st() {
         return this._st;
     }
+    get_spec() {
+        return this._st;
+    }
     set_bedId(num) {
         this._bedId = num;
     }
     set_st(num) {
         this._st = num;
+    }
+    set_spec(num) {
+        this._spec = num;
     }
 }
 

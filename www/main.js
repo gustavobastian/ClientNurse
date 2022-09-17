@@ -63,7 +63,7 @@ const routes = [
         loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_nurse-bed_nurse-bed_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./nurse-bed/nurse-bed.module */ 9588)).then(m => m.NurseBedPageModule)
     },
     {
-        path: 'nurse-qr',
+        path: 'nurse-qr/:id',
         loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_nurse-qr_nurse-qr_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./nurse-qr/nurse-qr.module */ 3652)).then(m => m.NurseQRPageModule)
     },
     {

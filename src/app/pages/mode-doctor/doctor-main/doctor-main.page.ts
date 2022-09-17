@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalStorageService } from '../services/local-storage.service';
-import { UserService } from '../services/user.service';
-import { User } from '../models/user';
-import { Bed } from '../models/bed';
-import { PacientsTable } from '../models/pacientsTable';
-import { BedsService } from '../services/beds.service';
-import { MessageModel } from '../models/message-model';
-import { MqttService } from '../services/mqtt.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
+import { UserService } from '../../../services/user.service';
+import { User } from '../../../models/user';
+import { Bed } from '../../../models/bed';
+import { PacientsTable } from '../../../models/pacientsTable';
+import { BedsService } from '../../../services/beds.service';
+import { MessageModel } from '../../../models/message-model';
+import { MqttService } from '../../../services/mqtt.service';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { RecordingData, VoiceRecorder } from 'capacitor-voice-recorder';
 
@@ -17,19 +17,20 @@ import { RecordingData, VoiceRecorder } from 'capacitor-voice-recorder';
   styleUrls: ['./doctor-main.page.scss'],
 })
 export class DoctorMainPage implements OnInit {
-  localDoctor: User= new User(0,"","","","",0,"");
-  localBed: Bed = new Bed(0,0,0,0);
-  doctorId: number;
-  doctorName: string;
-  pacientNumber: number;
-  newMessage=false;
-  messages: Array<MessageModel> = new Array;
-  pacientTable: Array<PacientsTable> = new Array;
-  textResponse: string=""  ;
-  recording = false;
-  duration= 0;
-  pacientActivated=false
-  storedFileNames=[];
+  private  localDoctor: User= new User(0,"","","","",0,"");
+  private localBed: Bed = new Bed(0,0,0,0);
+  private doctorId: number;
+  private doctorName: string;
+  private pacientNumber: number;
+  private newMessage=false;
+  private messages: Array<MessageModel> = new Array;
+  private pacientTable: Array<PacientsTable> = new Array;
+  private textResponse: string=""  ;
+  private recording = false;
+  private duration= 0;
+  private pacientActivated=false
+  private viewMode=0
+  //storedFileNames=[];
 
   constructor(private router:Router,
     private activatedRoute: ActivatedRoute,
@@ -65,8 +66,7 @@ export class DoctorMainPage implements OnInit {
    */
    async getParams() {
     this.localDoctor=this.userServ.getUser();
-    this.doctorName = this.localDoctor.username;
-    
+    this.doctorName = this.localDoctor.username;   
     
    }
    /***
@@ -127,10 +127,7 @@ export class DoctorMainPage implements OnInit {
    this.MQTTServ.sendMesagge(topic, JSON.stringify(a));  
    
    //App.exitApp();   //this will close all services
-   this.router.navigate(['/home/']);     
-   
-
-   
+   this.router.navigate(['/home/']);       
   }
 
   

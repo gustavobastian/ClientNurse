@@ -28,19 +28,17 @@ export class NurseMainPage implements OnInit {
   private localNurse: User= new User(0,"","","","",0,"");
   private bedId = 0;
   private nurseName=" ";
-  private nurseId=0;
   private notes: Array<Note> = new Array;
   private msg: Array<number> = new Array;
   private msgRx: Array<number> = new Array;
-  private audio: Array<number> = new Array;
-  private audioRx: Array<number> = new Array;
+  private audio: Array<number> = new Array;  
   private textToSend: Array<string> = new Array;
   private RxText: Array<string> = new Array;
   private RxType: Array<number> = new Array;
   private MDT: Array<MedicalTable> = new Array;
   
   private pacientLocal: Pacient= new Pacient(0,"Gus","Bas",0,0,0);
-  private QRCapture = false;
+  
   private inRoom =false;
 
   private showNotes = false;
@@ -336,7 +334,7 @@ export class NurseMainPage implements OnInit {
  * Got to QR capture page
  */
    public goQR(){    
-     this.router.navigate(['/nurse-qr']);        
+     this.router.navigate(['/nurse-qr/{{this.bedId}}']);        
       }
  
  /**
