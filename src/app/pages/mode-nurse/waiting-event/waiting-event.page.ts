@@ -51,12 +51,12 @@ export class WaitingEventPage implements OnInit {
    * Subscription for receiving messages
    * of the status of the beds   
    */
-   eventsSubscription(){
+    eventsSubscription(){
     
     let topic="/Beds/status";
     let receivedMessage;
     console.log("status subscribed")
-    this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
+    this.MQTTServ.MQTTClientLocal.subscribe(topic).on(async Message=>{
     //  console.log("received")
     //  console.log(Message.string);            
     let localMessage = JSON.parse(Message.string);      
@@ -65,14 +65,16 @@ export class WaitingEventPage implements OnInit {
     this.messagesbeds=[];
     localMessage.forEach(element => {      
       {
-       let localBedStatus= new bedStats(element.id,element.st,element.spec)        
-       this.messagesbeds.push(localBedStatus);             
-       
+       let localBedStatus= new bedStats(element.id,element.st,element.spec)
+        this.nurseSpecsIds.forEach(localnurseSpec => {        
+        if(element.spec==localnurseSpec)  {
+          this.messagesbeds.push(localBedStatus);             
+          }
+       })
      }
     });
 
-    //filtering beds
-    this.filteringBeds();
+    
     });
   }
 
@@ -106,23 +108,6 @@ export class WaitingEventPage implements OnInit {
 
    }   
 
-/**
-   * filtering beds states by nurse specializations
-   */
-async filteringBeds(){
-  this.messagesbedsfiltered=[];
-  this.nurseSpecsIds.forEach(localnurseSpec => {
-    this.messagesbeds.forEach(element => {
-      ///console.log("localnurseSpec:"+localnurseSpec);
-      ///console.log("element:"+JSON.stringify(element));
-      if(element._spec==(localnurseSpec)){
-        console.log("find ONe!")
-        this.messagesbedsfiltered.push(element);
-      }
-      
-    });
-  });
-}
 
   /**
    * Accepting a bed call... and moving to the bed

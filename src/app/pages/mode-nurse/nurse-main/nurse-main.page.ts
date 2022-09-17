@@ -38,6 +38,7 @@ export class NurseMainPage implements OnInit {
   private RxType: Array<number> = new Array;
   private MDT: Array<MedicalTable> = new Array;
   private nurseSpecs : Array<nurseSpec> = new Array;
+  private Memoria=" ";
   
   private patientLocal: Patient= new Patient(0,"Gus","Bas",0,0,0);
   
@@ -45,6 +46,7 @@ export class NurseMainPage implements OnInit {
 
   private showNotes = false;
   private showMedical = false;
+  private showMemoria=false;
   private asking = false;
   
   private actionFinished= false;
@@ -357,7 +359,8 @@ export class NurseMainPage implements OnInit {
  */
   public async goEnd(){
     /*   this.router.navigate(['/chat/]);        */
-    let a=new MessageModel(this.nurseName,JSON.stringify(this.patientLocal.id),  this.bedId, "0",13);    
+    let data= {"Memoria":this.Memoria}
+    let a=new MessageModel(this.nurseName,JSON.stringify(data),  this.bedId, "0",13);    
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);
     let topic="/User/general";
@@ -544,6 +547,7 @@ calculateDuration(){
 
     this.showNotes=false;
     this.showMedical=true;
+    this.showMemoria=false;
   }
 
   async openNotesTable(){    
@@ -552,6 +556,16 @@ calculateDuration(){
     await this.getNotes();}
     this.showNotes=true;
     this.showMedical=false;
+    this.showMemoria=false;
+  }
+
+  async openMemoria(){    
+    await this.getPatientInformation();
+    if(this.notes.length==0){
+    await this.getNotes();}
+    this.showNotes=false;
+    this.showMedical=false;
+    this.showMemoria=true;
   }
 /**
  * Functions that play a string in system

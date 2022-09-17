@@ -44,6 +44,7 @@
 </ion-item>     
 <ion-item>
   <ion-button (click)="Help()">Ayuda</ion-button>
+  <ion-button (click)="openMemoria()">Memoria</ion-button>
 </ion-item>
 <!--******************************************Asking doctor **********************************************************************************************-->  
 
@@ -136,6 +137,9 @@
 
     </div>
   </div>
-
-
+<!--******************************************Showing Memoria **********************************************************************************************-->
+  <div *ngIf="showMemoria==true">
+    <p>Escribiendo memoria de lo realizado</p>
+    <ion-input type="text" [(ngModel)]="Memoria"></ion-input>
+  </div>  
 </ion-content>
