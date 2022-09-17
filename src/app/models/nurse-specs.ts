@@ -1,8 +1,8 @@
 export class nurseSpec{
-    private _nurseSpecId: number;
-    private _userId: number;
-    private _name: String;
-    private _specId: number;
+    _nurseSpecId: number;
+    _userId: number;
+    _name: String;
+    _specId: number;
 
     constructor(nurseId: number, userId: number, name: String, specId: number){
         this._nurseSpecId= nurseId;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { nurseSpec } from 'src/app/models/nurse-specs';
-import { ObjectFlags } from 'typescript';
+import { collapseTextChangeRangesAcrossMultipleVersions, ObjectFlags } from 'typescript';
 import { Bed } from '../../../models/bed';
 import { bedStats } from '../../../models/bed-status';
 import { MessageModel } from '../../../models/message-model';
@@ -23,9 +23,11 @@ export class WaitingEventPage implements OnInit {
   bed : Bed = new Bed( 0,0,0,0,);
   bedId: number;
   messages: Array<MessageModel> = new Array;
-  messagesbeds: Array<bedStats> = new Array;    
+  messagesbeds: Array<bedStats> = new Array;  
+  messagesbedsfiltered: Array<bedStats> = new Array;      
   calendarNotes : string;
   private nurseSpecs : Array<nurseSpec> = new Array;
+  private nurseSpecsIds: Array<number> = new Array
   responseSpec=" ";
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -42,6 +44,8 @@ export class WaitingEventPage implements OnInit {
       this.eventsSubscription();      
     },600);
   }
+
+
 
   /**
    * Subscription for receiving messages
@@ -67,8 +71,8 @@ export class WaitingEventPage implements OnInit {
      }
     });
 
-    //console.log(JSON.stringify(this.messagesbeds));
-    
+    //filtering beds
+    this.filteringBeds();
     });
   }
 
@@ -83,9 +87,11 @@ export class WaitingEventPage implements OnInit {
       if(Message.toString()=="Error"){this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);}      
       //console.log("respuestaSystem2:  "+localMessage[0].lastName);
       this.nurseSpecs=[]
+      this.nurseSpecsIds=[]
       localMessage.forEach(element => {
         let localSpec= new nurseSpec(this.localNurse.userId, this.localNurse.userId, element.Name,element.specId);
         this.nurseSpecs.push(localSpec);
+        this.nurseSpecsIds.push(element.specId)
       });
       console.log(JSON.stringify(localMessage));      
       this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
@@ -99,6 +105,24 @@ export class WaitingEventPage implements OnInit {
    await this.MQTTServ.sendMesagge(topic, mqttmessage);
 
    }   
+
+/**
+   * filtering beds states by nurse specializations
+   */
+async filteringBeds(){
+  this.messagesbedsfiltered=[];
+  this.nurseSpecsIds.forEach(localnurseSpec => {
+    this.messagesbeds.forEach(element => {
+      ///console.log("localnurseSpec:"+localnurseSpec);
+      ///console.log("element:"+JSON.stringify(element));
+      if(element._spec==(localnurseSpec)){
+        console.log("find ONe!")
+        this.messagesbedsfiltered.push(element);
+      }
+      
+    });
+  });
+}
 
   /**
    * Accepting a bed call... and moving to the bed

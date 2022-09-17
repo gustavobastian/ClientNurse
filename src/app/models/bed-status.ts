@@ -1,7 +1,7 @@
 export class bedStats{      
-    private _bedId: number;    
-    private _st: number;
-    private _spec: number;
+    _bedId: number;    
+    _st: number;
+    _spec: number;
     
     constructor(bedId: number, st: number, spec:number){        
         this._bedId= bedId;
