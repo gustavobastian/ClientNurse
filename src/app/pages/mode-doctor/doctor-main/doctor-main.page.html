@@ -10,27 +10,32 @@
 
 <ion-content>
   <ion-item>
-    <ion-button>Notas de paciente</ion-button>
-    <ion-button>Camas de pacientes</ion-button>
+    <ion-button style="width: 50%;" (click)="enablingNotes()" >Notas</ion-button>
+    <ion-button style="width: 50%;" (click)="enablingPatientMonitoring()">Pacientes</ion-button>
   </ion-item>
-    <ion-card >
-      <ion-icon name="bed" slot="start"></ion-icon>
-        <ion-label>Seleccionar numero paciente  </ion-label>
-      <br>
-      <ion-select interface="action-sheet" #C (ionChange)="upgradingPacientNumber(C.value)" type="number" required>
-        <div *ngFor="let element of pacientTable; let i=index">           
-         
-         <ion-select-option  value="{{pacientTable[i].pacientId}}">{{pacientTable[i].pacientId}}</ion-select-option>                   
-        </div>
-      </ion-select>
+    <div *ngIf="viewMode==1">
+      <ion-card >
+        <ion-icon name="bed" slot="start"></ion-icon>
+          <ion-label>Seleccionar numero paciente  </ion-label>
+        <br>
+        <ion-select interface="action-sheet" #C (ionChange)="upgradingPacientNumber(C.value)" type="number" required>
+          <div *ngFor="let element of pacientTable; let i=index">           
+          
+          <ion-select-option  value="{{pacientTable[i].pacientId}}">{{pacientTable[i].pacientId}}</ion-select-option>                   
+          </div>
+        </ion-select>
 
-      <ion-item>
-        <div *ngIf="pacientActivated==true">
-          <ion-button (click)="onClickPacientNote(pacientNmber)"> Ir </ion-button>        
-        </div>
-      </ion-item>
-    </ion-card>
-    
+        <ion-item>
+          <div *ngIf="pacientActivated==true">
+            <ion-button (click)="onClickPacientNote(pacientNmber)"> Ir </ion-button>        
+          </div>
+        </ion-item>
+      </ion-card>
+    </div>
+    <div *ngIf="viewMode==2">
+      <p>viendo llamados de mis pacientes</p>
+    </div>
+
   <ion-card >    
     <div *ngFor="let element of messages; let i=index">
 

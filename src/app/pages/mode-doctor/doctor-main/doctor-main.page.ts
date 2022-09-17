@@ -249,4 +249,12 @@ async stopRecording( id:number) {
     
   );
 }
+
+async enablingPatientMonitoring(){
+  this.viewMode=2;
+}
+async enablingNotes(){
+  this.viewMode=1;
+}
+
 }

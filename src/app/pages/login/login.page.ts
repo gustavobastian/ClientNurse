@@ -54,7 +54,7 @@ export class LoginPage implements OnInit {
     
     await new Promise(f => setTimeout(f, 1000));
     this.Log_in();
-    this.showIn= true;
+    
     
     }
 
@@ -93,6 +93,7 @@ export class LoginPage implements OnInit {
         this.userServ.setUser(this.number,this.username,"","",this.mode);
         this.localSto.saveValuesString('username',this.username);        
         this.localSto.saveValuesString('mode',this.mode);
+        this.showIn= true;
        }
     else if(this.mode=="Médico")
       {
@@ -104,6 +105,7 @@ export class LoginPage implements OnInit {
         this.userServ.setUser(this.number,this.username,"","",this.mode);
         this.localSto.saveValuesString('username',this.username);        
         this.localSto.saveValuesString('mode',this.mode);
+        this.showIn= true;
        }
     else if(this.mode=="Administrador")
        {
@@ -115,6 +117,7 @@ export class LoginPage implements OnInit {
          this.userServ.setUser(this.number,this.username,"","",this.mode);
          this.localSto.saveValuesString('username',this.username);        
          this.localSto.saveValuesString('mode',this.mode);
+         this.showIn= true;
         }   
     else{
       alert("Error al acceder! verificar usuario y contraseña")
