@@ -99,7 +99,7 @@ export class WaitingEventPage implements OnInit {
       this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
     })  
 
-   let a=new MessageModel(this.localNurse.username,JSON.stringify(this.localNurse.username),  0, "0",43);    
+   let a=new MessageModel(this.localNurse.username,JSON.stringify(this.localNurse.username),  0, 43);    
    console.log(a)
    let mqttmessage=JSON.stringify(a);
    console.log(mqttmessage);
@@ -119,7 +119,7 @@ export class WaitingEventPage implements OnInit {
     this.router.navigate(['/nurse-main/:'+i]);
     let topic="/Beds/status";   
         
-    let a=new MessageModel(this.localNurse.username,"",  this.bed.bedId, "0",12);    
+    let a=new MessageModel(this.localNurse.username,"",  this.bed.bedId, 12);    
     //console.log(a)
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);
@@ -155,7 +155,7 @@ export class WaitingEventPage implements OnInit {
     console.log("name:"+this.localNurse.username);
    let question="logout";
       
-   let a=new MessageModel(this.localNurse.username, question, 0, "",2);    
+   let a=new MessageModel(this.localNurse.username, question, 0, 2);    
    console.log(JSON.stringify(a));
    let mqttmessage=(a).toString();
    console.log(mqttmessage);

@@ -27,13 +27,18 @@
 
         <ion-item>
           <div *ngIf="patientActivated==true">
-            <ion-button (click)="onClickPacientNote(patientNumber)"> Ir </ion-button>        
+            <ion-button (click)="onClickPatientNote(patientNumber)"> Ir </ion-button>        
           </div>
         </ion-item>
       </ion-card>
     </div>
     <div *ngIf="viewMode==2">
       <p>viendo llamados de mis pacientes</p>
+      <div *ngFor="let element of pacientTable; let i=index">
+        {{element|json}}
+
+      </div>
+
     </div>
 
   <ion-card >    

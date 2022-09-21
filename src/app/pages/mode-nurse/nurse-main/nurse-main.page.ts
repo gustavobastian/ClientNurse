@@ -151,7 +151,7 @@ export class NurseMainPage implements OnInit {
       this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
     });    
     let topic="/User/general";
-    let b=new MessageModel(this.nurseName,JSON.stringify(this.bedId),  this.bedId, "0",10);
+    let b=new MessageModel(this.nurseName,JSON.stringify(this.bedId),  this.bedId,10);
     let mqttmessage=JSON.stringify(b);    
     await this.MQTTServ.sendMesagge(topic, mqttmessage);
     
@@ -172,7 +172,7 @@ export class NurseMainPage implements OnInit {
        this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
      })  
 
-    let a=new MessageModel(this.nurseName,JSON.stringify(this.patientLocal.id),  0, "0",4);    
+    let a=new MessageModel(this.nurseName,JSON.stringify(this.patientLocal.id),  0, 4);    
     console.log(a)
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);
@@ -227,7 +227,7 @@ export class NurseMainPage implements OnInit {
     });
 
     let topic="/User/general";    
-    let c=new MessageModel(this.nurseName,JSON.stringify(this.bedId),  this.bedId, "0",17);
+    let c=new MessageModel(this.nurseName,JSON.stringify(this.bedId),  this.bedId, 17);
     let mqttmessage2=JSON.stringify(c);    
     await this.MQTTServ.sendMesagge(topic, mqttmessage2);
     
@@ -253,7 +253,7 @@ export class NurseMainPage implements OnInit {
     
     localMessage.forEach(element => {      
       {        
-      receivedMessage = new MessageModel("","",element.id,"",element.st);
+      receivedMessage = new MessageModel("","",element.id,element.st);
       console.log("element id:"+element.id+"| element st:"+element.st);        
        if(parseInt(element.id)==(this.bedId)){
         console.log("Here")
@@ -302,7 +302,7 @@ export class NurseMainPage implements OnInit {
   
       
     let topic="/User/general";
-    let b=new MessageModel(this.nurseName,JSON.stringify(this.patientLocal.id),  0, "0",5);
+    let b=new MessageModel(this.nurseName,JSON.stringify(this.patientLocal.id),  0, 5);
     let mqttmessage=JSON.stringify(b);    
     await this.MQTTServ.sendMesagge(topic, mqttmessage);
   
@@ -342,7 +342,7 @@ export class NurseMainPage implements OnInit {
  * Got to Cancelling the response to call
  */
   public async Quit(){
-    let a=new MessageModel(this.nurseName,JSON.stringify(this.patientLocal.id),  this.bedId, "0",19);    
+    let a=new MessageModel(this.nurseName,JSON.stringify(this.patientLocal.id),  this.bedId, 19);    
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);
     let topic="/User/general";
@@ -360,7 +360,7 @@ export class NurseMainPage implements OnInit {
   public async goEnd(){
     /*   this.router.navigate(['/chat/]);        */
     let data= {"Memoria":this.Memoria}
-    let a=new MessageModel(this.nurseName,JSON.stringify(data),  this.bedId, "0",13);    
+    let a=new MessageModel(this.nurseName,JSON.stringify(data),  this.bedId, 13);    
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);
     let topic="/User/general";
@@ -379,9 +379,9 @@ export class NurseMainPage implements OnInit {
     
     var time= new Date();
     
-    let value= time.getFullYear()+"/"+time.getMonth()+"/"+time.getDay() +"-"+(time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
+    //let value= time.getFullYear()+"/"+time.getMonth()+"/"+time.getDay() +"-"+(time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
     
-    let a=new MessageModel(this.localNurse.username,question,  this.bedId, value,7);
+    let a=new MessageModel(this.localNurse.username,question,  this.bedId, 7);
     
     let mqttmessage=JSON.stringify(a);
     let topic="/User/"+doctorId+"/questions/"+this.patientLocal.pacientId;
@@ -410,7 +410,7 @@ export class NurseMainPage implements OnInit {
     console.log("sending to:"+this.MDT[i].userID);
     console.log("MSG send:"+this.textToSend[i]);
     this.bedIdSubscription(i);
-    let a= new MessageModel(this.localNurse.username,this.textToSend[i],  this.bedId, "0",7);
+    let a= new MessageModel(this.localNurse.username,this.textToSend[i],  this.bedId, 7);
     
     let mqttmessage=JSON.stringify(a);
     let topic="/User/"+this.MDT[i].userID+"/questions/"+this.bedId;
@@ -504,7 +504,7 @@ export class NurseMainPage implements OnInit {
       async (result: RecordingData) => {
         if(result.value&&result.value.recordDataBase64){
           recordedMessage = result.value.recordDataBase64;  
-          let a= new MessageModel(this.localNurse.username,(recordedMessage),  this.bedId, "0",22);                
+          let a= new MessageModel(this.localNurse.username,(recordedMessage),  this.bedId, 22);                
           let mqttmessage=JSON.stringify(a);
           let topic="/User/"+this.MDT[i].userID+"/questions/"+this.bedId;
           this.MQTTServ.sendMesagge(topic, mqttmessage);
@@ -593,7 +593,7 @@ calculateDuration(){
   //sending qr information for system notification
   async sendQr(){
     console.log("QR:"+this.textQR)
-    let a=new MessageModel(this.nurseName,JSON.stringify(this.textQR),  this.bedId, "0",11);    
+    let a=new MessageModel(this.nurseName,JSON.stringify(this.textQR),  this.bedId, 11);    
       console.log(a)
       let mqttmessage=JSON.stringify(a);
       console.log(mqttmessage);
@@ -606,7 +606,7 @@ calculateDuration(){
 
   async Help(){
         
-    let a=new MessageModel(this.nurseName," ",  this.bedId, "0",44);    
+    let a=new MessageModel(this.nurseName," ",  this.bedId, 44);    
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);
     let topic="/User/general";

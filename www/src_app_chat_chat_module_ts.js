@@ -174,11 +174,10 @@ let ChatPage = class ChatPage {
         //this.bedIdSubscription();
         var time = new Date();
         //let value2= (time.getHours()).toString+":"+ (time.getMinutes()).toString();
-        let value = time.getFullYear() + "/" + time.getMonth() + "/" + time.getDay() + "-" + (time.getHours()) + ":" + (time.getMinutes()) + ":" + time.getSeconds();
-        ;
+        //let value= time.getFullYear()+"/"+time.getMonth()+"/"+time.getDay() +"-"+(time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
         //console.log(value);
         //let value="12:24";
-        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.localUser.username, question, this.bedId, value, 7);
+        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.localUser.username, question, this.bedId, 7);
         let mqttmessage = JSON.stringify(a);
         let topic = "/Beds/" + this.bedId + "/chat/";
         this.MQTTServ.sendMesagge(topic, mqttmessage);
@@ -190,9 +189,8 @@ let ChatPage = class ChatPage {
     record() {
         this.question = "grabando audio";
         var time = new Date();
-        let value = (time.getHours()) + ":" + (time.getMinutes()) + ":" + time.getSeconds();
-        ;
-        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.localUser.username, this.question, this.bedId, value, 1);
+        //let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
+        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.localUser.username, this.question, this.bedId, 1);
         let mqttmessage = JSON.stringify(a);
         let topic = "/Beds/" + this.bedId + "/chat/";
         this.MQTTServ.sendMesagge(topic, mqttmessage);
@@ -205,9 +203,8 @@ let ChatPage = class ChatPage {
         if (this.mode == 1) {
             this.question = "conectado";
             var time = new Date();
-            let value = time.getFullYear() + "/" + time.getMonth() + "/" + time.getDay() + "-" + (time.getHours()) + ":" + (time.getMinutes()) + ":" + time.getSeconds();
-            ;
-            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.localUser.username, this.question, this.bedId, value, 1);
+            //let value= time.getFullYear()+"/"+time.getMonth()+"/"+time.getDay() +"-"+(time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.localUser.username, this.question, this.bedId, 1);
             let mqttmessage = JSON.stringify(a);
             let topic = "/Beds/" + this.bedId + "/chat/";
             this.MQTTServ.sendMesagge(topic, mqttmessage);
@@ -220,13 +217,13 @@ let ChatPage = class ChatPage {
     finish() {
         this.question = "terminando";
         var time = new Date();
-        let value = (time.getHours()) + ":" + (time.getMinutes()) + ":" + time.getSeconds();
-        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.localUser.username, this.question, this.bedId, value, 6);
+        //let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();
+        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.localUser.username, this.question, this.bedId, 6);
         let mqttmessage = JSON.stringify(a).toString();
         let topic = "/Beds/" + this.bedId + "/chat/";
         this.MQTTServ.sendMesagge(topic, mqttmessage);
         this.question = "";
-        let b = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.localUser.username, this.question, this.bedId, "", 16);
+        let b = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.localUser.username, this.question, this.bedId, 16);
         mqttmessage = JSON.stringify(b);
         topic = "/User/general";
         this.MQTTServ.sendMesagge(topic, mqttmessage);
@@ -252,7 +249,7 @@ let ChatPage = class ChatPage {
         let topic = "/Beds/" + this.bedId + "/chat/";
         this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
             let localMessage = JSON.parse(Message.string);
-            let receivedMessage = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(localMessage._username, localMessage._content, localMessage._bedId, localMessage._time, localMessage._type);
+            let receivedMessage = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(localMessage._username, localMessage._content, localMessage._bedId, localMessage._type);
             if ((this.messages[this.messages.length - 1]) !== receivedMessage) {
                 this.messages.push(receivedMessage);
             }
@@ -337,11 +334,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "MessageModel": () => (/* binding */ MessageModel)
 /* harmony export */ });
 class MessageModel {
-    constructor(userName, content, bedId, time, type) {
+    constructor(userName, content, bedId, type) {
         this._username = userName;
         this._content = content;
         this._bedId = bedId;
-        this._time = time;
+        //this._time= time;
         this._type = type;
     }
     get username() {
@@ -353,9 +350,9 @@ class MessageModel {
     get bedId() {
         return this._bedId;
     }
-    get time() {
-        return this._time;
-    }
+    /* public get time(){
+         return this._time;
+     }*/
     get type() {
         return this._type;
     }
@@ -368,9 +365,9 @@ class MessageModel {
     set bedId(bedId) {
         this._bedId = bedId;
     }
-    set time(time) {
-        this._time = time;
-    }
+    /* public set time(time: string){
+         this._time = time;
+     }*/
     set type(type) {
         this._type = type;
     }

@@ -1,10 +1,211 @@
 "use strict";
-(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_admin-main_admin-main_module_ts"],{
+(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_pages_mode-admin_admin-main_admin-main_module_ts"],{
 
-/***/ 9413:
-/*!*********************************************************!*\
-  !*** ./src/app/admin-main/admin-main-routing.module.ts ***!
-  \*********************************************************/
+/***/ 982:
+/*!*******************************!*\
+  !*** ./src/app/models/bed.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Bed": () => (/* binding */ Bed)
+/* harmony export */ });
+class Bed {
+    constructor(bedId, roomId, callerId, floorId) {
+        this._bedId = bedId;
+        this._callerId = callerId;
+        this._floorId = floorId;
+        this._roomId = roomId;
+    }
+    get bedId() {
+        return this._bedId;
+    }
+    get roomId() {
+        return this._roomId;
+    }
+    get floorId() {
+        return this._floorId;
+    }
+    get callerId() {
+        return this._callerId;
+    }
+    set bedId(bedId) {
+        this._bedId = bedId;
+    }
+    set callerId(callerId) {
+        this._callerId = callerId;
+    }
+    set floorId(floorId) {
+        this._floorId = floorId;
+    }
+    set roomId(roomId) {
+        this._roomId = roomId;
+    }
+}
+
+
+/***/ }),
+
+/***/ 6397:
+/*!*****************************************!*\
+  !*** ./src/app/models/message-model.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "MessageModel": () => (/* binding */ MessageModel)
+/* harmony export */ });
+class MessageModel {
+    constructor(userName, content, bedId, type) {
+        this._username = userName;
+        this._content = content;
+        this._bedId = bedId;
+        //this._time= time;
+        this._type = type;
+    }
+    get username() {
+        return this._username;
+    }
+    get content() {
+        return this._content;
+    }
+    get bedId() {
+        return this._bedId;
+    }
+    /* public get time(){
+         return this._time;
+     }*/
+    get type() {
+        return this._type;
+    }
+    set username(username) {
+        this._username = username;
+    }
+    set content(content) {
+        this._content = content;
+    }
+    set bedId(bedId) {
+        this._bedId = bedId;
+    }
+    /* public set time(time: string){
+         this._time = time;
+     }*/
+    set type(type) {
+        this._type = type;
+    }
+}
+
+
+/***/ }),
+
+/***/ 225:
+/*!***************************************!*\
+  !*** ./src/app/models/user-status.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "userStats": () => (/* binding */ userStats)
+/* harmony export */ });
+class userStats {
+    constructor(userId, st) {
+        this._userId = userId;
+        this._st = st;
+    }
+    get_userId() {
+        return this._userId;
+    }
+    get_st() {
+        return this._st;
+    }
+    set_userId(num) {
+        this._userId = num;
+    }
+    set_st(num) {
+        this._st = num;
+    }
+}
+
+
+/***/ }),
+
+/***/ 5783:
+/*!********************************!*\
+  !*** ./src/app/models/user.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "User": () => (/* binding */ User)
+/* harmony export */ });
+class User {
+    constructor(userId, username, firstName, lastName, occupation, state, password) {
+        this._userId = userId;
+        this._username = username;
+        this._firstname = firstName;
+        this._lastname = lastName;
+        this._occupation = occupation;
+        this._state = state;
+        this._password = password;
+    }
+    set userId(value) {
+        this._userId = value;
+    }
+    set username(value) {
+        this._username = value;
+    }
+    set firstname(value) {
+        this._firstname = value;
+    }
+    set lastname(value) {
+        this._lastname = value;
+    }
+    set occupation(value) {
+        this._occupation = value;
+    }
+    set state(state) {
+        this._state = state;
+    }
+    set password(password) {
+        this._password = password;
+    }
+    get userId() {
+        return this._userId;
+    }
+    get username() {
+        return this._username;
+    }
+    get_username() {
+        return this._username;
+    }
+    get firstName() {
+        return this._firstname;
+    }
+    get lastName() {
+        return this._lastname;
+    }
+    get occupation() {
+        return this._occupation;
+    }
+    get state() {
+        return this._state;
+    }
+    get password() {
+        return this._password;
+    }
+}
+
+
+/***/ }),
+
+/***/ 9493:
+/*!**************************************************************************!*\
+  !*** ./src/app/pages/mode-admin/admin-main/admin-main-routing.module.ts ***!
+  \**************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -14,7 +215,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ 2816);
-/* harmony import */ var _admin_main_page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin-main.page */ 8147);
+/* harmony import */ var _admin_main_page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin-main.page */ 4156);
 
 
 
@@ -38,10 +239,10 @@ AdminMainPageRoutingModule = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
 
 /***/ }),
 
-/***/ 8943:
-/*!*************************************************!*\
-  !*** ./src/app/admin-main/admin-main.module.ts ***!
-  \*************************************************/
+/***/ 5671:
+/*!******************************************************************!*\
+  !*** ./src/app/pages/mode-admin/admin-main/admin-main.module.ts ***!
+  \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -53,8 +254,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ 6362);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ 587);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 3819);
-/* harmony import */ var _admin_main_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin-main-routing.module */ 9413);
-/* harmony import */ var _admin_main_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin-main.page */ 8147);
+/* harmony import */ var _admin_main_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin-main-routing.module */ 9493);
+/* harmony import */ var _admin_main_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin-main.page */ 4156);
 
 
 
@@ -80,10 +281,10 @@ AdminMainPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
 
 /***/ }),
 
-/***/ 8147:
-/*!***********************************************!*\
-  !*** ./src/app/admin-main/admin-main.page.ts ***!
-  \***********************************************/
+/***/ 4156:
+/*!****************************************************************!*\
+  !*** ./src/app/pages/mode-admin/admin-main/admin-main.page.ts ***!
+  \****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -91,20 +292,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "AdminMainPage": () => (/* binding */ AdminMainPage)
 /* harmony export */ });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! tslib */ 4929);
-/* harmony import */ var _admin_main_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin-main.page.html?ngResource */ 550);
-/* harmony import */ var _admin_main_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin-main.page.scss?ngResource */ 7954);
+/* harmony import */ var _admin_main_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin-main.page.html?ngResource */ 1564);
+/* harmony import */ var _admin_main_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin-main.page.scss?ngResource */ 4053);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/router */ 2816);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ionic/angular */ 3819);
-/* harmony import */ var _models_bed_status__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/bed-status */ 6000);
-/* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/message-model */ 6397);
-/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/user */ 5783);
-/* harmony import */ var _models_user_status__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/user-status */ 225);
-/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/beds.service */ 3082);
-/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
-/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
-/* harmony import */ var _services_pacient_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../services/pacient.service */ 2220);
-/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../services/user.service */ 3071);
+/* harmony import */ var _models_bed_status__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../models/bed-status */ 6000);
+/* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../models/message-model */ 6397);
+/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../models/user */ 5783);
+/* harmony import */ var _models_user_status__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../models/user-status */ 225);
+/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../services/beds.service */ 3082);
+/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../services/local-storage.service */ 17);
+/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../services/mqtt.service */ 3112);
+/* harmony import */ var _services_pacient_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../services/pacient.service */ 2220);
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../services/user.service */ 3071);
 
 
 
@@ -230,7 +431,7 @@ let AdminMainPage = class AdminMainPage {
         console.log("logging out");
         console.log("name:" + this.userLocal.username);
         let question = "logout";
-        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_3__.MessageModel(this.userLocal.username, question, 0, "", 2);
+        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_3__.MessageModel(this.userLocal.username, question, 0, 2);
         console.log(JSON.stringify(a));
         let mqttmessage = (a).toString();
         // console.log(mqttmessage);
@@ -259,207 +460,6 @@ AdminMainPage = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([
     })
 ], AdminMainPage);
 
-
-
-/***/ }),
-
-/***/ 982:
-/*!*******************************!*\
-  !*** ./src/app/models/bed.ts ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Bed": () => (/* binding */ Bed)
-/* harmony export */ });
-class Bed {
-    constructor(bedId, roomId, callerId, floorId) {
-        this._bedId = bedId;
-        this._callerId = callerId;
-        this._floorId = floorId;
-        this._roomId = roomId;
-    }
-    get bedId() {
-        return this._bedId;
-    }
-    get roomId() {
-        return this._roomId;
-    }
-    get floorId() {
-        return this._floorId;
-    }
-    get callerId() {
-        return this._callerId;
-    }
-    set bedId(bedId) {
-        this._bedId = bedId;
-    }
-    set callerId(callerId) {
-        this._callerId = callerId;
-    }
-    set floorId(floorId) {
-        this._floorId = floorId;
-    }
-    set roomId(roomId) {
-        this._roomId = roomId;
-    }
-}
-
-
-/***/ }),
-
-/***/ 6397:
-/*!*****************************************!*\
-  !*** ./src/app/models/message-model.ts ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "MessageModel": () => (/* binding */ MessageModel)
-/* harmony export */ });
-class MessageModel {
-    constructor(userName, content, bedId, time, type) {
-        this._username = userName;
-        this._content = content;
-        this._bedId = bedId;
-        this._time = time;
-        this._type = type;
-    }
-    get username() {
-        return this._username;
-    }
-    get content() {
-        return this._content;
-    }
-    get bedId() {
-        return this._bedId;
-    }
-    get time() {
-        return this._time;
-    }
-    get type() {
-        return this._type;
-    }
-    set username(username) {
-        this._username = username;
-    }
-    set content(content) {
-        this._content = content;
-    }
-    set bedId(bedId) {
-        this._bedId = bedId;
-    }
-    set time(time) {
-        this._time = time;
-    }
-    set type(type) {
-        this._type = type;
-    }
-}
-
-
-/***/ }),
-
-/***/ 225:
-/*!***************************************!*\
-  !*** ./src/app/models/user-status.ts ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userStats": () => (/* binding */ userStats)
-/* harmony export */ });
-class userStats {
-    constructor(userId, st) {
-        this._userId = userId;
-        this._st = st;
-    }
-    get_userId() {
-        return this._userId;
-    }
-    get_st() {
-        return this._st;
-    }
-    set_userId(num) {
-        this._userId = num;
-    }
-    set_st(num) {
-        this._st = num;
-    }
-}
-
-
-/***/ }),
-
-/***/ 5783:
-/*!********************************!*\
-  !*** ./src/app/models/user.ts ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "User": () => (/* binding */ User)
-/* harmony export */ });
-class User {
-    constructor(userId, username, firstName, lastName, occupation, state, password) {
-        this._userId = userId;
-        this._username = username;
-        this._firstname = firstName;
-        this._lastname = lastName;
-        this._occupation = occupation;
-        this._state = state;
-        this._password = password;
-    }
-    set userId(value) {
-        this._userId = value;
-    }
-    set username(value) {
-        this._username = value;
-    }
-    set firstname(value) {
-        this._firstname = value;
-    }
-    set lastname(value) {
-        this._lastname = value;
-    }
-    set occupation(value) {
-        this._occupation = value;
-    }
-    set state(state) {
-        this._state = state;
-    }
-    set password(password) {
-        this._password = password;
-    }
-    get userId() {
-        return this._userId;
-    }
-    get username() {
-        return this._username;
-    }
-    get_username() {
-        return this._username;
-    }
-    get firstName() {
-        return this._firstname;
-    }
-    get lastName() {
-        return this._lastname;
-    }
-    get occupation() {
-        return this._occupation;
-    }
-    get state() {
-        return this._state;
-    }
-    get password() {
-        return this._password;
-    }
-}
 
 
 /***/ }),
@@ -694,25 +694,25 @@ UserService = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
 
 /***/ }),
 
-/***/ 7954:
-/*!************************************************************!*\
-  !*** ./src/app/admin-main/admin-main.page.scss?ngResource ***!
-  \************************************************************/
+/***/ 4053:
+/*!*****************************************************************************!*\
+  !*** ./src/app/pages/mode-admin/admin-main/admin-main.page.scss?ngResource ***!
+  \*****************************************************************************/
 /***/ ((module) => {
 
 module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhZG1pbi1tYWluLnBhZ2Uuc2NzcyJ9 */";
 
 /***/ }),
 
-/***/ 550:
-/*!************************************************************!*\
-  !*** ./src/app/admin-main/admin-main.page.html?ngResource ***!
-  \************************************************************/
+/***/ 1564:
+/*!*****************************************************************************!*\
+  !*** ./src/app/pages/mode-admin/admin-main/admin-main.page.html?ngResource ***!
+  \*****************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>{{userLocal.username}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button (click)=\"logout()\" >Logout</ion-button>        <!--href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n<ion-item>\n  <ion-button (click)=\"onClickUsers()\">Usuarios </ion-button>\n  <ion-button (click)=\"onClickBeds()\">Camas</ion-button>\n <!-- <ion-button (click)=\"onClickEvents()\">Eventos</ion-button>\n  <ion-button (click)=\"onClickCalendar()\">Calendario</ion-button>-->\n\n</ion-item>\n<!-- showing logged users**********************************************-->\n<div *ngIf=\"showing=='Users'\">\n    <ion-item>\n    <p>users</p>\n    </ion-item>\n    <div class=\"msgbubble\" *ngFor=\"let msg2 of messagesUsers\">  \n      <div *ngIf=\"msg2.get_userId()!=0\">\n       <ion-card >         \n           <ion-item>            \n           <ion-label>Usuario: {{ msg2.get_userId()}}</ion-label>            \n           <ion-label>Estado: {{ userstates[msg2.get_st()] }}</ion-label>\n           <!--<ion-button>  <ion-icon slot=\"icon-only\" name=\"arrow-forward\"></ion-icon></ion-button>-->\n           </ion-item>\n         <br>         \n       </ion-card>\n      </div> \n   </div>\n</div>\n<!-- showing beds status**********************************************-->\n<div *ngIf=\"showing=='Beds'\">\n    <ion-item>\n      <p>beds</p>\n    </ion-item>\n\n    <div class=\"msgbubble\" *ngFor=\"let msg of messagesBeds2\">  \n       <div *ngIf=\"msg.get_bedId()!=0\">\n        <ion-card >\n          <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n            <ion-item>\n            <ion-label>Habitacion: {{ msg.get_bedId() }}</ion-label>            \n            <ion-label>Estado: {{ bedstates[msg.get_st()] }}</ion-label>\n            <!--<ion-button>  <ion-icon slot=\"icon-only\" name=\"arrow-forward\"></ion-icon></ion-button>-->\n            </ion-item>\n          <br>         \n        </ion-card>\n      </div> \n    </div>\n</div>\n<!-- showing Events status**********************************************-->\n<div *ngIf=\"showing=='Events'\">\n    <ion-item>\n      <p>events</p>\n    </ion-item>\n</div>\n<!-- showing Calendar **********************************************-->\n<div *ngIf=\"showing=='Calendar'\">\n    <ion-item>\n      <p>Calendario</p>\n    </ion-item>\n</div>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>{{userLocal.username}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button (click)=\"logout()\" >Cerrar Sesión</ion-button>        <!--href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n<ion-item>\n  <ion-button (click)=\"onClickUsers()\">Usuarios </ion-button>\n  <ion-button (click)=\"onClickBeds()\">Camas</ion-button>\n <!-- <ion-button (click)=\"onClickEvents()\">Eventos</ion-button>\n  <ion-button (click)=\"onClickCalendar()\">Calendario</ion-button>-->\n\n</ion-item>\n<!-- showing logged users**********************************************-->\n<div *ngIf=\"showing=='Users'\">\n    <ion-item>\n    <p>users</p>\n    </ion-item>\n    <div class=\"msgbubble\" *ngFor=\"let msg2 of messagesUsers\">  \n      <div *ngIf=\"msg2.get_userId()!=0\">\n       <ion-card >         \n           <ion-item>            \n           <ion-label>Usuario: {{ msg2.get_userId()}}</ion-label>            \n           <ion-label>Estado: {{ userstates[msg2.get_st()] }}</ion-label>\n           <!--<ion-button>  <ion-icon slot=\"icon-only\" name=\"arrow-forward\"></ion-icon></ion-button>-->\n           </ion-item>\n         <br>         \n       </ion-card>\n      </div> \n   </div>\n</div>\n<!-- showing beds status**********************************************-->\n<div *ngIf=\"showing=='Beds'\">\n    <ion-item>\n      <p>beds</p>\n    </ion-item>\n\n    <div class=\"msgbubble\" *ngFor=\"let msg of messagesBeds2\">  \n       <div *ngIf=\"msg.get_bedId()!=0\">\n        <ion-card >\n          <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n            <ion-item>\n            <ion-label>Habitacion: {{ msg.get_bedId() }}</ion-label>            \n            <ion-label>Estado: {{ bedstates[msg.get_st()] }}</ion-label>\n            <!--<ion-button>  <ion-icon slot=\"icon-only\" name=\"arrow-forward\"></ion-icon></ion-button>-->\n            </ion-item>\n          <br>         \n        </ion-card>\n      </div> \n    </div>\n</div>\n<!-- showing Events status**********************************************-->\n<div *ngIf=\"showing=='Events'\">\n    <ion-item>\n      <p>events</p>\n    </ion-item>\n</div>\n<!-- showing Calendar **********************************************-->\n<div *ngIf=\"showing=='Calendar'\">\n    <ion-item>\n      <p>Calendario</p>\n    </ion-item>\n</div>\n</ion-content>\n";
 
 /***/ })
 
 }]);
-//# sourceMappingURL=src_app_admin-main_admin-main_module_ts.js.map
+//# sourceMappingURL=src_app_pages_mode-admin_admin-main_admin-main_module_ts.js.map

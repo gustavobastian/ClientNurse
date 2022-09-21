@@ -20,7 +20,7 @@ __webpack_require__.r(__webpack_exports__);
 const routes = [
     {
         path: 'home',
-        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_home_home_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./home/home.module */ 3467)).then(m => m.HomePageModule)
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_pages_home_home_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./pages/home/home.module */ 7994)).then(m => m.HomePageModule)
     },
     {
         path: '',
@@ -29,46 +29,46 @@ const routes = [
     },
     {
         path: 'mqtt-config',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_mqtt-config_mqtt-config_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./mqtt-config/mqtt-config.module */ 4670)).then(m => m.MqttConfigPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_pages_mqtt-config_mqtt-config_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mqtt-config/mqtt-config.module */ 8329)).then(m => m.MqttConfigPageModule)
     },
     {
         path: 'login',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_login_login_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./login/login.module */ 107)).then(m => m.LoginPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_pages_login_login_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/login/login.module */ 1053)).then(m => m.LoginPageModule)
     }, {
         path: 'chat',
         loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_chat_chat_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./chat/chat.module */ 818)).then(m => m.ChatPageModule)
     },
     {
         path: 'waiting-event',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_waiting-event_waiting-event_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./waiting-event/waiting-event.module */ 6554)).then(m => m.WaitingEventPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_pages_mode-nurse_waiting-event_waiting-event_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-nurse/waiting-event/waiting-event.module */ 9955)).then(m => m.WaitingEventPageModule)
     },
     {
         path: 'doctor-main/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("default-src_app_models_message-model_ts-src_app_services_beds_service_ts-src_app_services_mqt-e50319"), __webpack_require__.e("src_app_doctor-main_doctor-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./doctor-main/doctor-main.module */ 9921)).then(m => m.DoctorMainPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("default-src_app_models_message-model_ts-src_app_services_beds_service_ts-src_app_services_mqt-e50319"), __webpack_require__.e("src_app_pages_mode-doctor_doctor-main_doctor-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-doctor/doctor-main/doctor-main.module */ 4351)).then(m => m.DoctorMainPageModule)
     },
     {
         path: 'nurse-main/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("default-src_app_models_message-model_ts-src_app_services_beds_service_ts-src_app_services_mqt-e50319"), __webpack_require__.e("common"), __webpack_require__.e("src_app_nurse-main_nurse-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./nurse-main/nurse-main.module */ 8265)).then(m => m.NurseMainPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("default-src_app_models_message-model_ts-src_app_services_beds_service_ts-src_app_services_mqt-e50319"), __webpack_require__.e("common"), __webpack_require__.e("src_app_pages_mode-nurse_nurse-main_nurse-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-nurse/nurse-main/nurse-main.module */ 5136)).then(m => m.NurseMainPageModule)
     },
     {
-        path: 'doctor-pacients/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_doctor-pacients_doctor-pacients_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./doctor-pacients/doctor-pacients.module */ 1689)).then(m => m.DoctorPacientsPageModule)
+        path: 'doctor-patients/:id',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_pages_mode-doctor_doctor-patients_doctor-pacients_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-doctor/doctor-patients/doctor-pacients.module */ 6216)).then(m => m.DoctorPacientsPageModule)
     },
     {
         path: 'doctor-messages/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_doctor-messages_doctor-messages_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./doctor-messages/doctor-messages.module */ 1103)).then(m => m.DoctorMessagesPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_pages_mode-doctor_doctor-messages_doctor-messages_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-doctor/doctor-messages/doctor-messages.module */ 4935)).then(m => m.DoctorMessagesPageModule)
     },
     {
         path: 'nurse-bed/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_nurse-bed_nurse-bed_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./nurse-bed/nurse-bed.module */ 9588)).then(m => m.NurseBedPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_pages_mode-nurse_nurse-bed_nurse-bed_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-nurse/nurse-bed/nurse-bed.module */ 4096)).then(m => m.NurseBedPageModule)
     },
     {
         path: 'nurse-qr/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_nurse-qr_nurse-qr_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./nurse-qr/nurse-qr.module */ 3652)).then(m => m.NurseQRPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_pages_mode-nurse_nurse-qr_nurse-qr_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-nurse/nurse-qr/nurse-qr.module */ 5928)).then(m => m.NurseQRPageModule)
     },
     {
         path: 'admin-main/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_admin-main_admin-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./admin-main/admin-main.module */ 8943)).then(m => m.AdminMainPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_pages_mode-admin_admin-main_admin-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-admin/admin-main/admin-main.module */ 5671)).then(m => m.AdminMainPageModule)
     },
 ];
 let AppRoutingModule = class AppRoutingModule {

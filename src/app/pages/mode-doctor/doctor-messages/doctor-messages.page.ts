@@ -69,7 +69,7 @@ export class DoctorMessagesPage implements OnInit {
     this.messages=[];
     localMessage.forEach(element => {      
       {        
-      receivedMessage = new MessageModel("","",element.id,"",element.st);
+      receivedMessage = new MessageModel("","",element.id,element.st);
       this.messages.push(receivedMessage);
      }
     });

@@ -55,7 +55,7 @@ export class DoctorMainPage implements OnInit {
    
    
   }
-  onClickPacientNote(id:number){    
+  onClickPatientNote(id:number){    
     this.router.navigate(['/doctor-patients/'+this.patientNumber]);        
   }
   onClickMessages(){    
@@ -91,7 +91,7 @@ export class DoctorMainPage implements OnInit {
         localMessage.forEach(element => {
           this.pacientTable.push(element);
         });
-        this.pacientTable=localMessage;
+        //this.pacientTable=localMessage;
         console.log(JSON.stringify(this.pacientTable))
         this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
        // console.log(JSON.stringify(this.pacientTable=localMessage));
@@ -102,7 +102,7 @@ export class DoctorMainPage implements OnInit {
       })    
 
    // console.log("Doctor logged id:"+this.localDoctor.userId)  
-    let a=new MessageModel(this.localDoctor.username,JSON.stringify(this.localDoctor.userId),  0, "0",9);    
+    let a=new MessageModel(this.localDoctor.username,JSON.stringify(this.localDoctor.userId),  0, 9);    
    // console.log(a)
     let mqttmessage=JSON.stringify(a);
    // console.log(mqttmessage);
@@ -119,7 +119,7 @@ export class DoctorMainPage implements OnInit {
     console.log("name:"+this.localDoctor.username);
    let question="logout";
       
-   let a=new MessageModel(this.localDoctor.username, question, 0, "",2);    
+   let a=new MessageModel(this.localDoctor.username, question, 0, 2);    
    console.log(JSON.stringify(a));
    let mqttmessage=(a).toString();
   // console.log(mqttmessage);
@@ -134,7 +134,7 @@ export class DoctorMainPage implements OnInit {
 
   /**
  * 
- * @param topic this will subscribe to a general messaging stack
+ * @param 
  */
     public async listenMessages(){
    // console.log("El usuario es:"+this.localDoctor.userId)
@@ -152,7 +152,7 @@ export class DoctorMainPage implements OnInit {
         //console.log("respuestaSystem2:  "+localMessage[0].lastName);
         console.log("here doc listening");       
                     
-        let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._time,localMessage._type);
+        let receivedMessage = new MessageModel(localMessage._username,localMessage._content,localMessage._bedId,localMessage._type);
           console.log("Recibido por doc");
           
           this.messages.push(receivedMessage);    
@@ -174,7 +174,7 @@ export class DoctorMainPage implements OnInit {
     //console.log((this.pacientTable[id].pacientId));
     let topic="/User/"+this.localDoctor.userId+"/answers/"+this.pacientTable[id].pacientId;
     console.log(topic);
-    let a=new MessageModel(this.localDoctor.username,this.textResponse,  this.pacientTable[id].bedId, "0",7);    
+    let a=new MessageModel(this.localDoctor.username,this.textResponse,  this.pacientTable[id].bedId, 7);    
     let mqttmessage=JSON.stringify(a);
     console.log("sending:",mqttmessage);    
     this.MQTTServ.sendMesagge(topic, mqttmessage);  
@@ -182,7 +182,7 @@ export class DoctorMainPage implements OnInit {
   }
   sendAudioText(response:string, id:number){
     let topic="/User/"+this.localDoctor.userId+"/answers/"+this.pacientTable[id].pacientId;
-    let a=new MessageModel(this.localDoctor.username,response,  this.pacientTable[id].bedId, "0",27);    
+    let a=new MessageModel(this.localDoctor.username,response,  this.pacientTable[id].bedId, 27);    
     let mqttmessage=JSON.stringify(a);    
     this.MQTTServ.sendMesagge(topic, mqttmessage);
   }
@@ -240,7 +240,7 @@ async stopRecording( id:number) {
       if(result.value&&result.value.recordDataBase64){
         console.log("sending recording")
         const recorData = result.value.recordDataBase64;        
-        let a=new MessageModel(this.localDoctor.username,result.value.recordDataBase64,  this.pacientTable[id].bedId, "0",22);    
+        let a=new MessageModel(this.localDoctor.username,result.value.recordDataBase64,  this.pacientTable[id].bedId, 22);    
           let mqttmessage=JSON.stringify(a);    
          await this.MQTTServ.sendMesagge(topic, mqttmessage);
           console.log("recording sent")
@@ -255,6 +255,10 @@ async enablingPatientMonitoring(){
 }
 async enablingNotes(){
   this.viewMode=1;
+}
+
+filteringPatients(){
+
 }
 
 }

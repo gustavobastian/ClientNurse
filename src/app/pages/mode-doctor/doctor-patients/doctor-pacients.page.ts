@@ -109,7 +109,7 @@ export class DoctorPacientsPage implements OnInit {
     });
     let topic="/User/general";
   
-    let b=new MessageModel(this.doctorName,(this.patientLocal.id).toString(),  0, "0",5);
+    let b=new MessageModel(this.doctorName,(this.patientLocal.id).toString(),  0, 5);
     let mqttmessage=JSON.stringify(b);    
     this.MQTTServ.sendMesagge(topic, mqttmessage);
     
@@ -146,7 +146,7 @@ export class DoctorPacientsPage implements OnInit {
     }
     })  
 
-    let a=new MessageModel(this.doctorName,(this.patientLocal.id).toString(),  0, "0",4);    
+    let a=new MessageModel(this.doctorName,(this.patientLocal.id).toString(),  0, 4);    
     console.log(a)
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);
@@ -182,7 +182,7 @@ export class DoctorPacientsPage implements OnInit {
   console.log(local.noteFormString);
   let nota=JSON.stringify(local.noteFormString);
   let topic="/Pacient/"+this.patientNumber2+"/newNote";
-  let b=new MessageModel(this.doctorName,nota,  0, "0",3);
+  let b=new MessageModel(this.doctorName,nota,  0, 3);
   let mqttmessage=JSON.stringify(b);    
   this.MQTTServ.sendMesagge(topic, mqttmessage);
   this.showAsk=false;
@@ -201,7 +201,7 @@ export class DoctorPacientsPage implements OnInit {
   console.log("borrando notaId:", data.notesId)
   //let topic="/Pacient/"+this.patientNumber2+"/";
   let topic="/User/general";
-  let b=new MessageModel(this.doctorName,JSON.stringify(data.notesId),  0, "0",18);
+  let b=new MessageModel(this.doctorName,JSON.stringify(data.notesId),  0, 18);
   let mqttmessage=JSON.stringify(b);    
   this.MQTTServ.sendMesagge(topic, mqttmessage);
  }

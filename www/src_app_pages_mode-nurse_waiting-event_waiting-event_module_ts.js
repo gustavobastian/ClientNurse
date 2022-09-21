@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_nurse-bed_nurse-bed_module_ts"],{
+(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_pages_mode-nurse_waiting-event_waiting-event_module_ts"],{
 
 /***/ 982:
 /*!*******************************!*\
@@ -58,11 +58,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "MessageModel": () => (/* binding */ MessageModel)
 /* harmony export */ });
 class MessageModel {
-    constructor(userName, content, bedId, time, type) {
+    constructor(userName, content, bedId, type) {
         this._username = userName;
         this._content = content;
         this._bedId = bedId;
-        this._time = time;
+        //this._time= time;
         this._type = type;
     }
     get username() {
@@ -74,9 +74,9 @@ class MessageModel {
     get bedId() {
         return this._bedId;
     }
-    get time() {
-        return this._time;
-    }
+    /* public get time(){
+         return this._time;
+     }*/
     get type() {
         return this._type;
     }
@@ -89,11 +89,45 @@ class MessageModel {
     set bedId(bedId) {
         this._bedId = bedId;
     }
-    set time(time) {
-        this._time = time;
-    }
+    /* public set time(time: string){
+         this._time = time;
+     }*/
     set type(type) {
         this._type = type;
+    }
+}
+
+
+/***/ }),
+
+/***/ 1199:
+/*!***************************************!*\
+  !*** ./src/app/models/nurse-specs.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "nurseSpec": () => (/* binding */ nurseSpec)
+/* harmony export */ });
+class nurseSpec {
+    constructor(nurseId, userId, name, specId) {
+        this._nurseSpecId = nurseId;
+        this._userId = userId;
+        this._name = name;
+        this._specId = specId;
+    }
+    get nurseSpecId() {
+        return this._nurseSpecId;
+    }
+    get userId() {
+        return this._userId;
+    }
+    get name() {
+        return this._name;
+    }
+    get specId() {
+        return this._specId;
     }
 }
 
@@ -170,20 +204,20 @@ class User {
 
 /***/ }),
 
-/***/ 7551:
-/*!*******************************************************!*\
-  !*** ./src/app/nurse-bed/nurse-bed-routing.module.ts ***!
-  \*******************************************************/
+/***/ 2452:
+/*!********************************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/waiting-event/waiting-event-routing.module.ts ***!
+  \********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "NurseBedPageRoutingModule": () => (/* binding */ NurseBedPageRoutingModule)
+/* harmony export */   "WaitingEventPageRoutingModule": () => (/* binding */ WaitingEventPageRoutingModule)
 /* harmony export */ });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ 2816);
-/* harmony import */ var _nurse_bed_page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-bed.page */ 1753);
+/* harmony import */ var _waiting_event_page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./waiting-event.page */ 5033);
 
 
 
@@ -191,39 +225,39 @@ __webpack_require__.r(__webpack_exports__);
 const routes = [
     {
         path: '',
-        component: _nurse_bed_page__WEBPACK_IMPORTED_MODULE_0__.NurseBedPage
+        component: _waiting_event_page__WEBPACK_IMPORTED_MODULE_0__.WaitingEventPage
     }
 ];
-let NurseBedPageRoutingModule = class NurseBedPageRoutingModule {
+let WaitingEventPageRoutingModule = class WaitingEventPageRoutingModule {
 };
-NurseBedPageRoutingModule = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
+WaitingEventPageRoutingModule = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.NgModule)({
         imports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule.forChild(routes)],
         exports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule],
     })
-], NurseBedPageRoutingModule);
+], WaitingEventPageRoutingModule);
 
 
 
 /***/ }),
 
-/***/ 9588:
-/*!***********************************************!*\
-  !*** ./src/app/nurse-bed/nurse-bed.module.ts ***!
-  \***********************************************/
+/***/ 9955:
+/*!************************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/waiting-event/waiting-event.module.ts ***!
+  \************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "NurseBedPageModule": () => (/* binding */ NurseBedPageModule)
+/* harmony export */   "WaitingEventPageModule": () => (/* binding */ WaitingEventPageModule)
 /* harmony export */ });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ 6362);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ 587);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 3819);
-/* harmony import */ var _nurse_bed_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-bed-routing.module */ 7551);
-/* harmony import */ var _nurse_bed_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nurse-bed.page */ 1753);
+/* harmony import */ var _waiting_event_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./waiting-event-routing.module */ 2452);
+/* harmony import */ var _waiting_event_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./waiting-event.page */ 5033);
 
 
 
@@ -231,47 +265,48 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-let NurseBedPageModule = class NurseBedPageModule {
+let WaitingEventPageModule = class WaitingEventPageModule {
 };
-NurseBedPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
+WaitingEventPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.NgModule)({
         imports: [
             _angular_common__WEBPACK_IMPORTED_MODULE_4__.CommonModule,
             _angular_forms__WEBPACK_IMPORTED_MODULE_5__.FormsModule,
             _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonicModule,
-            _nurse_bed_routing_module__WEBPACK_IMPORTED_MODULE_0__.NurseBedPageRoutingModule
+            _waiting_event_routing_module__WEBPACK_IMPORTED_MODULE_0__.WaitingEventPageRoutingModule
         ],
-        declarations: [_nurse_bed_page__WEBPACK_IMPORTED_MODULE_1__.NurseBedPage]
+        declarations: [_waiting_event_page__WEBPACK_IMPORTED_MODULE_1__.WaitingEventPage]
     })
-], NurseBedPageModule);
+], WaitingEventPageModule);
 
 
 
 /***/ }),
 
-/***/ 1753:
-/*!*********************************************!*\
-  !*** ./src/app/nurse-bed/nurse-bed.page.ts ***!
-  \*********************************************/
+/***/ 5033:
+/*!**********************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/waiting-event/waiting-event.page.ts ***!
+  \**********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "NurseBedPage": () => (/* binding */ NurseBedPage)
+/* harmony export */   "WaitingEventPage": () => (/* binding */ WaitingEventPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! tslib */ 4929);
-/* harmony import */ var _nurse_bed_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-bed.page.html?ngResource */ 4760);
-/* harmony import */ var _nurse_bed_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nurse-bed.page.scss?ngResource */ 358);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/router */ 2816);
-/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
-/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
-/* harmony import */ var _services_pacient_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/pacient.service */ 2220);
-/* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/message-model */ 6397);
-/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/user.service */ 3071);
-/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../models/user */ 5783);
-/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/beds.service */ 3082);
-/* harmony import */ var _models_bed__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../models/bed */ 982);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var _waiting_event_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./waiting-event.page.html?ngResource */ 9377);
+/* harmony import */ var _waiting_event_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./waiting-event.page.scss?ngResource */ 7525);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var src_app_models_nurse_specs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/models/nurse-specs */ 1199);
+/* harmony import */ var _models_bed__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../models/bed */ 982);
+/* harmony import */ var _models_bed_status__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../models/bed-status */ 6000);
+/* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../models/message-model */ 6397);
+/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../models/user */ 5783);
+/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../services/beds.service */ 3082);
+/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../services/local-storage.service */ 17);
+/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../services/mqtt.service */ 3112);
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../services/user.service */ 3071);
 
 
 
@@ -285,78 +320,167 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-let NurseBedPage = class NurseBedPage {
-    constructor(activatedRoute, localSto, pacientServ, userLogged, bedLocal, MQTTServ) {
+
+let WaitingEventPage = class WaitingEventPage {
+    constructor(activatedRoute, MQTTServ, localSto, router, localBed, userLogged) {
         this.activatedRoute = activatedRoute;
-        this.localSto = localSto;
-        this.pacientServ = pacientServ;
-        this.userLogged = userLogged;
-        this.bedLocal = bedLocal;
         this.MQTTServ = MQTTServ;
-        this.BedLocal2 = new _models_bed__WEBPACK_IMPORTED_MODULE_9__.Bed(0, 0, 0, 0);
-        this.bedId = 0;
-        this.localNurse = new _models_user__WEBPACK_IMPORTED_MODULE_7__.User(0, "", "", "", "", 0, "");
-        let d = this.activatedRoute.snapshot.params['id'];
-        this.bedId = this.bedLocal.getBedId();
-        console.log("bedId " + d);
+        this.localSto = localSto;
+        this.router = router;
+        this.localBed = localBed;
+        this.userLogged = userLogged;
+        this.localNurse = new _models_user__WEBPACK_IMPORTED_MODULE_6__.User(0, "", "", "", "", 0, "");
+        this.bed = new _models_bed__WEBPACK_IMPORTED_MODULE_3__.Bed(0, 0, 0, 0);
+        this.messages = new Array;
+        this.messagesbeds = new Array;
+        this.messagesbedsfiltered = new Array;
+        this.nurseSpecs = new Array;
+        this.nurseSpecsIds = new Array;
+        this.responseSpec = " ";
     }
     ngOnInit() {
-        this.getParams();
-        //this.getBedInfo();
-    }
-    getParams() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
-            this.localNurse = this.userLogged.getUser();
-            this.nurseName = this.localNurse.username;
-            this.bedId = this.bedLocal.getBedId();
-            this.getBedInfo();
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
+            this.localNurse = yield this.userLogged.getUser();
+            yield this.getNurseSpec();
+            setTimeout(() => {
+                this.eventsSubscription();
+            }, 600);
         });
     }
-    getBedInfo() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
-            yield console.log("inside:" + this.nurseName);
-            /** Preparing to get the response   *  */
-            let responseInfoTopic = "/Beds/" + this.bedId + "/info";
-            this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message => {
-                let localMessage = JSON.parse(Message.string);
-                console.log("respuestaSystemBeds:  " + localMessage[0]);
-                if (Message.toString() == "Error") {
-                    this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
-                    this.floor = 0;
-                    this.room = 0;
-                    return;
-                }
-                else {
-                    this.floor = localMessage[0].floorId;
-                    this.room = localMessage[0].roomId;
-                    this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
+    /**
+     * Subscription for receiving messages
+     * of the status of the beds
+     */
+    eventsSubscription() {
+        let topic = "/Beds/status";
+        let receivedMessage;
+        console.log("status subscribed");
+        this.MQTTServ.MQTTClientLocal.subscribe(topic).on((Message) => (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
+            //  console.log("received")
+            //  console.log(Message.string);            
+            let localMessage = JSON.parse(Message.string);
+            let local2 = Message.string;
+            //console.log(localMessage[0].message);    
+            this.messagesbeds = [];
+            localMessage.forEach(element => {
+                {
+                    let localBedStatus = new _models_bed_status__WEBPACK_IMPORTED_MODULE_4__.bedStats(element.id, element.st, element.spec);
+                    this.nurseSpecsIds.forEach(localnurseSpec => {
+                        if (element.spec == localnurseSpec) {
+                            this.messagesbeds.push(localBedStatus);
+                        }
+                    });
                 }
             });
-            /** Ask for information about the bed *  */
-            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_5__.MessageModel(this.nurseName, this.bedId.toString(), 0, "0", 8);
-            //console.log(a)
+        }));
+    }
+    /**
+       * getting nurse information
+       */
+    getNurseSpec() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
+            console.log("nurse:" + this.localNurse.userId);
+            let responseInfoTopic = "/User/" + this.localNurse.userId + "/Specs";
+            this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message => {
+                let localMessage = JSON.parse(Message.string);
+                if (Message.toString() == "Error") {
+                    this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
+                }
+                //console.log("respuestaSystem2:  "+localMessage[0].lastName);
+                this.nurseSpecs = [];
+                this.nurseSpecsIds = [];
+                localMessage.forEach(element => {
+                    let localSpec = new src_app_models_nurse_specs__WEBPACK_IMPORTED_MODULE_2__.nurseSpec(this.localNurse.userId, this.localNurse.userId, element.Name, element.specId);
+                    this.nurseSpecs.push(localSpec);
+                    this.nurseSpecsIds.push(element.specId);
+                });
+                console.log(JSON.stringify(localMessage));
+                this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
+            });
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_5__.MessageModel(this.localNurse.username, JSON.stringify(this.localNurse.username), 0, 43);
+            console.log(a);
             let mqttmessage = JSON.stringify(a);
-            console.log("Mensaje:" + mqttmessage);
-            let topic = "/Beds/" + this.bedId + "/messages";
+            console.log(mqttmessage);
+            let topic = "/User/general";
             yield this.MQTTServ.sendMesagge(topic, mqttmessage);
         });
     }
+    /**
+     * Accepting a bed call... and moving to the bed
+     * @param i beds number
+     */
+    onClick(i) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
+            this.localBed.setBedId(i);
+            this.bed.bedId = i;
+            this.router.navigate(['/nurse-main/:' + i]);
+            let topic = "/Beds/status";
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_5__.MessageModel(this.localNurse.username, "", this.bed.bedId, 12);
+            //console.log(a)
+            let mqttmessage = JSON.stringify(a);
+            console.log(mqttmessage);
+            topic = "/User/general";
+            yield this.MQTTServ.sendMesagge(topic, mqttmessage);
+        });
+    }
+    /**
+     * asking for bed information
+     * @param i beds number
+     */
+    onClick2(i) {
+        this.localBed.setBedId(i);
+        this.router.navigate(['/nurse-bed/:' + i]);
+    }
+    /**
+     * asking for Calendar Notes information
+     * @param i beds number
+     */
+    onClick3(i) {
+        /*this.localBed.setBedId(i);
+       
+        this.router.navigate(['/nurse-bed/:'+i]);        */
+        console.log(i);
+    }
+    /**
+     * logout
+     */
+    logout() {
+        console.log("logging out");
+        console.log("name:" + this.localNurse.username);
+        let question = "logout";
+        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_5__.MessageModel(this.localNurse.username, question, 0, 2);
+        console.log(JSON.stringify(a));
+        let mqttmessage = (a).toString();
+        console.log(mqttmessage);
+        let topic = "/User/general";
+        this.MQTTServ.sendMesagge(topic, JSON.stringify(a));
+        topic = "/Beds/status";
+        this.router.navigate(['/']);
+    }
+    /**
+     * go to general chat
+     */
+    goChat() {
+        /*   this.router.navigate(['/chat/]);        */
+        this.localBed.setBedId(0);
+        this.router.navigate(['/chat/']);
+    }
 };
-NurseBedPage.ctorParameters = () => [
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_11__.ActivatedRoute },
-    { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__.LocalStorageService },
-    { type: _services_pacient_service__WEBPACK_IMPORTED_MODULE_4__.PacientService },
-    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_6__.UserService },
-    { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_8__.BedsService },
-    { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_3__.MqttService }
+WaitingEventPage.ctorParameters = () => [
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_12__.ActivatedRoute },
+    { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_9__.MqttService },
+    { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_8__.LocalStorageService },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_12__.Router },
+    { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_7__.BedsService },
+    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_10__.UserService }
 ];
-NurseBedPage = (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_12__.Component)({
-        selector: 'app-nurse-bed',
-        template: _nurse_bed_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
-        styles: [_nurse_bed_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
+WaitingEventPage = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_13__.Component)({
+        selector: 'app-waiting-event',
+        template: _waiting_event_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
+        styles: [_waiting_event_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
     })
-], NurseBedPage);
+], WaitingEventPage);
 
 
 
@@ -592,25 +716,25 @@ UserService = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
 
 /***/ }),
 
-/***/ 358:
-/*!**********************************************************!*\
-  !*** ./src/app/nurse-bed/nurse-bed.page.scss?ngResource ***!
-  \**********************************************************/
+/***/ 7525:
+/*!***********************************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/waiting-event/waiting-event.page.scss?ngResource ***!
+  \***********************************************************************************/
 /***/ ((module) => {
 
-module.exports = "* {\n  background: transparent !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm51cnNlLWJlZC5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFBRSxrQ0FBQTtBQUVGIiwiZmlsZSI6Im51cnNlLWJlZC5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIqe2JhY2tncm91bmQ6IHRyYW5zcGFyZW50ICFpbXBvcnRhbnQ7fSJdfQ== */";
+module.exports = ".card {\n  background-color: #d15050;\n  box-shadow: none;\n}\n\n* {\n  background: transparent !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndhaXRpbmctZXZlbnQucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0kseUJBQUE7RUFDQSxnQkFBQTtBQUNKOztBQUVFO0VBQUUsa0NBQUE7QUFFSiIsImZpbGUiOiJ3YWl0aW5nLWV2ZW50LnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jYXJkIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjA5LCA4MCwgODApOyAvLyBibGFja1xuICAgIGJveC1zaGFkb3c6IG5vbmU7XG4gIH1cblxuICAqe2JhY2tncm91bmQ6IHRyYW5zcGFyZW50ICFpbXBvcnRhbnQ7fSAgIl19 */";
 
 /***/ }),
 
-/***/ 4760:
-/*!**********************************************************!*\
-  !*** ./src/app/nurse-bed/nurse-bed.page.html?ngResource ***!
-  \**********************************************************/
+/***/ 9377:
+/*!***********************************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/waiting-event/waiting-event.page.html?ngResource ***!
+  \***********************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-item>\n  <!--    <ion-title>Enfermera:{{nurseName}}</ion-title>-->\n    </ion-item>\n   <ion-item>\n     \n      <ion-buttons slot=\"start\">\n        <ion-back-button  defaultHref=\"/waiting-event/\" [text]=\"\"></ion-back-button>        \n      </ion-buttons>\n      <ion-title>Cama:{{bedId}}</ion-title>\n    </ion-item>\n  </ion-toolbar>\n  \n  \n</ion-header>\n\n<ion-content>\n  <ion-card>\n    <ion-item>\n    <ion-label>Piso: {{floor}}</ion-label>\n    </ion-item>\n    <ion-item>\n    <ion-label>Cuarto: {{room}}</ion-label>\n  </ion-item>\n  </ion-card>  \n\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Sala de espera</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button  (click)=\"logout()\">Logout</ion-button>        <!-- href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n <ion-item>\n    <ion-item>\n      <label>Especialidades:</label> \n    </ion-item>\n    <div *ngFor=\"let item of nurseSpecs\">  \n      <ion-item>\n      <p>{{item._name}}</p>\n      </ion-item>\n    </div>  \n      \n  </ion-item>\n  <div class=\"msgbubble\" *ngFor=\"let msg of messagesbeds\">  \n    <!--<p>{{msg|json}}</p>-->\n    <div *ngIf=\"msg._st > 1\">  \n      \n      <ion-card >\n        <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n          <ion-item>\n          <ion-label>Habitación: {{ msg._bedId }}</ion-label>\n          </ion-item>\n          <ion-item>\n          <ion-label>Estado: {{ msg._st}}</ion-label>\n          <div *ngIf=\"msg.get_st()==6\">\n            <ion-label>AYUDA</ion-label>\n          </div>\n          </ion-item>\n         \n        <br>\n        <ion-item>\n          <div *ngIf=\"msg._st!=6\">\n          <ion-button (click)=\"onClick(msg._bedId)\"> Aceptar </ion-button>\n          </div>\n          <ion-button (click)=\"onClick2(msg._bedId)\"> Ubicacion </ion-button>\n          <div *ngIf=\"msg.type == 9\">  \n            <ion-button (click)=\"onClick3(msg._bedId)\"> Notas Calendario </ion-button>\n          </div>  \n        </ion-item>\n      </ion-card>\n    </div>  \n  </div>\n</ion-content>\n";
 
 /***/ })
 
 }]);
-//# sourceMappingURL=src_app_nurse-bed_nurse-bed_module_ts.js.map
+//# sourceMappingURL=src_app_pages_mode-nurse_waiting-event_waiting-event_module_ts.js.map

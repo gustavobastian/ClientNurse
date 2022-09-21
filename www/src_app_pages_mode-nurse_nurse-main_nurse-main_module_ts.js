@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_nurse-main_nurse-main_module_ts"],{
+(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_pages_mode-nurse_nurse-main_nurse-main_module_ts"],{
 
 /***/ 4377:
 /*!****************************************!*\
@@ -33,10 +33,10 @@ class MedicalTable {
 
 /***/ }),
 
-/***/ 8090:
-/*!*********************************************************!*\
-  !*** ./src/app/nurse-main/nurse-main-routing.module.ts ***!
-  \*********************************************************/
+/***/ 9449:
+/*!**************************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/nurse-main/nurse-main-routing.module.ts ***!
+  \**************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -46,7 +46,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ 2816);
-/* harmony import */ var _nurse_main_page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-main.page */ 7393);
+/* harmony import */ var _nurse_main_page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-main.page */ 4180);
 
 
 
@@ -70,10 +70,10 @@ NurseMainPageRoutingModule = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
 
 /***/ }),
 
-/***/ 8265:
-/*!*************************************************!*\
-  !*** ./src/app/nurse-main/nurse-main.module.ts ***!
-  \*************************************************/
+/***/ 5136:
+/*!******************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/nurse-main/nurse-main.module.ts ***!
+  \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -85,8 +85,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ 6362);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ 587);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 3819);
-/* harmony import */ var _nurse_main_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-main-routing.module */ 8090);
-/* harmony import */ var _nurse_main_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nurse-main.page */ 7393);
+/* harmony import */ var _nurse_main_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-main-routing.module */ 9449);
+/* harmony import */ var _nurse_main_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nurse-main.page */ 4180);
 
 
 
@@ -112,10 +112,10 @@ NurseMainPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
 
 /***/ }),
 
-/***/ 7393:
-/*!***********************************************!*\
-  !*** ./src/app/nurse-main/nurse-main.page.ts ***!
-  \***********************************************/
+/***/ 4180:
+/*!****************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/nurse-main/nurse-main.page.ts ***!
+  \****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -123,20 +123,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "NurseMainPage": () => (/* binding */ NurseMainPage)
 /* harmony export */ });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! tslib */ 4929);
-/* harmony import */ var _nurse_main_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-main.page.html?ngResource */ 2489);
-/* harmony import */ var _nurse_main_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nurse-main.page.scss?ngResource */ 6181);
+/* harmony import */ var _nurse_main_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-main.page.html?ngResource */ 4445);
+/* harmony import */ var _nurse_main_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nurse-main.page.scss?ngResource */ 3117);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/router */ 2816);
-/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
-/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
-/* harmony import */ var _services_pacient_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/pacient.service */ 2220);
-/* harmony import */ var _models_note__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/note */ 5);
-/* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../models/message-model */ 6397);
-/* harmony import */ var _models_pacient__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../models/pacient */ 7377);
-/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/user.service */ 3071);
-/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../models/user */ 5783);
-/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../services/beds.service */ 3082);
-/* harmony import */ var _models_MedicalTable__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../models/MedicalTable */ 4377);
+/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/local-storage.service */ 17);
+/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services/mqtt.service */ 3112);
+/* harmony import */ var _services_pacient_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../services/pacient.service */ 2220);
+/* harmony import */ var src_app_models_note__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/models/note */ 5);
+/* harmony import */ var src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/models/message-model */ 6397);
+/* harmony import */ var src_app_models_patient__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/models/patient */ 2709);
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../services/user.service */ 3071);
+/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../models/user */ 5783);
+/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../services/beds.service */ 3082);
+/* harmony import */ var src_app_models_MedicalTable__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! src/app/models/MedicalTable */ 4377);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @ionic/angular */ 3819);
 /* harmony import */ var _mozartec_capacitor_microphone__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @mozartec/capacitor-microphone */ 9528);
 /* harmony import */ var _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @capacitor/filesystem */ 1662);
@@ -173,21 +173,21 @@ let NurseMainPage = class NurseMainPage {
         this.localNurse = new _models_user__WEBPACK_IMPORTED_MODULE_9__.User(0, "", "", "", "", 0, "");
         this.bedId = 0;
         this.nurseName = " ";
-        this.nurseId = 0;
         this.notes = new Array;
         this.msg = new Array;
         this.msgRx = new Array;
         this.audio = new Array;
-        this.audioRx = new Array;
         this.textToSend = new Array;
         this.RxText = new Array;
         this.RxType = new Array;
         this.MDT = new Array;
-        this.pacientLocal = new _models_pacient__WEBPACK_IMPORTED_MODULE_7__.Pacient(0, "Gus", "Bas", 0, 0, 0);
-        this.QRCapture = false;
+        this.nurseSpecs = new Array;
+        this.Memoria = " ";
+        this.patientLocal = new src_app_models_patient__WEBPACK_IMPORTED_MODULE_7__.Patient(0, "Gus", "Bas", 0, 0, 0);
         this.inRoom = false;
         this.showNotes = false;
         this.showMedical = false;
+        this.showMemoria = false;
         this.asking = false;
         this.actionFinished = false;
         this.recordingAudio = false;
@@ -205,7 +205,7 @@ let NurseMainPage = class NurseMainPage {
     ngOnInit() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             yield this.getParams();
-            console.log("pacientID onInit:" + this.pacientLocal.id);
+            console.log("patientID onInit:" + this.patientLocal.id);
             this.manualQR = false;
             yield this.eventsSubscription(); //getting status of the bed
             //permissions for recording
@@ -247,53 +247,53 @@ let NurseMainPage = class NurseMainPage {
         });
     }
     /**
-     * Get the pacient id
+     * Get the patient id
      */
     getParams() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             this.localNurse = this.userlogged.getUser();
             this.nurseName = this.localNurse.username;
             let responseInfoTopic = "/Beds/" + this.bedId + "/Pacient";
-            console.log("asking on pacient info:  " + responseInfoTopic.toString());
+            console.log("asking on patient info:  " + responseInfoTopic.toString());
             //cleaning
             this.MDT = [];
             this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message => {
-                console.log("SystemResponse on pacient info:  " + Message.toString());
+                console.log("SystemResponse on patient info:  " + Message.toString());
                 let localMessage = JSON.parse(Message.string);
-                let pacient1 = JSON.parse(JSON.stringify(localMessage[0]));
-                //console.log("pacientId:"+ pacient1.pacientId);
-                this.pacientLocal.id = pacient1.pacientId;
-                console.log(JSON.stringify(this.pacientLocal));
+                let patient1 = JSON.parse(JSON.stringify(localMessage[0]));
+                //console.log("patientId:"+ patient1.pacientId);
+                this.patientLocal.id = patient1.pacientId;
+                console.log(JSON.stringify(this.patientLocal));
                 if (Message.toString() == "Error") {
                     this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
                 }
-                console.log("Pacient received");
+                console.log("Patient received");
                 this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
             });
             let topic = "/User/general";
-            let b = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.bedId), this.bedId, "0", 10);
+            let b = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.bedId), this.bedId, 10);
             let mqttmessage = JSON.stringify(b);
             yield this.MQTTServ.sendMesagge(topic, mqttmessage);
         });
     }
     /**
-     * getting pacient information
+     * getting patient information
      */
-    getPacientInformation() {
+    getPatientInformation() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
-            console.log("Pacient:" + this.pacientLocal.id);
-            let responseInfoTopic = "/Pacient/" + this.pacientLocal.id + "/info";
+            console.log("Patient:" + this.patientLocal.id);
+            let responseInfoTopic = "/Pacient/" + this.patientLocal.id + "/info";
             this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message => {
                 let localMessage = JSON.parse(Message.string);
                 if (Message.toString() == "Error") {
                     this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
                 }
                 //console.log("respuestaSystem2:  "+localMessage[0].lastName);
-                this.pacientLocal.lastName = localMessage[0].lastName;
-                this.pacientLocal.firstName = localMessage[0].firstName;
+                this.patientLocal.lastName = localMessage[0].lastName;
+                this.patientLocal.firstName = localMessage[0].firstName;
                 this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
             });
-            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.pacientLocal.id), 0, "0", 4);
+            let a = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.patientLocal.id), 0, 4);
             console.log(a);
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
@@ -311,7 +311,7 @@ let NurseMainPage = class NurseMainPage {
             let responseNoteTopic = "/Beds/" + this.bedId + "/info";
             //cleaning
             this.MDT = [];
-            /*asking for pacient's doctors */
+            /*asking for patient's doctors */
             console.log("MDT bedId:" + this.bedId);
             let responseMDTTopic = "/Beds/" + this.bedId + "/MDT";
             this.MQTTServ.MQTTClientLocal.subscribe(responseMDTTopic).on(Message => {
@@ -327,7 +327,7 @@ let NurseMainPage = class NurseMainPage {
                     MDTLocal.forEach(element => {
                         console.log("************************");
                         console.log(JSON.stringify(element));
-                        let MDTLocal2 = new _models_MedicalTable__WEBPACK_IMPORTED_MODULE_11__.MedicalTable(element.lastname, element.userId);
+                        let MDTLocal2 = new src_app_models_MedicalTable__WEBPACK_IMPORTED_MODULE_11__.MedicalTable(element.lastname, element.userId);
                         console.log(JSON.stringify(MDTLocal2));
                         this.MDT.push(MDTLocal2);
                         this.msg.push(0);
@@ -341,7 +341,7 @@ let NurseMainPage = class NurseMainPage {
                 console.log("mdt received");
             });
             let topic = "/User/general";
-            let c = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.bedId), this.bedId, "0", 17);
+            let c = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.bedId), this.bedId, 17);
             let mqttmessage2 = JSON.stringify(c);
             yield this.MQTTServ.sendMesagge(topic, mqttmessage2);
         });
@@ -362,7 +362,7 @@ let NurseMainPage = class NurseMainPage {
             this.messages = [];
             localMessage.forEach(element => {
                 {
-                    receivedMessage = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel("", "", element.id, "", element.st);
+                    receivedMessage = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel("", "", element.id, element.st);
                     console.log("element id:" + element.id + "| element st:" + element.st);
                     if (parseInt(element.id) == (this.bedId)) {
                         console.log("Here");
@@ -387,8 +387,8 @@ let NurseMainPage = class NurseMainPage {
             this.notes.splice(0);
             console.log("***********************************************************");
             console.log("***********gettin notes****************************");
-            console.log("pacientID:" + this.pacientLocal.id);
-            let responseNoteTopic = "/Pacient/" + this.pacientLocal.id + "/notes";
+            console.log("patientID:" + this.patientLocal.id);
+            let responseNoteTopic = "/Pacient/" + this.patientLocal.id + "/notes";
             yield this.MQTTServ.MQTTClientLocal.subscribe(responseNoteTopic).on(Message => {
                 console.log("respuestaSystem:  " + Message.toString());
                 if (Message.toString() == "Error") {
@@ -399,14 +399,14 @@ let NurseMainPage = class NurseMainPage {
                 let localMessage = JSON.parse(Message.string);
                 let note1 = JSON.parse(JSON.stringify(localMessage[0]));
                 let note2 = JSON.parse(JSON.stringify(localMessage[1]));
-                let notaLocal1 = new _models_note__WEBPACK_IMPORTED_MODULE_5__.Note(note1.notesId, note1.note, note1.state);
-                let notaLocal2 = new _models_note__WEBPACK_IMPORTED_MODULE_5__.Note(note2.notesId, note2.note, note2.state);
+                let notaLocal1 = new src_app_models_note__WEBPACK_IMPORTED_MODULE_5__.Note(note1.notesId, note1.note, note1.state);
+                let notaLocal2 = new src_app_models_note__WEBPACK_IMPORTED_MODULE_5__.Note(note2.notesId, note2.note, note2.state);
                 this.notes.push(notaLocal1);
                 this.notes.push(notaLocal2);
                 this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic);
             });
             let topic = "/User/general";
-            let b = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.pacientLocal.id), 0, "0", 5);
+            let b = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.patientLocal.id), 0, 5);
             let mqttmessage = JSON.stringify(b);
             yield this.MQTTServ.sendMesagge(topic, mqttmessage);
         });
@@ -419,7 +419,7 @@ let NurseMainPage = class NurseMainPage {
             this.router.navigate(['/chat/']);
             /*   this.router.navigate(['/chat/]);        */
             /*
-              let a=new MessageModel(this.nurseName,JSON.stringify(this.pacientLocal.id),  this.bedId, "0",14);
+              let a=new MessageModel(this.nurseName,JSON.stringify(this.patientLocal.id),  this.bedId, "0",14);
              console.log(a)
              let mqttmessage=JSON.stringify(a);
              console.log(mqttmessage);
@@ -441,7 +441,7 @@ let NurseMainPage = class NurseMainPage {
     */
     Quit() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
-            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.pacientLocal.id), this.bedId, "0", 19);
+            let a = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.patientLocal.id), this.bedId, 19);
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
             let topic = "/User/general";
@@ -458,7 +458,8 @@ let NurseMainPage = class NurseMainPage {
     goEnd() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             /*   this.router.navigate(['/chat/]);        */
-            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.pacientLocal.id), this.bedId, "0", 13);
+            let data = { "Memoria": this.Memoria };
+            let a = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(data), this.bedId, 13);
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
             let topic = "/User/general";
@@ -473,11 +474,10 @@ let NurseMainPage = class NurseMainPage {
      */
     askToDoctor(question, doctorId) {
         var time = new Date();
-        let value = time.getFullYear() + "/" + time.getMonth() + "/" + time.getDay() + "-" + (time.getHours()) + ":" + (time.getMinutes()) + ":" + time.getSeconds();
-        ;
-        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.localNurse.username, question, this.bedId, value, 7);
+        //let value= time.getFullYear()+"/"+time.getMonth()+"/"+time.getDay() +"-"+(time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
+        let a = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.localNurse.username, question, this.bedId, 7);
         let mqttmessage = JSON.stringify(a);
-        let topic = "/User/" + doctorId + "/questions/" + this.pacientLocal.pacientId;
+        let topic = "/User/" + doctorId + "/questions/" + this.patientLocal.pacientId;
         this.MQTTServ.sendMesagge(topic, mqttmessage);
     }
     //opening closing msg dialog
@@ -499,7 +499,7 @@ let NurseMainPage = class NurseMainPage {
         console.log("sending to:" + this.MDT[i].userID);
         console.log("MSG send:" + this.textToSend[i]);
         this.bedIdSubscription(i);
-        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.localNurse.username, this.textToSend[i], this.bedId, "0", 7);
+        let a = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.localNurse.username, this.textToSend[i], this.bedId, 7);
         let mqttmessage = JSON.stringify(a);
         let topic = "/User/" + this.MDT[i].userID + "/questions/" + this.bedId;
         this.MQTTServ.sendMesagge(topic, mqttmessage);
@@ -597,7 +597,7 @@ let NurseMainPage = class NurseMainPage {
                 capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_14__.VoiceRecorder.stopRecording().then((result) => (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
                     if (result.value && result.value.recordDataBase64) {
                         recordedMessage = result.value.recordDataBase64;
-                        let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.localNurse.username, (recordedMessage), this.bedId, "0", 22);
+                        let a = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.localNurse.username, (recordedMessage), this.bedId, 22);
                         let mqttmessage = JSON.stringify(a);
                         let topic = "/User/" + this.MDT[i].userID + "/questions/" + this.bedId;
                         this.MQTTServ.sendMesagge(topic, mqttmessage);
@@ -641,16 +641,29 @@ let NurseMainPage = class NurseMainPage {
             }
             this.showNotes = false;
             this.showMedical = true;
+            this.showMemoria = false;
         });
     }
     openNotesTable() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
-            yield this.getPacientInformation();
+            yield this.getPatientInformation();
             if (this.notes.length == 0) {
                 yield this.getNotes();
             }
             this.showNotes = true;
             this.showMedical = false;
+            this.showMemoria = false;
+        });
+    }
+    openMemoria() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
+            yield this.getPatientInformation();
+            if (this.notes.length == 0) {
+                yield this.getNotes();
+            }
+            this.showNotes = false;
+            this.showMedical = false;
+            this.showMemoria = true;
         });
     }
     /**
@@ -680,7 +693,7 @@ let NurseMainPage = class NurseMainPage {
     sendQr() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
             console.log("QR:" + this.textQR);
-            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.textQR), this.bedId, "0", 11);
+            let a = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.textQR), this.bedId, 11);
             console.log(a);
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
@@ -693,7 +706,7 @@ let NurseMainPage = class NurseMainPage {
     }
     Help() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
-            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, " ", this.bedId, "0", 44);
+            let a = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, " ", this.bedId, 44);
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
             let topic = "/User/general";
@@ -770,25 +783,25 @@ const Microphone = (0,_capacitor_core__WEBPACK_IMPORTED_MODULE_0__.registerPlugi
 
 /***/ }),
 
-/***/ 6181:
-/*!************************************************************!*\
-  !*** ./src/app/nurse-main/nurse-main.page.scss?ngResource ***!
-  \************************************************************/
+/***/ 3117:
+/*!*****************************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/nurse-main/nurse-main.page.scss?ngResource ***!
+  \*****************************************************************************/
 /***/ ((module) => {
 
 module.exports = "* {\n  background: transparent !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm51cnNlLW1haW4ucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQUUsa0NBQUE7QUFFRiIsImZpbGUiOiJudXJzZS1tYWluLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIip7YmFja2dyb3VuZDogdHJhbnNwYXJlbnQgIWltcG9ydGFudDt9Il19 */";
 
 /***/ }),
 
-/***/ 2489:
-/*!************************************************************!*\
-  !*** ./src/app/nurse-main/nurse-main.page.html?ngResource ***!
-  \************************************************************/
+/***/ 4445:
+/*!*****************************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/nurse-main/nurse-main.page.html?ngResource ***!
+  \*****************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    \n    <ion-item>\n    <ion-title>Enfermera:{{nurseName}}</ion-title>\n  </ion-item>\n  <ion-item>\n    <ion-buttons slot=\"start\">\n      <div *ngIf=\"actionFinished==true\">\n      <ion-back-button  defaultHref=\"\" [text]=\"\"></ion-back-button>        \n      </div>\n    </ion-buttons>\n    <ion-title>Cama:{{bedId}}</ion-title>\n  </ion-item>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-card>\n    <ion-item>\n   <div *ngIf=\"inRoom===false\">   \n        \n        <ion-button (click)=\"goQR()\">QR </ion-button> \n        <ion-button (click)=\"toggleManualQR()\">Manual QR </ion-button> \n        \n        <ion-button (click)=\"Quit()\">Cancelar </ion-button> \n        \n        <div *ngIf=\"manualQR==true\">\n          <ion-item>\n            <ion-input type=\"text\" placeholder=\"EjemploQR\" #Q (ionChange)=\"updatingTextQR(Q.value)\"></ion-input>\n            <ion-button (click)=\"sendQr()\">enviar </ion-button> \n          </ion-item>\n        </div>\n\n   </div>\n   <div *ngIf=\"inRoom===true\">\n<!--******************************************************Now in room options*****************************************************************************-->\n<ion-item>\n   <!--  <ion-button (click)=\"goChat()\">Chat </ion-button> -->\n   <ion-button (click)=\"Quit()\">Cancelar </ion-button> \n   <ion-button (click)=\"goEnd()\">Listo </ion-button> \n   <ion-button (click)=\"openNotesTable()\">Notas</ion-button>\n   <ion-button (click)=\"openMedicalTable()\" >Mensajes</ion-button>\n</ion-item>     \n<ion-item>\n  <ion-button (click)=\"Help()\">Ayuda</ion-button>\n</ion-item>\n<!--******************************************Asking doctor **********************************************************************************************-->  \n\n <div *ngIf=\"showMedical===true\">\n  <ion-item>\n   <ion-label>Lista de Médicos:</ion-label>\n  </ion-item>\n    \n  <ul>\n  <div *ngFor=\"let item of MDT; let i = index\">\n      <li>\n   \n        <ion-item >\n        <ion-label>{{item.userID}}:{{item.username}}</ion-label>           \n        <ion-button (click)= \"openMsg(i)\" end>Consultar</ion-button>\n        <ion-button  (click)= \"closeMsg(i)\" middle>Cerrar</ion-button>\n        </ion-item>\n\n        <div *ngIf=\"msg[i]===1\">\n              <ion-item >\n                <ion-label position=\"stacked\">Consulta:</ion-label>\n                <ion-textarea #A (ionChange)=\"updatingText(i,A.value)\"></ion-textarea> <!--style=\"height: 200px;\" type=\"text\"></ion-input>-->\n              </ion-item>  \n              <ion-item >  \n                <ion-button  (click)= \"sendMsg(i)\" end>Enviar</ion-button>        \n              </ion-item>\n\n              <ion-item >\n              <ion-icon name=\"mic\" (click)= \"recordingAudioStart(i)\" begin></ion-icon>\n              <div *ngIf=\"recordingAudio==true\">\n                <ion-icon name=\"stop\" (click)= \"recordingAudioStop(i)\" begin></ion-icon>\n              </div>\n              </ion-item>          \n        <!--- if there is a response from doctor show-->\n            <div *ngIf=\"msgRx[i]==1\">\n                  <ion-label position=\"stacked\">Respuesta:</ion-label>\n                  <!--- Text-->\n                  <div *ngIf=\"RxType[i]==1\">\n                      <ion-item >              \n                        <p>{{item.username}}:{{RxText}}</p>             \n                      </ion-item>\n                  </div>\n                  <!--- Audio -->\n                  <div *ngIf=\"RxType[i]==2\">\n                    <ion-item>\n                    <ion-label>Audio</ion-label>      \n                    <ion-button (click)=\"playString(RxText[i])\">\n                      <ion-icon name=\"play\" slot=\"icon-only\"></ion-icon>\n                    </ion-button>   \n                    </ion-item>\n                  \n                  </div>\n            </div>\n        </div>\n      \n      </li> \n        \n      </div>\n    </ul>   \n  </div>\n\n\n</div>  \n</ion-item>  \n       \n</ion-card>\n\n\n<!--******************************************Showing notes **********************************************************************************************-->\n  <div *ngIf=\"showNotes==true\">\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{pacientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{pacientLocal.firstName}}</ion-item>\n      <ion-item>Id Paciente: {{pacientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    \n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID nota: {{notes[i].noteId}}</ion-item>\n          <ion-item>Nota:{{notes[i].note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        \n       </ion-card>\n\n    </div>\n  </div>\n\n\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    \n    <ion-item>\n    <ion-title>Enfermera:{{nurseName}}</ion-title>\n  </ion-item>\n  <ion-item>\n    <ion-buttons slot=\"start\">\n      <div *ngIf=\"actionFinished==true\">\n      <ion-back-button  defaultHref=\"\" [text]=\"\"></ion-back-button>        \n      </div>\n    </ion-buttons>\n    <ion-title>Cama:{{bedId}}</ion-title>\n  </ion-item>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-card>\n    <ion-item>\n   <div *ngIf=\"inRoom===false\">   \n        \n        <ion-button (click)=\"goQR()\">QR </ion-button> \n        <ion-button (click)=\"toggleManualQR()\">Manual QR </ion-button> \n        \n        <ion-button (click)=\"Quit()\">Cancelar </ion-button> \n        \n        <div *ngIf=\"manualQR==true\">\n          <ion-item>\n            <ion-input type=\"text\" placeholder=\"EjemploQR\" #Q (ionChange)=\"updatingTextQR(Q.value)\"></ion-input>\n            <ion-button (click)=\"sendQr()\">enviar </ion-button> \n          </ion-item>\n        </div>\n\n   </div>\n   <div *ngIf=\"inRoom===true\">\n<!--******************************************************Now in room options*****************************************************************************-->\n<ion-item>\n   <!--  <ion-button (click)=\"goChat()\">Chat </ion-button> -->\n   <ion-button (click)=\"Quit()\">Cancelar </ion-button> \n   <ion-button (click)=\"goEnd()\">Listo </ion-button> \n   <ion-button (click)=\"openNotesTable()\">Notas</ion-button>\n   <ion-button (click)=\"openMedicalTable()\" >Mensajes</ion-button>\n</ion-item>     \n<ion-item>\n  <ion-button (click)=\"Help()\">Ayuda</ion-button>\n  <ion-button (click)=\"openMemoria()\">Memoria</ion-button>\n</ion-item>\n<!--******************************************Asking doctor **********************************************************************************************-->  \n\n <div *ngIf=\"showMedical===true\">\n  <ion-item>\n   <ion-label>Lista de Médicos:</ion-label>\n  </ion-item>\n    \n  <ul>\n  <div *ngFor=\"let item of MDT; let i = index\">\n      <li>\n   \n        <ion-item >\n        <ion-label>{{item.userID}}:{{item.username}}</ion-label>           \n        <ion-button (click)= \"openMsg(i)\" end>Consultar</ion-button>\n        <ion-button  (click)= \"closeMsg(i)\" middle>Cerrar</ion-button>\n        </ion-item>\n\n        <div *ngIf=\"msg[i]===1\">\n              <ion-item >\n                <ion-label position=\"stacked\">Consulta:</ion-label>\n                <ion-textarea #A (ionChange)=\"updatingText(i,A.value)\"></ion-textarea> <!--style=\"height: 200px;\" type=\"text\"></ion-input>-->\n              </ion-item>  \n              <ion-item >  \n                <ion-button  (click)= \"sendMsg(i)\" end>Enviar</ion-button>        \n              </ion-item>\n\n              <ion-item >\n              <ion-icon name=\"mic\" (click)= \"recordingAudioStart(i)\" begin></ion-icon>\n              <div *ngIf=\"recordingAudio==true\">\n                <ion-icon name=\"stop\" (click)= \"recordingAudioStop(i)\" begin></ion-icon>\n              </div>\n              </ion-item>          \n        <!--- if there is a response from doctor show-->\n            <div *ngIf=\"msgRx[i]==1\">\n                  <ion-label position=\"stacked\">Respuesta:</ion-label>\n                  <!--- Text-->\n                  <div *ngIf=\"RxType[i]==1\">\n                      <ion-item >              \n                        <p>{{item.username}}:{{RxText}}</p>             \n                      </ion-item>\n                  </div>\n                  <!--- Audio -->\n                  <div *ngIf=\"RxType[i]==2\">\n                    <ion-item>\n                    <ion-label>Audio</ion-label>      \n                    <ion-button (click)=\"playString(RxText[i])\">\n                      <ion-icon name=\"play\" slot=\"icon-only\"></ion-icon>\n                    </ion-button>   \n                    </ion-item>\n                  \n                  </div>\n            </div>\n        </div>\n      \n      </li> \n        \n      </div>\n    </ul>   \n  </div>\n\n\n</div>  \n</ion-item>  \n       \n</ion-card>\n\n\n<!--******************************************Showing notes **********************************************************************************************-->\n  <div *ngIf=\"showNotes==true\">\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{patientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{patientLocal.firstName}}</ion-item>\n      <ion-item>Id Paciente: {{patientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    \n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID nota: {{notes[i].noteId}}</ion-item>\n          <ion-item>Nota:{{notes[i].note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        \n       </ion-card>\n\n    </div>\n  </div>\n<!--******************************************Showing Memoria **********************************************************************************************-->\n  <div *ngIf=\"showMemoria==true\">\n    <p>Escribiendo memoria de lo realizado</p>\n    <ion-input type=\"text\" [(ngModel)]=\"Memoria\"></ion-input>\n  </div>  \n</ion-content>\n";
 
 /***/ })
 
 }]);
-//# sourceMappingURL=src_app_nurse-main_nurse-main_module_ts.js.map
+//# sourceMappingURL=src_app_pages_mode-nurse_nurse-main_nurse-main_module_ts.js.map

@@ -63,8 +63,8 @@ export class LoginPage implements OnInit {
     console.log("here")
     let question=this.password;
     var time= new Date();
-    let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();
-    let a=new MessageModel(this.username,question,  0, value,1);    
+    //let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();
+    let a=new MessageModel(this.username,question,  0, 1);    
     console.log(a)
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);

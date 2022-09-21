@@ -1,192 +1,5 @@
 "use strict";
-(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_doctor-messages_doctor-messages_module_ts"],{
-
-/***/ 6182:
-/*!*******************************************************************!*\
-  !*** ./src/app/doctor-messages/doctor-messages-routing.module.ts ***!
-  \*******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DoctorMessagesPageRoutingModule": () => (/* binding */ DoctorMessagesPageRoutingModule)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ 2816);
-/* harmony import */ var _doctor_messages_page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./doctor-messages.page */ 6527);
-
-
-
-
-const routes = [
-    {
-        path: '',
-        component: _doctor_messages_page__WEBPACK_IMPORTED_MODULE_0__.DoctorMessagesPage
-    }
-];
-let DoctorMessagesPageRoutingModule = class DoctorMessagesPageRoutingModule {
-};
-DoctorMessagesPageRoutingModule = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.NgModule)({
-        imports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule.forChild(routes)],
-        exports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule],
-    })
-], DoctorMessagesPageRoutingModule);
-
-
-
-/***/ }),
-
-/***/ 1103:
-/*!***********************************************************!*\
-  !*** ./src/app/doctor-messages/doctor-messages.module.ts ***!
-  \***********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DoctorMessagesPageModule": () => (/* binding */ DoctorMessagesPageModule)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 4929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ 6362);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ 587);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 3819);
-/* harmony import */ var _doctor_messages_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./doctor-messages-routing.module */ 6182);
-/* harmony import */ var _doctor_messages_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./doctor-messages.page */ 6527);
-
-
-
-
-
-
-
-let DoctorMessagesPageModule = class DoctorMessagesPageModule {
-};
-DoctorMessagesPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.NgModule)({
-        imports: [
-            _angular_common__WEBPACK_IMPORTED_MODULE_4__.CommonModule,
-            _angular_forms__WEBPACK_IMPORTED_MODULE_5__.FormsModule,
-            _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonicModule,
-            _doctor_messages_routing_module__WEBPACK_IMPORTED_MODULE_0__.DoctorMessagesPageRoutingModule
-        ],
-        declarations: [_doctor_messages_page__WEBPACK_IMPORTED_MODULE_1__.DoctorMessagesPage]
-    })
-], DoctorMessagesPageModule);
-
-
-
-/***/ }),
-
-/***/ 6527:
-/*!*********************************************************!*\
-  !*** ./src/app/doctor-messages/doctor-messages.page.ts ***!
-  \*********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DoctorMessagesPage": () => (/* binding */ DoctorMessagesPage)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! tslib */ 4929);
-/* harmony import */ var _doctor_messages_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./doctor-messages.page.html?ngResource */ 5042);
-/* harmony import */ var _doctor_messages_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./doctor-messages.page.scss?ngResource */ 5508);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/router */ 2816);
-/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/local-storage.service */ 17);
-/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/user.service */ 3071);
-/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/user */ 5783);
-/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/beds.service */ 3082);
-/* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../models/message-model */ 6397);
-/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/mqtt.service */ 3112);
-/* harmony import */ var _models_bed__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../models/bed */ 982);
-
-
-
-
-
-
-
-
-
-
-
-
-let DoctorMessagesPage = class DoctorMessagesPage {
-    constructor(activatedRoute, localSto, bedlocal, router, MQTTServ, userServ) {
-        this.activatedRoute = activatedRoute;
-        this.localSto = localSto;
-        this.bedlocal = bedlocal;
-        this.router = router;
-        this.MQTTServ = MQTTServ;
-        this.userServ = userServ;
-        this.localDoctor = new _models_user__WEBPACK_IMPORTED_MODULE_4__.User(0, "", "", "", "", 0, "");
-        this.BedLocal = new _models_bed__WEBPACK_IMPORTED_MODULE_8__.Bed(0, 0, 0, 0);
-        this.messages = new Array;
-        this.doctorId = 0;
-        this.doctorName = "";
-    }
-    ngOnInit() {
-        this.localDoctor = this.userServ.getUser();
-        this.doctorName = this.localDoctor.username;
-        this.doctorId = this.localDoctor.userId;
-        //this.BedLocal=this.bedS.getBed();
-        this.eventsSubscription();
-    }
-    goChat(i) {
-        /*   this.router.navigate(['/chat/]);        */
-        console.log('cama:' + i);
-        this.bedlocal.setBedId(parseInt(i));
-        console.log('cama:' + i);
-        this.router.navigate(['/chat/']);
-    }
-    /**
-     * Subscription for receiving messages
-     * kind of messages waiting for: {"_bedId":2,"_content":"alert","_time":"today","_username":"system"}
-     * It is only used the bedId parameter
-     */
-    eventsSubscription() {
-        //let topic="/Beds/caller-events";
-        let topic = "/Beds/status";
-        let receivedMessage;
-        console.log("subscribed");
-        this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
-            console.log("received");
-            console.log(Message.string);
-            let localMessage = JSON.parse(Message.string);
-            let local2 = Message.string;
-            console.log(localMessage[0].message);
-            this.messages = [];
-            localMessage.forEach(element => {
-                {
-                    receivedMessage = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel("", "", element.id, "", element.st);
-                    this.messages.push(receivedMessage);
-                }
-            });
-        });
-    }
-};
-DoctorMessagesPage.ctorParameters = () => [
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_9__.ActivatedRoute },
-    { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__.LocalStorageService },
-    { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_5__.BedsService },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_9__.Router },
-    { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_7__.MqttService },
-    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_3__.UserService }
-];
-DoctorMessagesPage = (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_11__.Component)({
-        selector: 'app-doctor-messages',
-        template: _doctor_messages_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
-        styles: [_doctor_messages_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
-    })
-], DoctorMessagesPage);
-
-
-
-/***/ }),
+(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_pages_mode-nurse_nurse-bed_nurse-bed_module_ts"],{
 
 /***/ 982:
 /*!*******************************!*\
@@ -245,11 +58,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "MessageModel": () => (/* binding */ MessageModel)
 /* harmony export */ });
 class MessageModel {
-    constructor(userName, content, bedId, time, type) {
+    constructor(userName, content, bedId, type) {
         this._username = userName;
         this._content = content;
         this._bedId = bedId;
-        this._time = time;
+        //this._time= time;
         this._type = type;
     }
     get username() {
@@ -261,9 +74,9 @@ class MessageModel {
     get bedId() {
         return this._bedId;
     }
-    get time() {
-        return this._time;
-    }
+    /* public get time(){
+         return this._time;
+     }*/
     get type() {
         return this._type;
     }
@@ -276,9 +89,9 @@ class MessageModel {
     set bedId(bedId) {
         this._bedId = bedId;
     }
-    set time(time) {
-        this._time = time;
-    }
+    /* public set time(time: string){
+         this._time = time;
+     }*/
     set type(type) {
         this._type = type;
     }
@@ -353,6 +166,198 @@ class User {
         return this._password;
     }
 }
+
+
+/***/ }),
+
+/***/ 9401:
+/*!************************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/nurse-bed/nurse-bed-routing.module.ts ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "NurseBedPageRoutingModule": () => (/* binding */ NurseBedPageRoutingModule)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _nurse_bed_page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-bed.page */ 5595);
+
+
+
+
+const routes = [
+    {
+        path: '',
+        component: _nurse_bed_page__WEBPACK_IMPORTED_MODULE_0__.NurseBedPage
+    }
+];
+let NurseBedPageRoutingModule = class NurseBedPageRoutingModule {
+};
+NurseBedPageRoutingModule = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.NgModule)({
+        imports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule.forChild(routes)],
+        exports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule],
+    })
+], NurseBedPageRoutingModule);
+
+
+
+/***/ }),
+
+/***/ 4096:
+/*!****************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/nurse-bed/nurse-bed.module.ts ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "NurseBedPageModule": () => (/* binding */ NurseBedPageModule)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ 6362);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ 587);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _nurse_bed_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-bed-routing.module */ 9401);
+/* harmony import */ var _nurse_bed_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nurse-bed.page */ 5595);
+
+
+
+
+
+
+
+let NurseBedPageModule = class NurseBedPageModule {
+};
+NurseBedPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.NgModule)({
+        imports: [
+            _angular_common__WEBPACK_IMPORTED_MODULE_4__.CommonModule,
+            _angular_forms__WEBPACK_IMPORTED_MODULE_5__.FormsModule,
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonicModule,
+            _nurse_bed_routing_module__WEBPACK_IMPORTED_MODULE_0__.NurseBedPageRoutingModule
+        ],
+        declarations: [_nurse_bed_page__WEBPACK_IMPORTED_MODULE_1__.NurseBedPage]
+    })
+], NurseBedPageModule);
+
+
+
+/***/ }),
+
+/***/ 5595:
+/*!**************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/nurse-bed/nurse-bed.page.ts ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "NurseBedPage": () => (/* binding */ NurseBedPage)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var _nurse_bed_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nurse-bed.page.html?ngResource */ 103);
+/* harmony import */ var _nurse_bed_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nurse-bed.page.scss?ngResource */ 9325);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/local-storage.service */ 17);
+/* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services/mqtt.service */ 3112);
+/* harmony import */ var _services_pacient_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../services/pacient.service */ 2220);
+/* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../models/message-model */ 6397);
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../services/user.service */ 3071);
+/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../models/user */ 5783);
+/* harmony import */ var _services_beds_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../services/beds.service */ 3082);
+/* harmony import */ var _models_bed__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../models/bed */ 982);
+
+
+
+
+
+
+
+
+
+
+
+
+
+let NurseBedPage = class NurseBedPage {
+    constructor(activatedRoute, localSto, pacientServ, userLogged, bedLocal, MQTTServ) {
+        this.activatedRoute = activatedRoute;
+        this.localSto = localSto;
+        this.pacientServ = pacientServ;
+        this.userLogged = userLogged;
+        this.bedLocal = bedLocal;
+        this.MQTTServ = MQTTServ;
+        this.BedLocal2 = new _models_bed__WEBPACK_IMPORTED_MODULE_9__.Bed(0, 0, 0, 0);
+        this.bedId = 0;
+        this.localNurse = new _models_user__WEBPACK_IMPORTED_MODULE_7__.User(0, "", "", "", "", 0, "");
+        let d = this.activatedRoute.snapshot.params['id'];
+        this.bedId = this.bedLocal.getBedId();
+        console.log("bedId " + d);
+    }
+    ngOnInit() {
+        this.getParams();
+        //this.getBedInfo();
+    }
+    getParams() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
+            this.localNurse = this.userLogged.getUser();
+            this.nurseName = this.localNurse.username;
+            this.bedId = this.bedLocal.getBedId();
+            this.getBedInfo();
+        });
+    }
+    getBedInfo() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
+            yield console.log("inside:" + this.nurseName);
+            /** Preparing to get the response   *  */
+            let responseInfoTopic = "/Beds/" + this.bedId + "/info";
+            this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message => {
+                let localMessage = JSON.parse(Message.string);
+                console.log("respuestaSystemBeds:  " + localMessage[0]);
+                if (Message.toString() == "Error") {
+                    this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
+                    this.floor = 0;
+                    this.room = 0;
+                    return;
+                }
+                else {
+                    this.floor = localMessage[0].floorId;
+                    this.room = localMessage[0].roomId;
+                    this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
+                }
+            });
+            /** Ask for information about the bed *  */
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_5__.MessageModel(this.nurseName, this.bedId.toString(), 0, 8);
+            //console.log(a)
+            let mqttmessage = JSON.stringify(a);
+            console.log("Mensaje:" + mqttmessage);
+            let topic = "/Beds/" + this.bedId + "/messages";
+            yield this.MQTTServ.sendMesagge(topic, mqttmessage);
+        });
+    }
+};
+NurseBedPage.ctorParameters = () => [
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_11__.ActivatedRoute },
+    { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__.LocalStorageService },
+    { type: _services_pacient_service__WEBPACK_IMPORTED_MODULE_4__.PacientService },
+    { type: _services_user_service__WEBPACK_IMPORTED_MODULE_6__.UserService },
+    { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_8__.BedsService },
+    { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_3__.MqttService }
+];
+NurseBedPage = (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_12__.Component)({
+        selector: 'app-nurse-bed',
+        template: _nurse_bed_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
+        styles: [_nurse_bed_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
+    })
+], NurseBedPage);
+
 
 
 /***/ }),
@@ -587,25 +592,25 @@ UserService = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
 
 /***/ }),
 
-/***/ 5508:
-/*!**********************************************************************!*\
-  !*** ./src/app/doctor-messages/doctor-messages.page.scss?ngResource ***!
-  \**********************************************************************/
+/***/ 9325:
+/*!***************************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/nurse-bed/nurse-bed.page.scss?ngResource ***!
+  \***************************************************************************/
 /***/ ((module) => {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJkb2N0b3ItbWVzc2FnZXMucGFnZS5zY3NzIn0= */";
+module.exports = "* {\n  background: transparent !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm51cnNlLWJlZC5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFBRSxrQ0FBQTtBQUVGIiwiZmlsZSI6Im51cnNlLWJlZC5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIqe2JhY2tncm91bmQ6IHRyYW5zcGFyZW50ICFpbXBvcnRhbnQ7fSJdfQ== */";
 
 /***/ }),
 
-/***/ 5042:
-/*!**********************************************************************!*\
-  !*** ./src/app/doctor-messages/doctor-messages.page.html?ngResource ***!
-  \**********************************************************************/
+/***/ 103:
+/*!***************************************************************************!*\
+  !*** ./src/app/pages/mode-nurse/nurse-bed/nurse-bed.page.html?ngResource ***!
+  \***************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>{{doctorName}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-back-button    defaultHref=\"/doctor-main/\" [text]=\"\"></ion-back-button>\n  </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-content>\n    <div class=\"msgbubble\" *ngFor=\"let msg of messages\">  \n      <div *ngIf=\"msg.type === 5\">  \n        <ion-card >\n          <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n            <ion-label>Habitacion: {{ msg.bedId }}</ion-label>            \n            <ion-button (click)=\"goChat(msg.bedId)\"> go Chat </ion-button>            \n          \n          \n        </ion-card>\n      </div>  \n    </div>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-item>\n  <!--    <ion-title>Enfermera:{{nurseName}}</ion-title>-->\n    </ion-item>\n   <ion-item>\n     \n      <ion-buttons slot=\"start\">\n        <ion-back-button  defaultHref=\"/waiting-event/\" [text]=\"\"></ion-back-button>        \n      </ion-buttons>\n      <ion-title>Cama:{{bedId}}</ion-title>\n    </ion-item>\n  </ion-toolbar>\n  \n  \n</ion-header>\n\n<ion-content>\n  <ion-card>\n    <ion-item>\n    <ion-label>Piso: {{floor}}</ion-label>\n    </ion-item>\n    <ion-item>\n    <ion-label>Cuarto: {{room}}</ion-label>\n  </ion-item>\n  </ion-card>  \n\n</ion-content>\n";
 
 /***/ })
 
 }]);
-//# sourceMappingURL=src_app_doctor-messages_doctor-messages_module_ts.js.map
+//# sourceMappingURL=src_app_pages_mode-nurse_nurse-bed_nurse-bed_module_ts.js.map

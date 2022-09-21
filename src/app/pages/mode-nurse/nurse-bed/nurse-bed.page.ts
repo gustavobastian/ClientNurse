@@ -75,7 +75,7 @@ export class NurseBedPage implements OnInit {
 
   /** Ask for information about the bed *  */
 
-  let a=new MessageModel(this.nurseName,this.bedId.toString(),  0, "0",8);    
+  let a=new MessageModel(this.nurseName,this.bedId.toString(),  0, 8);    
   //console.log(a)
   let mqttmessage=JSON.stringify(a);
   console.log("Mensaje:"+mqttmessage);

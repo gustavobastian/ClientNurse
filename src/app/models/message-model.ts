@@ -2,14 +2,14 @@ export class MessageModel{
     private _username: string;    
     private _content: string;
     private _bedId: number;
-    private _time: string;
+    //private _time: string;
     private _type: number;
 
-    constructor(userName: string, content: string, bedId: number, time: string, type: number){
+    constructor(userName: string, content: string, bedId: number, type: number){ // time: string,
         this._username= userName;
         this._content= content;
         this._bedId= bedId;
-        this._time= time;
+        //this._time= time;
         this._type= type;
     } 
 
@@ -22,9 +22,9 @@ export class MessageModel{
     public get bedId(){
         return this._bedId;
     }
-    public get time(){
+   /* public get time(){
         return this._time;
-    }
+    }*/
     public get type(){
         return this._type;
     }
@@ -38,9 +38,9 @@ export class MessageModel{
     public set bedId(bedId: number){
         this._bedId = bedId;
     }
-    public set time(time: string){
+   /* public set time(time: string){
         this._time = time;
-    }
+    }*/
     public set type(type: number){
         this._type = type;
     }

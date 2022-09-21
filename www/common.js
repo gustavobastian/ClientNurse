@@ -81,17 +81,17 @@ class Note {
 
 /***/ }),
 
-/***/ 7377:
+/***/ 2709:
 /*!***********************************!*\
-  !*** ./src/app/models/pacient.ts ***!
+  !*** ./src/app/models/patient.ts ***!
   \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Pacient": () => (/* binding */ Pacient)
+/* harmony export */   "Patient": () => (/* binding */ Patient)
 /* harmony export */ });
-class Pacient {
+class Patient {
     constructor(pacientId, pacientFirstName, pacientLastName, bedId, notesTableId, userTableId) {
         this._id = pacientId;
         this._firstName = pacientFirstName;
@@ -163,10 +163,10 @@ __webpack_require__.r(__webpack_exports__);
 let PacientService = class PacientService {
     constructor(MQTTServ) {
         this.MQTTServ = MQTTServ;
-        this.pacients = new Array;
+        this.patients = new Array;
     }
     //not used
-    getAllPacients() {
+    getAllPatients() {
         return;
     }
     oneAsk(i) {
@@ -175,7 +175,7 @@ let PacientService = class PacientService {
         console.log;
         this.MQTTServ.sendMesagge(topic, "aqui estamos" + i);
     }
-    getPacientInfo(i) {
+    getPatientInfo(i) {
         return;
     }
 };

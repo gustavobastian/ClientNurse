@@ -139,7 +139,7 @@ usersSubscription(){
     console.log("name:"+this.userLocal.username);
    let question="logout";
       
-   let a=new MessageModel(this.userLocal.username, question, 0, "",2);    
+   let a=new MessageModel(this.userLocal.username, question, 0, 2);    
    console.log(JSON.stringify(a));
    let mqttmessage=(a).toString();
   // console.log(mqttmessage);
