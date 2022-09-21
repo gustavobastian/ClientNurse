@@ -33,10 +33,36 @@
       </ion-card>
     </div>
     <div *ngIf="viewMode==2">
-      <p>viendo llamados de mis pacientes</p>
-      <div *ngFor="let element of pacientTable; let i=index">
-        {{element|json}}
-
+      <p>viendo llamados de los pacientes asignados</p>
+      <div *ngFor="let element of messagesbedsfiltered; let i=index">
+        <!--{{element|json}}-->
+          <div *ngIf="element.st==1">
+            <ion-card style="background-color: cyan;">
+              <ion-card-content>
+                <ion-label>
+                  cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}
+                </ion-label>
+              </ion-card-content> 
+            </ion-card>
+          </div>
+          <div *ngIf="element.st==2">
+              <ion-card style="background-color: orange;">
+                <ion-card-content>
+                  <ion-label>
+                    cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}
+                  </ion-label>
+                </ion-card-content> 
+              </ion-card>            
+          </div>
+          <div *ngIf="element.st>2">
+            <ion-card style="background-color: violet;">
+              <ion-card-content>
+                <ion-label>
+                  cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}
+                </ion-label>
+              </ion-card-content> 
+            </ion-card>            
+        </div>
       </div>
 
     </div>

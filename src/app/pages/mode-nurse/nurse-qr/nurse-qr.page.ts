@@ -95,6 +95,7 @@ export class NurseQRPage implements OnInit {
   //sending qr information for system notification
   async sendQr(){
     console.log("QR:"+this.capturedQR)
+    
     let a=new MessageModel(this.nurseName,JSON.stringify(this.capturedQR),  this.bedId, 11);    
       console.log(a)
       let mqttmessage=JSON.stringify(a);

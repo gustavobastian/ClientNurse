@@ -10,6 +10,7 @@ import { MessageModel } from '../../../models/message-model';
 import { MqttService } from '../../../services/mqtt.service';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { RecordingData, VoiceRecorder } from 'capacitor-voice-recorder';
+import { bedStats } from 'src/app/models/bed-status';
 
 @Component({
   selector: 'app-doctor-main',
@@ -18,24 +19,25 @@ import { RecordingData, VoiceRecorder } from 'capacitor-voice-recorder';
 })
 export class DoctorMainPage implements OnInit {
   private  localDoctor: User= new User(0,"","","","",0,"");
-  private localBed: Bed = new Bed(0,0,0,0);
+  private bedlocal: Bed = new Bed(0,0,0,0);
   private doctorId: number;
   private doctorName: string;
   private patientNumber: number;
   private newMessage=false;
   private messages: Array<MessageModel> = new Array;
-  private pacientTable: Array<PatientsTable> = new Array;
+  messagesbeds: Array<bedStats> = new Array;
+  messagesbedsfiltered: Array<string> = new Array;      
+  private patientTable: Array<PatientsTable> = new Array;
   private textResponse: string=""  ;
   private recording = false;
   private duration= 0;
   private patientActivated=false
   private viewMode=0
   //storedFileNames=[];
-
+  bedstates = ["Desocupada","Ocupada","Llamando","Por ser atendida","Siendo atendida","Llamada programada","Solicita Ayuda"]
   constructor(private router:Router,
     private activatedRoute: ActivatedRoute,
-    public localSto: LocalStorageService,
-    public bedlocal: BedsService,
+    public localSto: LocalStorageService,        
     public MQTTServ:MqttService,
     public userServ: UserService
     ) { 
@@ -52,6 +54,7 @@ export class DoctorMainPage implements OnInit {
    //subscription for audio
    //await this.subscribe();
    //await this.waiting(); 
+   await this.eventsSubscription();
    
    
   }
@@ -89,10 +92,10 @@ export class DoctorMainPage implements OnInit {
         else{
         //console.log(localMessage);
         localMessage.forEach(element => {
-          this.pacientTable.push(element);
+          this.patientTable.push(element);
         });
         //this.pacientTable=localMessage;
-        console.log(JSON.stringify(this.pacientTable))
+        console.log(JSON.stringify(this.patientTable))
         this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
        // console.log(JSON.stringify(this.pacientTable=localMessage));
         this.MQTTServ.sendMesagge(responseInfoTopic, "");
@@ -110,6 +113,42 @@ export class DoctorMainPage implements OnInit {
     await this.MQTTServ.sendMesagge(topic, mqttmessage);
   }
 
+/**
+   * Subscription for receiving messages
+   * of the status of the beds   
+   */
+ eventsSubscription(){
+    
+  let topic="/Beds/status";
+  let receivedMessage;
+  console.log("status subscribed")
+  this.MQTTServ.MQTTClientLocal.subscribe(topic).on(async Message=>{
+  //  console.log("received")
+  //  console.log(Message.string);            
+  let localMessage = JSON.parse(Message.string);      
+  let local2=Message.string;
+  //console.log(localMessage[0].message);    
+  this.messagesbeds=[];
+  this.messagesbedsfiltered=[];
+  await localMessage.forEach(element => {      
+    {
+     let localBedStatus= new bedStats(element.id,element.st,element.spec)
+      this.patientTable.forEach(patientT => {          
+        if(element.id==patientT.bedId)  {
+          console.log("find")
+          let local={'bedId':patientT.bedId,'pacientId':patientT.pacientId,'st':element.st}
+          let localj=JSON.parse((JSON.stringify(local)))
+          
+          this.messagesbedsfiltered.push(localj);             
+          }
+     })
+     
+   }
+  });
+
+  
+  });
+}
 
   /**
    * logout
@@ -130,7 +169,6 @@ export class DoctorMainPage implements OnInit {
    this.router.navigate(['/home/']);       
   }
 
-  
 
   /**
  * 
@@ -142,7 +180,7 @@ export class DoctorMainPage implements OnInit {
     //console.log("aqui:"+this.pacientTable.length)
     let topic="/User/"+this.localDoctor.userId+"/questions/";
 
-    this.pacientTable.forEach(element => {
+    this.patientTable.forEach(element => {
     //console.log(JSON.stringify(element)) ; 
     topic="/User/"+this.localDoctor.userId+"/questions/"+element.pacientId;
     console.log("topic: "+topic)    
@@ -171,18 +209,18 @@ export class DoctorMainPage implements OnInit {
   }
 
   sendResponseText(id:number){
-    //console.log((this.pacientTable[id].pacientId));
-    let topic="/User/"+this.localDoctor.userId+"/answers/"+this.pacientTable[id].pacientId;
+    //console.log((this.patientTable[id].pacientId));
+    let topic="/User/"+this.localDoctor.userId+"/answers/"+this.patientTable[id].pacientId;
     console.log(topic);
-    let a=new MessageModel(this.localDoctor.username,this.textResponse,  this.pacientTable[id].bedId, 7);    
+    let a=new MessageModel(this.localDoctor.username,this.textResponse,  this.patientTable[id].bedId, 7);    
     let mqttmessage=JSON.stringify(a);
     console.log("sending:",mqttmessage);    
     this.MQTTServ.sendMesagge(topic, mqttmessage);  
     this.messages.splice(id,1);  
   }
   sendAudioText(response:string, id:number){
-    let topic="/User/"+this.localDoctor.userId+"/answers/"+this.pacientTable[id].pacientId;
-    let a=new MessageModel(this.localDoctor.username,response,  this.pacientTable[id].bedId, 27);    
+    let topic="/User/"+this.localDoctor.userId+"/answers/"+this.patientTable[id].pacientId;
+    let a=new MessageModel(this.localDoctor.username,response,  this.patientTable[id].bedId, 27);    
     let mqttmessage=JSON.stringify(a);    
     this.MQTTServ.sendMesagge(topic, mqttmessage);
   }
@@ -191,7 +229,6 @@ export class DoctorMainPage implements OnInit {
     this.patientNumber=id;
     this.patientActivated=true;
   }
-
 
   async playFile(fileName: string){
     const audioFile= await Filesystem.readFile({
@@ -232,7 +269,7 @@ calculateDuration(){
 }  
 async stopRecording( id:number) {
   console.log("stopping recording")
-  let topic="/User/"+this.localDoctor.userId+"/answers/"+this.pacientTable[id].pacientId;
+  let topic="/User/"+this.localDoctor.userId+"/answers/"+this.patientTable[id].pacientId;
   
   this.recording=false;
   VoiceRecorder.stopRecording().then(
@@ -240,7 +277,7 @@ async stopRecording( id:number) {
       if(result.value&&result.value.recordDataBase64){
         console.log("sending recording")
         const recorData = result.value.recordDataBase64;        
-        let a=new MessageModel(this.localDoctor.username,result.value.recordDataBase64,  this.pacientTable[id].bedId, 22);    
+        let a=new MessageModel(this.localDoctor.username,result.value.recordDataBase64,  this.patientTable[id].bedId, 22);    
           let mqttmessage=JSON.stringify(a);    
          await this.MQTTServ.sendMesagge(topic, mqttmessage);
           console.log("recording sent")
@@ -257,8 +294,13 @@ async enablingNotes(){
   this.viewMode=1;
 }
 
-filteringPatients(){
-
+ async getPatientNumber(bedIdP: number): Promise<number>{
+  
+  console.log("here")
+  await this.patientTable.forEach(element => {
+    if(element.bedId==bedIdP){return element.pacientId}
+  });
+ return 0
 }
 
 }
