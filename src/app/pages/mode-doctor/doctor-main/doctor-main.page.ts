@@ -33,6 +33,7 @@ export class DoctorMainPage implements OnInit {
   private duration= 0;
   private patientActivated=false
   private viewMode=0
+  
   //storedFileNames=[];
   bedstates = ["Desocupada","Ocupada","Llamando","Por ser atendida","Siendo atendida","Llamada programada","Solicita Ayuda"]
   constructor(private router:Router,
@@ -43,12 +44,13 @@ export class DoctorMainPage implements OnInit {
     ) { 
     //this.doctorId = parseInt( this.activatedRoute.snapshot.paramMap.get("id"));
     this.doctorName="";
+    this.newMessage==false;
     
   }
 
   async ngOnInit() {
    VoiceRecorder.requestAudioRecordingPermission(); 
-
+   this.newMessage==false;
    await this.getParams();
    await this.getBeds();
    //subscription for audio
@@ -94,7 +96,7 @@ export class DoctorMainPage implements OnInit {
         localMessage.forEach(element => {
           this.patientTable.push(element);
         });
-        //this.pacientTable=localMessage;
+        //this.patientTable=localMessage;
         console.log(JSON.stringify(this.patientTable))
         this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
        // console.log(JSON.stringify(this.pacientTable=localMessage));
@@ -130,21 +132,23 @@ export class DoctorMainPage implements OnInit {
   //console.log(localMessage[0].message);    
   this.messagesbeds=[];
   this.messagesbedsfiltered=[];
-  await localMessage.forEach(element => {      
-    {
-     let localBedStatus= new bedStats(element.id,element.st,element.spec)
-      this.patientTable.forEach(patientT => {          
-        if(element.id==patientT.bedId)  {
-          console.log("find")
-          let local={'bedId':patientT.bedId,'pacientId':patientT.pacientId,'st':element.st}
-          let localj=JSON.parse((JSON.stringify(local)))
-          
-          this.messagesbedsfiltered.push(localj);             
-          }
-     })
-     
-   }
-  });
+  if(this.viewMode==2){
+    await localMessage.forEach(element => {      
+      {     
+            this.patientTable.forEach(patientT => {          
+              if(element.id==patientT.bedId)  {
+                console.log("find")
+                let local={'bedId':patientT.bedId,'pacientId':patientT.pacientId,'st':element.st}
+                let localj=JSON.parse((JSON.stringify(local)))
+                
+                this.messagesbedsfiltered.push(localj);             
+                }
+                })
+      
+        }
+      }
+    );
+   } 
 
   
   });
@@ -182,7 +186,7 @@ export class DoctorMainPage implements OnInit {
 
     this.patientTable.forEach(element => {
     //console.log(JSON.stringify(element)) ; 
-    topic="/User/"+this.localDoctor.userId+"/questions/"+element.pacientId;
+    topic="/User/"+this.localDoctor.userId+"/questions/"+element.bedId;
     console.log("topic: "+topic)    
     this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
         let localMessage = JSON.parse(Message.string);
@@ -210,16 +214,16 @@ export class DoctorMainPage implements OnInit {
 
   sendResponseText(id:number){
     //console.log((this.patientTable[id].pacientId));
-    let topic="/User/"+this.localDoctor.userId+"/answers/"+this.patientTable[id].pacientId;
+    let topic="/User/"+this.localDoctor.userId+"/answers/"+id;
     console.log(topic);
-    let a=new MessageModel(this.localDoctor.username,this.textResponse,  this.patientTable[id].bedId, 7);    
+    let a=new MessageModel(this.localDoctor.username,this.textResponse, id, 7);    
     let mqttmessage=JSON.stringify(a);
     console.log("sending:",mqttmessage);    
     this.MQTTServ.sendMesagge(topic, mqttmessage);  
     this.messages.splice(id,1);  
   }
   sendAudioText(response:string, id:number){
-    let topic="/User/"+this.localDoctor.userId+"/answers/"+this.patientTable[id].pacientId;
+    let topic="/User/"+this.localDoctor.userId+"/answers/"+id;
     let a=new MessageModel(this.localDoctor.username,response,  this.patientTable[id].bedId, 27);    
     let mqttmessage=JSON.stringify(a);    
     this.MQTTServ.sendMesagge(topic, mqttmessage);
@@ -252,7 +256,7 @@ export class DoctorMainPage implements OnInit {
 /**
  * recording audio
  */
- startRecording(i) {
+ startRecording() {
   console.log("startin recording")  
   if(this.recording){return;     }
   this.recording=true;  
@@ -269,7 +273,7 @@ calculateDuration(){
 }  
 async stopRecording( id:number) {
   console.log("stopping recording")
-  let topic="/User/"+this.localDoctor.userId+"/answers/"+this.patientTable[id].pacientId;
+  let topic="/User/"+this.localDoctor.userId+"/answers/"+id;
   
   this.recording=false;
   VoiceRecorder.stopRecording().then(
@@ -293,14 +297,17 @@ async enablingPatientMonitoring(){
 async enablingNotes(){
   this.viewMode=1;
 }
-
- async getPatientNumber(bedIdP: number): Promise<number>{
-  
-  console.log("here")
-  await this.patientTable.forEach(element => {
-    if(element.bedId==bedIdP){return element.pacientId}
-  });
- return 0
+async enablingListen(){
+  this.viewMode=3;
+}
+ 
+async deleteMsg(id:number){
+  this.messages.splice(id, 1);
+  //console.log("mensajes:"+this.messages.length);
+  if(this.messages.length<1){
+    console.log("no hay mensajes para responder")
+    this.newMessage=false;
+  }
 }
 
 }
