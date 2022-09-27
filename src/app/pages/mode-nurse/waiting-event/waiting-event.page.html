@@ -1,6 +1,5 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Sala de espera</ion-title>
+  <ion-toolbar>    
     <ion-buttons slot="start">
       <ion-button  (click)="logout()">Cerrar Sesión</ion-button>        <!-- href="home" -->
     </ion-buttons>
@@ -8,19 +7,21 @@
 </ion-header>
 
 <ion-content>
- <ion-item>
-    <ion-item>
-      <label>Especialidades:</label> 
-    </ion-item>
-    <div *ngFor="let item of nurseSpecs">  
-      <ion-item>
-      <p>{{item._name}}</p>
-      </ion-item>
-    </div>  
-      
+  <ion-item style="text-align: center;">
+    <ion-title>Sala de espera</ion-title>
   </ion-item>
-  <div class="msgbubble" *ngFor="let msg of messagesbeds">  
-    <!--<p>{{msg|json}}</p>-->
+ 
+  <ion-item >
+      <label>Especialidades:</label> 
+    <ul>
+      <div *ngFor="let item of nurseSpecs">  
+          <li>
+          <p>{{item._name}}</p>
+          </li>      
+      </div>    
+    </ul>    
+  </ion-item>
+  <div class="msgbubble" *ngFor="let msg of messagesbeds">      
     <div *ngIf="msg._st > 1">  
       
       <ion-card >
