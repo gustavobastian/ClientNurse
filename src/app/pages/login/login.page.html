@@ -1,18 +1,19 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Ingreso</ion-title>
-      <!-- Back button with a default href -->
+<ion-header collapse="false">
   
-      <ion-buttons slot="start">
-        <ion-back-button  defaultHref="home" [text]=""></ion-back-button>        
-      </ion-buttons>
+    <ion-toolbar>      
+        <!-- Back button with a default href -->
+    
+        <ion-buttons slot="start">
+          <ion-back-button  defaultHref="home" text="Volver"></ion-back-button>        
+        </ion-buttons>
+    
+    </ion-toolbar>
   
-  </ion-toolbar>
 </ion-header>
 
 <ion-content>
   
-  <div id="container" collapse="condense" >
+  <div id="container" collapse="false" >
   <p><strong>Acceso al sistema</strong></p>
   <Form [formGroup]="ionicForm" (ngSubmit)="onClickLogin()" novalidate>  
   <ion-item     [style.--background]="blue"  lines="full">

@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_pages_mode-nurse_nurse-qr_nurse-qr_module_ts"],{
+(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_models_bed_ts-src_app_pages_mode-nurse_nurse-qr_nurse-qr_module_ts"],{
 
 /***/ 982:
 /*!*******************************!*\
@@ -441,52 +441,6 @@ NurseQRPage = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([
 
 /***/ }),
 
-/***/ 3082:
-/*!******************************************!*\
-  !*** ./src/app/services/beds.service.ts ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "BedsService": () => (/* binding */ BedsService)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _models_bed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/bed */ 982);
-
-
-
-let BedsService = class BedsService {
-    constructor() {
-        this.localBed = new _models_bed__WEBPACK_IMPORTED_MODULE_0__.Bed(0, 0, 0, 0);
-    }
-    setBed(bed) {
-        this.localBed = bed;
-    }
-    getBed() {
-        return this.getBed();
-    }
-    setBedId(bedId) {
-        this.localBed.bedId = bedId;
-    }
-    ;
-    getBedId() {
-        return this.localBed.bedId;
-    }
-    ;
-};
-BedsService.ctorParameters = () => [];
-BedsService = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.Injectable)({
-        providedIn: 'root'
-    })
-], BedsService);
-
-
-
-/***/ }),
-
 /***/ 3112:
 /*!******************************************!*\
   !*** ./src/app/services/mqtt.service.ts ***!
@@ -788,4 +742,4 @@ module.exports = "<ion-header [translucent]=\"false\">\n  <ion-toolbar>\n    <io
 /***/ })
 
 }]);
-//# sourceMappingURL=src_app_pages_mode-nurse_nurse-qr_nurse-qr_module_ts.js.map
+//# sourceMappingURL=src_app_models_bed_ts-src_app_pages_mode-nurse_nurse-qr_nurse-qr_module_ts.js.map

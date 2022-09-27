@@ -414,12 +414,12 @@ let WaitingEventPage = class WaitingEventPage {
             this.localBed.setBedId(i);
             this.bed.bedId = i;
             this.router.navigate(['/nurse-main/:' + i]);
-            let topic = "/Beds/status";
-            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_5__.MessageModel(this.localNurse.username, "", this.bed.bedId, 12);
+            let topic = "/User/general";
+            let messageData = this.localNurse.userId;
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_5__.MessageModel(this.localNurse.username, JSON.stringify(messageData), this.bed.bedId, 12);
             //console.log(a)
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
-            topic = "/User/general";
             yield this.MQTTServ.sendMesagge(topic, mqttmessage);
         });
     }
@@ -481,52 +481,6 @@ WaitingEventPage = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([
         styles: [_waiting_event_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
     })
 ], WaitingEventPage);
-
-
-
-/***/ }),
-
-/***/ 3082:
-/*!******************************************!*\
-  !*** ./src/app/services/beds.service.ts ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "BedsService": () => (/* binding */ BedsService)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _models_bed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/bed */ 982);
-
-
-
-let BedsService = class BedsService {
-    constructor() {
-        this.localBed = new _models_bed__WEBPACK_IMPORTED_MODULE_0__.Bed(0, 0, 0, 0);
-    }
-    setBed(bed) {
-        this.localBed = bed;
-    }
-    getBed() {
-        return this.getBed();
-    }
-    setBedId(bedId) {
-        this.localBed.bedId = bedId;
-    }
-    ;
-    getBedId() {
-        return this.localBed.bedId;
-    }
-    ;
-};
-BedsService.ctorParameters = () => [];
-BedsService = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.Injectable)({
-        providedIn: 'root'
-    })
-], BedsService);
 
 
 
@@ -732,7 +686,7 @@ module.exports = ".card {\n  background-color: #d15050;\n  box-shadow: none;\n}\
   \***********************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Sala de espera</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button  (click)=\"logout()\">Logout</ion-button>        <!-- href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n <ion-item>\n    <ion-item>\n      <label>Especialidades:</label> \n    </ion-item>\n    <div *ngFor=\"let item of nurseSpecs\">  \n      <ion-item>\n      <p>{{item._name}}</p>\n      </ion-item>\n    </div>  \n      \n  </ion-item>\n  <div class=\"msgbubble\" *ngFor=\"let msg of messagesbeds\">  \n    <!--<p>{{msg|json}}</p>-->\n    <div *ngIf=\"msg._st > 1\">  \n      \n      <ion-card >\n        <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n          <ion-item>\n          <ion-label>Habitación: {{ msg._bedId }}</ion-label>\n          </ion-item>\n          <ion-item>\n          <ion-label>Estado: {{ msg._st}}</ion-label>\n          <div *ngIf=\"msg.get_st()==6\">\n            <ion-label>AYUDA</ion-label>\n          </div>\n          </ion-item>\n         \n        <br>\n        <ion-item>\n          <div *ngIf=\"msg._st!=6\">\n          <ion-button (click)=\"onClick(msg._bedId)\"> Aceptar </ion-button>\n          </div>\n          <ion-button (click)=\"onClick2(msg._bedId)\"> Ubicacion </ion-button>\n          <div *ngIf=\"msg.type == 9\">  \n            <ion-button (click)=\"onClick3(msg._bedId)\"> Notas Calendario </ion-button>\n          </div>  \n        </ion-item>\n      </ion-card>\n    </div>  \n  </div>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Sala de espera</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button  (click)=\"logout()\">Cerrar Sesión</ion-button>        <!-- href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n <ion-item>\n    <ion-item>\n      <label>Especialidades:</label> \n    </ion-item>\n    <div *ngFor=\"let item of nurseSpecs\">  \n      <ion-item>\n      <p>{{item._name}}</p>\n      </ion-item>\n    </div>  \n      \n  </ion-item>\n  <div class=\"msgbubble\" *ngFor=\"let msg of messagesbeds\">  \n    <!--<p>{{msg|json}}</p>-->\n    <div *ngIf=\"msg._st > 1\">  \n      \n      <ion-card >\n        <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n          <ion-item>\n          <ion-label>Habitación: {{ msg._bedId }}</ion-label>\n          </ion-item>\n          <ion-item>\n          <ion-label>Estado: {{ msg._st}}</ion-label>\n          <div *ngIf=\"msg.get_st()==6\">\n            <ion-label>AYUDA</ion-label>\n          </div>\n          </ion-item>\n         \n        <br>\n        <ion-item>\n          <div *ngIf=\"msg._st!=6\">\n          <ion-button (click)=\"onClick(msg._bedId)\"> Aceptar </ion-button>\n          </div>\n          <ion-button (click)=\"onClick2(msg._bedId)\"> Ubicacion </ion-button>\n          <div *ngIf=\"msg.type == 9\">  \n            <ion-button (click)=\"onClick3(msg._bedId)\"> Notas Calendario </ion-button>\n          </div>  \n        </ion-item>\n      </ion-card>\n    </div>  \n  </div>\n</ion-content>\n";
 
 /***/ })
 

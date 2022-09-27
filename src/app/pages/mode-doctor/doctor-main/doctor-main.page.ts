@@ -35,7 +35,7 @@ export class DoctorMainPage implements OnInit {
   private viewMode=0
   
   //storedFileNames=[];
-  bedstates = ["Desocupada","Ocupada","Llamando","Por ser atendida","Siendo atendida","Llamada programada","Solicita Ayuda"]
+  bedstates = ["Desocupada","Descansando","Llamando","Por ser atendido","Siendo atendido","Llamada programada","Solicito Ayuda"]
   constructor(private router:Router,
     private activatedRoute: ActivatedRoute,
     public localSto: LocalStorageService,        

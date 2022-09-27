@@ -36,7 +36,7 @@ const routes = [
         loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_pages_login_login_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/login/login.module */ 1053)).then(m => m.LoginPageModule)
     }, {
         path: 'chat',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_chat_chat_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./chat/chat.module */ 818)).then(m => m.ChatPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_chat_chat_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./chat/chat.module */ 818)).then(m => m.ChatPageModule)
     },
     {
         path: 'waiting-event',
@@ -44,11 +44,11 @@ const routes = [
     },
     {
         path: 'doctor-main/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("default-src_app_models_message-model_ts-src_app_services_beds_service_ts-src_app_services_mqt-e50319"), __webpack_require__.e("src_app_pages_mode-doctor_doctor-main_doctor-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-doctor/doctor-main/doctor-main.module */ 4351)).then(m => m.DoctorMainPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("default-src_app_models_bed_ts-src_app_models_message-model_ts-src_app_services_mqtt_service_t-6c9552"), __webpack_require__.e("src_app_pages_mode-doctor_doctor-main_doctor-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-doctor/doctor-main/doctor-main.module */ 4351)).then(m => m.DoctorMainPageModule)
     },
     {
         path: 'nurse-main/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("default-src_app_models_message-model_ts-src_app_services_beds_service_ts-src_app_services_mqt-e50319"), __webpack_require__.e("common"), __webpack_require__.e("src_app_pages_mode-nurse_nurse-main_nurse-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-nurse/nurse-main/nurse-main.module */ 5136)).then(m => m.NurseMainPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("default-src_app_models_bed_ts-src_app_models_message-model_ts-src_app_services_mqtt_service_t-6c9552"), __webpack_require__.e("common"), __webpack_require__.e("src_app_pages_mode-nurse_nurse-main_nurse-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-nurse/nurse-main/nurse-main.module */ 5136)).then(m => m.NurseMainPageModule)
     },
     {
         path: 'doctor-patients/:id',
@@ -56,7 +56,7 @@ const routes = [
     },
     {
         path: 'doctor-messages/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_pages_mode-doctor_doctor-messages_doctor-messages_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-doctor/doctor-messages/doctor-messages.module */ 4935)).then(m => m.DoctorMessagesPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_pages_mode-doctor_doctor-messages_doctor-messages_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-doctor/doctor-messages/doctor-messages.module */ 4935)).then(m => m.DoctorMessagesPageModule)
     },
     {
         path: 'nurse-bed/:id',
@@ -64,11 +64,11 @@ const routes = [
     },
     {
         path: 'nurse-qr/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("src_app_pages_mode-nurse_nurse-qr_nurse-qr_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-nurse/nurse-qr/nurse-qr.module */ 5928)).then(m => m.NurseQRPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_models_bed_ts-src_app_pages_mode-nurse_nurse-qr_nurse-qr_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-nurse/nurse-qr/nurse-qr.module */ 5928)).then(m => m.NurseQRPageModule)
     },
     {
         path: 'admin-main/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_pages_mode-admin_admin-main_admin-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-admin/admin-main/admin-main.module */ 5671)).then(m => m.AdminMainPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_local-storage_service_ts-node_modules_rsup-mqtt_dist_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_models_bed_ts-src_app_pages_mode-admin_admin-main_admin-main_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/mode-admin/admin-main/admin-main.module */ 5671)).then(m => m.AdminMainPageModule)
     },
 ];
 let AppRoutingModule = class AppRoutingModule {

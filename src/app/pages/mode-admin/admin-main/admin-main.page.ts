@@ -26,7 +26,7 @@ export class AdminMainPage implements OnInit {
   messagesUsers: Array<userStats> = new Array;
 
   bedstates = ["Desocupada","Ocupada","Llamando","Por ser atendida","Siendo atendida","Llamada programada","Solicita Ayuda"]
-  userstates=["no Logeado","Logeado"]
+  userstates=["no Logeado","Logeado","Atendiendo"]
   showing="Users";
 
   constructor(

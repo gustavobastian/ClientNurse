@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>Pacientes: {{doctorName}}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button    defaultHref="/doctor-main/" [text]=""></ion-back-button>
+      <ion-back-button    defaultHref="/doctor-main/" text="Volver"></ion-back-button>
   </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -40,7 +40,7 @@
           <ion-item>ID nota: {{Note.notesId}}</ion-item>
           <ion-item>Nota:{{Note.note}}</ion-item>
         <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->
-        <ion-button (click)="deleteNote(i)">borrar</ion-button>
+        <ion-button (click)="deleteNote(i)"><ion-icon name="trash" slot="icon-only"></ion-icon></ion-button>
        </ion-card>
 
     </div>

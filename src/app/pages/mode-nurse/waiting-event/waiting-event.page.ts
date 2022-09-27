@@ -117,13 +117,12 @@ export class WaitingEventPage implements OnInit {
     this.localBed.setBedId(i);
     this.bed.bedId = i;    
     this.router.navigate(['/nurse-main/:'+i]);
-    let topic="/Beds/status";   
-        
-    let a=new MessageModel(this.localNurse.username,"",  this.bed.bedId, 12);    
+    let topic="/User/general";   
+    let messageData=this.localNurse.userId
+    let a=new MessageModel(this.localNurse.username,JSON.stringify(messageData),  this.bed.bedId, 12);    
     //console.log(a)
     let mqttmessage=JSON.stringify(a);
-    console.log(mqttmessage);
-    topic="/User/general";
+    console.log(mqttmessage);    
     await this.MQTTServ.sendMesagge(topic, mqttmessage);        
   }
   /**

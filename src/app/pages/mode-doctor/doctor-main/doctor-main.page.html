@@ -29,9 +29,9 @@
           <ion-label>Seleccionar numero paciente  </ion-label>
         <br>
         <ion-select interface="action-sheet" #C (ionChange)="upgradingPatientNumber(C.value)" type="number" required>
-          <div *ngFor="let element of pacientTable; let i=index">           
+          <div *ngFor="let element of patientTable; let i=index">           
           
-          <ion-select-option  value="{{pacientTable[i].pacientId}}">{{pacientTable[i].pacientId}}</ion-select-option>                   
+          <ion-select-option  value="{{patientTable[i].pacientId}}">{{patientTable[i].pacientId}}</ion-select-option>                   
           </div>
         </ion-select>
 
@@ -43,7 +43,7 @@
       </ion-card>
     </div>
     <div *ngIf="viewMode==2">
-      <p>viendo llamados de los pacientes asignados</p>
+      <ion-title >Estado de paciente</ion-title>
       <div *ngFor="let element of messagesbedsfiltered; let i=index">
         <!--{{element|json}}-->
           <div *ngIf="element.st==1">

@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["default-src_app_models_message-model_ts-src_app_services_beds_service_ts-src_app_services_mqt-e50319"],{
+(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["default-src_app_models_bed_ts-src_app_models_message-model_ts-src_app_services_mqtt_service_t-6c9552"],{
 
 /***/ 982:
 /*!*******************************!*\
@@ -166,52 +166,6 @@ class User {
         return this._password;
     }
 }
-
-
-/***/ }),
-
-/***/ 3082:
-/*!******************************************!*\
-  !*** ./src/app/services/beds.service.ts ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "BedsService": () => (/* binding */ BedsService)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _models_bed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/bed */ 982);
-
-
-
-let BedsService = class BedsService {
-    constructor() {
-        this.localBed = new _models_bed__WEBPACK_IMPORTED_MODULE_0__.Bed(0, 0, 0, 0);
-    }
-    setBed(bed) {
-        this.localBed = bed;
-    }
-    getBed() {
-        return this.getBed();
-    }
-    setBedId(bedId) {
-        this.localBed.bedId = bedId;
-    }
-    ;
-    getBedId() {
-        return this.localBed.bedId;
-    }
-    ;
-};
-BedsService.ctorParameters = () => [];
-BedsService = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.Injectable)({
-        providedIn: 'root'
-    })
-], BedsService);
-
 
 
 /***/ }),
@@ -579,4 +533,4 @@ const VoiceRecorder = (0,_capacitor_core__WEBPACK_IMPORTED_MODULE_0__.registerPl
 /***/ })
 
 }]);
-//# sourceMappingURL=default-src_app_models_message-model_ts-src_app_services_beds_service_ts-src_app_services_mqt-e50319.js.map
+//# sourceMappingURL=default-src_app_models_bed_ts-src_app_models_message-model_ts-src_app_services_mqtt_service_t-6c9552.js.map

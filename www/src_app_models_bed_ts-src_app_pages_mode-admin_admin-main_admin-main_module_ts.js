@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_pages_mode-admin_admin-main_admin-main_module_ts"],{
+(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_models_bed_ts-src_app_pages_mode-admin_admin-main_admin-main_module_ts"],{
 
 /***/ 982:
 /*!*******************************!*\
@@ -337,7 +337,7 @@ let AdminMainPage = class AdminMainPage {
         this.messagesBeds2 = new Array;
         this.messagesUsers = new Array;
         this.bedstates = ["Desocupada", "Ocupada", "Llamando", "Por ser atendida", "Siendo atendida", "Llamada programada", "Solicita Ayuda"];
-        this.userstates = ["no Logeado", "Logeado"];
+        this.userstates = ["no Logeado", "Logeado", "Atendiendo"];
         this.showing = "Users";
     }
     ngOnInit() {
@@ -459,52 +459,6 @@ AdminMainPage = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([
         styles: [_admin_main_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
     })
 ], AdminMainPage);
-
-
-
-/***/ }),
-
-/***/ 3082:
-/*!******************************************!*\
-  !*** ./src/app/services/beds.service.ts ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "BedsService": () => (/* binding */ BedsService)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _models_bed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/bed */ 982);
-
-
-
-let BedsService = class BedsService {
-    constructor() {
-        this.localBed = new _models_bed__WEBPACK_IMPORTED_MODULE_0__.Bed(0, 0, 0, 0);
-    }
-    setBed(bed) {
-        this.localBed = bed;
-    }
-    getBed() {
-        return this.getBed();
-    }
-    setBedId(bedId) {
-        this.localBed.bedId = bedId;
-    }
-    ;
-    getBedId() {
-        return this.localBed.bedId;
-    }
-    ;
-};
-BedsService.ctorParameters = () => [];
-BedsService = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.Injectable)({
-        providedIn: 'root'
-    })
-], BedsService);
 
 
 
@@ -710,9 +664,9 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \*****************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>{{userLocal.username}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button (click)=\"logout()\" >Cerrar Sesión</ion-button>        <!--href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n<ion-item>\n  <ion-button (click)=\"onClickUsers()\">Usuarios </ion-button>\n  <ion-button (click)=\"onClickBeds()\">Camas</ion-button>\n <!-- <ion-button (click)=\"onClickEvents()\">Eventos</ion-button>\n  <ion-button (click)=\"onClickCalendar()\">Calendario</ion-button>-->\n\n</ion-item>\n<!-- showing logged users**********************************************-->\n<div *ngIf=\"showing=='Users'\">\n    <ion-item>\n    <p>users</p>\n    </ion-item>\n    <div class=\"msgbubble\" *ngFor=\"let msg2 of messagesUsers\">  \n      <div *ngIf=\"msg2.get_userId()!=0\">\n       <ion-card >         \n           <ion-item>            \n           <ion-label>Usuario: {{ msg2.get_userId()}}</ion-label>            \n           <ion-label>Estado: {{ userstates[msg2.get_st()] }}</ion-label>\n           <!--<ion-button>  <ion-icon slot=\"icon-only\" name=\"arrow-forward\"></ion-icon></ion-button>-->\n           </ion-item>\n         <br>         \n       </ion-card>\n      </div> \n   </div>\n</div>\n<!-- showing beds status**********************************************-->\n<div *ngIf=\"showing=='Beds'\">\n    <ion-item>\n      <p>beds</p>\n    </ion-item>\n\n    <div class=\"msgbubble\" *ngFor=\"let msg of messagesBeds2\">  \n       <div *ngIf=\"msg.get_bedId()!=0\">\n        <ion-card >\n          <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n            <ion-item>\n            <ion-label>Habitacion: {{ msg.get_bedId() }}</ion-label>            \n            <ion-label>Estado: {{ bedstates[msg.get_st()] }}</ion-label>\n            <!--<ion-button>  <ion-icon slot=\"icon-only\" name=\"arrow-forward\"></ion-icon></ion-button>-->\n            </ion-item>\n          <br>         \n        </ion-card>\n      </div> \n    </div>\n</div>\n<!-- showing Events status**********************************************-->\n<div *ngIf=\"showing=='Events'\">\n    <ion-item>\n      <p>events</p>\n    </ion-item>\n</div>\n<!-- showing Calendar **********************************************-->\n<div *ngIf=\"showing=='Calendar'\">\n    <ion-item>\n      <p>Calendario</p>\n    </ion-item>\n</div>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>{{userLocal.username}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button (click)=\"logout()\" >Cerrar Sesión</ion-button>        <!--href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n<ion-item>\n  <ion-button (click)=\"onClickUsers()\">Usuarios </ion-button>\n  <ion-button (click)=\"onClickBeds()\">Camas</ion-button>\n <!-- <ion-button (click)=\"onClickEvents()\">Eventos</ion-button>\n  <ion-button (click)=\"onClickCalendar()\">Calendario</ion-button>-->\n\n</ion-item>\n<!-- showing logged users**********************************************-->\n<div *ngIf=\"showing=='Users'\">\n    <ion-item>\n    <p>users</p>\n    </ion-item>\n    <div *ngFor=\"let msg2 of messagesUsers\">  \n      <div *ngIf=\"msg2.get_userId()!=0\">\n       <ion-card >         \n           <ion-item>            \n           <ion-label>Usuario: {{ msg2.get_userId()}}</ion-label>            \n           <ion-label>Estado: {{ userstates[msg2.get_st()] }}</ion-label>\n           <!--<ion-button>  <ion-icon slot=\"icon-only\" name=\"arrow-forward\"></ion-icon></ion-button>-->\n           </ion-item>\n         \n       </ion-card>\n      </div> \n   </div>\n</div>\n<!-- showing beds status**********************************************-->\n<div *ngIf=\"showing=='Beds'\">\n    <ion-item>\n      <p>beds</p>\n    </ion-item>\n\n    <div  *ngFor=\"let msg of messagesBeds2\">  \n       <div *ngIf=\"msg.get_bedId()!=0\">\n        <ion-card color=\"success\">\n          <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n            <ion-item>\n            <ion-label>Habitacion: {{ msg.get_bedId() }}</ion-label>            \n            <ion-label>Estado: {{ bedstates[msg.get_st()] }}</ion-label>            \n            </ion-item>\n          \n        </ion-card>\n      </div> \n    </div>\n</div>\n<!-- showing Events status**********************************************-->\n<div *ngIf=\"showing=='Events'\">\n    <ion-item>\n      <p>events</p>\n    </ion-item>\n</div>\n<!-- showing Calendar **********************************************-->\n<div *ngIf=\"showing=='Calendar'\">\n    <ion-item>\n      <p>Calendario</p>\n    </ion-item>\n</div>\n</ion-content>\n";
 
 /***/ })
 
 }]);
-//# sourceMappingURL=src_app_pages_mode-admin_admin-main_admin-main_module_ts.js.map
+//# sourceMappingURL=src_app_models_bed_ts-src_app_pages_mode-admin_admin-main_admin-main_module_ts.js.map
