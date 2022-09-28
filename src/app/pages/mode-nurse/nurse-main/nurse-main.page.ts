@@ -58,10 +58,10 @@ export class NurseMainPage implements OnInit {
   
   platformLocal="none"
   manualQR= false;
-
+  writeText=false;
   
   messages: Array<MessageModel> = new Array;
-
+  
   
 
 
@@ -85,7 +85,7 @@ export class NurseMainPage implements OnInit {
     console.log("patientID onInit:"+this.patientLocal.id)
     this.manualQR= false;
     await this.eventsSubscription();//getting status of the bed
-    
+    this.writeText=false;
 
     //permissions for recording
     await this.platform.ready().then(() => {
@@ -626,6 +626,15 @@ calculateDuration(){
     await this.MQTTServ.sendMesagge(topic, mqttmessage);              
     console.log("asking for help")
     return;
+  }
+
+  writeToggle(text){
+    if(this.writeText==false){
+      this.writeText=true;
+    }
+    else{
+      this.writeText=false;
+    }
   }
 }
 

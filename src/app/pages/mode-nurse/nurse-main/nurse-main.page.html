@@ -64,15 +64,26 @@
         </ion-item>
 
         <div *ngIf="msg[i]===1">
-              <ion-item >
-                <ion-label position="stacked">Consulta:</ion-label>
-                <ion-textarea #A (ionChange)="updatingText(i,A.value)"></ion-textarea> <!--style="height: 200px;" type="text"></ion-input>-->
-              </ion-item>  
-              <ion-item >  
-                <ion-button  (click)= "sendMsg(i)" end>Enviar</ion-button>        
+              <ion-item >                
+                <div *ngIf="writeText==true">
+                  <ion-item>Texto:   
+                  <ion-button (click)="writeToggle()">
+                    <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+                  </ion-button> </ion-item>                  
+                  <ion-textarea #A (ionChange)="updatingText(i,A.value)"></ion-textarea> <!--style="height: 200px;" type="text"></ion-input>-->
+                  <ion-button  (click)= "sendMsg(i)" end>Enviar</ion-button>        
+                </div>
+                <div *ngIf="writeText==false">
+                  <ion-item>Texto:
+                  <ion-button (click)="writeToggle()">
+                    <ion-icon name="arrow-down" slot="icon-only"></ion-icon>
+                  </ion-button>   </ion-item>           
+                </div>
+              
+                
               </ion-item>
 
-              <ion-item >
+              <ion-item >Audio:      
               <ion-icon name="mic" (click)= "recordingAudioStart(i)" begin></ion-icon>
               <div *ngIf="recordingAudio==true">
                 <ion-icon name="stop" (click)= "recordingAudioStop(i)" begin></ion-icon>
