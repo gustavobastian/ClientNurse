@@ -268,6 +268,14 @@ export class NurseMainPage implements OnInit {
   }
 
   /**
+   * Unsubscribe from events
+   */
+  eventsUnsubscription(){
+    let topic="/Beds/status";    
+    this.MQTTServ.MQTTClientLocal.unsubscribe(topic);
+    console.log("unsubscribed to bed events");
+  }
+  /**
    * Get the pacient Notes 
    */
   async getNotes() {
@@ -363,11 +371,15 @@ export class NurseMainPage implements OnInit {
     let a=new MessageModel(this.nurseName,JSON.stringify(data),  this.bedId, 13);    
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);
+    await this.eventsSubscription();
     let topic="/User/general";
+    
     await this.MQTTServ.sendMesagge(topic, mqttmessage);
      this.router.navigate(['/waiting-event/']);        
      this.inRoom=false;  
      this.actionFinished=true;
+    
+    
     }
   
   
@@ -605,8 +617,9 @@ calculateDuration(){
   }
 
   async Help(){
+    await this.eventsUnsubscription();
         
-    let a=new MessageModel(this.nurseName," ",  this.bedId, 44);    
+    let a=new MessageModel(this.nurseName," ",  this.bedId, 14);    
     let mqttmessage=JSON.stringify(a);
     console.log(mqttmessage);
     let topic="/User/general";

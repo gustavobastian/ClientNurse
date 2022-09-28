@@ -29,6 +29,7 @@ export class WaitingEventPage implements OnInit {
   private nurseSpecs : Array<nurseSpec> = new Array;
   private nurseSpecsIds: Array<number> = new Array
   responseSpec=" ";
+  bedstates = ["Desocupada","Descansando","Llamando","Por ser atendido","Siendo atendido","Llamada programada","Solicito Ayuda"]
 
   constructor(private activatedRoute: ActivatedRoute,
     public MQTTServ:MqttService,
@@ -99,7 +100,7 @@ export class WaitingEventPage implements OnInit {
       this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
     })  
 
-   let a=new MessageModel(this.localNurse.username,JSON.stringify(this.localNurse.username),  0, 43);    
+   let a=new MessageModel(this.localNurse.username,JSON.stringify(this.localNurse.username),  0, 16);    
    console.log(a)
    let mqttmessage=JSON.stringify(a);
    console.log(mqttmessage);
@@ -142,6 +143,8 @@ export class WaitingEventPage implements OnInit {
     /*this.localBed.setBedId(i);
    
     this.router.navigate(['/nurse-bed/:'+i]);        */
+
+
     console.log(i);
   }
 
