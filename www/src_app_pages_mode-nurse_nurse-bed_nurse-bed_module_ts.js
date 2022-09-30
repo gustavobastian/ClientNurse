@@ -562,7 +562,7 @@ module.exports = "* {\n  background: transparent !important;\n}\n/*# sourceMappi
   \***************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-item>\n  <!--    <ion-title>Enfermera:{{nurseName}}</ion-title>-->\n    </ion-item>\n   <ion-item>\n     \n      <ion-buttons slot=\"start\">\n        <ion-back-button  defaultHref=\"/waiting-event/\" [text]=\"\"></ion-back-button>        \n      </ion-buttons>\n      <ion-title>Cama:{{bedId}}</ion-title>\n    </ion-item>\n  </ion-toolbar>\n  \n  \n</ion-header>\n\n<ion-content>\n  <ion-card>\n    <ion-item>\n    <ion-label>Piso: {{floor}}</ion-label>\n    </ion-item>\n    <ion-item>\n    <ion-label>Cuarto: {{room}}</ion-label>\n  </ion-item>\n  </ion-card>  \n\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-item>\n  <!--    <ion-title>Enfermera:{{nurseName}}</ion-title>-->\n    </ion-item>\n   <ion-item>\n     \n      <ion-buttons slot=\"start\">\n        <ion-back-button  defaultHref=\"/waiting-event/\" text=\"Volver\"></ion-back-button>        \n      </ion-buttons>\n      <ion-title>Cama:{{bedId}}</ion-title>\n    </ion-item>\n  </ion-toolbar>\n  \n  \n</ion-header>\n\n<ion-content>\n  <ion-card>\n    <ion-item>\n    <ion-label>Piso: {{floor}}</ion-label>\n    </ion-item>\n    <ion-item>\n    <ion-label>Cuarto: {{room}}</ion-label>\n  </ion-item>\n  </ion-card>  \n\n</ion-content>\n";
 
 /***/ })
 

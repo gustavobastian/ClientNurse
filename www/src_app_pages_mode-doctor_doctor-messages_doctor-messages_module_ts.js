@@ -557,7 +557,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \****************************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>{{doctorName}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-back-button    defaultHref=\"/doctor-main/\" [text]=\"\"></ion-back-button>\n  </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-content>\n    <div class=\"msgbubble\" *ngFor=\"let msg of messages\">  \n      <div *ngIf=\"msg.type === 5\">  \n        <ion-card >\n          <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n            <ion-label>Habitación: {{ msg.bedId }}</ion-label>            \n            <ion-button (click)=\"goChat(msg.bedId)\"> go Chat </ion-button>            \n          \n          \n        </ion-card>\n      </div>  \n    </div>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>{{doctorName}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-back-button    defaultHref=\"/doctor-main/\" [text]=\"Volver\"></ion-back-button>\n  </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-content>\n    <div class=\"msgbubble\" *ngFor=\"let msg of messages\">  \n      <div *ngIf=\"msg.type === 5\">  \n        <ion-card >\n          <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n            <ion-label>Habitación: {{ msg.bedId }}</ion-label>            \n            <ion-button (click)=\"goChat(msg.bedId)\"> go Chat </ion-button>            \n          \n          \n        </ion-card>\n      </div>  \n    </div>\n</ion-content>\n";
 
 /***/ })
 

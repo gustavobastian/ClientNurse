@@ -39,6 +39,7 @@ export class NurseMainPage implements OnInit {
   private MDT: Array<MedicalTable> = new Array;
   private nurseSpecs : Array<nurseSpec> = new Array;
   private Memoria=" ";
+  private calendarNote=" ";
   
   private patientLocal: Patient= new Patient(0,"Gus","Bas",0,0,0);
   
@@ -77,6 +78,7 @@ export class NurseMainPage implements OnInit {
     this.bedId = bedlocal.getBedId();
     this.actionFinished=false;
     this.recordingAudio=false;
+    this.calendarNote=""
    
    }
 
@@ -87,6 +89,7 @@ export class NurseMainPage implements OnInit {
     await this.eventsSubscription();//getting status of the bed
     this.writeText=false;
 
+    await  this.getCalendarNote();
     //permissions for recording
     await this.platform.ready().then(() => {
       if (this.platform.is('android')) {
@@ -180,6 +183,29 @@ export class NurseMainPage implements OnInit {
     await this.MQTTServ.sendMesagge(topic, mqttmessage);
 
     }   
+
+  
+  /**
+   * getting Calendar event notes
+   */
+   async getCalendarNote(){
+    console.log("Patient:"+this.patientLocal.id);
+    let responseInfoTopic="/Beds/"+this.bedId +"/CalendarNote";  
+    this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message=>{
+        this.calendarNote=Message.toString();     
+        console.log("Nota Calendario:"+Message.toString())
+        this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
+      })  
+ 
+     let a=new MessageModel(this.nurseName,JSON.stringify(this.patientLocal.id),   this.bedId, 20);    
+     console.log(a)
+     let mqttmessage=JSON.stringify(a);
+     console.log(mqttmessage);
+     let topic="/User/general";
+     await this.MQTTServ.sendMesagge(topic, mqttmessage);
+ 
+     }     
+
   /**
    * getting medical table
    */
@@ -304,10 +330,6 @@ export class NurseMainPage implements OnInit {
       
       this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic)
     })
-    
-
-    
-  
       
     let topic="/User/general";
     let b=new MessageModel(this.nurseName,JSON.stringify(this.patientLocal.id),  0, 5);

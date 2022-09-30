@@ -337,6 +337,7 @@ let WaitingEventPage = class WaitingEventPage {
         this.nurseSpecs = new Array;
         this.nurseSpecsIds = new Array;
         this.responseSpec = " ";
+        this.bedstates = ["Desocupada", "Descansando", "Llamando", "Por ser atendido", "Siendo atendido", "Llamada programada", "Solicito Ayuda"];
     }
     ngOnInit() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
@@ -397,7 +398,7 @@ let WaitingEventPage = class WaitingEventPage {
                 console.log(JSON.stringify(localMessage));
                 this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
             });
-            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_5__.MessageModel(this.localNurse.username, JSON.stringify(this.localNurse.username), 0, 43);
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_5__.MessageModel(this.localNurse.username, JSON.stringify(this.localNurse.username), 0, 16);
             console.log(a);
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
@@ -686,7 +687,7 @@ module.exports = ".card {\n  background-color: #d15050;\n  box-shadow: none;\n}\
   \***********************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Sala de espera</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-button  (click)=\"logout()\">Cerrar Sesión</ion-button>        <!-- href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n <ion-item>\n    <ion-item>\n      <label>Especialidades:</label> \n    </ion-item>\n    <div *ngFor=\"let item of nurseSpecs\">  \n      <ion-item>\n      <p>{{item._name}}</p>\n      </ion-item>\n    </div>  \n      \n  </ion-item>\n  <div class=\"msgbubble\" *ngFor=\"let msg of messagesbeds\">  \n    <!--<p>{{msg|json}}</p>-->\n    <div *ngIf=\"msg._st > 1\">  \n      \n      <ion-card >\n        <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n          <ion-item>\n          <ion-label>Habitación: {{ msg._bedId }}</ion-label>\n          </ion-item>\n          <ion-item>\n          <ion-label>Estado: {{ msg._st}}</ion-label>\n          <div *ngIf=\"msg.get_st()==6\">\n            <ion-label>AYUDA</ion-label>\n          </div>\n          </ion-item>\n         \n        <br>\n        <ion-item>\n          <div *ngIf=\"msg._st!=6\">\n          <ion-button (click)=\"onClick(msg._bedId)\"> Aceptar </ion-button>\n          </div>\n          <ion-button (click)=\"onClick2(msg._bedId)\"> Ubicacion </ion-button>\n          <div *ngIf=\"msg.type == 9\">  \n            <ion-button (click)=\"onClick3(msg._bedId)\"> Notas Calendario </ion-button>\n          </div>  \n        </ion-item>\n      </ion-card>\n    </div>  \n  </div>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>    \n    <ion-buttons slot=\"start\">\n      <ion-button  (click)=\"logout()\">Cerrar Sesión</ion-button>        <!-- href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-item style=\"text-align: center;\">\n    <ion-title>Sala de espera</ion-title>\n  </ion-item>\n \n  <ion-item >\n      <label>Especialidades:</label> \n    <ul>\n      <div *ngFor=\"let item of nurseSpecs\">  \n          <li>\n          <p>{{item._name}}</p>\n          </li>      \n      </div>    \n    </ul>    \n  </ion-item>\n  <div class=\"msgbubble\" *ngFor=\"let msg of messagesbeds\">      \n    <div *ngIf=\"msg._st > 1\">  \n      \n      <ion-card >\n        <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n          <ion-item>\n          <ion-label>Habitación: {{ msg._bedId }}</ion-label>\n          </ion-item>\n          <ion-item>\n          <ion-label>Estado: {{bedstates[msg._st]}}</ion-label>\n          <div *ngIf=\"msg.get_st()==6\">\n            <ion-label>AYUDA</ion-label>\n          </div>\n          </ion-item>\n         \n        <br>\n        <ion-item>\n          <div *ngIf=\"msg._st!=6\">\n          <ion-button (click)=\"onClick(msg._bedId)\"> Aceptar </ion-button>\n          </div>\n          <ion-button (click)=\"onClick2(msg._bedId)\"> Ubicacion </ion-button>\n          <div *ngIf=\"msg.type == 9\">  \n            <ion-button (click)=\"onClick3(msg._bedId)\"> Notas Calendario </ion-button>\n          </div>  \n        </ion-item>\n      </ion-card>\n    </div>  \n  </div>\n</ion-content>\n";
 
 /***/ })
 

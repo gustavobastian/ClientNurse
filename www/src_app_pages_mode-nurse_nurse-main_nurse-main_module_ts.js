@@ -183,6 +183,7 @@ let NurseMainPage = class NurseMainPage {
         this.MDT = new Array;
         this.nurseSpecs = new Array;
         this.Memoria = " ";
+        this.calendarNote = " ";
         this.patientLocal = new src_app_models_patient__WEBPACK_IMPORTED_MODULE_7__.Patient(0, "Gus", "Bas", 0, 0, 0);
         this.inRoom = false;
         this.showNotes = false;
@@ -197,10 +198,12 @@ let NurseMainPage = class NurseMainPage {
         this.textQR = "";
         this.platformLocal = "none";
         this.manualQR = false;
+        this.writeText = false;
         this.messages = new Array;
         this.bedId = bedlocal.getBedId();
         this.actionFinished = false;
         this.recordingAudio = false;
+        this.calendarNote = "";
     }
     ngOnInit() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
@@ -208,6 +211,8 @@ let NurseMainPage = class NurseMainPage {
             console.log("patientID onInit:" + this.patientLocal.id);
             this.manualQR = false;
             yield this.eventsSubscription(); //getting status of the bed
+            this.writeText = false;
+            yield this.getCalendarNote();
             //permissions for recording
             yield this.platform.ready().then(() => {
                 if (this.platform.is('android')) {
@@ -302,6 +307,26 @@ let NurseMainPage = class NurseMainPage {
         });
     }
     /**
+     * getting Calendar event notes
+     */
+    getCalendarNote() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
+            console.log("Patient:" + this.patientLocal.id);
+            let responseInfoTopic = "/Beds/" + this.bedId + "/CalendarNote";
+            this.MQTTServ.MQTTClientLocal.subscribe(responseInfoTopic).on(Message => {
+                this.calendarNote = Message.toString();
+                console.log("Nota Calendario:" + Message.toString());
+                this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
+            });
+            let a = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(this.patientLocal.id), this.bedId, 20);
+            console.log(a);
+            let mqttmessage = JSON.stringify(a);
+            console.log(mqttmessage);
+            let topic = "/User/general";
+            yield this.MQTTServ.sendMesagge(topic, mqttmessage);
+        });
+    }
+    /**
      * getting medical table
      */
     getMedicalTable() {
@@ -377,6 +402,14 @@ let NurseMainPage = class NurseMainPage {
             });
             //check status of this bed;
         });
+    }
+    /**
+     * Unsubscribe from events
+     */
+    eventsUnsubscription() {
+        let topic = "/Beds/status";
+        this.MQTTServ.MQTTClientLocal.unsubscribe(topic);
+        console.log("unsubscribed to bed events");
     }
     /**
      * Get the pacient Notes
@@ -462,6 +495,7 @@ let NurseMainPage = class NurseMainPage {
             let a = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, JSON.stringify(data), this.bedId, 13);
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
+            yield this.eventsSubscription();
             let topic = "/User/general";
             yield this.MQTTServ.sendMesagge(topic, mqttmessage);
             this.router.navigate(['/waiting-event/']);
@@ -706,7 +740,8 @@ let NurseMainPage = class NurseMainPage {
     }
     Help() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__awaiter)(this, void 0, void 0, function* () {
-            let a = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, " ", this.bedId, 44);
+            yield this.eventsUnsubscription();
+            let a = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.nurseName, " ", this.bedId, 14);
             let mqttmessage = JSON.stringify(a);
             console.log(mqttmessage);
             let topic = "/User/general";
@@ -714,6 +749,14 @@ let NurseMainPage = class NurseMainPage {
             console.log("asking for help");
             return;
         });
+    }
+    writeToggle(text) {
+        if (this.writeText == false) {
+            this.writeText = true;
+        }
+        else {
+            this.writeText = false;
+        }
     }
 };
 NurseMainPage.ctorParameters = () => [
@@ -799,7 +842,7 @@ module.exports = "* {\n  background: transparent !important;\n}\n/*# sourceMappi
   \*****************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    \n    <ion-item>\n    <ion-title>Enfermera:{{nurseName}}</ion-title>\n  </ion-item>\n  <ion-item>\n    <ion-buttons slot=\"start\">\n      <div *ngIf=\"actionFinished==true\">\n      <ion-back-button  defaultHref=\"\" [text]=\"\"></ion-back-button>        \n      </div>\n    </ion-buttons>\n    <ion-title>Cama:{{bedId}}</ion-title>\n  </ion-item>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-card>\n    <ion-item>\n   <div *ngIf=\"inRoom===false\">   \n        \n        <ion-button (click)=\"goQR()\">QR </ion-button> \n        <ion-button (click)=\"toggleManualQR()\">Manual QR </ion-button> \n        \n        <ion-button (click)=\"Quit()\">Cancelar </ion-button> \n        \n        <div *ngIf=\"manualQR==true\">\n          <ion-item>\n            <ion-input type=\"text\" placeholder=\"EjemploQR\" #Q (ionChange)=\"updatingTextQR(Q.value)\"></ion-input>\n            <ion-button (click)=\"sendQr()\">enviar </ion-button> \n          </ion-item>\n        </div>\n\n   </div>\n   <div *ngIf=\"inRoom===true\">\n<!--******************************************************Now in room options*****************************************************************************-->\n<ion-item>\n   <!--  <ion-button (click)=\"goChat()\">Chat </ion-button> -->\n   <ion-button (click)=\"Quit()\">Cancelar </ion-button> \n   <ion-button (click)=\"goEnd()\">Listo </ion-button> \n   <ion-button (click)=\"openNotesTable()\">Notas</ion-button>\n   <ion-button (click)=\"openMedicalTable()\" >Mensajes</ion-button>\n</ion-item>     \n<ion-item>\n  <ion-button (click)=\"Help()\">Ayuda</ion-button>\n  <ion-button (click)=\"openMemoria()\">Memoria</ion-button>\n</ion-item>\n<!--******************************************Asking doctor **********************************************************************************************-->  \n\n <div *ngIf=\"showMedical===true\">\n  <ion-item>\n   <ion-label>Lista de Médicos:</ion-label>\n  </ion-item>\n    \n  <ul>\n  <div *ngFor=\"let item of MDT; let i = index\">\n      <li>\n   \n        <ion-item >\n        <ion-label>{{item.userID}}:{{item.username}}</ion-label>           \n        <ion-button (click)= \"openMsg(i)\" end>Consultar</ion-button>\n        <ion-button  (click)= \"closeMsg(i)\" middle>Cerrar</ion-button>\n        </ion-item>\n\n        <div *ngIf=\"msg[i]===1\">\n              <ion-item >\n                <ion-label position=\"stacked\">Consulta:</ion-label>\n                <ion-textarea #A (ionChange)=\"updatingText(i,A.value)\"></ion-textarea> <!--style=\"height: 200px;\" type=\"text\"></ion-input>-->\n              </ion-item>  \n              <ion-item >  \n                <ion-button  (click)= \"sendMsg(i)\" end>Enviar</ion-button>        \n              </ion-item>\n\n              <ion-item >\n              <ion-icon name=\"mic\" (click)= \"recordingAudioStart(i)\" begin></ion-icon>\n              <div *ngIf=\"recordingAudio==true\">\n                <ion-icon name=\"stop\" (click)= \"recordingAudioStop(i)\" begin></ion-icon>\n              </div>\n              </ion-item>          \n        <!--- if there is a response from doctor show-->\n            <div *ngIf=\"msgRx[i]==1\">\n                  <ion-label position=\"stacked\">Respuesta:</ion-label>\n                  <!--- Text-->\n                  <div *ngIf=\"RxType[i]==1\">\n                      <ion-item >              \n                        <p>{{item.username}}:{{RxText}}</p>             \n                      </ion-item>\n                  </div>\n                  <!--- Audio -->\n                  <div *ngIf=\"RxType[i]==2\">\n                    <ion-item>\n                    <ion-label>Audio</ion-label>      \n                    <ion-button (click)=\"playString(RxText[i])\">\n                      <ion-icon name=\"play\" slot=\"icon-only\"></ion-icon>\n                    </ion-button>   \n                    </ion-item>\n                  \n                  </div>\n            </div>\n        </div>\n      \n      </li> \n        \n      </div>\n    </ul>   \n  </div>\n\n\n</div>  \n</ion-item>  \n       \n</ion-card>\n\n\n<!--******************************************Showing notes **********************************************************************************************-->\n  <div *ngIf=\"showNotes==true\">\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{patientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{patientLocal.firstName}}</ion-item>\n      <ion-item>Id Paciente: {{patientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    \n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID nota: {{notes[i].noteId}}</ion-item>\n          <ion-item>Nota:{{notes[i].note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        \n       </ion-card>\n\n    </div>\n  </div>\n<!--******************************************Showing Memoria **********************************************************************************************-->\n  <div *ngIf=\"showMemoria==true\">\n    <p>Escribiendo memoria de lo realizado</p>\n    <ion-input type=\"text\" [(ngModel)]=\"Memoria\"></ion-input>\n  </div>  \n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    \n    <ion-item>\n    <ion-title>Enfermera:{{nurseName}}</ion-title>\n  </ion-item>\n  <ion-item>\n    <ion-buttons slot=\"start\">\n      <div *ngIf=\"actionFinished==true\">\n      <ion-back-button  defaultHref=\"\" text=\"Volver\"></ion-back-button>        \n      </div>\n    </ion-buttons>\n    <ion-title>Cama:{{bedId}}</ion-title>\n  </ion-item>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-card>\n    <ion-item>\n   <div *ngIf=\"inRoom===false\">   \n        \n        <ion-button (click)=\"goQR()\">QR </ion-button> \n        <ion-button (click)=\"toggleManualQR()\">Manual QR </ion-button> \n        \n        <ion-button (click)=\"Quit()\">Cancelar </ion-button> \n        \n        <div *ngIf=\"manualQR==true\">\n          <ion-item>\n            <ion-input type=\"text\" placeholder=\"EjemploQR\" #Q (ionChange)=\"updatingTextQR(Q.value)\"></ion-input>\n            <ion-button (click)=\"sendQr()\">enviar </ion-button> \n          </ion-item>\n        </div>\n\n   </div>\n   <div *ngIf=\"inRoom===true\">\n<!--******************************************************Now in room options*****************************************************************************-->\n<ion-item>\n   <!--  <ion-button (click)=\"goChat()\">Chat </ion-button> -->\n   <ion-button (click)=\"Quit()\">Cancelar </ion-button> \n   <ion-button (click)=\"goEnd()\">Listo </ion-button> \n   <ion-button (click)=\"openNotesTable()\">Notas</ion-button>\n   <ion-button (click)=\"openMedicalTable()\" >Mensajes</ion-button>\n</ion-item>     \n<ion-item>\n  <ion-button (click)=\"Help()\">Ayuda</ion-button>\n  <ion-button (click)=\"openMemoria()\">Memoria</ion-button>\n</ion-item>\n<!--******************************************Asking doctor **********************************************************************************************-->  \n\n <div *ngIf=\"showMedical===true\">\n  <ion-item>\n   <ion-label>Lista de Médicos:</ion-label>\n  </ion-item>\n    \n  <ul>\n  <div *ngFor=\"let item of MDT; let i = index\">\n      <li>\n   \n        <ion-item >\n        <ion-label>{{item.userID}}:{{item.username}}</ion-label>           \n        <ion-button (click)= \"openMsg(i)\" end>Consultar</ion-button>\n        <ion-button  (click)= \"closeMsg(i)\" middle>Cerrar</ion-button>\n        </ion-item>\n\n        <div *ngIf=\"msg[i]===1\">\n              <ion-item >                \n                <div *ngIf=\"writeText==true\">\n                  <ion-item>Texto:   \n                  <ion-button (click)=\"writeToggle()\">\n                    <ion-icon name=\"arrow-back\" slot=\"icon-only\"></ion-icon>\n                  </ion-button> </ion-item>                  \n                  <ion-textarea #A (ionChange)=\"updatingText(i,A.value)\"></ion-textarea> <!--style=\"height: 200px;\" type=\"text\"></ion-input>-->\n                  <ion-button  (click)= \"sendMsg(i)\" end>Enviar</ion-button>        \n                </div>\n                <div *ngIf=\"writeText==false\">\n                  <ion-item>Texto:\n                  <ion-button (click)=\"writeToggle()\">\n                    <ion-icon name=\"arrow-down\" slot=\"icon-only\"></ion-icon>\n                  </ion-button>   </ion-item>           \n                </div>\n              </ion-item>\n\n              <ion-item >Audio:      \n              <ion-icon name=\"mic\" (click)= \"recordingAudioStart(i)\" begin></ion-icon>\n              <div *ngIf=\"recordingAudio==true\">\n                <ion-icon name=\"stop\" (click)= \"recordingAudioStop(i)\" begin></ion-icon>\n              </div>\n              </ion-item>          \n        <!--- if there is a response from doctor show-->\n            <div *ngIf=\"msgRx[i]==1\">\n                  <ion-label position=\"stacked\">Respuesta:</ion-label>\n                  <!--- Text-->\n                  <div *ngIf=\"RxType[i]==1\">\n                      <ion-item >              \n                        <p>{{item.username}}:{{RxText}}</p>             \n                      </ion-item>\n                  </div>\n                  <!--- Audio -->\n                  <div *ngIf=\"RxType[i]==2\">\n                    <ion-item>\n                    <ion-label>Audio</ion-label>      \n                    <ion-button (click)=\"playString(RxText[i])\">\n                      <ion-icon name=\"play\" slot=\"icon-only\"></ion-icon>\n                    </ion-button>   \n                    </ion-item>\n                  \n                  </div>\n            </div>\n        </div>\n      \n      </li> \n        \n      </div>\n    </ul>   \n  </div>\n\n\n</div>  \n</ion-item>  \n       \n</ion-card>\n\n\n<!--******************************************Showing notes **********************************************************************************************-->\n  <div *ngIf=\"showNotes==true\">\n    \n    \n    <ion-card class=\"PacientDataCard\">\n    <ion-item>Tarea Programada: {{calendarNote}}</ion-item>\n    </ion-card>\n    </div>\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{patientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{patientLocal.firstName}}</ion-item>\n      <ion-item>Id Paciente: {{patientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    \n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID nota: {{notes[i].noteId}}</ion-item>\n          <ion-item>Nota:{{notes[i].note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        \n       </ion-card>\n\n    </div>\n  </div>\n<!--******************************************Showing Memoria **********************************************************************************************-->\n  <div *ngIf=\"showMemoria==true\">\n    <p>Escribiendo memoria de lo realizado</p>\n    <ion-input type=\"text\" [(ngModel)]=\"Memoria\"></ion-input>\n  </div>  \n</ion-content>\n";
 
 /***/ })
 

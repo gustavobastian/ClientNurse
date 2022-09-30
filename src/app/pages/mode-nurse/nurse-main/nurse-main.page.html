@@ -79,8 +79,6 @@
                     <ion-icon name="arrow-down" slot="icon-only"></ion-icon>
                   </ion-button>   </ion-item>           
                 </div>
-              
-                
               </ion-item>
 
               <ion-item >Audio:      
@@ -126,6 +124,12 @@
 
 <!--******************************************Showing notes **********************************************************************************************-->
   <div *ngIf="showNotes==true">
+    
+    
+    <ion-card class="PacientDataCard">
+    <ion-item>Tarea Programada: {{calendarNote}}</ion-item>
+    </ion-card>
+    </div>
     <ion-card class="PacientDataCard">
     <!--Informacion del paciente-->
       <ion-item>Apellido: {{patientLocal.lastName}}</ion-item>
