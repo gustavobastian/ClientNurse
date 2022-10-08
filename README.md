@@ -28,7 +28,8 @@ This mobile application connects to a system/backend through mqtt topics. It has
 
 ### 1. Home page 
 
-In this main page, the user can go to System config page or to the Login Page. 
+In this main page, the user can go to System config page or to the Login Page.
+
 <img src="./docs/main-page.png" style="padding-left:25%; " width="30%">
 
 ### 2. System Config page
