@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>{{userLocal.username}}</ion-title>
     <ion-buttons slot="start">
-      <ion-button (click)="logout()" >Cerrar Sesión</ion-button>        <!--href="home" -->
+      <ion-button (click)="logout()" >Salir</ion-button>        <!--href="home" -->
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -15,34 +15,33 @@
 </ion-item>
 <!-- showing logged users**********************************************-->
 <div *ngIf="showing=='Users'">
-    <ion-item>
-    <p>users</p>
-    </ion-item>
+    
     <div *ngFor="let msg2 of messagesUsers">  
       <div *ngIf="msg2.get_userId()!=0">
        <ion-card >         
            <ion-item>            
-           <ion-label>Usuario: {{ msg2.get_userId()}}</ion-label>            
-           <ion-label>Estado: {{ userstates[msg2.get_st()] }}</ion-label>
+           <ion-label>Usuario: {{ msg2.get_userId()}}</ion-label>                      
            <!--<ion-button>  <ion-icon slot="icon-only" name="arrow-forward"></ion-icon></ion-button>-->
            </ion-item>
-         
+           <ion-item>
+           <ion-label>Estado: {{ userstates[msg2.get_st()] }}</ion-label>
+          </ion-item>
        </ion-card>
       </div> 
    </div>
 </div>
 <!-- showing beds status**********************************************-->
 <div *ngIf="showing=='Beds'">
-    <ion-item>
-      <p>beds</p>
-    </ion-item>
+    
 
     <div  *ngFor="let msg of messagesBeds2">  
        <div *ngIf="msg.get_bedId()!=0">
         <ion-card color="success">
           <ion-icon name="bed" slot="start"></ion-icon>
             <ion-item>
-            <ion-label>Habitacion: {{ msg.get_bedId() }}</ion-label>            
+            <ion-label>Cama: {{ msg.get_bedId() }}</ion-label>            
+             </ion-item>
+          <ion-item>
             <ion-label>Estado: {{ bedstates[msg.get_st()] }}</ion-label>            
             </ion-item>
           

@@ -3,7 +3,7 @@
         <ion-title>{{doctorName}}</ion-title>
       <!-- Back button with a default href -->
     <ion-buttons slot="start">
-      <ion-button (click)="logout()" >Cerrar Sesión</ion-button>        <!--href="home" -->
+      <ion-button (click)="logout()" >Salir</ion-button>        <!--href="home" -->
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -43,7 +43,10 @@
       </ion-card>
     </div>
     <div *ngIf="viewMode==2">
+      <ion-item>
       <ion-title >Estado de paciente</ion-title>
+      </ion-item>
+      <!--<ion-item>-->
       <div *ngFor="let element of messagesbedsfiltered; let i=index">
         <!--{{element|json}}-->
           <div *ngIf="element.st==1">
@@ -74,7 +77,7 @@
             </ion-card>            
         </div>
       </div>
-
+      <!--</ion-item>-->
     </div>
 
   <div *ngIf="viewMode==3">  
