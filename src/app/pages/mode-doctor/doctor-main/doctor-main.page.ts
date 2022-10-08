@@ -281,7 +281,7 @@ async stopRecording( id:number) {
       if(result.value&&result.value.recordDataBase64){
         console.log("sending recording")
         const recorData = result.value.recordDataBase64;        
-        let a=new MessageModel(this.localDoctor.username,result.value.recordDataBase64,  this.patientTable[id].bedId, 22);    
+        let a=new MessageModel(this.localDoctor.username,result.value.recordDataBase64,  id, 22);    
           let mqttmessage=JSON.stringify(a);    
          await this.MQTTServ.sendMesagge(topic, mqttmessage);
           console.log("recording sent")

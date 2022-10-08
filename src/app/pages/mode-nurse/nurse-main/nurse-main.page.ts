@@ -463,7 +463,7 @@ export class NurseMainPage implements OnInit {
    async bedIdSubscription(i: number){
     
     let topic="/User/"+this.MDT[i].userID+"/answers/"+this.bedId;
-    
+    console.log(topic);
     this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
     //console.log("recibido:"+JSON.stringify(Message.string))  
     let localMessage= JSON.stringify(Message.string);
@@ -531,6 +531,7 @@ export class NurseMainPage implements OnInit {
   }
 
   async stopRecording(i: number) {
+    await this.bedIdSubscription(i);
     try {
       let recordedMessage="";
       this.recording=false;
@@ -542,6 +543,7 @@ export class NurseMainPage implements OnInit {
           let mqttmessage=JSON.stringify(a);
           let topic="/User/"+this.MDT[i].userID+"/questions/"+this.bedId;
           this.MQTTServ.sendMesagge(topic, mqttmessage);
+          
         };})         
       
      console.log("*************************************************************************************************************"); 
