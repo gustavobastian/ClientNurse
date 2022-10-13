@@ -26,6 +26,7 @@ export class LoginPage implements OnInit {
   number:number;
   showIn: boolean;
   statusLogged=false;
+  sessionId=0;
 
   constructor(public MQTTServ:MqttService,
     public formBuilder: FormBuilder ,
@@ -39,6 +40,12 @@ export class LoginPage implements OnInit {
   async ngOnInit() {
     //
     //this.number =  await this.MQTTServ.Connect("cliente", "asdf");
+  
+  }
+  
+  ionViewWillEnter() {
+    let currDate=new Date();
+    this.sessionId=currDate.getTime();
   }
 
   async onClickLogin() {
@@ -61,7 +68,8 @@ export class LoginPage implements OnInit {
   async Log_in() {
     this.GetUserLogKind(); 
     console.log("here")
-    let question=this.password;
+
+    let question=this.password+"Ç"+this.sessionId;
     var time= new Date();
     //let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();
     let a=new MessageModel(this.username,question,  0, 1);    
@@ -77,7 +85,8 @@ export class LoginPage implements OnInit {
   GetUserLogKind()  {
     console.log("wainting for response");
     let question="";
-    let topic="/User/"+this.username+"/response";    
+    //let topic="/User/"+this.username+"/response";    
+    let topic="/Session/"+this.sessionId+"/response";    
     let localMessage;
     this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message=>{
       console.log("respuestaSystem:  "+Message.toString());
