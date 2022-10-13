@@ -540,7 +540,7 @@ export class NurseMainPage implements OnInit {
         if(result.value&&result.value.recordDataBase64){
           recordedMessage = result.value.recordDataBase64;  
           let a= new MessageModel(this.localNurse.username,(recordedMessage),  this.bedId, 22);                
-          let mqttmessage=JSON.stringify(a);
+          let mqttmessage=JSON.stringify(a);          
           let topic="/User/"+this.MDT[i].userID+"/questions/"+this.bedId;
           this.MQTTServ.sendMesagge(topic, mqttmessage);
           

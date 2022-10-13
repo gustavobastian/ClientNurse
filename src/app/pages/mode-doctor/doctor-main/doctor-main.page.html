@@ -87,7 +87,7 @@
                 <ion-card style="background-color: orange;">
                   <ion-card-content>
                     <ion-label>
-                      cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}
+                      cama:{{element.bedId}} paciente:{{element.pacientId}} estado:{{bedstates[element.st]}}
                     </ion-label>
                   </ion-card-content> 
                 </ion-card>            
@@ -96,7 +96,7 @@
               <ion-card style="background-color: violet;">
                 <ion-card-content>
                   <ion-label>
-                    cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}
+                    cama:{{element.bedId}} paciente:{{element.pacientId}} estado:{{bedstates[element.st]}}
                   </ion-label>
                 </ion-card-content> 
               </ion-card>            
@@ -121,7 +121,7 @@
               </ion-item>          
               <div *ngIf="element._type === 7">
                   <ion-item>
-                  <ion-label>{{element._content}}</ion-label>                        
+                  <ion-textarea>{{element._content}}</ion-textarea>                        
                   </ion-item>
                                 
               </div>      
