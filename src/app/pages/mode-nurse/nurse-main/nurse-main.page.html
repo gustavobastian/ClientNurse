@@ -20,15 +20,15 @@
     <ion-item>
    <div *ngIf="inRoom===false">   
         
-        <ion-button (click)="goQR()">QR </ion-button> 
-        <ion-button (click)="toggleManualQR()">Manual QR </ion-button> 
+        <ion-button color="secondary" (click)="goQR()">QR </ion-button> 
+        <ion-button color="secondary" (click)="toggleManualQR()">Manual QR </ion-button> 
         
-        <ion-button (click)="Quit()">Cancelar </ion-button> 
+        <ion-button color="secondary" (click)="Quit()">Cancelar </ion-button> 
         
         <div *ngIf="manualQR==true">
           <ion-item>
             <ion-input type="text" placeholder="EjemploQR" #Q (ionChange)="updatingTextQR(Q.value)"></ion-input>
-            <ion-button (click)="sendQr()">enviar </ion-button> 
+            <ion-button color="secondary" (click)="sendQr()">enviar </ion-button> 
           </ion-item>
         </div>
 
@@ -37,15 +37,15 @@
 <!--******************************************************Now in room options*****************************************************************************-->
 <ion-item>
    <!--  <ion-button (click)="goChat()">Chat </ion-button> -->
-   <ion-button (click)="Quit()">Cancelar </ion-button> 
-   <ion-button (click)="goEnd()">Listo </ion-button> 
-   <ion-button (click)="openNotesTable()">Notas</ion-button>
+   <ion-button color="secondary" (click)="Quit()">Cancelar </ion-button> 
+   <ion-button color="secondary" (click)="goEnd()">Listo </ion-button> 
+   <ion-button color="secondary" (click)="openNotesTable()">Notas</ion-button>
    
 </ion-item>     
 <ion-item>
-  <ion-button (click)="openMedicalTable()" >Mensajes</ion-button>
-  <ion-button (click)="Help()">Ayuda</ion-button>
-  <ion-button (click)="openMemoria()">Memoria</ion-button>
+  <ion-button color="secondary" (click)="openMedicalTable()" >Mensajes</ion-button>
+  <ion-button color="secondary" (click)="Help()">Ayuda</ion-button>
+  <ion-button color="secondary" (click)="openMemoria()">Memoria</ion-button>
 </ion-item>
 <!--******************************************Asking doctor **********************************************************************************************-->  
 
@@ -60,8 +60,8 @@
    
         <ion-item >
         <ion-label>{{item.userID}}:{{item.username}}</ion-label>           
-        <ion-button (click)= "openMsg(i)" end>Consultar</ion-button>
-        <ion-button  (click)= "closeMsg(i)" middle>Cerrar</ion-button>
+        <ion-button color="secondary" (click)= "openMsg(i)" end>Consultar</ion-button>
+        <ion-button color="secondary" (click)= "closeMsg(i)" middle>Cerrar</ion-button>
         </ion-item>
 
         <div *ngIf="msg[i]===1">
@@ -72,7 +72,7 @@
                     <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
                   </ion-button> </ion-item>                  
                   <ion-textarea #A (ionChange)="updatingText(i,A.value)"></ion-textarea> <!--style="height: 200px;" type="text"></ion-input>-->
-                  <ion-button  (click)= "sendMsg(i)" end>Enviar</ion-button>        
+                  <ion-button  color="secondary" (click)= "sendMsg(i)" end>Enviar</ion-button>        
                 </div>
                 <div *ngIf="writeText==false">
                   <ion-item>Texto:

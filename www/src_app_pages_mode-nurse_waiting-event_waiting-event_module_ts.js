@@ -296,8 +296,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _waiting_event_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./waiting-event.page.html?ngResource */ 9377);
 /* harmony import */ var _waiting_event_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./waiting-event.page.scss?ngResource */ 7525);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ionic/angular */ 3819);
 /* harmony import */ var src_app_models_nurse_specs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/models/nurse-specs */ 1199);
 /* harmony import */ var _models_bed__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../models/bed */ 982);
 /* harmony import */ var _models_bed_status__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../models/bed-status */ 6000);
@@ -321,12 +322,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let WaitingEventPage = class WaitingEventPage {
-    constructor(activatedRoute, MQTTServ, localSto, router, localBed, userLogged) {
+    constructor(activatedRoute, MQTTServ, localSto, router, platform, localBed, userLogged) {
         this.activatedRoute = activatedRoute;
         this.MQTTServ = MQTTServ;
         this.localSto = localSto;
         this.router = router;
+        this.platform = platform;
         this.localBed = localBed;
         this.userLogged = userLogged;
         this.localNurse = new _models_user__WEBPACK_IMPORTED_MODULE_6__.User(0, "", "", "", "", 0, "");
@@ -338,10 +341,23 @@ let WaitingEventPage = class WaitingEventPage {
         this.nurseSpecsIds = new Array;
         this.responseSpec = " ";
         this.bedstates = ["Desocupada", "Descansando", "Llamando", "Por ser atendido", "Siendo atendido", "Llamada programada", "Solicito Ayuda"];
+        this.updatePass = false;
+        this.showPass1 = "password";
+        this.showPass2 = "password";
+        this.newPass1 = "";
+        this.newPass2 = "";
+        this.MinCaracterPass = 4;
+        this.pageTitle = "Sala de espera";
+        this.platform.backButton.subscribeWithPriority(10, () => {
+            console.log('Handler was called!');
+        });
     }
     ngOnInit() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
             this.localNurse = yield this.userLogged.getUser();
+            this.updatePass = false;
+            this.showPass1 = "password";
+            this.showPass2 = "password";
             yield this.getNurseSpec();
             setTimeout(() => {
                 this.eventsSubscription();
@@ -466,17 +482,75 @@ let WaitingEventPage = class WaitingEventPage {
         this.localBed.setBedId(0);
         this.router.navigate(['/chat/']);
     }
+    changePass() {
+        if (this.updatePass == false) {
+            this.updatePass = true;
+            this.pageTitle = "Nueva Contraseña";
+        }
+        else {
+            this.updatePass = false;
+            this.pageTitle = "Sala de espera";
+        }
+    }
+    showPassword1() {
+        if (this.showPass1 == "password") {
+            this.showPass1 = "text";
+        }
+        else {
+            this.showPass1 = "password";
+        }
+        this.showPass2 = "password";
+    }
+    showPassword2() {
+        if (this.showPass2 == "password") {
+            this.showPass2 = "text";
+        }
+        else {
+            this.showPass2 = "password";
+        }
+    }
+    onChangeNewPass1(text) {
+        this.newPass1 = text;
+        //console.log("newPass1:"+this.newPass1);
+    }
+    onChangeNewPass2(text) {
+        this.newPass2 = text;
+        //console.log("newPass2:"+this.newPass2);
+    }
+    onSendNewPass() {
+        //console.log("newPass1:"+this.newPass1);
+        //console.log("newPass2:"+this.newPass2);
+        let data = this.newPass1 + "Ç" + this.localNurse.username;
+        if (this.newPass1 == this.newPass2) {
+            if (this.newPass1.length < this.MinCaracterPass) {
+                alert("Error: Ingrese una contraseña con más caracteres");
+                return;
+            }
+            console.log("Se puede enviar");
+            let topic = "/User/general";
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_5__.MessageModel(this.localNurse.username, data, 0, 23);
+            console.log(JSON.stringify(a));
+            let mqttmessage = (a).toString();
+            this.MQTTServ.sendMesagge(topic, JSON.stringify(a));
+            this.updatePass = false;
+        }
+        else {
+            console.log("NO se puede enviar");
+            alert("Error: chequear contraseñas ingresadas");
+        }
+    }
 };
 WaitingEventPage.ctorParameters = () => [
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_12__.ActivatedRoute },
     { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_9__.MqttService },
     { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_8__.LocalStorageService },
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_12__.Router },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.Platform },
     { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_7__.BedsService },
     { type: _services_user_service__WEBPACK_IMPORTED_MODULE_10__.UserService }
 ];
 WaitingEventPage = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_13__.Component)({
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_14__.Component)({
         selector: 'app-waiting-event',
         template: _waiting_event_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_waiting_event_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -687,7 +761,7 @@ module.exports = ".card {\n  background-color: #d15050;\n  box-shadow: none;\n}\
   \***********************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>    \n    <ion-buttons slot=\"start\">\n      <ion-button  (click)=\"logout()\">Cerrar Sesión</ion-button>        <!-- href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-item style=\"text-align: center;\">\n    <ion-title>Sala de espera</ion-title>\n  </ion-item>\n \n  <ion-item >\n      <label>Especialidades:</label> \n    <ul>\n      <div *ngFor=\"let item of nurseSpecs\">  \n          <li>\n          <p>{{item._name}}</p>\n          </li>      \n      </div>    \n    </ul>    \n  </ion-item>\n  <div class=\"msgbubble\" *ngFor=\"let msg of messagesbeds\">      \n    <div *ngIf=\"msg._st > 1\">  \n      \n      <ion-card >\n        <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n          <ion-item>\n          <ion-label>Habitación: {{ msg._bedId }}</ion-label>\n          </ion-item>\n          <ion-item>\n          <ion-label>Estado: {{bedstates[msg._st]}}</ion-label>\n          <div *ngIf=\"msg.get_st()==6\">\n            <ion-label>AYUDA</ion-label>\n          </div>\n          </ion-item>\n         \n        <br>\n        <ion-item>\n          <div *ngIf=\"msg._st!=6\">\n          <ion-button (click)=\"onClick(msg._bedId)\"> Aceptar </ion-button>\n          </div>\n          <ion-button (click)=\"onClick2(msg._bedId)\"> Ubicacion </ion-button>\n          <div *ngIf=\"msg.type == 9\">  \n            <ion-button (click)=\"onClick3(msg._bedId)\"> Notas Calendario </ion-button>\n          </div>  \n        </ion-item>\n      </ion-card>\n    </div>  \n  </div>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>    \n    <ion-buttons slot=\"start\">\n      <ion-button  (click)=\"logout()\">Salir</ion-button>        <!-- href=\"home\" -->\n    </ion-buttons>\n    <ion-buttons slot=\"end\">\n      <ion-button (click)=\"changePass()\" ><ion-icon name=\"key\" slot=\"icon-only\"></ion-icon></ion-button>        <!-- href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-item style=\"text-align: center;\">\n    <ion-title>{{pageTitle}}</ion-title>\n  </ion-item>\n\n  <div *ngIf=\"updatePass==true\">\n    \n    <ion-label>Nueva contraseña</ion-label>\n    <ion-item>  \n      <ion-input type={{showPass1}}  #P1 (ionChange)=\"onChangeNewPass1(P1.value)\" ></ion-input>\n      <ion-button (click)=\"showPassword1()\"><ion-icon name=\"eye\" slot=\"icon-only\"></ion-icon></ion-button>\n    </ion-item>\n    \n      <ion-label>Repita contraseña</ion-label>\n    <ion-item>  \n      <ion-input type={{showPass2}} #P2 (ionChange)=\"onChangeNewPass2(P2.value)\" ></ion-input>\n      <ion-button (click)=\"showPassword2()\"><ion-icon name=\"eye\" slot=\"icon-only\"></ion-icon></ion-button>\n    </ion-item>\n    <ion-button (click)=\"onSendNewPass()\">Enviar</ion-button>\n  </div>\n \n  <div *ngIf=\"updatePass==false\">\n      <ion-item >\n          <label>Especialidades:</label> \n        <ul>\n          <div *ngFor=\"let item of nurseSpecs\">  \n              <li>\n              <p>{{item._name}}</p>\n              </li>      \n          </div>    \n        </ul>    \n      </ion-item>\n      <div class=\"msgbubble\" *ngFor=\"let msg of messagesbeds\">      \n        <div *ngIf=\"msg._st > 1\">  \n          \n          <ion-card >\n            <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n              <ion-item>\n              <ion-label>Habitación: {{ msg._bedId }}</ion-label>\n              </ion-item>\n              <ion-item>\n              <ion-label>Estado: {{bedstates[msg._st]}}</ion-label>\n              <div *ngIf=\"msg.get_st()==6\">\n                <ion-label>AYUDA</ion-label>\n              </div>\n              </ion-item>\n            \n            <br>\n            <ion-item>\n              <div *ngIf=\"msg._st!=6\">\n              <ion-button color=\"secondary\" (click)=\"onClick(msg._bedId)\"> Aceptar </ion-button>\n              </div>\n              <ion-button color=\"secondary\" (click)=\"onClick2(msg._bedId)\"> Ubicacion </ion-button>\n              <div *ngIf=\"msg.type == 9\">  \n                <ion-button color=\"secondary\"  (click)=\"onClick3(msg._bedId)\"> Notas Calendario </ion-button>\n              </div>  \n            </ion-item>\n          </ion-card>\n        </div>  \n      </div>\n  </div>\n\n</ion-content>\n";
 
 /***/ })
 

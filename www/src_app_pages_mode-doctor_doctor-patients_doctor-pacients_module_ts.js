@@ -281,6 +281,7 @@ let DoctorPacientsPage = class DoctorPacientsPage {
      */
     onClickNotes() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__awaiter)(this, void 0, void 0, function* () {
+            this.onClick();
             this.notes = [];
             let userBad = 0;
             let local = (this.numberId.value);
@@ -315,7 +316,7 @@ let DoctorPacientsPage = class DoctorPacientsPage {
                          this.notes.append(notaLocal1);
                      });*/
                     this.notes = localMessage;
-                    console.log(JSON.stringify(this.notes));
+                    //console.log(JSON.stringify(this.notes));
                 }
             });
             let topic = "/User/general";
@@ -323,7 +324,6 @@ let DoctorPacientsPage = class DoctorPacientsPage {
             let mqttmessage = JSON.stringify(b);
             this.MQTTServ.sendMesagge(topic, mqttmessage);
             userBad = 0;
-            //this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic)
         });
     }
     ;
@@ -391,11 +391,6 @@ let DoctorPacientsPage = class DoctorPacientsPage {
         this.MQTTServ.sendMesagge(topic, mqttmessage);
         this.showAsk = false;
         this.showNotesForm = false;
-        /*let local=(this.numberId.value);
-        console.log(local);
-        this.showNotes = false;
-        this.showNotesForm = true;
-        this.patientLocal.id = local.patientNumber;  */
     }
     deleteNote(i) {
         console.log("borrando nota:", i);
@@ -628,7 +623,7 @@ module.exports = ".pacientDataCard {\n  background-color: bisque;\n}\n/*# source
   \****************************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Pacientes: {{doctorName}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-back-button    defaultHref=\"/doctor-main/\" text=\"Volver\"></ion-back-button>\n  </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n \n  <div *ngIf=\"showAsk==true\">\n    <ion-item>      \n     <!--<div [formGroup]=\"numberId\"> -->\n        <ion-label>Numero Paciente: {{patientNumber2}}</ion-label>\n    <!--<ion-input  type=\"number\" formControlName=\"pacientNumber\" placeholder=\"{{pacientNumber2}}\" required></ion-input>\n     </div>-->\n    </ion-item>\n   \n   <ion-button  (click)=\"onClick()\" >Consultar</ion-button>\n   <ion-button  (click)=\"onClickNotes()\" >Notas</ion-button>\n  \n  </div>\n\n<div *ngIf=\"showNotes==true\">\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{patientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{patientLocal.firstName}}</ion-item>\n      <ion-item>Id Paciente: {{patientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    <ion-button  (click)=\"onClickAdd()\" >Agregar Nota</ion-button>\n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID nota: {{Note.notesId}}</ion-item>\n          <ion-item>Nota:{{Note.note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        <ion-button (click)=\"deleteNote(i)\"><ion-icon name=\"trash\" slot=\"icon-only\"></ion-icon></ion-button>\n       </ion-card>\n\n    </div>\n  </div>\n  <div *ngIf=\"showNotesForm==true\">\n\n    <div [formGroup]=\"noteForm\"> \n      <ion-label>Nota:</ion-label>\n      <ion-input  type=\"text\" formControlName=\"noteFormString\" required></ion-input>\n       </div>\n      \n     <ion-button ion-color=\"primary\" (click)=\"onClickSend()\" >enviar</ion-button>\n\n      <ion-button (click)=\"onClickReturn()\" >Volver</ion-button>\n  </div>\n\n\n  \n\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Pacientes: {{doctorName}}</ion-title>\n    <ion-buttons slot=\"start\">\n      <ion-back-button    defaultHref=\"/doctor-main/\" text=\"Volver\"></ion-back-button>\n  </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n \n  <div *ngIf=\"showAsk==true\">\n    <ion-item>      \n     <!--<div [formGroup]=\"numberId\"> -->\n        <ion-label>Numero Paciente: {{patientNumber2}}</ion-label>\n    <!--<ion-input  type=\"number\" formControlName=\"pacientNumber\" placeholder=\"{{pacientNumber2}}\" required></ion-input>\n     </div>-->\n    </ion-item>\n   \n   <ion-button color=\"secondary\"  (click)=\"onClick()\" >Consultar</ion-button>\n   <ion-button color=\"secondary\"  (click)=\"onClickNotes()\" >Notas</ion-button>\n  \n  </div>\n\n<div *ngIf=\"showNotes==true\">\n    <ion-card class=\"PacientDataCard\">\n    <!--Informacion del paciente-->\n      <ion-item>Apellido: {{patientLocal.lastName}}</ion-item>\n      <ion-item>Nombre: {{patientLocal.firstName}}</ion-item>\n      <ion-item>Id Paciente: {{patientLocal.id}}</ion-item>\n      \n\n    </ion-card>\n\n    <ion-button  (click)=\"onClickAdd()\" >Agregar Nota</ion-button>\n    <!--Notas del paciente : limite 2-->\n    <div *ngFor=\"let Note of notes; let i=index\">\n      <ion-card>\n        <!--Informacion del paciente-->\n          <ion-item>ID nota: {{Note.notesId}}</ion-item>\n          <ion-item>Nota:{{Note.note}}</ion-item>\n        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->\n        <ion-button (click)=\"deleteNote(i)\"><ion-icon name=\"trash\" slot=\"icon-only\"></ion-icon></ion-button>\n       </ion-card>\n\n    </div>\n  </div>\n  <div *ngIf=\"showNotesForm==true\">\n\n    <div [formGroup]=\"noteForm\"> \n      <ion-label>Nota:</ion-label>\n      <ion-input  type=\"text\" formControlName=\"noteFormString\" required></ion-input>\n       </div>\n      \n     <ion-button ion-color=\"primary\" (click)=\"onClickSend()\" >enviar</ion-button>\n\n      <ion-button (click)=\"onClickReturn()\" >Volver</ion-button>\n  </div>\n\n\n  \n\n</ion-content>\n";
 
 /***/ })
 

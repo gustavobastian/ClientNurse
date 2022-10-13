@@ -5,61 +5,95 @@
     <ion-buttons slot="start">
       <ion-button (click)="logout()" >Salir</ion-button>        <!--href="home" -->
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="changePass()" ><ion-icon name="key" slot="icon-only"></ion-icon></ion-button>        <!-- href="home" -->
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-item>
-    <ion-button style="width: 33%;" (click)="enablingNotes()" >Notas</ion-button>
-    <ion-button style="width: 33%;" (click)="enablingPatientMonitoring()">Pacientes</ion-button>
-    <ion-button style="width: 33%;" (click)="enablingListen()">Msjs</ion-button><!--(click)="enablingPatientMonitoring()"-->
-  </ion-item>
-    <div *ngIf="newMessage == true">
-      <ion-item>
-      <ion-button (click)="enablingListen()">
-        <ion-icon ion-color="danger" name="mail-outline" slot="icon-only"></ion-icon>
-      </ion-button>
-      </ion-item>
-    </div>
-    
-  
-    <div *ngIf="viewMode==1">
-      <ion-card >
-        <ion-icon name="bed" slot="start"></ion-icon>
-          <ion-label>Seleccionar numero paciente  </ion-label>
-        <br>
-        <ion-select interface="action-sheet" #C (ionChange)="upgradingPatientNumber(C.value)" type="number" required>
-          <div *ngFor="let element of patientTable; let i=index">           
-          
-          <ion-select-option  value="{{patientTable[i].pacientId}}">{{patientTable[i].pacientId}}</ion-select-option>                   
-          </div>
-        </ion-select>
+<ion-content>  
 
+  <div *ngIf="updatePass==true">
+    <ion-item style="text-align: center;">
+      <ion-title>{{pageTitle}}</ion-title>
+    </ion-item>
+    <ion-label>Nueva contraseña</ion-label>
+    <ion-item>  
+      <ion-input type={{showPass1}}  #P1 (ionChange)="onChangeNewPass1(P1.value)" ></ion-input>
+      <ion-button (click)="showPassword1()"><ion-icon name="eye" slot="icon-only"></ion-icon></ion-button>
+    </ion-item>
+    
+      <ion-label>Repita contraseña</ion-label>
+    <ion-item>  
+      <ion-input type={{showPass2}} #P2 (ionChange)="onChangeNewPass2(P2.value)" ></ion-input>
+      <ion-button (click)="showPassword2()"><ion-icon name="eye" slot="icon-only"></ion-icon></ion-button>
+    </ion-item>
+    <ion-button color="secondary"  (click)="onSendNewPass()">Enviar</ion-button>
+  </div>
+  <div *ngIf="updatePass==false">
+    <ion-item>
+      <ion-button color="secondary" style="width: 33%;" (click)="enablingNotes()" >Notas</ion-button>
+      <ion-button color="secondary" style="width: 33%;" (click)="enablingPatientMonitoring()">Pacientes</ion-button>
+      <ion-button color="secondary" style="width: 33%;" (click)="enablingListen()">Msjs</ion-button><!--(click)="enablingPatientMonitoring()"-->
+    </ion-item>
+      <div *ngIf="newMessage == true">
         <ion-item>
-          <div *ngIf="patientActivated==true">
-            <ion-button (click)="onClickPatientNote(patientNumber)"> Ir </ion-button>        
-          </div>
+        <ion-button (click)="enablingListen()">
+          <ion-icon ion-color="danger" name="mail-outline" slot="icon-only"></ion-icon>
+        </ion-button>
         </ion-item>
-      </ion-card>
-    </div>
-    <div *ngIf="viewMode==2">
-      <ion-item>
-      <ion-title >Estado de paciente</ion-title>
-      </ion-item>
-      <!--<ion-item>-->
-      <div *ngFor="let element of messagesbedsfiltered; let i=index">
-        <!--{{element|json}}-->
-          <div *ngIf="element.st==1">
-            <ion-card style="background-color: cyan;">
-              <ion-card-content>
-                <ion-label>
-                  cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}
-                </ion-label>
-              </ion-card-content> 
-            </ion-card>
-          </div>
-          <div *ngIf="element.st==2">
-              <ion-card style="background-color: orange;">
+      </div>
+      
+    
+      <div *ngIf="viewMode==1">
+        <ion-card >
+          <ion-icon name="bed" slot="start"></ion-icon>
+            <ion-label>Seleccionar numero paciente  </ion-label>
+          <br>
+          <ion-select interface="action-sheet" #C (ionChange)="upgradingPatientNumber(C.value)" type="number" required>
+            <div *ngFor="let element of patientTable; let i=index">           
+            
+            <ion-select-option  value="{{patientTable[i].pacientId}}">{{patientTable[i].pacientId}}</ion-select-option>                   
+            </div>
+          </ion-select>
+
+          <ion-item>
+            <div *ngIf="patientActivated==true">
+              <ion-button color="secondary"  (click)="onClickPatientNote(patientNumber)"> Ir </ion-button>        
+            </div>
+          </ion-item>
+        </ion-card>
+      </div>
+      <div *ngIf="viewMode==2">
+        <ion-item>
+        <ion-title >Estado de paciente</ion-title>
+        </ion-item>
+        <!--<ion-item>-->
+        <div *ngFor="let element of messagesbedsfiltered; let i=index">
+          <!--{{element|json}}-->
+            <div *ngIf="element.st==1">
+              <ion-card style="color:black;background-color: cyan;">
+                <ion-card-content>
+                  
+                    <ion-label>
+                      Cama:{{element.bedId}} Paciente:{{element.pacientId}} 
+                    </ion-label>                  
+                    <p>Estado:{{bedstates[element.st]}}</p>
+                  
+                </ion-card-content> 
+              </ion-card>
+            </div>
+            <div *ngIf="element.st==2">
+                <ion-card style="background-color: orange;">
+                  <ion-card-content>
+                    <ion-label>
+                      cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}
+                    </ion-label>
+                  </ion-card-content> 
+                </ion-card>            
+            </div>
+            <div *ngIf="element.st>2">
+              <ion-card style="background-color: violet;">
                 <ion-card-content>
                   <ion-label>
                     cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}
@@ -67,70 +101,61 @@
                 </ion-card-content> 
               </ion-card>            
           </div>
-          <div *ngIf="element.st>2">
-            <ion-card style="background-color: violet;">
-              <ion-card-content>
-                <ion-label>
-                  cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}
-                </ion-label>
-              </ion-card-content> 
-            </ion-card>            
         </div>
+        <!--</ion-item>-->
       </div>
-      <!--</ion-item>-->
-    </div>
 
-  <div *ngIf="viewMode==3">  
-    <ion-card >    
-      <div *ngFor="let element of messages; let i=index">
+    <div *ngIf="viewMode==3">  
+      <ion-card >    
+        <div *ngFor="let element of messages; let i=index">
 
-          <ion-card ion-color="terciary" >      
-            <ion-item>
-            <ion-label>Mensaje de : {{element._username}}</ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-label> cama:{{element._bedId}}</ion-label>
-              <ion-button (click)="deleteMsg(i)">
-                <ion-icon name="trash" slot="icon-only"></ion-icon>
-              </ion-button>   
-            </ion-item>          
-            <div *ngIf="element._type === 7">
-                <ion-item>
-                <ion-label>{{element._content}}</ion-label>                        
-                </ion-item>
-                               
-            </div>      
-            <div *ngIf="element._type != 7">
+            <ion-card ion-color="terciary" >      
               <ion-item>
-              <ion-label>Audio</ion-label>      
-                <ion-button (click)="playString(element._content)">
-                  <ion-icon name="play" slot="icon-only"></ion-icon>
-                </ion-button>                  
+              <ion-label>Mensaje de : {{element._username}}</ion-label>
               </ion-item>
-            </div>            
-            
-            <ion-item>
-            <ion-label position="stacked">Respuesta:</ion-label>
-                <ion-textarea #A (ionChange)="onChangeText(A.value,i)"  ></ion-textarea>
-                <ion-item>              
-                <ion-button (click)="sendResponseText(element._bedId)" ><ion-icon name="arrow-forward" end></ion-icon></ion-button> <!--(click)= "sendMsg(i)" -->
+              <ion-item>
+                <ion-label> cama:{{element._bedId}}</ion-label>
+                <ion-button (click)="deleteMsg(i)">
+                  <ion-icon name="trash" slot="icon-only"></ion-icon>
+                </ion-button>   
+              </ion-item>          
+              <div *ngIf="element._type === 7">
+                  <ion-item>
+                  <ion-label>{{element._content}}</ion-label>                        
+                  </ion-item>
+                                
+              </div>      
+              <div *ngIf="element._type != 7">
+                <ion-item>
+                <ion-label>Audio</ion-label>      
+                  <ion-button (click)="playString(element._content)">
+                    <ion-icon name="play" slot="icon-only"></ion-icon>
+                  </ion-button>                  
                 </ion-item>
-            </ion-item>   
-            <ion-item><ion-label>Responder Audio</ion-label></ion-item>
-            <ion-item>
-              <ion-button (click)="startRecording()"><ion-icon name="mic" ></ion-icon></ion-button>          
-              <div *ngIf="recording==true">
-              <ion-button (click)="stopRecording(element._bedId)" >
-                <ion-icon name="stop" slot="icon-only"></ion-icon>
-              </ion-button>                  
+              </div>            
+              
+              <ion-item>
+              <ion-label position="stacked">Respuesta:</ion-label>
+                  <ion-textarea #A (ionChange)="onChangeText(A.value,i)"  ></ion-textarea>
+                  <ion-item>              
+                  <ion-button (click)="sendResponseText(element._bedId)" ><ion-icon name="arrow-forward" end></ion-icon></ion-button> <!--(click)= "sendMsg(i)" -->
+                  </ion-item>
+              </ion-item>   
+              <ion-item><ion-label>Responder Audio</ion-label></ion-item>
+              <ion-item>
+                <ion-button (click)="startRecording()"><ion-icon name="mic" ></ion-icon></ion-button>          
+                <div *ngIf="recording==true">
+                <ion-button (click)="stopRecording(element._bedId)" >
+                  <ion-icon name="stop" slot="icon-only"></ion-icon>
+                </ion-button>                  
 
-            </div>
-            </ion-item>   
-            
-          </ion-card>
-        
-      </div>
-    </ion-card >    
-  </div>
-  
+              </div>
+              </ion-item>   
+              
+            </ion-card>
+          
+        </div>
+      </ion-card >    
+    </div>
+  </div>  
 </ion-content>

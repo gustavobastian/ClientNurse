@@ -67,6 +67,7 @@ export class DoctorPacientsPage implements OnInit {
  * asking for pacient notes
  */
  async onClickNotes() {
+  this.onClick();
   this.notes=[];
   let userBad=0;
   let local=(this.numberId.value);  
@@ -103,7 +104,7 @@ export class DoctorPacientsPage implements OnInit {
         this.notes.append(notaLocal1);
     });*/
     this.notes=localMessage;
-    console.log(JSON.stringify(this.notes));
+    //console.log(JSON.stringify(this.notes));
     
     } 
     });
@@ -115,7 +116,7 @@ export class DoctorPacientsPage implements OnInit {
     
     
     userBad=0;
-    //this.MQTTServ.MQTTClientLocal.unsubscribe(responseNoteTopic)
+  
    
   
 };
@@ -187,11 +188,7 @@ export class DoctorPacientsPage implements OnInit {
   this.MQTTServ.sendMesagge(topic, mqttmessage);
   this.showAsk=false;
   this.showNotesForm = false;    
-  /*let local=(this.numberId.value);    
-  console.log(local);
-  this.showNotes = false;
-  this.showNotesForm = true;
-  this.patientLocal.id = local.patientNumber;  */
+  
  }
 
  deleteNote(i:number){

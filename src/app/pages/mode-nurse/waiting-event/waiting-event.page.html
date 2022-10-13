@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>    
     <ion-buttons slot="start">
-      <ion-button  (click)="logout()">Cerrar Sesión</ion-button>        <!-- href="home" -->
+      <ion-button  (click)="logout()">Salir</ion-button>        <!-- href="home" -->
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="changePass()" ><ion-icon name="key" slot="icon-only"></ion-icon></ion-button>        <!-- href="home" -->
@@ -59,11 +59,11 @@
             <br>
             <ion-item>
               <div *ngIf="msg._st!=6">
-              <ion-button (click)="onClick(msg._bedId)"> Aceptar </ion-button>
+              <ion-button color="secondary" (click)="onClick(msg._bedId)"> Aceptar </ion-button>
               </div>
-              <ion-button (click)="onClick2(msg._bedId)"> Ubicacion </ion-button>
+              <ion-button color="secondary" (click)="onClick2(msg._bedId)"> Ubicacion </ion-button>
               <div *ngIf="msg.type == 9">  
-                <ion-button (click)="onClick3(msg._bedId)"> Notas Calendario </ion-button>
+                <ion-button color="secondary"  (click)="onClick3(msg._bedId)"> Notas Calendario </ion-button>
               </div>  
             </ion-item>
           </ion-card>

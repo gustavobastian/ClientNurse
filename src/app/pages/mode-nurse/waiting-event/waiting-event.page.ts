@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 import { nurseSpec } from 'src/app/models/nurse-specs';
 
 import { Bed } from '../../../models/bed';
@@ -43,8 +44,14 @@ export class WaitingEventPage implements OnInit {
     public MQTTServ:MqttService,
     public localSto: LocalStorageService,
     private router:Router,
+    private platform: Platform,
     public localBed: BedsService,
-    public userLogged:UserService) { }
+    public userLogged:UserService) { 
+      this.platform.backButton.subscribeWithPriority(10, () => {
+        console.log('Handler was called!');
+      });
+
+    }
 
   async ngOnInit() {
     this.localNurse= await this.userLogged.getUser();

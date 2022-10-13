@@ -11,6 +11,7 @@ import { MqttService } from '../../../services/mqtt.service';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { RecordingData, VoiceRecorder } from 'capacitor-voice-recorder';
 import { bedStats } from 'src/app/models/bed-status';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-doctor-main',
@@ -33,23 +34,37 @@ export class DoctorMainPage implements OnInit {
   private duration= 0;
   private patientActivated=false
   private viewMode=0
+
+  updatePass=false;
+  showPass1="password";
+  showPass2="password";
+  newPass1="";
+  newPass2="";
+  MinCaracterPass=4;
+  pageTitle="";
+
   
   //storedFileNames=[];
   bedstates = ["Desocupada","Descansando","Llamando","Por ser atendido","Siendo atendido","Llamada programada","Solicito Ayuda"]
   constructor(private router:Router,
     private activatedRoute: ActivatedRoute,
-    public localSto: LocalStorageService,        
+    public localSto: LocalStorageService,
+    private platform: Platform,        
     public MQTTServ:MqttService,
     public userServ: UserService
     ) { 
     //this.doctorId = parseInt( this.activatedRoute.snapshot.paramMap.get("id"));
     this.doctorName="";
     this.newMessage==false;
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      console.log('Handler was called!');
+    });
     
   }
 
   async ngOnInit() {
    VoiceRecorder.requestAudioRecordingPermission(); 
+   this.pageTitle="";
    this.newMessage==false;
    await this.getParams();
    await this.getBeds();
@@ -137,7 +152,7 @@ export class DoctorMainPage implements OnInit {
       {     
             this.patientTable.forEach(patientT => {          
               if(element.id==patientT.bedId)  {
-                console.log("find")
+                console.log(JSON.stringify(patientT));
                 let local={'bedId':patientT.bedId,'pacientId':patientT.pacientId,'st':element.st}
                 let localj=JSON.parse((JSON.stringify(local)))
                 
@@ -307,6 +322,51 @@ async deleteMsg(id:number){
   if(this.messages.length<1){
     console.log("no hay mensajes para responder")
     this.newMessage=false;
+  }
+}
+
+
+changePass(){
+  if(this.updatePass==false){this.updatePass=true;this.pageTitle="Nueva Contraseña"}
+  else{this.updatePass=false;this.pageTitle="";}
+}    
+showPassword1(){
+  if(this.showPass1=="password"){this.showPass1="text";}
+  else{this.showPass1="password";}
+  this.showPass2="password";
+}
+showPassword2(){
+  if(this.showPass2=="password"){this.showPass2="text";}
+  else{this.showPass2="password";}    
+}
+
+onChangeNewPass1(text:string){
+  this.newPass1=text;
+  //console.log("newPass1:"+this.newPass1);
+}
+onChangeNewPass2(text:string){
+  this.newPass2=text;
+  //console.log("newPass2:"+this.newPass2);
+}
+onSendNewPass(){
+  //console.log("newPass1:"+this.newPass1);
+  //console.log("newPass2:"+this.newPass2);
+  let data=this.newPass1+"Ç"+this.localDoctor.username;
+ 
+
+  if(this.newPass1==this.newPass2){
+    if(this.newPass1.length<this.MinCaracterPass){alert("Error: Ingrese una contraseña con más caracteres");return;}
+    console.log("Se puede enviar");
+    let topic="/User/general";
+    let a=new MessageModel(this.localDoctor.username,data, 0, 23);    
+    console.log(JSON.stringify(a));
+    let mqttmessage=(a).toString();
+    this.MQTTServ.sendMesagge(topic, JSON.stringify(a));  
+    this.updatePass=false;
+  }
+  else{
+    console.log("NO se puede enviar")
+    alert("Error: chequear contraseñas ingresadas")
   }
 }
 

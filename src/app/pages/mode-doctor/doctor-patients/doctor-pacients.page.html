@@ -17,8 +17,8 @@
      </div>-->
     </ion-item>
    
-   <ion-button  (click)="onClick()" >Consultar</ion-button>
-   <ion-button  (click)="onClickNotes()" >Notas</ion-button>
+   <ion-button color="secondary"  (click)="onClick()" >Consultar</ion-button>
+   <ion-button color="secondary"  (click)="onClickNotes()" >Notas</ion-button>
   
   </div>
 
@@ -32,7 +32,7 @@
 
     </ion-card>
 
-    <ion-button  (click)="onClickAdd()" >Agregar Nota</ion-button>
+    <ion-button  color="secondary" (click)="onClickAdd()" >Agregar Nota</ion-button>
     <!--Notas del paciente : limite 2-->
     <div *ngFor="let Note of notes; let i=index">
       <ion-card>
@@ -40,7 +40,7 @@
           <ion-item>ID nota: {{Note.notesId}}</ion-item>
           <ion-item>Nota:{{Note.note}}</ion-item>
         <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->
-        <ion-button (click)="deleteNote(i)"><ion-icon name="trash" slot="icon-only"></ion-icon></ion-button>
+        <ion-button color="secondary" (click)="deleteNote(i)"><ion-icon name="trash" slot="icon-only"></ion-icon></ion-button>
        </ion-card>
 
     </div>
@@ -52,9 +52,9 @@
       <ion-input  type="text" formControlName="noteFormString" required></ion-input>
        </div>
       
-     <ion-button ion-color="primary" (click)="onClickSend()" >enviar</ion-button>
+     <ion-button color="secondary" (click)="onClickSend()" >enviar</ion-button>
 
-      <ion-button (click)="onClickReturn()" >Volver</ion-button>
+      <ion-button color="secondary" (click)="onClickReturn()" >Volver</ion-button>
   </div>
 
 

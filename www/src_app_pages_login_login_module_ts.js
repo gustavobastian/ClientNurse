@@ -246,6 +246,7 @@ let LoginPage = class LoginPage {
             password: new _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormControl()
         });
         this.statusLogged = false;
+        this.sessionId = 0;
         this.mode = "unknown";
         this.showIn = false;
     }
@@ -254,6 +255,10 @@ let LoginPage = class LoginPage {
             //
             //this.number =  await this.MQTTServ.Connect("cliente", "asdf");
         });
+    }
+    ionViewWillEnter() {
+        let currDate = new Date();
+        this.sessionId = currDate.getTime();
     }
     onClickLogin() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
@@ -272,7 +277,7 @@ let LoginPage = class LoginPage {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
             this.GetUserLogKind();
             console.log("here");
-            let question = this.password;
+            let question = this.password + "Ç" + this.sessionId;
             var time = new Date();
             //let value= (time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();
             let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_4__.MessageModel(this.username, question, 0, 1);
@@ -287,7 +292,8 @@ let LoginPage = class LoginPage {
     GetUserLogKind() {
         console.log("wainting for response");
         let question = "";
-        let topic = "/User/" + this.username + "/response";
+        //let topic="/User/"+this.username+"/response";    
+        let topic = "/Session/" + this.sessionId + "/response";
         let localMessage;
         this.MQTTServ.MQTTClientLocal.subscribe(topic).on(Message => {
             console.log("respuestaSystem:  " + Message.toString());
@@ -559,7 +565,7 @@ module.exports = "#container {\n  text-align: center;\n  position: absolute;\n  
   \********************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header collapse=\"false\">\n  \n    <ion-toolbar>      \n        <!-- Back button with a default href -->\n    \n        <ion-buttons slot=\"start\">\n          <ion-back-button  defaultHref=\"home\" text=\"Volver\"></ion-back-button>        \n        </ion-buttons>\n    \n    </ion-toolbar>\n  \n</ion-header>\n\n<ion-content>\n  \n  <div id=\"container\" collapse=\"false\" >\n  <p><strong>Acceso al sistema</strong></p>\n  <Form [formGroup]=\"ionicForm\" (ngSubmit)=\"onClickLogin()\" novalidate>  \n  <ion-item     [style.--background]=\"blue\"  lines=\"full\">\n    <ion-label position=\"fixed\" >Usuario</ion-label>\n    <ion-input color=\"primary\" placeholder=\"{{userName}}\" value=\"{{userName}}\" formControlName=\"userName\" type=\"text\" required></ion-input>        \n  </ion-item>         \n  <ion-item [style.--background]=\"blue\" lines=\"full\">\n    <ion-label position=\"fixed\">Contraseña</ion-label>\n    <ion-input  color=\"primary\" formControlName=\"password\" type=\"password\" required></ion-input>        \n  </ion-item>  \n  <br>\n  <br>\n  <br>\n\n    <ion-item >\n      \n    <ion-button style = \"position:absolute; left:12.5%;width:70%\" type=\"submit\"  expand=\"block\">Acceder</ion-button>    \n  \n    </ion-item>\n    </Form>\n    <div *ngIf=\"showIn == true\">\n    <ion-button style = \"position:absolute; left:30%;width:40%\"   expand=\"block\" (click)=\"Log_in()\">Go Main Page</ion-button>\n    \n    </div>\n  </div>\n\n  </ion-content>\n";
+module.exports = "<ion-header collapse=\"false\">\n  \n    <ion-toolbar>      \n        <!-- Back button with a default href -->\n    \n        <ion-buttons slot=\"start\">\n          <ion-back-button  defaultHref=\"home\" text=\"Volver\"></ion-back-button>        \n        </ion-buttons>\n    \n    </ion-toolbar>\n  \n</ion-header>\n\n<ion-content>\n  \n  <div id=\"container\" collapse=\"false\" >\n  <p><strong>Acceso al sistema</strong></p>\n  <Form [formGroup]=\"ionicForm\" (ngSubmit)=\"onClickLogin()\" novalidate>  \n  <ion-item     [style.--background]=\"blue\"  lines=\"full\">\n    <ion-label position=\"fixed\" >Usuario</ion-label>\n    <ion-input color=\"primary\" placeholder=\"{{userName}}\" value=\"{{userName}}\" formControlName=\"userName\" type=\"text\" required></ion-input>        \n  </ion-item>         \n  <ion-item [style.--background]=\"blue\" lines=\"full\">\n    <ion-label position=\"fixed\">Contraseña</ion-label>\n    <ion-input  color=\"primary\" formControlName=\"password\" type=\"password\" required></ion-input>        \n  </ion-item>  \n  <br>\n  <br>\n  <br>\n\n    <ion-item >\n      \n    <ion-button color=\"secondary\" style = \"position:absolute; left:12.5%;width:70%\" type=\"submit\"  expand=\"block\">Acceder</ion-button>    \n  \n    </ion-item>\n    </Form>\n    <div *ngIf=\"showIn == true\">\n    <ion-button color=\"secondary\" style = \"position:absolute; left:30%;width:40%\"   expand=\"block\" (click)=\"Log_in()\">Go Main Page</ion-button>\n    \n    </div>\n  </div>\n\n  </ion-content>\n";
 
 /***/ })
 

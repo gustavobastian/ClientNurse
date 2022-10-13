@@ -93,7 +93,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _doctor_main_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./doctor-main.page.html?ngResource */ 4494);
 /* harmony import */ var _doctor_main_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./doctor-main.page.scss?ngResource */ 1354);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/router */ 2816);
 /* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/local-storage.service */ 17);
 /* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services/user.service */ 3071);
@@ -103,6 +103,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../services/mqtt.service */ 3112);
 /* harmony import */ var _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @capacitor/filesystem */ 1662);
 /* harmony import */ var capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! capacitor-voice-recorder */ 8782);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @ionic/angular */ 3819);
+
 
 
 
@@ -117,10 +119,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let DoctorMainPage = class DoctorMainPage {
-    constructor(router, activatedRoute, localSto, MQTTServ, userServ) {
+    constructor(router, activatedRoute, localSto, platform, MQTTServ, userServ) {
         this.router = router;
         this.activatedRoute = activatedRoute;
         this.localSto = localSto;
+        this.platform = platform;
         this.MQTTServ = MQTTServ;
         this.userServ = userServ;
         this.localDoctor = new _models_user__WEBPACK_IMPORTED_MODULE_4__.User(0, "", "", "", "", 0, "");
@@ -135,15 +138,26 @@ let DoctorMainPage = class DoctorMainPage {
         this.duration = 0;
         this.patientActivated = false;
         this.viewMode = 0;
+        this.updatePass = false;
+        this.showPass1 = "password";
+        this.showPass2 = "password";
+        this.newPass1 = "";
+        this.newPass2 = "";
+        this.MinCaracterPass = 4;
+        this.pageTitle = "";
         //storedFileNames=[];
         this.bedstates = ["Desocupada", "Descansando", "Llamando", "Por ser atendido", "Siendo atendido", "Llamada programada", "Solicito Ayuda"];
         //this.doctorId = parseInt( this.activatedRoute.snapshot.paramMap.get("id"));
         this.doctorName = "";
         this.newMessage == false;
+        this.platform.backButton.subscribeWithPriority(10, () => {
+            console.log('Handler was called!');
+        });
     }
     ngOnInit() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__awaiter)(this, void 0, void 0, function* () {
             capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_9__.VoiceRecorder.requestAudioRecordingPermission();
+            this.pageTitle = "";
             this.newMessage == false;
             yield this.getParams();
             yield this.getBeds();
@@ -396,16 +410,74 @@ let DoctorMainPage = class DoctorMainPage {
             }
         });
     }
+    changePass() {
+        if (this.updatePass == false) {
+            this.updatePass = true;
+            this.pageTitle = "Nueva Contraseña";
+        }
+        else {
+            this.updatePass = false;
+            this.pageTitle = "";
+        }
+    }
+    showPassword1() {
+        if (this.showPass1 == "password") {
+            this.showPass1 = "text";
+        }
+        else {
+            this.showPass1 = "password";
+        }
+        this.showPass2 = "password";
+    }
+    showPassword2() {
+        if (this.showPass2 == "password") {
+            this.showPass2 = "text";
+        }
+        else {
+            this.showPass2 = "password";
+        }
+    }
+    onChangeNewPass1(text) {
+        this.newPass1 = text;
+        //console.log("newPass1:"+this.newPass1);
+    }
+    onChangeNewPass2(text) {
+        this.newPass2 = text;
+        //console.log("newPass2:"+this.newPass2);
+    }
+    onSendNewPass() {
+        //console.log("newPass1:"+this.newPass1);
+        //console.log("newPass2:"+this.newPass2);
+        let data = this.newPass1 + "Ç" + this.localDoctor.username;
+        if (this.newPass1 == this.newPass2) {
+            if (this.newPass1.length < this.MinCaracterPass) {
+                alert("Error: Ingrese una contraseña con más caracteres");
+                return;
+            }
+            console.log("Se puede enviar");
+            let topic = "/User/general";
+            let a = new _models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.localDoctor.username, data, 0, 23);
+            console.log(JSON.stringify(a));
+            let mqttmessage = (a).toString();
+            this.MQTTServ.sendMesagge(topic, JSON.stringify(a));
+            this.updatePass = false;
+        }
+        else {
+            console.log("NO se puede enviar");
+            alert("Error: chequear contraseñas ingresadas");
+        }
+    }
 };
 DoctorMainPage.ctorParameters = () => [
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_11__.Router },
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_11__.ActivatedRoute },
     { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__.LocalStorageService },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_12__.Platform },
     { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_7__.MqttService },
     { type: _services_user_service__WEBPACK_IMPORTED_MODULE_3__.UserService }
 ];
 DoctorMainPage = (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_12__.Component)({
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_13__.Component)({
         selector: 'app-doctor-main',
         template: _doctor_main_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_doctor_main_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -432,7 +504,7 @@ module.exports = ".card {\n  background-color: #4edad3;\n  color: red;\n}\n/*# s
   \********************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n        <ion-title>{{doctorName}}</ion-title>\n      <!-- Back button with a default href -->\n    <ion-buttons slot=\"start\">\n      <ion-button (click)=\"logout()\" >Salir</ion-button>        <!--href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-item>\n    <ion-button style=\"width: 33%;\" (click)=\"enablingNotes()\" >Notas</ion-button>\n    <ion-button style=\"width: 33%;\" (click)=\"enablingPatientMonitoring()\">Pacientes</ion-button>\n    <ion-button style=\"width: 33%;\" (click)=\"enablingListen()\">Msjs</ion-button><!--(click)=\"enablingPatientMonitoring()\"-->\n  </ion-item>\n    <div *ngIf=\"newMessage == true\">\n      <ion-item>\n      <ion-button (click)=\"enablingListen()\">\n        <ion-icon ion-color=\"danger\" name=\"mail-outline\" slot=\"icon-only\"></ion-icon>\n      </ion-button>\n      </ion-item>\n    </div>\n    \n  \n    <div *ngIf=\"viewMode==1\">\n      <ion-card >\n        <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n          <ion-label>Seleccionar numero paciente  </ion-label>\n        <br>\n        <ion-select interface=\"action-sheet\" #C (ionChange)=\"upgradingPatientNumber(C.value)\" type=\"number\" required>\n          <div *ngFor=\"let element of patientTable; let i=index\">           \n          \n          <ion-select-option  value=\"{{patientTable[i].pacientId}}\">{{patientTable[i].pacientId}}</ion-select-option>                   \n          </div>\n        </ion-select>\n\n        <ion-item>\n          <div *ngIf=\"patientActivated==true\">\n            <ion-button (click)=\"onClickPatientNote(patientNumber)\"> Ir </ion-button>        \n          </div>\n        </ion-item>\n      </ion-card>\n    </div>\n    <div *ngIf=\"viewMode==2\">\n      <ion-item>\n      <ion-title >Estado de paciente</ion-title>\n      </ion-item>\n      <!--<ion-item>-->\n      <div *ngFor=\"let element of messagesbedsfiltered; let i=index\">\n        <!--{{element|json}}-->\n          <div *ngIf=\"element.st==1\">\n            <ion-card style=\"background-color: cyan;\">\n              <ion-card-content>\n                <ion-label>\n                  cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}\n                </ion-label>\n              </ion-card-content> \n            </ion-card>\n          </div>\n          <div *ngIf=\"element.st==2\">\n              <ion-card style=\"background-color: orange;\">\n                <ion-card-content>\n                  <ion-label>\n                    cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}\n                  </ion-label>\n                </ion-card-content> \n              </ion-card>            \n          </div>\n          <div *ngIf=\"element.st>2\">\n            <ion-card style=\"background-color: violet;\">\n              <ion-card-content>\n                <ion-label>\n                  cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}\n                </ion-label>\n              </ion-card-content> \n            </ion-card>            \n        </div>\n      </div>\n      <!--</ion-item>-->\n    </div>\n\n  <div *ngIf=\"viewMode==3\">  \n    <ion-card >    \n      <div *ngFor=\"let element of messages; let i=index\">\n\n          <ion-card ion-color=\"terciary\" >      \n            <ion-item>\n            <ion-label>Mensaje de : {{element._username}}</ion-label>\n            </ion-item>\n            <ion-item>\n              <ion-label> cama:{{element._bedId}}</ion-label>\n              <ion-button (click)=\"deleteMsg(i)\">\n                <ion-icon name=\"trash\" slot=\"icon-only\"></ion-icon>\n              </ion-button>   \n            </ion-item>          \n            <div *ngIf=\"element._type === 7\">\n                <ion-item>\n                <ion-label>{{element._content}}</ion-label>                        \n                </ion-item>\n                               \n            </div>      \n            <div *ngIf=\"element._type != 7\">\n              <ion-item>\n              <ion-label>Audio</ion-label>      \n                <ion-button (click)=\"playString(element._content)\">\n                  <ion-icon name=\"play\" slot=\"icon-only\"></ion-icon>\n                </ion-button>                  \n              </ion-item>\n            </div>            \n            \n            <ion-item>\n            <ion-label position=\"stacked\">Respuesta:</ion-label>\n                <ion-textarea #A (ionChange)=\"onChangeText(A.value,i)\"  ></ion-textarea>\n                <ion-item>              \n                <ion-button (click)=\"sendResponseText(element._bedId)\" ><ion-icon name=\"arrow-forward\" end></ion-icon></ion-button> <!--(click)= \"sendMsg(i)\" -->\n                </ion-item>\n            </ion-item>   \n            <ion-item><ion-label>Responder Audio</ion-label></ion-item>\n            <ion-item>\n              <ion-button (click)=\"startRecording()\"><ion-icon name=\"mic\" ></ion-icon></ion-button>          \n              <div *ngIf=\"recording==true\">\n              <ion-button (click)=\"stopRecording(element._bedId)\" >\n                <ion-icon name=\"stop\" slot=\"icon-only\"></ion-icon>\n              </ion-button>                  \n\n            </div>\n            </ion-item>   \n            \n          </ion-card>\n        \n      </div>\n    </ion-card >    \n  </div>\n  \n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n        <ion-title>{{doctorName}}</ion-title>\n      <!-- Back button with a default href -->\n    <ion-buttons slot=\"start\">\n      <ion-button (click)=\"logout()\" >Salir</ion-button>        <!--href=\"home\" -->\n    </ion-buttons>\n    <ion-buttons slot=\"end\">\n      <ion-button (click)=\"changePass()\" ><ion-icon name=\"key\" slot=\"icon-only\"></ion-icon></ion-button>        <!-- href=\"home\" -->\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>  \n\n  <div *ngIf=\"updatePass==true\">\n    <ion-item style=\"text-align: center;\">\n      <ion-title>{{pageTitle}}</ion-title>\n    </ion-item>\n    <ion-label>Nueva contraseña</ion-label>\n    <ion-item>  \n      <ion-input type={{showPass1}}  #P1 (ionChange)=\"onChangeNewPass1(P1.value)\" ></ion-input>\n      <ion-button (click)=\"showPassword1()\"><ion-icon name=\"eye\" slot=\"icon-only\"></ion-icon></ion-button>\n    </ion-item>\n    \n      <ion-label>Repita contraseña</ion-label>\n    <ion-item>  \n      <ion-input type={{showPass2}} #P2 (ionChange)=\"onChangeNewPass2(P2.value)\" ></ion-input>\n      <ion-button (click)=\"showPassword2()\"><ion-icon name=\"eye\" slot=\"icon-only\"></ion-icon></ion-button>\n    </ion-item>\n    <ion-button color=\"secondary\"  (click)=\"onSendNewPass()\">Enviar</ion-button>\n  </div>\n  <div *ngIf=\"updatePass==false\">\n    <ion-item>\n      <ion-button color=\"secondary\" style=\"width: 33%;\" (click)=\"enablingNotes()\" >Notas</ion-button>\n      <ion-button color=\"secondary\" style=\"width: 33%;\" (click)=\"enablingPatientMonitoring()\">Pacientes</ion-button>\n      <ion-button color=\"secondary\" style=\"width: 33%;\" (click)=\"enablingListen()\">Msjs</ion-button><!--(click)=\"enablingPatientMonitoring()\"-->\n    </ion-item>\n      <div *ngIf=\"newMessage == true\">\n        <ion-item>\n        <ion-button (click)=\"enablingListen()\">\n          <ion-icon ion-color=\"danger\" name=\"mail-outline\" slot=\"icon-only\"></ion-icon>\n        </ion-button>\n        </ion-item>\n      </div>\n      \n    \n      <div *ngIf=\"viewMode==1\">\n        <ion-card >\n          <ion-icon name=\"bed\" slot=\"start\"></ion-icon>\n            <ion-label>Seleccionar numero paciente  </ion-label>\n          <br>\n          <ion-select interface=\"action-sheet\" #C (ionChange)=\"upgradingPatientNumber(C.value)\" type=\"number\" required>\n            <div *ngFor=\"let element of patientTable; let i=index\">           \n            \n            <ion-select-option  value=\"{{patientTable[i].pacientId}}\">{{patientTable[i].pacientId}}</ion-select-option>                   \n            </div>\n          </ion-select>\n\n          <ion-item>\n            <div *ngIf=\"patientActivated==true\">\n              <ion-button color=\"secondary\"  (click)=\"onClickPatientNote(patientNumber)\"> Ir </ion-button>        \n            </div>\n          </ion-item>\n        </ion-card>\n      </div>\n      <div *ngIf=\"viewMode==2\">\n        <ion-item>\n        <ion-title >Estado de paciente</ion-title>\n        </ion-item>\n        <!--<ion-item>-->\n        <div *ngFor=\"let element of messagesbedsfiltered; let i=index\">\n          <!--{{element|json}}-->\n            <div *ngIf=\"element.st==1\">\n              <ion-card style=\"background-color: cyan;\">\n                <ion-card-content>\n                  <ion-label>\n                    cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}\n                  </ion-label>\n                </ion-card-content> \n              </ion-card>\n            </div>\n            <div *ngIf=\"element.st==2\">\n                <ion-card style=\"background-color: orange;\">\n                  <ion-card-content>\n                    <ion-label>\n                      cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}\n                    </ion-label>\n                  </ion-card-content> \n                </ion-card>            \n            </div>\n            <div *ngIf=\"element.st>2\">\n              <ion-card style=\"background-color: violet;\">\n                <ion-card-content>\n                  <ion-label>\n                    cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}\n                  </ion-label>\n                </ion-card-content> \n              </ion-card>            \n          </div>\n        </div>\n        <!--</ion-item>-->\n      </div>\n\n    <div *ngIf=\"viewMode==3\">  \n      <ion-card >    \n        <div *ngFor=\"let element of messages; let i=index\">\n\n            <ion-card ion-color=\"terciary\" >      \n              <ion-item>\n              <ion-label>Mensaje de : {{element._username}}</ion-label>\n              </ion-item>\n              <ion-item>\n                <ion-label> cama:{{element._bedId}}</ion-label>\n                <ion-button (click)=\"deleteMsg(i)\">\n                  <ion-icon name=\"trash\" slot=\"icon-only\"></ion-icon>\n                </ion-button>   \n              </ion-item>          \n              <div *ngIf=\"element._type === 7\">\n                  <ion-item>\n                  <ion-label>{{element._content}}</ion-label>                        \n                  </ion-item>\n                                \n              </div>      \n              <div *ngIf=\"element._type != 7\">\n                <ion-item>\n                <ion-label>Audio</ion-label>      \n                  <ion-button (click)=\"playString(element._content)\">\n                    <ion-icon name=\"play\" slot=\"icon-only\"></ion-icon>\n                  </ion-button>                  \n                </ion-item>\n              </div>            \n              \n              <ion-item>\n              <ion-label position=\"stacked\">Respuesta:</ion-label>\n                  <ion-textarea #A (ionChange)=\"onChangeText(A.value,i)\"  ></ion-textarea>\n                  <ion-item>              \n                  <ion-button (click)=\"sendResponseText(element._bedId)\" ><ion-icon name=\"arrow-forward\" end></ion-icon></ion-button> <!--(click)= \"sendMsg(i)\" -->\n                  </ion-item>\n              </ion-item>   \n              <ion-item><ion-label>Responder Audio</ion-label></ion-item>\n              <ion-item>\n                <ion-button (click)=\"startRecording()\"><ion-icon name=\"mic\" ></ion-icon></ion-button>          \n                <div *ngIf=\"recording==true\">\n                <ion-button (click)=\"stopRecording(element._bedId)\" >\n                  <ion-icon name=\"stop\" slot=\"icon-only\"></ion-icon>\n                </ion-button>                  \n\n              </div>\n              </ion-item>   \n              \n            </ion-card>\n          \n        </div>\n      </ion-card >    \n    </div>\n  </div>  \n</ion-content>\n";
 
 /***/ })
 
