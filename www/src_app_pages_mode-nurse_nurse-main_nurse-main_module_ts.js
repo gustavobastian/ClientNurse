@@ -266,8 +266,8 @@ let NurseMainPage = class NurseMainPage {
                 console.log("SystemResponse on patient info:  " + Message.toString());
                 let localMessage = JSON.parse(Message.string);
                 let patient1 = JSON.parse(JSON.stringify(localMessage[0]));
-                //console.log("patientId:"+ patient1.pacientId);
-                this.patientLocal.id = patient1.pacientId;
+                //console.log("patientId:"+ patient1.patientId);
+                this.patientLocal.id = patient1.patientId;
                 console.log(JSON.stringify(this.patientLocal));
                 if (Message.toString() == "Error") {
                     this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic);
@@ -511,7 +511,7 @@ let NurseMainPage = class NurseMainPage {
         //let value= time.getFullYear()+"/"+time.getMonth()+"/"+time.getDay() +"-"+(time.getHours())+":"+ (time.getMinutes())+":"+time.getSeconds();;
         let a = new src_app_models_message_model__WEBPACK_IMPORTED_MODULE_6__.MessageModel(this.localNurse.username, question, this.bedId, 7);
         let mqttmessage = JSON.stringify(a);
-        let topic = "/User/" + doctorId + "/questions/" + this.patientLocal.pacientId;
+        let topic = "/User/" + doctorId + "/questions/" + this.patientLocal.patientId;
         this.MQTTServ.sendMesagge(topic, mqttmessage);
     }
     //opening closing msg dialog

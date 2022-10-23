@@ -1,19 +1,19 @@
 export class PatientsTable{
-    private _pacientId: number;    
+    private _patientId: number;    
     private _bedId: number;
-    constructor(bedId: number, pacientID: number)
+    constructor(bedId: number, patientId: number)
     {
         this._bedId= bedId;
-        this._pacientId= pacientID;    
+        this._patientId= patientId;    
     }
-    public get pacientId(): number{
-        return this._pacientId;
+    public get patientId(): number{
+        return this._patientId;
     }
     public get bedId(): number{
         return this._bedId;
     }
-    public set pacientId(pacientId: number){
-        this._pacientId= pacientId;
+    public set patientId(patientId: number){
+        this._patientId= patientId;
     }
     public set bedId(bedId: number){
         this._bedId= bedId;

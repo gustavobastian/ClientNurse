@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Patient } from '../../../models/patient';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { Storage } from '@capacitor/storage';
-import { PacientService } from '../../../services/pacient.service';
+import { PacientService } from '../../../services/patient.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Note } from '../../../models/note';
 import { MessageModel } from '../../../models/message-model';

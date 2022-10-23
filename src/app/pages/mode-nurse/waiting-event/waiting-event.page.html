@@ -1,11 +1,9 @@
 <ion-header>
   <ion-toolbar>    
     <ion-buttons slot="start">
-      <ion-button  (click)="logout()">Salir</ion-button>        <!-- href="home" -->
+      <ion-button  (click)="logout()">Salir</ion-button>       
     </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="changePass()" ><ion-icon name="key" slot="icon-only"></ion-icon></ion-button>        <!-- href="home" -->
-    </ion-buttons>
+    
   </ion-toolbar>
 </ion-header>
 
@@ -14,23 +12,7 @@
     <ion-title>{{pageTitle}}</ion-title>
   </ion-item>
 
-  <div *ngIf="updatePass==true">
-    
-    <ion-label>Nueva contraseña</ion-label>
-    <ion-item>  
-      <ion-input type={{showPass1}}  #P1 (ionChange)="onChangeNewPass1(P1.value)" ></ion-input>
-      <ion-button (click)="showPassword1()"><ion-icon name="eye" slot="icon-only"></ion-icon></ion-button>
-    </ion-item>
-    
-      <ion-label>Repita contraseña</ion-label>
-    <ion-item>  
-      <ion-input type={{showPass2}} #P2 (ionChange)="onChangeNewPass2(P2.value)" ></ion-input>
-      <ion-button (click)="showPassword2()"><ion-icon name="eye" slot="icon-only"></ion-icon></ion-button>
-    </ion-item>
-    <ion-button (click)="onSendNewPass()">Enviar</ion-button>
-  </div>
- 
-  <div *ngIf="updatePass==false">
+
       <ion-item >
           <label>Especialidades:</label> 
         <ul>
@@ -69,6 +51,6 @@
           </ion-card>
         </div>  
       </div>
-  </div>
+
 
 </ion-content>

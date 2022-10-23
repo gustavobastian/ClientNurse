@@ -3,34 +3,13 @@
         <ion-title>{{doctorName}}</ion-title>
       <!-- Back button with a default href -->
     <ion-buttons slot="start">
-      <ion-button (click)="logout()" >Salir</ion-button>        <!--href="home" -->
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="changePass()" ><ion-icon name="key" slot="icon-only"></ion-icon></ion-button>        <!-- href="home" -->
+      <ion-button (click)="logout()" >Salir</ion-button>        
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>  
 
-  <div *ngIf="updatePass==true">
-    <ion-item style="text-align: center;">
-      <ion-title>{{pageTitle}}</ion-title>
-    </ion-item>
-    <ion-label>Nueva contraseña</ion-label>
-    <ion-item>  
-      <ion-input type={{showPass1}}  #P1 (ionChange)="onChangeNewPass1(P1.value)" ></ion-input>
-      <ion-button (click)="showPassword1()"><ion-icon name="eye" slot="icon-only"></ion-icon></ion-button>
-    </ion-item>
-    
-      <ion-label>Repita contraseña</ion-label>
-    <ion-item>  
-      <ion-input type={{showPass2}} #P2 (ionChange)="onChangeNewPass2(P2.value)" ></ion-input>
-      <ion-button (click)="showPassword2()"><ion-icon name="eye" slot="icon-only"></ion-icon></ion-button>
-    </ion-item>
-    <ion-button color="secondary"  (click)="onSendNewPass()">Enviar</ion-button>
-  </div>
-  <div *ngIf="updatePass==false">
     <ion-item>
       <ion-button color="secondary" style="width: 33%;" (click)="enablingNotes()" >Notas</ion-button>
       <ion-button color="secondary" style="width: 33%;" (click)="enablingPatientMonitoring()">Pacientes</ion-button>
@@ -53,7 +32,7 @@
           <ion-select interface="action-sheet" #C (ionChange)="upgradingPatientNumber(C.value)" type="number" required>
             <div *ngFor="let element of patientTable; let i=index">           
             
-            <ion-select-option  value="{{patientTable[i].pacientId}}">{{patientTable[i].pacientId}}</ion-select-option>                   
+            <ion-select-option  value="{{patientTable[i].patientId}}">{{patientTable[i].patientId}}</ion-select-option>                   
             </div>
           </ion-select>
 
@@ -76,7 +55,7 @@
                 <ion-card-content>
                   
                     <ion-label>
-                      Cama:{{element.bedId}} Paciente:{{element.pacientId}} 
+                      Cama:{{element.bedId}} Paciente:{{element.patientId}} 
                     </ion-label>                  
                     <p>Estado:{{bedstates[element.st]}}</p>
                   
@@ -87,7 +66,7 @@
                 <ion-card style="background-color: orange;">
                   <ion-card-content>
                     <ion-label>
-                      cama:{{element.bedId}} paciente:{{element.pacientId}} estado:{{bedstates[element.st]}}
+                      cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}
                     </ion-label>
                   </ion-card-content> 
                 </ion-card>            
@@ -96,7 +75,7 @@
               <ion-card style="background-color: violet;">
                 <ion-card-content>
                   <ion-label>
-                    cama:{{element.bedId}} paciente:{{element.pacientId}} estado:{{bedstates[element.st]}}
+                    cama:{{element.bedId}} paciente:{{element.patientId}} estado:{{bedstates[element.st]}}
                   </ion-label>
                 </ion-card-content> 
               </ion-card>            
@@ -138,7 +117,7 @@
               <ion-label position="stacked">Respuesta:</ion-label>
                   <ion-textarea #A (ionChange)="onChangeText(A.value,i)"  ></ion-textarea>
                   <ion-item>              
-                  <ion-button (click)="sendResponseText(element._bedId)" ><ion-icon name="arrow-forward" end></ion-icon></ion-button> <!--(click)= "sendMsg(i)" -->
+                  <ion-button (click)="sendResponseText(element._bedId)" ><ion-icon name="arrow-forward" end></ion-icon></ion-button> 
                   </ion-item>
               </ion-item>   
               <ion-item><ion-label>Responder Audio</ion-label></ion-item>
@@ -157,5 +136,5 @@
         </div>
       </ion-card >    
     </div>
-  </div>  
+
 </ion-content>

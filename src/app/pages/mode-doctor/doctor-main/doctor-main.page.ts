@@ -153,7 +153,7 @@ export class DoctorMainPage implements OnInit {
             this.patientTable.forEach(patientT => {          
               if(element.id==patientT.bedId)  {
                 console.log(JSON.stringify(patientT));
-                let local={'bedId':patientT.bedId,'pacientId':patientT.pacientId,'st':element.st}
+                let local={'bedId':patientT.bedId,'patientId':patientT.patientId,'st':element.st}
                 let localj=JSON.parse((JSON.stringify(local)))
                 
                 this.messagesbedsfiltered.push(localj);             
@@ -228,7 +228,7 @@ export class DoctorMainPage implements OnInit {
   }
 
   sendResponseText(id:number){
-    //console.log((this.patientTable[id].pacientId));
+    //console.log((this.patientTable[id].patientId));
     let topic="/User/"+this.localDoctor.userId+"/answers/"+id;
     console.log(topic);
     let a=new MessageModel(this.localDoctor.username,this.textResponse, id, 7);    

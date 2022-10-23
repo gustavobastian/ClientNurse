@@ -8,7 +8,7 @@ import { userStats } from '../../../models/user-status';
 import { BedsService } from '../../../services/beds.service';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { MqttService } from '../../../services/mqtt.service';
-import { PacientService } from '../../../services/pacient.service';
+import { PacientService } from '../../../services/patient.service';
 import { UserService } from '../../../services/user.service';
 
 @Component({

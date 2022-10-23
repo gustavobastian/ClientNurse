@@ -92,8 +92,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Patient": () => (/* binding */ Patient)
 /* harmony export */ });
 class Patient {
-    constructor(pacientId, pacientFirstName, pacientLastName, bedId, notesTableId, userTableId) {
-        this._id = pacientId;
+    constructor(patientId, pacientFirstName, pacientLastName, bedId, notesTableId, userTableId) {
+        this._id = patientId;
         this._firstName = pacientFirstName;
         this._lastName = pacientLastName;
         this._bedId = bedId;
@@ -106,7 +106,7 @@ class Patient {
     get id() {
         return this._id;
     }
-    get pacientId() {
+    get patientId() {
         return this._id;
     }
     set firstName(pacient) {

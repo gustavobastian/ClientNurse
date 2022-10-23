@@ -9,7 +9,7 @@ import { MqttService } from './mqtt.service';
 export class NotesService {
 
   doctorId: number;
-  pacientId: number;
+  patientId: number;
   notes: Array<Note>= new Array;
 
   constructor(public MQTTServ: MqttService) { }
