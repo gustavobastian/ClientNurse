@@ -94,7 +94,8 @@ export class MqttService implements OnInit  {
     this.getServer();
     this.getPort();
     console.log("here:"+this.MQTTSERVER);
-    await connect({host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
+    let value={topic:"logout",payload:{_user:usernameP}};
+    await connect({host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false,path:'/test/',will:value})
     //connect({host: "192.168.1.100", port: 9001, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
     .then(client => { 
       console.log(client);
@@ -109,7 +110,7 @@ export class MqttService implements OnInit  {
     .catch (function(json) { 
       console.log(json); connected=0; 
       if(json.errorCode == 7)
-        {alert("error: mala configuracion broker");}
+       // {alert("error: mala configuracion broker");}
       return connected;})
     .finally(function(){return connected;}); 
   
