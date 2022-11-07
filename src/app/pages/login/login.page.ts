@@ -61,8 +61,6 @@ export class LoginPage implements OnInit {
     
     await new Promise(f => setTimeout(f, 1000));
     this.Log_in();
-    
-    
     }
 
   async Log_in() {
@@ -106,8 +104,7 @@ export class LoginPage implements OnInit {
        }
     else if(this.mode=="Médico")
       {
-        //received in /User/System 
-        //{"idNumber":1,"mode":"doctor"}
+        //received in /User/System         
         console.log("Médico");
         //this.mode="nurse";
         this.router.navigate(['/doctor-main/'+this.number]);        
@@ -118,8 +115,7 @@ export class LoginPage implements OnInit {
        }
     else if(this.mode=="Administrador")
        {
-         //received in /User/System 
-         //{"idNumber":1,"mode":"doctor"}
+         //received in /User/System          
          console.log("Administrador");
          //this.mode="nurse";
          this.router.navigate(['admin-main/'+this.number]);        
