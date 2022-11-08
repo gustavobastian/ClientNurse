@@ -30,33 +30,20 @@ export class MqttConfigPage implements OnInit {
   }
 
   ngOnInit() {
-  /*  connect({host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false,path:'/test/'})
-    .then(client => { this.MQTTClientLocal = client; });*/
     
   }
 
   public saveClick(){
-    //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
+    
     this.saveValues();
   }
 
    public async Reset(){
-    //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
-
-    //this.getServer();
-    //this.getPort();  
+    
     this.connected=0;
     
-    /*if(this.MQTTClientLocal!==null){    
-    
-    this.MQTTClientLocal.disconnect();
-    console.log("here");
-    this.MQTTClientLocal= null;
-    }*/
-    //this.MQTTClientLocal= NULL;
-    
     const client = await connect({host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false,path:'/test/'})
-    //connect({host: "192.168.1.100", port: 9001, username:"Laura", password:"123123", ssl: false,path:'/test/'})
+    
     .then(client => { 
       console.log(client);
       console.log("**************************************************************");
@@ -118,7 +105,7 @@ export class MqttConfigPage implements OnInit {
   };
 
   /**
-   * Read the server IP from the filesystem
+   * Write the server IP from the filesystem
    */
   
   public writeSecretFile = async () => {
