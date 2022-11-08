@@ -100,8 +100,8 @@ class Patient {
         this._notesTableId = notesTableId;
         this._userTableId = userTableId;
     }
-    set id(pacient) {
-        this._id = pacient;
+    set id(patient) {
+        this._id = patient;
     }
     get id() {
         return this._id;
@@ -109,20 +109,20 @@ class Patient {
     get patientId() {
         return this._id;
     }
-    set firstName(pacient) {
-        this._firstName = pacient;
+    set firstName(patient) {
+        this._firstName = patient;
     }
     get firstName() {
         return this._firstName;
     }
-    set lastName(pacient) {
-        this._lastName = pacient;
+    set lastName(patient) {
+        this._lastName = patient;
     }
     get lastName() {
         return this._lastName;
     }
-    set bedId(pacient) {
-        this._bedId = pacient;
+    set bedId(patient) {
+        this._bedId = patient;
     }
     get bedId() {
         return this._bedId;
@@ -190,9 +190,9 @@ BedsService = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
 
 /***/ }),
 
-/***/ 2220:
+/***/ 7672:
 /*!*********************************************!*\
-  !*** ./src/app/services/pacient.service.ts ***!
+  !*** ./src/app/services/patient.service.ts ***!
   \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 

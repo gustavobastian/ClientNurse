@@ -266,7 +266,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/router */ 2816);
 /* harmony import */ var _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/local-storage.service */ 17);
 /* harmony import */ var _services_mqtt_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services/mqtt.service */ 3112);
-/* harmony import */ var _services_pacient_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../services/pacient.service */ 2220);
+/* harmony import */ var _services_patient_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../services/patient.service */ 7672);
 /* harmony import */ var _models_message_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../models/message-model */ 6397);
 /* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../services/user.service */ 3071);
 /* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../models/user */ 5783);
@@ -345,7 +345,7 @@ let NurseBedPage = class NurseBedPage {
 NurseBedPage.ctorParameters = () => [
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_11__.ActivatedRoute },
     { type: _services_local_storage_service__WEBPACK_IMPORTED_MODULE_2__.LocalStorageService },
-    { type: _services_pacient_service__WEBPACK_IMPORTED_MODULE_4__.PacientService },
+    { type: _services_patient_service__WEBPACK_IMPORTED_MODULE_4__.PacientService },
     { type: _services_user_service__WEBPACK_IMPORTED_MODULE_6__.UserService },
     { type: _services_beds_service__WEBPACK_IMPORTED_MODULE_8__.BedsService },
     { type: _services_mqtt_service__WEBPACK_IMPORTED_MODULE_3__.MqttService }
@@ -451,7 +451,9 @@ let MqttService = class MqttService {
             this.getServer();
             this.getPort();
             console.log("here:" + this.MQTTSERVER);
-            yield (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false, path: '/test/' })
+            //last will message
+            let value = { topic: "/User/Disconnection", payload: { _user: usernameP } };
+            yield (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false, path: '/test/', will: value })
                 //connect({host: "192.168.1.100", port: 9001, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
                 .then(client => {
                 console.log(client);
@@ -466,10 +468,9 @@ let MqttService = class MqttService {
                 .catch(function (json) {
                 console.log(json);
                 connected = 0;
-                if (json.errorCode == 7) {
-                    alert("error: mala configuracion broker");
-                }
-                return connected;
+                if (json.errorCode == 7)
+                    // {alert("error: mala configuracion broker");}
+                    return connected;
             })
                 .finally(function () { return connected; });
             return connected;

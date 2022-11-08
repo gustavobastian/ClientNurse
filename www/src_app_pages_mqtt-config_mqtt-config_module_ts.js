@@ -139,7 +139,7 @@ let MqttConfigPage = class MqttConfigPage {
             console.log('MQTTPORT:' + this.MQTTPORT);
         });
         /**
-         * Read the server IP from the filesystem
+         * Write the server IP from the filesystem
          */
         this.writeSecretFile = () => (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
             try {
@@ -188,28 +188,14 @@ let MqttConfigPage = class MqttConfigPage {
         this.connected = 0;
     }
     ngOnInit() {
-        /*  connect({host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false,path:'/test/'})
-          .then(client => { this.MQTTClientLocal = client; });*/
     }
     saveClick() {
-        //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
         this.saveValues();
     }
     Reset() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
-            //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
-            //this.getServer();
-            //this.getPort();  
             this.connected = 0;
-            /*if(this.MQTTClientLocal!==null){
-            
-            this.MQTTClientLocal.disconnect();
-            console.log("here");
-            this.MQTTClientLocal= null;
-            }*/
-            //this.MQTTClientLocal= NULL;
             const client = yield (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_4__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false, path: '/test/' })
-                //connect({host: "192.168.1.100", port: 9001, username:"Laura", password:"123123", ssl: false,path:'/test/'})
                 .then(client => {
                 console.log(client);
                 console.log("**************************************************************");
@@ -414,7 +400,7 @@ module.exports = ".item .item-content {\n  background-color: transparent !import
   \********************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Configuración </ion-title>\n    \n      <!-- Back button with a default href -->\n      <ion-buttons slot=\"start\">\n        <ion-back-button    defaultHref=\"home\" [text]=\"\"></ion-back-button>\n      </ion-buttons>\n    </ion-toolbar>\n  </ion-header>\n\n<ion-content >\n    <div  >    \n      <br>\n      <div class = \"list\">\n        <label class = \"item item-input\">\n          \n           <ion-label color=\"primary\" class = \"input-label\">MQTT SERVER IP:</ion-label>\n           <input type = \"text\" color=\"primary\"  [(ngModel)]=this.MQTTSERVER placeholder = {{MQTTSERVER}} />\n          <!-- <input type=\"ipaddress\"  class=\"form-control\"  [(ngModel)]=this.MQTTSERVER  placeholder = {{MQTTSERVER}}  formControlName=\"ipaddress\"  required pattern=\"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$\">-->\n        </label>\n      <br>\n      \n      <label class = \"item item-input \">\n           <ion-label color =\"primary\" class = \"input-label\">MQTT SERVER PORT:</ion-label>\n           <input  color=\"primary\" type = \"text\" [(ngModel)]= this.MQTTPORT placeholder = {{MQTTPORT}} />\n      </label>\n\n      <br>\n    \n            \n      <br>\n      <ion-button color=\"primary\" (click)=\"saveClick()\">Guardar</ion-button>\n      <ion-button color=\"primary\" (click)=\"Reset()\">Reset</ion-button>\n      <br>\n      <div *ngIf=\"connected==1\">\n        <ion-button color=\"primary\" disabled=\"false\" (click)=\"pruebaClick()\">Probar</ion-button>\n        </div>\n        <div *ngIf=\"connected==0\">\n          <ion-button color=\"primary\" disabled=\"true\" (click)=\"pruebaClick()\">Probar</ion-button>\n        </div>\n       </div>\n       <ion-item> \n        <ion-label color=\"secondary\" class = \"input-label\">{{general_data}} </ion-label>\n        <br>\n        \n      </ion-item>   \n      <ion-item> \n        <pre>Cliente: {{this.MQTTClientLocal | json}} </pre>\n      </ion-item>   \n    </div>\n  \n\n\n    \n  \n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Configuración </ion-title>\n    \n      <!-- Back button with a default href -->\n      <ion-buttons slot=\"start\">\n        <ion-back-button    defaultHref=\"home\" [text]=\"Volver\"></ion-back-button>\n      </ion-buttons>\n    </ion-toolbar>\n  </ion-header>\n\n<ion-content >\n    <div  >    \n      <br>\n      <div class = \"list\">\n        <label class = \"item item-input\">\n          \n           <ion-label color=\"primary\" class = \"input-label\">MQTT SERVER IP:</ion-label>\n           <input type = \"text\" color=\"primary\"  [(ngModel)]=this.MQTTSERVER placeholder = {{MQTTSERVER}} />\n          <!-- <input type=\"ipaddress\"  class=\"form-control\"  [(ngModel)]=this.MQTTSERVER  placeholder = {{MQTTSERVER}}  formControlName=\"ipaddress\"  required pattern=\"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$\">-->\n        </label>\n      <br>\n      \n      <label class = \"item item-input \">\n           <ion-label color =\"primary\" class = \"input-label\">MQTT SERVER PORT:</ion-label>\n           <input  color=\"primary\" type = \"text\" [(ngModel)]= this.MQTTPORT placeholder = {{MQTTPORT}} />\n      </label>\n\n      <br>\n    \n            \n      <br>\n      <ion-button color=\"primary\" (click)=\"saveClick()\">Guardar</ion-button>\n      <ion-button color=\"primary\" (click)=\"Reset()\">Reset</ion-button>\n      <br>\n      <div *ngIf=\"connected==1\">\n        <ion-button color=\"primary\" disabled=\"false\" (click)=\"pruebaClick()\">Probar</ion-button>\n        </div>\n        <div *ngIf=\"connected==0\">\n          <ion-button color=\"primary\" disabled=\"true\" (click)=\"pruebaClick()\">Probar</ion-button>\n        </div>\n       </div>\n       <ion-item> \n        <ion-label color=\"secondary\" class = \"input-label\">{{general_data}} </ion-label>\n        <br>\n        \n      </ion-item>   \n      <ion-item> \n        <pre>Cliente: {{this.MQTTClientLocal | json}} </pre>\n      </ion-item>   \n    </div>\n  \n\n\n    \n  \n</ion-content>\n";
 
 /***/ })
 

@@ -650,7 +650,9 @@ let MqttService = class MqttService {
             this.getServer();
             this.getPort();
             console.log("here:" + this.MQTTSERVER);
-            yield (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false, path: '/test/' })
+            //last will message
+            let value = { topic: "/User/Disconnection", payload: { _user: usernameP } };
+            yield (0,rsup_mqtt__WEBPACK_IMPORTED_MODULE_0__.connect)({ host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false, path: '/test/', will: value })
                 //connect({host: "192.168.1.100", port: 9001, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
                 .then(client => {
                 console.log(client);
@@ -665,10 +667,9 @@ let MqttService = class MqttService {
                 .catch(function (json) {
                 console.log(json);
                 connected = 0;
-                if (json.errorCode == 7) {
-                    alert("error: mala configuracion broker");
-                }
-                return connected;
+                if (json.errorCode == 7)
+                    // {alert("error: mala configuracion broker");}
+                    return connected;
             })
                 .finally(function () { return connected; });
             return connected;

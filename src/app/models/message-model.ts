@@ -1,15 +1,13 @@
 export class MessageModel{
     private _username: string;    
     private _content: string;
-    private _bedId: number;
-    //private _time: string;
+    private _bedId: number;    
     private _type: number;
 
     constructor(userName: string, content: string, bedId: number, type: number){ // time: string,
         this._username= userName;
         this._content= content;
-        this._bedId= bedId;
-        //this._time= time;
+        this._bedId= bedId;        
         this._type= type;
     } 
 
