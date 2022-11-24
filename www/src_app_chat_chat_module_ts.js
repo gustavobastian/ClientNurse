@@ -338,7 +338,6 @@ class MessageModel {
         this._username = userName;
         this._content = content;
         this._bedId = bedId;
-        //this._time= time;
         this._type = type;
     }
     get username() {

@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { Drivers } from '@ionic/storage';
-import * as CordobaSQLiteDriver from 'localforage-cordovasqlitedriver';
+
 
 
 
@@ -22,7 +22,7 @@ import * as CordobaSQLiteDriver from 'localforage-cordovasqlitedriver';
     IonicStorageModule.forRoot(
       {
         name:"myDbm",
-        driverOrder:[CordobaSQLiteDriver._driver, Drivers.IndexedDB, Drivers.LocalStorage]
+        driverOrder:[ Drivers.IndexedDB, Drivers.LocalStorage]
       }
       )
   ],
