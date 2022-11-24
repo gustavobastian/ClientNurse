@@ -3,6 +3,15 @@ MobileApp for a Nurse Call System.\
 This mobile application  is presented in partial fulfillment of the requirements
 for the degree of IOT specialist of the UBA.
 
+## Overall system description
+
+This web page is part of a system that includes a mobile messaging application, a MQTT broker and a backend server.
+
+<img src="./docs/system-diagram.png" style="width:80%; padding-left:5%">
+
+<br>
+
+
 ## First steps for running the app
 
 Install Ionic:
@@ -24,7 +33,7 @@ This will run the app on the browser.
 
 ## Application description:
 
-This mobile application connects to a system/backend through mqtt topics. It has three different modes of use: as administrator, as a nurse and as a doctor.
+This mobile application connects to a backend (https://github.com/gustavobastian/ServerNurse) through mqtt topics. It has three different modes of use: as administrator, as a nurse and as a doctor.
 
 ### 1. Home page 
 
