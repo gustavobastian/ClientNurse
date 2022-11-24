@@ -1,7 +1,6 @@
 # ClientNurse
 MobileApp for a Nurse Call System.\
-This mobile application  is presented in partial fulfillment of the requirements
-for the degree of IOT specialist of the UBA.
+This mobile application  is presented in partial fulfillment of the requirements for the degree of IOT specialist of the UBA.
 
 ## Overall system description
 
@@ -10,6 +9,24 @@ This web page is part of a system that includes a mobile messaging application, 
 <img src="./docs/system-diagram.png" style="width:80%; padding-left:5%">
 
 <br>
+
+## Technologies used:
+
+The application was developed using Ionic/angular framework. Some of the libraries used are listed below:
+
+<ul>
+<li>
+Rsup-MQTT: simple wrapper for MQTT clients. ( https://www.npmjs.com/package/rsup-mqtt ).
+</li>
+<li>
+Capacitor voice-recorder: in order to capture the user voice messages (https://www.npmjs.com/package/capacitor-voice-recorder).
+</li>
+<li>
+Capacitor-community/barcode-scanner : used to capture the QR code of the bed (https://www.npmjs.com/package/@capacitor-community/barcode-scanner).
+</li>
+
+
+</ul>
 
 
 ## First steps for running the app
