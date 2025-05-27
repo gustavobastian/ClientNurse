@@ -4,7 +4,7 @@ import { Platform } from '@ionic/angular';
 import { nurseSpec } from 'src/app/models/nurse-specs';
 
 import { Bed } from '../../../models/bed';
-import { bedStats } from '../../../models/bed-status';
+import { BedStats } from '../../../models/bed-status';
 import { MessageModel } from '../../../models/message-model';
 import { User } from '../../../models/user';
 import { BedsService } from '../../../services/beds.service';
@@ -24,8 +24,8 @@ export class WaitingEventPage implements OnInit {
   bed : Bed = new Bed( 0,0,0,0,);
   bedId: number;
   messages: Array<MessageModel> = new Array;
-  messagesbeds: Array<bedStats> = new Array;  
-  messagesbedsfiltered: Array<bedStats> = new Array;      
+  messagesbeds: Array<BedStats> = new Array;  
+  messagesbedsfiltered: Array<BedStats> = new Array;      
   calendarNotes : string;
   private nurseSpecs : Array<nurseSpec> = new Array;
   private nurseSpecsIds: Array<number> = new Array
@@ -84,7 +84,7 @@ export class WaitingEventPage implements OnInit {
     this.messagesbeds=[];
     localMessage.forEach(element => {      
       {
-       let localBedStatus= new bedStats(element.id,element.st,element.spec)
+       let localBedStatus= new BedStats(element.id,element.st,element.spec)
         this.nurseSpecsIds.forEach(localnurseSpec => {        
         if(element.spec==localnurseSpec)  {
           this.messagesbeds.push(localBedStatus);             

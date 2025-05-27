@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
-import { bedStats } from '../../../models/bed-status';
+import { BedStats } from '../../../models/bed-status';
 import { MessageModel } from '../../../models/message-model';
 import { User } from '../../../models/user';
 import { userStats } from '../../../models/user-status';
@@ -21,7 +21,7 @@ export class AdminMainPage implements OnInit {
   userLocalName=" ";
 
   
-  messagesBeds2: Array<bedStats> = new Array;
+  messagesBeds2: Array<BedStats> = new Array;
   
   messagesUsers: Array<userStats> = new Array;
 
@@ -96,7 +96,7 @@ async onClickCalendar(){
   this.messagesBeds2=[];
   localMessage.forEach(element => {      
     {        
-    let bedStatsLocal=new bedStats(element.id,element.st,element.spec)  
+    let bedStatsLocal=new BedStats(element.id,element.st,element.spec)  
     this.messagesBeds2.push(bedStatsLocal);
     
    }

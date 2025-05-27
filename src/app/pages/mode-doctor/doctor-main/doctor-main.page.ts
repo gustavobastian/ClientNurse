@@ -10,7 +10,7 @@ import { MessageModel } from '../../../models/message-model';
 import { MqttService } from '../../../services/mqtt.service';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { RecordingData, VoiceRecorder } from 'capacitor-voice-recorder';
-import { bedStats } from 'src/app/models/bed-status';
+import { BedStats } from 'src/app/models/bed-status';
 import { Platform } from '@ionic/angular';
 
 @Component({
@@ -26,7 +26,7 @@ export class DoctorMainPage implements OnInit {
   private patientNumber: number;
   private newMessage=false;
   private messages: Array<MessageModel> = new Array;
-  messagesbeds: Array<bedStats> = new Array;
+  messagesbeds: Array<BedStats> = new Array;
   messagesbedsfiltered: Array<string> = new Array;      
   private patientTable: Array<PatientsTable> = new Array;
   private textResponse: string=""  ;
