@@ -1,52 +1,49 @@
+<!DOCTYPE html>
 <ion-header>
   <ion-toolbar>
     <ion-title>{{userLocal.username}}</ion-title>
     <ion-buttons slot="start">
-      <ion-button (click)="logout()" >Salir</ion-button>        <!--href="home" -->
+      <ion-button (click)="logout()" (keydown)="logout()">Salir</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 <ion-item>
-  <ion-button (click)="onClickUsers()">Usuarios </ion-button>
-  <ion-button (click)="onClickBeds()">Camas</ion-button>
+  <ion-button (click)="onClickUsers()" (keydown)="onClickUsers()">Usuarios </ion-button>
+  <ion-button (click)="onClickBeds()" (keydown)="onClickBeds()">Camas</ion-button>
 
 </ion-item>
 <!-- showing logged users**********************************************-->
 <div *ngIf="showing=='Users'">
-    
-    <div *ngFor="let msg2 of messagesUsers">  
+    <div *ngFor="let msg2 of messagesUsers">
       <div *ngIf="msg2.get_userId()!=0">
-       <ion-card >         
-           <ion-item>            
-           <ion-label>Usuario: {{ msg2.get_userId()}}</ion-label>                      
-           <!--<ion-button>  <ion-icon slot="icon-only" name="arrow-forward"></ion-icon></ion-button>-->
+       <ion-card >
+           <ion-item>
+           <ion-label>Usuario: {{ msg2.get_userId()}}</ion-label>
            </ion-item>
            <ion-item>
            <ion-label>Estado: {{ userstates[msg2.get_st()] }}</ion-label>
           </ion-item>
        </ion-card>
-      </div> 
+      </div>
    </div>
 </div>
 <!-- showing beds status**********************************************-->
 <div *ngIf="showing=='Beds'">
-    
-
-    <div  *ngFor="let msg of messagesBeds2">  
+    <div  *ngFor="let msg of messagesBeds2">
        <div *ngIf="msg.get_bedId()!=0">
         <ion-card color="success">
           <ion-icon name="bed" slot="start"></ion-icon>
             <ion-item>
-            <ion-label>Cama: {{ msg.get_bedId() }}</ion-label>            
+            <ion-label>Cama: {{ msg.get_bedId() }}</ion-label>
              </ion-item>
           <ion-item>
-            <ion-label>Estado: {{ bedstates[msg.get_st()] }}</ion-label>            
+            <ion-label>Estado: {{ bedstates[msg.get_st()] }}</ion-label>
             </ion-item>
-          
+
         </ion-card>
-      </div> 
+      </div>
     </div>
 </div>
 <!-- showing Events status**********************************************-->

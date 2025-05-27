@@ -27,8 +27,8 @@ export class WaitingEventPage implements OnInit {
   messagesbeds: Array<BedStats> = new Array;  
   messagesbedsfiltered: Array<BedStats> = new Array;      
   calendarNotes : string;
-  private nurseSpecs : Array<nurseSpec> = new Array;
-  private nurseSpecsIds: Array<number> = new Array
+  public nurseSpecs : Array<nurseSpec> = new Array;
+  public nurseSpecsIds: Array<number> = new Array
   responseSpec=" ";
   bedstates = ["Desocupada","Descansando","Llamando","Por ser atendido","Siendo atendido","Llamada programada","Solicito Ayuda"]
   updatePass=false;
@@ -198,7 +198,7 @@ export class WaitingEventPage implements OnInit {
       }
 
   changePass(){
-    if(this.updatePass==false){this.updatePass=true;this.pageTitle="Nueva Contraseña"}
+    if(!this.updatePass){this.updatePass=true;this.pageTitle="Nueva Contraseña"}
     else{this.updatePass=false;this.pageTitle="Sala de espera";}
   }    
   showPassword1(){
@@ -212,16 +212,12 @@ export class WaitingEventPage implements OnInit {
   }
 
   onChangeNewPass1(text:string){
-    this.newPass1=text;
-    //console.log("newPass1:"+this.newPass1);
+    this.newPass1 = text;
   }
   onChangeNewPass2(text:string){
     this.newPass2=text;
-    //console.log("newPass2:"+this.newPass2);
   }
   onSendNewPass(){
-    //console.log("newPass1:"+this.newPass1);
-    //console.log("newPass2:"+this.newPass2);
     let data=this.newPass1+"Ç"+this.localNurse.username;
    
 

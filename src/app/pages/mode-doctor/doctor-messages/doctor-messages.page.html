@@ -1,23 +1,26 @@
+<!DOCTYPE html>
 <ion-header>
   <ion-toolbar>
     <ion-title>{{doctorName}}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button    defaultHref="/doctor-main/" [text]="Volver"></ion-back-button>
+      <ion-back-button  defaulthref="/doctor-main/" >
+        "Volver"
+      </ion-back-button>
   </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-content>
-    <div class="msgbubble" *ngFor="let msg of messages">  
-      <div *ngIf="msg.type === 5">  
+
+ <ion-content>
+    <div class="msgbubble" *ngFor="let msg of messages">
+      <div *ngIf="msg.type === 5">
         <ion-card >
           <ion-icon name="bed" slot="start"></ion-icon>
-            <ion-label>Habitación: {{ msg.bedId }}</ion-label>            
-            <ion-button color="secondary"  (click)="goChat(msg.bedId)"> go Chat </ion-button>            
-          
-          
+            <ion-label>Habitación: {{ msg.bedId }}</ion-label>
+            <ion-button color="secondary"  (click)="goChat(msg.bedId)"> 
+              go Chat
+            </ion-button>
         </ion-card>
-      </div>  
+      </div>
     </div>
 </ion-content>

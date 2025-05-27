@@ -1,13 +1,13 @@
+<!DOCTYPE html>
 <ion-header>
   <ion-toolbar>
-    
     <ion-item>
     <ion-title>Enfermera:{{nurseName}}</ion-title>
   </ion-item>
   <ion-item>
     <ion-buttons slot="start">
       <div *ngIf="actionFinished==true">
-      <ion-back-button  defaultHref="" text="Volver"></ion-back-button>        
+      <ion-back-button  defaulthref="" text="Volver"></ion-back-button>
       </div>
     </ion-buttons>
     <ion-title>Cama:{{bedId}}</ion-title>
@@ -18,17 +18,23 @@
 <ion-content>
   <ion-card>
     <ion-item>
-   <div *ngIf="inRoom===false">   
-        
-        <ion-button color="secondary" (click)="goQR()">QR </ion-button> 
-        <ion-button color="secondary" (click)="toggleManualQR()">Manual QR </ion-button> 
-        
-        <ion-button color="secondary" (click)="Quit()">Cancelar </ion-button> 
-        
+   <div *ngIf="inRoom===false">
+        <ion-button color="secondary" (click)="goQR()" (keydown)="goQR()">
+          QR
+        </ion-button>
+        <ion-button color="secondary" (click)="toggleManualQR()" (keydown)="toggleManualQR()">
+          Manual QR
+        </ion-button>
+        <ion-button color="secondary" (click)="Quit()" (keydown)="Quit()">
+          Cancelar
+        </ion-button>
         <div *ngIf="manualQR==true">
           <ion-item>
-            <ion-input type="text" placeholder="EjemploQR" #Q (ionChange)="updatingTextQR(Q.value)"></ion-input>
-            <ion-button color="secondary" (click)="sendQr()">enviar </ion-button> 
+            <ion-input type="text" placeholder="EjemploQR" #Q (ionChange)="updatingTextQR(Q.value)">
+            </ion-input>
+            <ion-button color="secondary" (click)="sendQr()" (keydown)="sendQr()">
+              enviar
+            </ion-button>
           </ion-item>
         </div>
 
@@ -36,16 +42,26 @@
    <div *ngIf="inRoom===true">
 <!--******************************************************Now in room options*****************************************************************************-->
 <ion-item>
-   <!--  <ion-button (click)="goChat()">Chat </ion-button> -->
-   <ion-button color="secondary" (click)="Quit()">Cancelar </ion-button> 
-   <ion-button color="secondary" (click)="goEnd()">Listo </ion-button> 
-   <ion-button color="secondary" (click)="openNotesTable()">Notas</ion-button>
-   
-</ion-item>     
+   <ion-button color="secondary" (click)="Quit()" (keydown)="Quit()">
+    Cancelar
+  </ion-button>
+  <ion-button color="secondary" (click)="goEnd()" (keydown)="goEnd()">
+    Listo
+  </ion-button>
+  <ion-button color="secondary" (click)="openNotesTable()" (keydown)="openNotesTable()">
+    Notas
+  </ion-button>
+</ion-item>
 <ion-item>
-  <ion-button color="secondary" (click)="openMedicalTable()" >Mensajes</ion-button>
-  <ion-button color="secondary" (click)="Help()">Ayuda</ion-button>
-  <ion-button color="secondary" (click)="openMemoria()">Memoria</ion-button>
+  <ion-button color="secondary" (click)="openMedicalTable()" (keydown)="openMedicalTable()" >
+    Mensajes
+  </ion-button>
+  <ion-button color="secondary" (click)="Help()" (keydown)="Help()">
+    Ayuda
+  </ion-button>
+  <ion-button color="secondary" (click)="openMemoria()" (keydown)="openMemoria()">
+    Memoria
+  </ion-button>
 </ion-item>
 <!--******************************************Asking doctor **********************************************************************************************-->  
 
@@ -53,48 +69,51 @@
   <ion-item>
    <ion-label>Lista de Médicos:</ion-label>
   </ion-item>
-    
   <ul>
-  <div *ngFor="let item of MDT; let i = index">
-      <li>
-   
+     <li *ngFor="let item of MDT; let i = index">
         <ion-item >
-        <ion-label>{{item.userID}}:{{item.username}}</ion-label>           
-        <ion-button color="secondary" (click)= "openMsg(i)" end>Consultar</ion-button>
-        <ion-button color="secondary" (click)= "closeMsg(i)" middle>Cerrar</ion-button>
+          <ion-label>{{item.userID}}:{{item.username}}</ion-label>           
+          <ion-button color="secondary" (click)="openMsg(i)" end>
+            Consultar
+          </ion-button>
+          <ion-button color="secondary" (click)="closeMsg(i)" middle>
+            Cerrar
+          </ion-button>
         </ion-item>
 
         <div *ngIf="msg[i]===1">
-              <ion-item >                
+              <ion-item >
                 <div *ngIf="writeText==true">
-                  <ion-item>Texto:   
-                  <ion-button (click)="writeToggle()">
+                  <ion-item>Texto:
+                  <ion-button (click)="writeToggle()" (keydown)="writeToggle()">
                     <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
-                  </ion-button> </ion-item>                  
+                  </ion-button> </ion-item>
                   <ion-textarea #A (ionChange)="updatingText(i,A.value)"></ion-textarea> <!--style="height: 200px;" type="text"></ion-input>-->
-                  <ion-button  color="secondary" (click)= "sendMsg(i)" end>Enviar</ion-button>        
+                  <ion-button  color="secondary" (click)="sendMsg(i)" end>
+                    Enviar
+                  </ion-button>
                 </div>
                 <div *ngIf="writeText==false">
                   <ion-item>Texto:
-                  <ion-button (click)="writeToggle()">
+                  <ion-button (click)="writeToggle()" (keydown)="writeToggle()">
                     <ion-icon name="arrow-down" slot="icon-only"></ion-icon>
-                  </ion-button>   </ion-item>           
+                  </ion-button>   </ion-item>
                 </div>
               </ion-item>
 
-              <ion-item >Audio:      
+              <ion-item >Audio:
               <ion-icon name="mic" (click)= "recordingAudioStart(i)" begin></ion-icon>
               <div *ngIf="recordingAudio==true">
                 <ion-icon name="stop" (click)= "recordingAudioStop(i)" begin></ion-icon>
               </div>
-              </ion-item>          
+              </ion-item>
         <!--- if there is a response from doctor show-->
             <div *ngIf="msgRx[i]==1">
                   <ion-label position="stacked">Respuesta:</ion-label>
                   <!--- Text-->
                   <div *ngIf="RxType[i]==1">
-                      <ion-item >              
-                        <p>{{item.username}}:{{RxText}}</p>             
+                      <ion-item >
+                        <p>{{item.username}}:{{RxText}}</p>
                       </ion-item>
                   </div>
                   <!--- Audio -->
@@ -103,52 +122,40 @@
                     <ion-label>Audio</ion-label>      
                     <ion-button (click)="playString(RxText[i])">
                       <ion-icon name="play" slot="icon-only"></ion-icon>
-                    </ion-button>   
+                    </ion-button>
                     </ion-item>
-                  
                   </div>
             </div>
         </div>
-      
-      </li> 
-        
-      </div>
-    </ul>   
+      </li>
+    </ul>
   </div>
 
 
-</div>  
-</ion-item>  
-       
+</div>
+</ion-item>
 </ion-card>
 
 
 <!--******************************************Showing notes **********************************************************************************************-->
   <div *ngIf="showNotes==true">
-    
-    
     <ion-card class="PacientDataCard">
     <ion-item>Tarea Programada: {{calendarNote}}</ion-item>
     </ion-card>
-    
     <ion-card class="PacientDataCard">
     <!--Informacion del paciente-->
       <ion-item>Apellido: {{patientLocal.lastName}}</ion-item>
       <ion-item>Nombre: {{patientLocal.firstName}}</ion-item>
       <ion-item>Id Paciente: {{patientLocal.id}}</ion-item>
-      
 
     </ion-card>
 
-    
     <!--Notas del paciente : limite 2-->
     <div *ngFor="let Note of notes; let i=index">
       <ion-card>
         <!--Informacion del paciente-->
           <ion-item>ID nota: {{notes[i].noteId}}</ion-item>
           <ion-item>Nota:{{notes[i].note}}</ion-item>
-        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->
-        
        </ion-card>
 
     </div>
@@ -157,5 +164,5 @@
   <div *ngIf="showMemoria==true">
     <p>Escribiendo memoria de lo realizado</p>
     <ion-input type="text" [(ngModel)]="Memoria"></ion-input>
-  </div>  
+  </div>
 </ion-content>

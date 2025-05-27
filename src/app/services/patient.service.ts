@@ -27,7 +27,7 @@ export class PacientService {
     
     console.log("asking");
     let topic="general2";
-    console.log
+    
     this.MQTTServ.sendMesagge(topic, "aqui estamos"+i);
   }
   getPatientInfo(i:number): Promise<Patient> {
