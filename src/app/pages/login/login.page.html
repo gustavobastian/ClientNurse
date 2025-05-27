@@ -1,42 +1,38 @@
+<!DOCTYPE html>
 <ion-header collapse="false">
-  
-    <ion-toolbar>      
-        <!-- Back button with a default href -->
-    
+    <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button  defaultHref="home" text="Volver"></ion-back-button>        
+          <ion-back-button  defaulthref="home" text="Volver"></ion-back-button>
         </ion-buttons>
-    
     </ion-toolbar>
-  
 </ion-header>
 
 <ion-content>
-  
   <div id="container" collapse="false" >
   <p><strong>Acceso al sistema</strong></p>
-  <Form [formGroup]="ionicForm" (ngSubmit)="onClickLogin()" novalidate>  
-  <ion-item     [style.--background]="blue"  lines="full">
+  <form [formGroup]="ionicForm" (ngSubmit)="onClickLogin()" novalidate>
+  <ion-item  lines="full">
     <ion-label position="fixed" >Usuario</ion-label>
-    <ion-input color="secondary" placeholder="{{userName}}" value="{{userName}}" formControlName="userName" type="text" required></ion-input>        
-  </ion-item>         
-  <ion-item [style.--background]="blue" lines="full">
+    <ion-input color="secondary" placeholder="userName" value="userName" formControlName="userName" type="text" required></ion-input>        
+  </ion-item>
+  <ion-item  lines="full">
     <ion-label position="fixed">Contraseña</ion-label>
-    <ion-input  color="secondary" formControlName="password" type="password" required></ion-input>        
-  </ion-item>  
+    <ion-input  color="secondary" formControlName="password" type="password" required></ion-input>
+  </ion-item>
   <br>
   <br>
   <br>
 
     <ion-item >
-      
-    <ion-button color="secondary" style = "position:absolute; left:12.5%;width:70%" type="submit"  expand="block">Acceder</ion-button>    
-  
+    <ion-button color="secondary" class="buttonAccess" type="submit"  expand="block">Acceder</ion-button>
     </ion-item>
-    </Form>
+  </form>
+
     <div *ngIf="showIn == true">
-    <ion-button color="secondary" style = "position:absolute; left:30%;width:40%"   expand="block" (click)="Log_in()">Go Main Page</ion-button>
-    
+      <ion-button color="secondary" class="buttonMain"  expand="block" (click)="Log_in()"
+      (keydown)="Log_in()">
+        Main Page
+      </ion-button>
     </div>
   </div>
 

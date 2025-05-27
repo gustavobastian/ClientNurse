@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { MqttService } from '../../../services/mqtt.service';
 import { PacientService } from '../../../services/patient.service';
-import { Storage } from '@capacitor/storage';
 import { MessageModel } from '../../../models/message-model';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user';
@@ -17,16 +16,16 @@ import { Bed } from '../../../models/bed';
 })
 export class NurseBedPage implements OnInit {
   public BedLocal2: Bed = new Bed(0,0,0,0);
-  private bedId: number = 0;
-  private nurseName: string;  
+  public bedId: number = 0;
+  public nurseName: string;  
   private localNurse: User= new User(0,"","","","",0,"");
   public room: number;
   public floor: number;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
+    private readonly activatedRoute: ActivatedRoute,
     public localSto: LocalStorageService, 
-    private pacientServ:PacientService,
+    private readonly pacientServ:PacientService,
     public userLogged: UserService,
     public bedLocal: BedsService,
     public MQTTServ:MqttService) {
@@ -39,9 +38,8 @@ export class NurseBedPage implements OnInit {
 
   ngOnInit() {
     this.getParams();
-
-    //this.getBedInfo();
   }
+
   async getParams() {
     this.localNurse= this.userLogged.getUser();    
     this.nurseName=this.localNurse.username;    
@@ -49,10 +47,8 @@ export class NurseBedPage implements OnInit {
     this.getBedInfo();
   }
 
-  
-
   async getBedInfo(){
-  await console.log("inside:" + this.nurseName)  
+    console.log("inside:" + this.nurseName)  
 
   /** Preparing to get the response   *  */
   let responseInfoTopic="/Beds/"+this.bedId+"/info";  
@@ -64,23 +60,21 @@ export class NurseBedPage implements OnInit {
         this.floor = 0;
         this.room = 0;      
         return;
-      }
-      else{
+      }  
       this.floor = localMessage[0].floorId;
       this.room = localMessage[0].roomId;      
-      this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)}
-    })  
-
-    
+    this.MQTTServ.MQTTClientLocal.unsubscribe(responseInfoTopic)
+  }
+  )
 
   /** Ask for information about the bed *  */
 
   let a=new MessageModel(this.nurseName,this.bedId.toString(),  0, 8);    
-  //console.log(a)
+  
   let mqttmessage=JSON.stringify(a);
   console.log("Mensaje:"+mqttmessage);
   let topic="/Beds/"+this.bedId+"/messages";
-  await this.MQTTServ.sendMesagge(topic, mqttmessage);
+  this.MQTTServ.sendMesagge(topic, mqttmessage);
   
 
   }

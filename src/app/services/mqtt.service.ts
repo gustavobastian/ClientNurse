@@ -53,19 +53,16 @@ export class MqttService implements OnInit  {
     console.log('MQTTPORT:'+this.MQTTPORT);  
   };
 
-  public Reset(){
-    //console.log("clicked:", this.MQTTSERVER,":", this.MQTTPORT);
+  public Reset(){    
 
     this.getServer();
     this.getPort();  
     this.connected=0;
     
     if(this.MQTTClientLocal!==null){
-    this.MQTTClientLocal.disconnect();
-    console.log("here");
+    this.MQTTClientLocal.disconnect();    
     this.MQTTClientLocal= null;
-    }
-    //this.MQTTClientLocal= NULL;
+    }    
     
     connect({host: this.MQTTSERVER, port: this.MQTTPORT, ssl: false,path:'/test/'})
     .then(client => { 
@@ -88,16 +85,13 @@ export class MqttService implements OnInit  {
   }
 
    public async Connect(usernameP:string, passwordP:string): Promise<number>{
-    let connected=0;
-    
-    //this.client=Mqtt.Client("myclient");
+     let connected = 0;    
     this.getServer();
     this.getPort();
-    console.log("here:"+this.MQTTSERVER);
     //last will message
     let value={topic:"/User/Disconnection",payload:{_user:usernameP}};
     await connect({host: this.MQTTSERVER, port: this.MQTTPORT, username: usernameP, password: passwordP, ssl: false,path:'/test/',will:value})
-    //connect({host: "192.168.1.100", port: 9001, username: usernameP, password: passwordP, ssl: false,path:'/test/'})
+    
     .then(client => { 
       console.log(client);
       if(client.isConnected())
@@ -110,19 +104,13 @@ export class MqttService implements OnInit  {
     })
     .catch (function(json) { 
       console.log(json); connected=0; 
-      if(json.errorCode == 7)
-       // {alert("error: mala configuracion broker");}
-      return connected;})
+      if(json.errorCode == 7)    
+        return connected;
+    })
     .finally(function(){return connected;}); 
   
   return connected;
     
-  }
-
-  public listenToTopic(topic: string){
-      console.log("here");
-     //this.MQTTClientLocal.onMessage(topic, message=>console.log(message.string));
-  //   this.MQTTClientLocal.subscribe(topic).on(Message=>console.log(Message.string));
   }
 
   public closingAll(topic: string){

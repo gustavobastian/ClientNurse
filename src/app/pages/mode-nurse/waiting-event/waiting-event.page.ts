@@ -4,7 +4,7 @@ import { Platform } from '@ionic/angular';
 import { nurseSpec } from 'src/app/models/nurse-specs';
 
 import { Bed } from '../../../models/bed';
-import { bedStats } from '../../../models/bed-status';
+import { BedStats } from '../../../models/bed-status';
 import { MessageModel } from '../../../models/message-model';
 import { User } from '../../../models/user';
 import { BedsService } from '../../../services/beds.service';
@@ -24,11 +24,11 @@ export class WaitingEventPage implements OnInit {
   bed : Bed = new Bed( 0,0,0,0,);
   bedId: number;
   messages: Array<MessageModel> = new Array;
-  messagesbeds: Array<bedStats> = new Array;  
-  messagesbedsfiltered: Array<bedStats> = new Array;      
+  messagesbeds: Array<BedStats> = new Array;  
+  messagesbedsfiltered: Array<BedStats> = new Array;      
   calendarNotes : string;
-  private nurseSpecs : Array<nurseSpec> = new Array;
-  private nurseSpecsIds: Array<number> = new Array
+  public nurseSpecs : Array<nurseSpec> = new Array;
+  public nurseSpecsIds: Array<number> = new Array
   responseSpec=" ";
   bedstates = ["Desocupada","Descansando","Llamando","Por ser atendido","Siendo atendido","Llamada programada","Solicito Ayuda"]
   updatePass=false;
@@ -84,7 +84,7 @@ export class WaitingEventPage implements OnInit {
     this.messagesbeds=[];
     localMessage.forEach(element => {      
       {
-       let localBedStatus= new bedStats(element.id,element.st,element.spec)
+       let localBedStatus= new BedStats(element.id,element.st,element.spec)
         this.nurseSpecsIds.forEach(localnurseSpec => {        
         if(element.spec==localnurseSpec)  {
           this.messagesbeds.push(localBedStatus);             
@@ -198,7 +198,7 @@ export class WaitingEventPage implements OnInit {
       }
 
   changePass(){
-    if(this.updatePass==false){this.updatePass=true;this.pageTitle="Nueva Contraseña"}
+    if(!this.updatePass){this.updatePass=true;this.pageTitle="Nueva Contraseña"}
     else{this.updatePass=false;this.pageTitle="Sala de espera";}
   }    
   showPassword1(){
@@ -212,16 +212,12 @@ export class WaitingEventPage implements OnInit {
   }
 
   onChangeNewPass1(text:string){
-    this.newPass1=text;
-    //console.log("newPass1:"+this.newPass1);
+    this.newPass1 = text;
   }
   onChangeNewPass2(text:string){
     this.newPass2=text;
-    //console.log("newPass2:"+this.newPass2);
   }
   onSendNewPass(){
-    //console.log("newPass1:"+this.newPass1);
-    //console.log("newPass2:"+this.newPass2);
     let data=this.newPass1+"Ç"+this.localNurse.username;
    
 

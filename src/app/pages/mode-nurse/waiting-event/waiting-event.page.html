@@ -1,31 +1,28 @@
+<!DOCTYPE html>
 <ion-header>
-  <ion-toolbar>    
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button  (click)="logout()">Salir</ion-button>       
+      <ion-button  (click)="logout()" (keydown)="logout()">Salir</ion-button>
     </ion-buttons>
-    
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-item style="text-align: center;">
+  <ion-item class="localStyle{
+">
     <ion-title>{{pageTitle}}</ion-title>
   </ion-item>
 
-
       <ion-item >
-          <label>Especialidades:</label> 
+          <label>Especialidades:</label>
         <ul>
-          <div *ngFor="let item of nurseSpecs">  
-              <li>
+          <li *ngFor="let item of nurseSpecs">
               <p>{{item._name}}</p>
-              </li>      
-          </div>    
-        </ul>    
+          </li>
+        </ul>
       </ion-item>
-      <div class="msgbubble" *ngFor="let msg of messagesbeds">      
-        <div *ngIf="msg._st > 1">  
-          
+      <div class="msgbubble" *ngFor="let msg of messagesbeds">
+        <div *ngIf="msg._st > 1">
           <ion-card >
             <ion-icon name="bed" slot="start"></ion-icon>
               <ion-item>
@@ -37,19 +34,18 @@
                 <ion-label>AYUDA</ion-label>
               </div>
               </ion-item>
-            
             <br>
             <ion-item>
               <div *ngIf="msg._st!=6">
               <ion-button color="secondary" (click)="onClick(msg._bedId)"> Aceptar </ion-button>
               </div>
               <ion-button color="secondary" (click)="onClick2(msg._bedId)"> Ubicacion </ion-button>
-              <div *ngIf="msg.type == 9">  
+              <div *ngIf="msg.get_st() == 9">
                 <ion-button color="secondary"  (click)="onClick3(msg._bedId)"> Notas Calendario </ion-button>
-              </div>  
+              </div>
             </ion-item>
           </ion-card>
-        </div>  
+        </div>
       </div>
 
 

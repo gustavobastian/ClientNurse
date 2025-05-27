@@ -1,25 +1,22 @@
+<!DOCTYPE html>
 <ion-header>
   <ion-toolbar>
     <ion-title>Pacientes: {{doctorName}}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button    defaultHref="/doctor-main/" text="Volver"></ion-back-button>
+      <ion-back-button  defaulthref="/doctor-main/" text="Volver"></ion-back-button>
   </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
- 
   <div *ngIf="showAsk==true">
-    <ion-item>      
-     <!--<div [formGroup]="numberId"> -->
+    <ion-item>
         <ion-label>Numero Paciente: {{patientNumber2}}</ion-label>
-    <!--<ion-input  type="number" formControlName="pacientNumber" placeholder="{{pacientNumber2}}" required></ion-input>
-     </div>-->
     </ion-item>
-   
-   <ion-button color="secondary"  (click)="onClick()" >Consultar</ion-button>
-   <ion-button color="secondary"  (click)="onClickNotes()" >Notas</ion-button>
-  
+
+   <ion-button color="secondary"  (click)="onClick()" (keydown)="onClick()">Consultar</ion-button>
+   <ion-button color="secondary"  (click)="onClickNotes()" (keydown)="onClickNotes()">Notas</ion-button>
+
   </div>
 
 <div *ngIf="showNotes==true">
@@ -28,8 +25,6 @@
       <ion-item>Apellido: {{patientLocal.lastName}}</ion-item>
       <ion-item>Nombre: {{patientLocal.firstName}}</ion-item>
       <ion-item>Id Paciente: {{patientLocal.id}}</ion-item>
-      
-
     </ion-card>
 
     <ion-button  color="secondary" (click)="onClickAdd()" >Agregar Nota</ion-button>
@@ -37,27 +32,28 @@
     <div *ngFor="let Note of notes; let i=index">
       <ion-card>
         <!--Informacion del paciente-->
-          <ion-item>ID nota: {{Note.notesId}}</ion-item>
+          <ion-item>ID nota: {{Note.noteId}}</ion-item>
           <ion-item>Nota:{{Note.note}}</ion-item>
-        <!--  <ion-item>Estado:{{notes[i].state}}</ion-item>        -->
-        <ion-button color="secondary" (click)="deleteNote(i)"><ion-icon name="trash" slot="icon-only"></ion-icon></ion-button>
+        <ion-button color="secondary" (click)="deleteNote(i)" (keydown)="handleDelete($event, i)">
+          <ion-icon name="trash" slot="icon-only">
+          </ion-icon>
+        </ion-button>
        </ion-card>
 
     </div>
   </div>
+
   <div *ngIf="showNotesForm==true">
-
-    <div [formGroup]="noteForm"> 
-      <ion-label>Nota:</ion-label>
-      <ion-input  type="text" formControlName="noteFormString" required></ion-input>
-       </div>
-      
-     <ion-button color="secondary" (click)="onClickSend()" >enviar</ion-button>
-
-      <ion-button color="secondary" (click)="onClickReturn()" >Volver</ion-button>
+    <div [formGroup]="noteForm">
+        <ion-label>Nota:</ion-label>
+        <ion-input  type="text" formControlName="noteFormString" required></ion-input>
+    </div>
+    <ion-button color="secondary" (click)="onClickSend()" (keydown)="onClickSend()">
+      enviar
+    </ion-button>
+    <ion-button color="secondary" (click)="onClickReturn()" (keydown)="onClickReturn()">
+      Volver
+    </ion-button>
   </div>
-
-
-  
 
 </ion-content>

@@ -45,6 +45,9 @@ body,
 .container {
   display: flex;
 }
+.buttonsSimples{
+  width: 25%;
+}
 .relative {
   position: relative;
   z-index: 1;
@@ -121,4 +124,5 @@ body,
   100% {
     transform: translate(0, 0) rotate(0deg) scale(1);
   }
+
 }
