@@ -33,20 +33,21 @@ Capacitor-community/barcode-scanner : used to capture the QR code of the bed (ht
 Install Ionic:
 
 ```bash
-$ npm install -g @ionic/cli
+npm install -g @ionic/cli
 ```
 
 Download this repository. Navigate to the folder and run the app:
 
 ```bash
-$ cd  ClientNurse
-$ ionic serve
+cd  ClientNurse
+npm install --legacy-peer-deps
+ionic serve
 ```
 
 or:
 
 ```bash
-$ ionic lab
+ionic lab
 ```
 
 This will run the app on the browser.
